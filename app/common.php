@@ -94,3 +94,22 @@ function getRandChar($length)
 
     return $str;
 }
+
+/**
+ * 获取8位全局不重复的随机数
+ */
+function number(){
+    $redis = new \redis();
+    $redis->connect("192.168.0.165","6379");  //php客户端设置的ip及端口
+
+    $rst = 0;
+    while ($rst == 0){
+        //随机数种子发生器:8位随机数
+        $number = mt_rand(10000000, 99999999);
+        //Redis 中 集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。
+        $rst = $redis->sadd('number',$number); // 如果集合中已经存在uuid，返回0，否则返回1;
+    }
+    echo $number;
+    $r = $redis->smembers('number');
+    var_dump($r);
+}
