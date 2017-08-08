@@ -13,6 +13,7 @@ use think\Route;
 
 Route::get('api/:version/banner/:id', 'api/:version.Banner/getBanner');
 
+
 Route::get('api/:version/theme','api/:version.Theme/getSimpleList');
 Route::get('api/:version/theme/:id', 'api/:version.Theme/getComplexOne');
 
@@ -56,6 +57,8 @@ Route::put('api/:version/order/delivery', 'api/:version.Order/delivery');
 Route::post('api/:version/pay/pre_order', 'api/:version.Pay/getPreOrder');
 Route::post('api/:version/pay/notify', 'api/:version.Pay/receiveNotify');
 Route::post('api/:version/pay/re_notify', 'api/:version.Pay/redirectNotify');
+
+Route::get('api/:version/test', 'api/:version.Community/QRCodeUrl');
 
 
 

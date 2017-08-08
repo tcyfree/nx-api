@@ -109,7 +109,46 @@ function number(){
         //Redis 中 集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。
         $rst = $redis->sadd('number',$number); // 如果集合中已经存在uuid，返回0，否则返回1;
     }
-    echo $number;
-    $r = $redis->smembers('number');
-    var_dump($r);
+    return $number;
+}
+/**
+ * 社区二维码链接
+ * @param string $url
+ * @return string
+ */
+function qr_code($url){
+    //引入核心库文件
+    include APP_PATH.'../vendor/phpqrcode/phpqrcode.php';
+    //二维码内容
+    $text = $url;
+    //容错级别
+    $errorCorrectionLevel = 'L';
+    //生成图片大小
+    $matrixPointSize = 6;
+    //生成二维码图片
+    $QR = QRcode::png($text, 'qrcode.png', $errorCorrectionLevel, $matrixPointSize, 2);
+    $logo = APP_PATH.'../public/images/nx-xds-logo.jpg';//准备好的logo图片
+    $QR = 'qrcode.png';//已经生成的原始二维码图
+
+    if ($logo !== FALSE) {
+        $QR = imagecreatefromstring(file_get_contents($QR));
+        $logo = imagecreatefromstring(file_get_contents($logo));
+        $QR_width = imagesx($QR);//二维码图片宽度
+        $QR_height = imagesy($QR);//二维码图片高度
+        $logo_width = imagesx($logo);//logo图片宽度
+        $logo_height = imagesy($logo);//logo图片高度
+        $logo_qr_width = $QR_width / 5;
+        $scale = $logo_width/$logo_qr_width;
+        $logo_qr_height = $logo_height/$scale;
+        $from_width = ($QR_width - $logo_qr_width) / 2;
+        //重新组合图片并调整大小
+        imagecopyresampled($QR, $logo, $from_width, $from_width, 0, 0, $logo_qr_width,
+            $logo_qr_height, $logo_width, $logo_height);
+    }
+    $filename = md5(microtime(true));
+    //输出图片
+    imagepng($QR, 'images/'.$filename.'.png');
+//    echo "<img src=".$filename.".png >";
+    //返回生产图片的文件名
+    return $filename.'.png';
 }

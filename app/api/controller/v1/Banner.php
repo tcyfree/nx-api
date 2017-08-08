@@ -13,6 +13,7 @@ use app\api\service\Token;
 use app\api\validate\IDMustBePostiveInt;
 use app\api\model\Banner as BannerModel;
 use app\lib\exception\BannerMissException;
+use think\Cache;
 use think\Exception;
 use think\Log;
 
@@ -68,5 +69,22 @@ class Banner
 //            throw new Exception(); //模拟服务器内部错误
         }
         return $banner;
+    }
+    public function test(){
+//        $redis = new \redis();
+//        $redis->connect("192.168.0.165","6379");  //php客户端设置的ip及端口
+//
+//        $rst = 0;
+//        while ($rst == 0){
+//            //随机数种子发生器:8位随机数
+//            $number = mt_rand(10000000, 99999999);
+//            //Redis 中 集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。
+//            $rst = $redis->sadd('number',$number); // 如果集合中已经存在uuid，返回0，否则返回1;
+//        }
+//        echo $number;
+//        $redis->flushAll();
+//        $r = $redis->smembers('number');
+//        var_dump($r);
+        number();
     }
 }
