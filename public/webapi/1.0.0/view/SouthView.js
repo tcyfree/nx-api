@@ -11,5 +11,5 @@ Ext.define('WebRoot.view.SouthView', {
 	html:'<br>&nbsp;&nbsp;'+SYS_HELPER,		
 	height:80,	
 	region:'south', 		
-	title:'<div align="right">&copy;珠海超凡科技有限公司&nbsp;&nbsp技术开发部</div>'
+	title:'<div align="right">&copy;深圳暖象科技有限公司&nbsp;&nbsp技术开发部</div>'
 });

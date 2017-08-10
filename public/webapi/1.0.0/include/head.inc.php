@@ -15,7 +15,7 @@ else
 
 define("SYS_VERSION",$version);
 define("SYS_API_TITLE",SYS_ZH_NAME."__RESTFul API在线手册 ( 版本号: ".SYS_VERSION." )");
-define("SYS_API_ROOT",SYS_ROOT_URL."public/webapi/".SYS_VERSION."/");//务必使用虚拟目录的相对路径，提升加载速度
+define("SYS_API_ROOT",SYS_ROOT_URL."webapi/".SYS_VERSION."/");//务必使用虚拟目录的相对路径，提升加载速度
 ?>
 <title><?php echo SYS_API_TITLE?></title>
 <script type="text/javascript">

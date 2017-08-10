@@ -6,11 +6,11 @@
 //加载系统顶层核心配置文件
 require_once "../../include/config.inc.php";
 ?>
-<title>行动社__RESTFul_API在线手册</title>
+<title><?php echo SYS_ZH_NAME?>__API在线手册</title>
 <!--引入自定义CSS，注意加载顺序和路径写法-->
-<link rel="stylesheet" type="text/css" href="../plugins/whbstyle.css" />
-<link rel="stylesheet" type="text/css" href="../plugins/resources/css/ext-all-default.css" />
-<script src="../plugins/extjs4/bootstrap.js" ></script>
+<link rel="stylesheet" type="text/css" href="<?php echo SYS_EXTJS_URL?>whbstyle.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo SYS_EXTJS_URL?>resources/css/ext-all-default.css" />
+<script src="<?php echo SYS_EXTJS_URL?>bootstrap.js" ></script>
 </head>
 <body>
 <script type="text/javascript">
@@ -41,7 +41,7 @@ Ext.onReady(function() {
 		maximizable:true,//是否带最大化按钮。
 		modal:true,//是否显示为模式窗口，默认为false。	 
 		resizable:false,//可改变窗口大小，默认为true
-		title: '行动社__API版本选择入口',	//居右方式：title:'<div align="right">系统表单</div>'
+		title: '<?php echo SYS_ZH_NAME?>__API版本选择入口',	//居右方式：title:'<div align="right">系统表单</div>'		
 		width:280//注意：调整此宽度，需要同时调整fieldDefaults中的width。	 
 		
 	});//whbwin_end
