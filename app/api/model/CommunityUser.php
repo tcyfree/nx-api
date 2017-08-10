@@ -9,26 +9,21 @@
 // | Author: tcyfree <1946644259@qq.com>
 // +----------------------------------------------------------------------
 
-namespace app\api\controller\v1;
+namespace app\api\model;
 
-use app\api\controller\BaseController;
-use app\api\model\CommunityUser;
-use app\api\service\Token;
 
-class Community extends BaseController
+class CommunityUser extends BaseModel
 {
-//    protected $beforeActionList = [
-//        'checkPrimaryScope' => ['only' => 'getIndex']
-//    ];
-
-    public function QRCodeUrl(){
-        echo qr_code('http://www.cnblogs.com/txw1958/');
+    protected $hidden = ['create_time','update_time'];
+    public function community(){
+        return $this->hasMany('Community','id','community_id');
     }
 
-    public function getIndex(){
-//        $uid = Token::getCurrentUid();
-        $res = CommunityUser::getCommunityMemberNum(1);
-        return $res;
+    public static function getCommunityMemberNum($user_id){
+        $where['user_id'] = $user_id;
+        $where['status'] = ['neq',1];
 
+        $result = self::with('community')->where($where)->select();
+        return $result;
     }
 }
