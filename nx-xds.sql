@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.5.53)
-# Date: 2017-08-08 18:35:29
+# Date: 2017-08-11 18:09:38
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES utf8 */;
@@ -183,9 +183,9 @@ CREATE TABLE `xds_auth_user` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `auth_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '联合主键，权限ID',
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '联合主键，用户ID',
-  `community_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '行动社ID',
+  `community_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '联合主键，行动社ID',
   PRIMARY KEY (`Id`),
-  KEY `auth_id` (`auth_id`,`user_id`) COMMENT '联合主键'
+  KEY `联合主键` (`auth_id`,`user_id`,`community_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户权限对应表';
 
 #
@@ -287,12 +287,13 @@ CREATE TABLE `xds_community` (
   `seo_description` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `name` (`name`) COMMENT '搜索'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行动社表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='行动社表';
 
 #
 # Data for table "xds_community"
 #
 
+INSERT INTO `xds_community` VALUES (1,100001,'','','','','','500',0,0,'3',0,0,0,'','','');
 
 #
 # Structure for table "xds_community_transfer"
@@ -323,16 +324,19 @@ CREATE TABLE `xds_community_user` (
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '所有者ID(用户ID)',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '关联类型 0 创始人 1 管理员 2 成员',
   `msg_only_admin` enum('0','1') NOT NULL DEFAULT '0' COMMENT '只接受管理员私信 0=关闭，1=开启。',
-  `status` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 未退群 1 已退群',
+  `status` enum('0','1','2') NOT NULL DEFAULT '0' COMMENT '0 未退群 1 已退群 2被暂停成员资格',
+  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '加入时间',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新状态时间',
   PRIMARY KEY (`Id`),
   KEY `community_id` (`community_id`,`user_id`) COMMENT '复合主键',
   KEY `type` (`type`) COMMENT 'type'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='社群用户对应表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='社群用户对应表';
 
 #
 # Data for table "xds_community_user"
 #
 
+INSERT INTO `xds_community_user` VALUES (1,1,1,0,'0','0',0,0),(2,1,1,0,'0','0',0,0),(3,1,1,0,'0','0',0,0),(4,2,1,0,'0','0',0,0),(5,2,2,0,'0','0',0,0);
 
 #
 # Structure for table "xds_notice"
@@ -344,8 +348,8 @@ CREATE TABLE `xds_notice` (
   `type` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0系统通知 1被@通知',
   `keyid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联模块主键ID,比如交流区内容ID',
   `content` varchar(500) NOT NULL DEFAULT '' COMMENT '通知内容',
-  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '通知所属用户主键ID',
-  `from_id` int(11) NOT NULL DEFAULT '0' COMMENT '通知来源作者主键ID(关联头像时使用)',
+  `to_user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '通知所属用户主键ID',
+  `from_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '通知来源作者主键ID(关联头像时使用)',
   `looktype` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '0未读 1已读',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '通知时间',
   PRIMARY KEY (`id`)
@@ -543,6 +547,7 @@ CREATE TABLE `xds_user_info` (
   `execution` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '行动力',
   `unionid` char(32) NOT NULL DEFAULT '' COMMENT '用户统一标识',
   `openid` char(32) NOT NULL DEFAULT '' COMMENT '用户的标识',
+  `creat_time` int(11) NOT NULL COMMENT '创建时间',
   `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`) USING BTREE
