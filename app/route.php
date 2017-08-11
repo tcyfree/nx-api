@@ -10,6 +10,16 @@
 // +----------------------------------------------------------------------
 
 use think\Route;
+//微信授权,签发Token
+Route::get('api/:version/code','api/:version.Token/getCode');
+Route::post('api/:version/token/user', 'api/:version.Token/getToken');
+
+
+
+Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
+Route::post('api/:version/token/app', 'api/:version.Token/getAppToken');
+
+
 
 Route::get('api/:version/banner/:id', 'api/:version.Banner/getBanner');
 
@@ -30,10 +40,7 @@ Route::get('api/:version/product/recent', 'api/:version.Product/getRecent');
 
 Route::get('api/:version/category/all', 'api/:version.Category/getAllCategories');
 
-// Token
-Route::post('api/:version/token/user', 'api/:version.Token/getToken');
-Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
-Route::post('api/:version/token/app', 'api/:version.Token/getAppToken');
+
 
 
 //Address

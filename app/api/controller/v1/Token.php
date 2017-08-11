@@ -15,13 +15,28 @@ use app\api\validate\AppTokenGet;
 use app\api\validate\TokenGet;
 use app\lib\exception\ParameterException;
 use app\api\service\Token as TokenService;
+use think\Session;
 
 class Token
 {
-    public function getToken($code = '')
+    //请求CODE
+    public function getCode(){
+        $wxAppID = config('wx.app_id');
+        $redirect_uri = urlencode('http://auth.xingdongshe.com');
+        // 赋值（当前作用域）
+        $state = mt_rand(1000,9999);
+        Session::set('state',$state);
+        $getCode = sprintf(
+            config('wx.qr_code'),
+            $wxAppID, $redirect_uri, $state);
+        return [
+            'getCodeUri' => $getCode
+        ];
+    }
+    public function getToken($code = '',$state = '')
     {
         (new TokenGet())->goCheck();
-        $ut = new UserToken($code);
+        $ut = new UserToken($code,$state);
         $token = $ut->get();
         return [
           'token'=>$token

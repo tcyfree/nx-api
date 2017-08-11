@@ -7,11 +7,11 @@
  */
 
 return [
-  'app_id' => '',
-  'app_secret' => '',
-  'login_url'=> "https://api.weixin.qq.com/sns/jscode2session?" .
-      "appid=%s&secret=%s&js_code=%s&grant_type=authorization_code",
-  'access_token_url' => "https://api.weixin.qq.com/cgi-bin/token?" .
-      "grant_type=client_credential&appid=%s&secret=%s",
+    'app_id' => 'wx21128d939f7e9487',
+    'app_secret' => 'bdd010cd89ed5c743e45e234b51691ea',
+    'qr_code' => 'https://open.weixin.qq.com/connect/qrconnect?'.
+        'appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s#wechat_redirect',
+    'qr_access_token' => "https://api.weixin.qq.com/sns/oauth2/access_token?".
+        "appid=%s&secret=%s&code=%s&grant_type=authorization_code"
 
 ];

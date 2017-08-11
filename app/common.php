@@ -100,7 +100,7 @@ function getRandChar($length)
  */
 function number(){
     $redis = new \redis();
-    $redis->connect("192.168.0.165","6379");  //php客户端设置的ip及端口
+    $redis->connect("127.0.0.1","6379");  //php客户端设置的ip及端口
 
     $rst = 0;
     while ($rst == 0){
@@ -111,6 +111,18 @@ function number(){
     }
     return $number;
 }
+//获取唯一序列号
+function uuid(){
+    $str = md5(uniqid(md5(microtime(true)), true));
+
+    $uuid  = substr($str,0,8) . '-';
+    $uuid .= substr($str,8,4) . '-';
+    $uuid .= substr($str,12,4) . '-';
+    $uuid .= substr($str,16,4) . '-';
+    $uuid .= substr($str,20,12);
+    return $uuid;
+}
+
 /**
  * 社区二维码链接
  * @param string $url

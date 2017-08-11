@@ -12,11 +12,12 @@ namespace app\api\validate;
 class TokenGet extends BaseValidate
 {
     protected $rule = [
-        'code'=> 'require|isNotEmpty'
+        'code'=> 'require|isNotEmpty',
+        'state' => 'require|isNotEmpty|isPositiveInteger'
     ];
 
     protected $message = [
-        'code'=> '没有code还想获取Token，做梦哦'
+        'code'=> '没有code还想获取Token！'
     ];
 
 }

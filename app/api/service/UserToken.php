@@ -10,10 +10,13 @@ namespace app\api\service;
 
 
 use app\lib\enum\ScopeEnum;
+use app\lib\exception\SessionException;
 use app\lib\exception\TokenException;
 use app\lib\exception\WeChatException;
 use think\Exception;
 use app\api\model\User as UserModel;
+use app\api\model\UserInfo as UserInfoModel;
+use think\Session;
 
 class UserToken extends Token
 {
@@ -22,13 +25,17 @@ class UserToken extends Token
     protected $wxAppSecret;
     protected $wxLoginUrl;
 
-    function __construct($code)
+    function __construct($code,$state)
     {
+        $session_state = Session::get('state');
+        if($session_state != $state){
+            throw new SessionException();
+        }
         $this->code = $code;
         $this->wxAppID = config('wx.app_id');
         $this->wxAppSecret = config('wx.app_secret');
         $this->wxLoginUrl = sprintf(
-            config('wx.login_url'),
+            config('wx.qr_access_token'),
             $this->wxAppID, $this->wxAppSecret, $this->code);
     }
 
@@ -38,7 +45,7 @@ class UserToken extends Token
         $wxResult = json_decode($result, true);
         if (empty($wxResult))
         {
-            throw new Exception('获取session_key及openID时异常，微信内部错误');
+            throw new Exception('微信内部错误');
         }
         else
         {
@@ -56,19 +63,20 @@ class UserToken extends Token
 
     private function grantToken($wxResult){
         // 拿到openid
-        // 数据库里看一下，这个openid是不是已经存在
+        // 数据库里看一下，这个unionid是不是已经存在
         // 如果存在 则不处理，如果不存在那么新增一条user记录
         // 生成令牌，准备缓存数据，写入缓存
         // 把令牌返回到客户端去
         // key: 令牌
         // value: wxResult，uid, scope
+        $unionid = $wxResult['unionid'];
         $openid = $wxResult['openid'];
-        $user = UserModel::getByOpenID($openid);
+        $user = UserModel::getByOpenID($unionid);
         if($user){
             $uid = $user->id;
         }
         else{
-            $uid = $this->newUser($openid);
+            $uid = $this->newUser($unionid,$openid);
         }
         $cachedValue = $this->prepareCachedValue($wxResult,$uid);
         $token = $this->saveToCache($cachedValue);
@@ -103,8 +111,14 @@ class UserToken extends Token
     }
 
 
-    private function newUser($openid){
+    private function newUser($unionid,$openid)
+    {
+        $register_ip = $_SERVER['REMOTE_ADDR'];
         $user = UserModel::create([
+            'id' => uuid(),
+            'number' => number()
+        ]);
+        $user = UserInfoModel::create([
            'openid' => $openid
         ]);
         return $user->id;
