@@ -14,12 +14,11 @@ use think\Route;
 Route::get('api/:version/code','api/:version.Token/getCode');
 Route::post('api/:version/token/user', 'api/:version.Token/getToken');
 
-
+//OSS
+Route::get('api/:version/oss/sts','api/:version.OSS/getSecurityToken');
 
 Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
 Route::post('api/:version/token/app', 'api/:version.Token/getAppToken');
-
-
 
 Route::get('api/:version/banner/:id', 'api/:version.Banner/getBanner');
 
@@ -66,7 +65,7 @@ Route::post('api/:version/pay/notify', 'api/:version.Pay/receiveNotify');
 Route::post('api/:version/pay/re_notify', 'api/:version.Pay/redirectNotify');
 
 Route::get('api/:version/test', 'api/:version.Community/getIndex');
-Route::get('api/:version/set', 'api/:version.Banner/setCache');
+Route::get('api/:version/set', 'api/:version.Banner/test');
 
 
 
