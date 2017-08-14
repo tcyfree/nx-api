@@ -19,10 +19,10 @@ use think\Session;
 
 class Token
 {
-    //请求CODE
+    //第一步：请求CODE
     public function getCode(){
         $wxAppID = config('wx.app_id');
-        $redirect_uri = urlencode('http://auth.xingdongshe.com');
+        $redirect_uri = urlencode('http://auth.xingdongshe.com/api/v1/token/user');
         // 赋值（当前作用域）
         $state = mt_rand(1000,9999);
         Session::set('state',$state);
@@ -33,6 +33,7 @@ class Token
             'getCodeUri' => $getCode
         ];
     }
+    //获取用户Token
     public function getToken($code = '',$state = '')
     {
         (new TokenGet())->goCheck();

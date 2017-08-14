@@ -13,6 +13,7 @@ use app\lib\enum\ScopeEnum;
 use app\lib\exception\SessionException;
 use app\lib\exception\TokenException;
 use app\lib\exception\WeChatException;
+use think\Cache;
 use think\Exception;
 use app\api\model\User as UserModel;
 use app\api\model\UserInfo as UserInfoModel;
@@ -38,7 +39,7 @@ class UserToken extends Token
             config('wx.qr_access_token'),
             $this->wxAppID, $this->wxAppSecret, $this->code);
     }
-
+    //第二步：通过code获取access_token等信息
     public function get()
     {
         $result = curl_get($this->wxLoginUrl);
@@ -52,7 +53,7 @@ class UserToken extends Token
             $loginFail = array_key_exists('errcode', $wxResult);
             if ($loginFail)
             {
-                $this->processLoginError($wxResult);
+                $this->processError($wxResult);
             }
             else
             {
@@ -60,9 +61,9 @@ class UserToken extends Token
             }
         }
     }
-
+    //给用户签发token
     private function grantToken($wxResult){
-        // 拿到openid
+        // 拿到openid,unionid
         // 数据库里看一下，这个unionid是不是已经存在
         // 如果存在 则不处理，如果不存在那么新增一条user记录
         // 生成令牌，准备缓存数据，写入缓存
@@ -71,12 +72,14 @@ class UserToken extends Token
         // value: wxResult，uid, scope
         $unionid = $wxResult['unionid'];
         $openid = $wxResult['openid'];
-        $user = UserModel::getByOpenID($unionid);
+        $access_token = $wxResult['access_token'];
+        $user = UserInfoModel::getByOpenID($unionid);
         if($user){
-            $uid = $user->id;
+            $uid = $user->user_id;
+            $this->updateUserInfo($openid,$access_token,$uid);
         }
         else{
-            $uid = $this->newUser($unionid,$openid);
+            $uid = $this->newUser($unionid,$openid,$access_token);
         }
         $cachedValue = $this->prepareCachedValue($wxResult,$uid);
         $token = $this->saveToCache($cachedValue);
@@ -88,7 +91,7 @@ class UserToken extends Token
         $value = json_encode($cachedValue);
         $expire_in = config('setting.token_expire_in');
 
-        $request = cache($key, $value, $expire_in);
+        $request = Cache::store('redis')->set($key,$value,$expire_in);
         if(!$request){
             throw new TokenException([
                 'msg' => '服务器缓存异常',
@@ -103,7 +106,7 @@ class UserToken extends Token
         $cachedValue['uid'] = $uid;
         // scope=16 代表App用户的权限数值
         $cachedValue['scope'] = ScopeEnum::User;
-//        $cachedValue['scope'] = 15;
+//        $cachedValue['scope'] = 16;
 
         // scope =32 代表CMS（管理员）用户的权限数值
 //        $cachedValue['scope'] = 32;
@@ -111,20 +114,57 @@ class UserToken extends Token
     }
 
 
-    private function newUser($unionid,$openid)
+    private function newUser($unionid,$openid,$access_token)
     {
         $register_ip = $_SERVER['REMOTE_ADDR'];
-        $user = UserModel::create([
-            'id' => uuid(),
-            'number' => number()
+        $id = uuid();
+        UserModel::create([
+            'id' => $id,
+            'number' => number(),
+            'reg_ip' => $register_ip
         ]);
-        $user = UserInfoModel::create([
-           'openid' => $openid
+        UserInfoModel::create([
+            'user_id' => $id,
+            'openid'  => $openid,
+            'unionid' => $unionid,
         ]);
-        return $user->id;
-    }
 
-    private function processLoginError($wxResult)
+        $this->updateUserInfo($openid,$access_token,$id);
+
+
+        return $id;
+    }
+    //第三步：通过access_token调用用户信息接口
+    private function updateUserInfo($openid,$access_token,$id)
+    {
+        $userinfo_url = sprintf(config('wx.qr_userinfo'), $access_token, $openid);
+        $result = curl_get($userinfo_url);
+        $ufResult = json_decode($result, true);
+        if (empty($ufResult))
+        {
+            throw new Exception('微信内部错误');
+        }
+        else
+        {
+            $ufFail = array_key_exists('errcode', $ufResult);
+            if ($ufFail)
+            {
+                $this->processError($ufResult);
+            }
+            else
+            {
+                //请注意，在用户修改微信头像后，旧的微信头像URL将会失效。
+                //因此开发者应该自己在获取用户信息后，将头像图片保存下来，避免微信头像URL失效后的异常情况。
+                $ufResult['avatar'] = downloadImage($ufResult['headimgurl']);
+                $user  = new UserInfoModel();
+                // 过滤数组中的非数据表字段数据
+                $user->allowField(true)->save($ufResult,['user_id' =>$id]);
+            }
+        }
+
+    }
+    //微信接口处理异常
+    private function processError($wxResult)
     {
         throw new WeChatException(
             [

@@ -12,6 +12,7 @@ return [
     'qr_code' => 'https://open.weixin.qq.com/connect/qrconnect?'.
         'appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s#wechat_redirect',
     'qr_access_token' => "https://api.weixin.qq.com/sns/oauth2/access_token?".
-        "appid=%s&secret=%s&code=%s&grant_type=authorization_code"
+        "appid=%s&secret=%s&code=%s&grant_type=authorization_code",
+    'qr_userinfo' => 'https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s'
 
 ];

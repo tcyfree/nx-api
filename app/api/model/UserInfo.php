@@ -11,6 +11,7 @@ namespace app\api\model;
 
 class UserInfo extends BaseModel
 {
+    protected $autoWriteTimestamp = true;
     public static function getByOpenID($unionid)
     {
         $user = self::where('unionid', '=', $unionid)

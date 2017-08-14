@@ -34,7 +34,7 @@ class Token
     {
         $token = Request::instance()
             ->header('token');
-        $vars = Cache::get($token);
+        $vars = Cache::store('redis')->get($token);
         if (!$vars)
         {
             throw new TokenException();
@@ -120,7 +120,7 @@ class Token
 
     public static function verifyToken($token)
     {
-        $exist = Cache::get($token);
+        $exist = Cache::store('redis')->get($token);
         if($exist){
             return true;
         }
