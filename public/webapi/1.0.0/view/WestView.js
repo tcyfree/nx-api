@@ -14,36 +14,50 @@ Ext.define('WebRoot.view.WestView', {
 		var tree = Ext.create('Ext.tree.Panel', {
 			rootVisible: true,
 			root: {
-				text: '根目录',
-				iconCls: 'menuroot',
-				expanded: true,
-				children: [
-				{
-					id: 'menu_errorcode',
-					text: '错误编码表',
-					hrefTarget: SYS_API_ROOT + 'phpfiles/error_code.php',
-					leaf: true
-				},
-				{
-					id: 'menu_client_root',
-					text: '用户相关',
+					text: '根目录',
+					iconCls: 'menuroot',
 					expanded: true,
 					children: [
 						{
-							id: 'menu_login',
-							text: '微信扫描登录',
-							//cls: 'redStyle',
-							hrefTarget: SYS_API_ROOT + 'phpfiles/client_login.php',
+							id: 'menu_errorcode',
+							text: '错误编码表',
+							hrefTarget: SYS_API_ROOT + 'phpfiles/error_code.php',
 							leaf: true
 						},
 						{
-							id: 'user_token',
-							text: '获取token',
-							hrefTarget: SYS_API_ROOT + 'phpfiles/user_token.php',
-							leaf: true
+							id: 'menu_client_root',
+							text: '用户相关',
+							expanded: true,
+							children: [
+								{
+									id: 'menu_login',
+									text: '微信扫描登录',
+									//cls: 'redStyle',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/client_login.php',
+									leaf: true
+								},
+								{
+									id: 'user_token',
+									text: '获取token',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/user_token.php',
+									leaf: true
+								}
+							]
+						},
+						{
+							id: 'menu_oss',
+							text: '上传相关',
+							expanded: true,
+							children: [
+								{
+									id: 'oss_sts',
+									text: '获取上传凭证',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/oss_sts.php',
+									leaf: true
+								}
+							]
 						}
 					]
-				}]
 			}
 		});
 		tree.on("itemclick",
