@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.5.53)
-# Date: 2017-08-11 18:09:38
+# Date: 2017-08-14 19:11:44
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES utf8 */;
@@ -512,8 +512,8 @@ CREATE TABLE `xds_transactions` (
 
 DROP TABLE IF EXISTS `xds_user`;
 CREATE TABLE `xds_user` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `number` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '会员编号(外部ID)',
+  `id` char(36) NOT NULL DEFAULT '' COMMENT 'UUID',
+  `number` char(8) NOT NULL DEFAULT '0' COMMENT '会员编号(外部ID)',
   `username` varchar(60) NOT NULL DEFAULT '' COMMENT '账户名',
   `password` varchar(64) NOT NULL DEFAULT '' COMMENT '登录密码;password_hash加密',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '用户状态;0:禁用,1:正常',
@@ -522,13 +522,15 @@ CREATE TABLE `xds_user` (
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `last_login_ip` varchar(15) NOT NULL DEFAULT '' COMMENT '最后登录IP',
   `last_login_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最后登录时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `number` (`number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 #
 # Data for table "xds_user"
 #
 
+INSERT INTO `xds_user` VALUES ('0a9064ba-711f-5049-9300-c0cc88e1edf7','68662449','','',1,'127.0.0.1',1502682504,1502682504,'',0);
 
 #
 # Structure for table "xds_user_info"
@@ -536,8 +538,7 @@ CREATE TABLE `xds_user` (
 
 DROP TABLE IF EXISTS `xds_user_info`;
 CREATE TABLE `xds_user_info` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '外键，用户ID',
+  `user_id` char(36) NOT NULL DEFAULT '0' COMMENT '外键，用户UUID',
   `sex` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '性别;0:保密,1:男,2:女',
   `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '用户昵称',
   `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像',
@@ -547,9 +548,8 @@ CREATE TABLE `xds_user_info` (
   `execution` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '行动力',
   `unionid` char(32) NOT NULL DEFAULT '' COMMENT '用户统一标识',
   `openid` char(32) NOT NULL DEFAULT '' COMMENT '用户的标识',
-  `creat_time` int(11) NOT NULL COMMENT '创建时间',
+  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '更新时间',
-  PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='用户信息表';
 
@@ -557,3 +557,4 @@ CREATE TABLE `xds_user_info` (
 # Data for table "xds_user_info"
 #
 
+INSERT INTO `xds_user_info` VALUES ('0a9064ba-711f-5049-9300-c0cc88e1edf7',1,'好好地 :)','images/2017081418472959917fc1a4288.jpg','','',0.00,0,'o2d00xFpaFdhyl0Itf29kmvK78Jg','ow9BAw33SatfPEFsZtW5PR1Lvofw',1502682504,1502707649);
