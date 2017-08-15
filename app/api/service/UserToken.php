@@ -87,6 +87,7 @@ class UserToken extends Token
         else{
             $uid = $this->newUser($unionid,$openid,$access_token);
         }
+        $this->updateLogin($uid);
         $cachedValue = $this->prepareCachedValue($wxResult,$uid);
         $token = $this->saveToCache($cachedValue);
         return $token;
@@ -193,6 +194,21 @@ class UserToken extends Token
             }
         }
 
+    }
+
+    /**
+     * 更新用户登录信息
+     * @param $uid
+     */
+    private function updateLogin($uid)
+    {
+        UserModel::update(
+            [
+            'last_login_ip' => $_SERVER['REMOTE_ADDR'],
+            'last_login_time' => time()
+            ],
+            ['id' => $uid]
+        );
     }
 
     /**
