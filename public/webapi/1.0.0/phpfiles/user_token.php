@@ -16,15 +16,15 @@
   <tr>
     <td>请求的地址</td>
       <td>POST</td>
-    <td>v1/token/user</td>
+    <td>v1/user/token</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）POST参数列表：</p>
 <table width="90%" border="1" class="dbTable">
   <tr class="td_header">
-    <td width="190">参数名称</td>
-    <td width="127">参数说明</td>
-    <td width="562">备注</td>
+    <td width="15%">参数名称</td>
+    <td width="15%">参数说明</td>
+    <td width="85%">备注</td>
     </tr>
    <tr>
      <td>code</td>
@@ -34,9 +34,12 @@
     <tr>
         <td>state</td>
         <td></td>
-        <td><p></p></td>
+        <td>用于保持请求和回调的状态，授权请求后原样带回给第三方。
+            该参数可用于防止csrf攻击（跨站请求伪造攻击）</td>
     </tr>
+
 </table>
+
 <p class="subtitlestyle">（三）服务接口响应请求：</p>
 <table width="90%" border="1" class="dbTable">
   <tr class="td_header">
@@ -47,6 +50,7 @@
     <td>{json信息串}</td>
       <td><p>详见（四）特别备注</p></td>
     </tr>
+    <?php require_once ("../include/error.inc.php"); ?>
 </table>
     <p><span class="subtitlestyle">（四）特别备注</span>（infor字段说明）</p>
     <table width="90%" border="1" class="dbTable">

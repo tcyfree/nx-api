@@ -30,7 +30,7 @@ Ext.define('WebRoot.view.WestView', {
 							expanded: true,
 							children: [
 								{
-									id: 'menu_login',
+									id: 'user_login',
 									text: '微信扫描登录',
 									//cls: 'redStyle',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/client_login.php',
@@ -40,6 +40,12 @@ Ext.define('WebRoot.view.WestView', {
 									id: 'user_token',
 									text: '获取token',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/user_token.php',
+									leaf: true
+								},
+								{
+									id: 'user_login_out',
+									text: '用户登出',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/client_loginout.php',
 									leaf: true
 								}
 							]

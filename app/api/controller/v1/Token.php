@@ -19,7 +19,10 @@ use think\Session;
 
 class Token
 {
-    //第一步：请求CODE
+    /**
+     * 第一步：请求CODE
+     * @return array
+     */
     public function getCode(){
         $wxAppID = config('wx.app_id');
         $redirect_uri = urlencode('http://auth.xingdongshe.com/api/v1/token/user');
@@ -33,7 +36,13 @@ class Token
             'getCodeUri' => $getCode
         ];
     }
-    //获取用户Token
+
+    /**
+     * 获取用户Token
+     * @param string $code
+     * @param string $state
+     * @return array
+     */
     public function getToken($code = '',$state = '')
     {
         (new TokenGet())->goCheck();
@@ -42,6 +51,17 @@ class Token
         return [
           'token'=>$token
         ];
+    }
+    /**
+     * 用户登出
+     */
+    public function deleteToken()
+    {
+        TokenService::deleteCurrentToken();
+        // 清除session（当前作用域）
+        Session::clear();
+
+        return ['result' => '登出成功！'];
     }
 
     /**

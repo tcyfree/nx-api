@@ -61,15 +61,21 @@ class UserToken extends Token
             }
         }
     }
-    //给用户签发token
+
+    /**
+     * 给用户签发token
+     *拿到openid,unionid
+     * 数据库里看一下，这个unionid是不是已经存在
+     * 如果存在 则不处理，如果不存在那么新增一条user记录
+     * 生成令牌，准备缓存数据，写入缓存
+     * 把令牌返回到客户端去
+     * key: 令牌
+     * value: wxResult，uid, scope
+     * @param $wxResult
+     * @return string
+     */
+
     private function grantToken($wxResult){
-        // 拿到openid,unionid
-        // 数据库里看一下，这个unionid是不是已经存在
-        // 如果存在 则不处理，如果不存在那么新增一条user记录
-        // 生成令牌，准备缓存数据，写入缓存
-        // 把令牌返回到客户端去
-        // key: 令牌
-        // value: wxResult，uid, scope
         $unionid = $wxResult['unionid'];
         $openid = $wxResult['openid'];
         $access_token = $wxResult['access_token'];
@@ -86,6 +92,12 @@ class UserToken extends Token
         return $token;
     }
 
+    /**
+     * 将token及相关信息缓存到redis
+     * @param $cachedValue
+     * @return string
+     * @throws TokenException
+     */
     private function saveToCache($cachedValue){
         $key = self::generateToken();
         $value = json_encode($cachedValue);
@@ -101,19 +113,31 @@ class UserToken extends Token
         return $key;
     }
 
+    /**
+     * 增加缓存用户id和权限值
+     * @param $wxResult
+     * @param $uid
+     * @return mixed
+     */
     private function prepareCachedValue($wxResult, $uid){
         $cachedValue = $wxResult;
         $cachedValue['uid'] = $uid;
         // scope=16 代表App用户的权限数值
         $cachedValue['scope'] = ScopeEnum::User;
-//        $cachedValue['scope'] = 16;
+        //$cachedValue['scope'] = 16;
 
         // scope =32 代表CMS（管理员）用户的权限数值
-//        $cachedValue['scope'] = 32;
+        //$cachedValue['scope'] = 32;
         return $cachedValue;
     }
 
-
+    /**
+     * 新增用户
+     * @param $unionid
+     * @param $openid
+     * @param $access_token
+     * @return string
+     */
     private function newUser($unionid,$openid,$access_token)
     {
         $register_ip = $_SERVER['REMOTE_ADDR'];
@@ -134,7 +158,14 @@ class UserToken extends Token
 
         return $id;
     }
-    //第三步：通过access_token调用用户信息接口
+
+    /**
+     * 第三步：通过access_token调用用户信息接口。更新用户相关信息
+     * @param $openid
+     * @param $access_token
+     * @param $id
+     * @throws Exception
+     */
     private function updateUserInfo($openid,$access_token,$id)
     {
         $userinfo_url = sprintf(config('wx.qr_userinfo'), $access_token, $openid);
@@ -163,7 +194,12 @@ class UserToken extends Token
         }
 
     }
-    //微信接口处理异常
+
+    /**
+     * 微信接口处理异常
+     * @param $wxResult
+     * @throws WeChatException
+     */
     private function processError($wxResult)
     {
         throw new WeChatException(

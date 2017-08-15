@@ -41,7 +41,7 @@ switch(SYS_SERVER_TYPE)
 {
 	case 1://本机localhost
 		define("SYS_SERVER_IP","localhost");
-		define("SYS_ROOT","http://".SYS_SERVER_IP."/".SYS_EN_NAME."/");	//定义项目根地址(网络绝对路径)
+		define("SYS_ROOT","http://nx-xds.com/");	//定义项目根地址(网络绝对路径)
 		define("SYS_ROOT_URL","/");			//定义项目根地址（本地相对路径）
 		define('DB_HOST', 'localhost');	//数据库服务器主机地址(此处可以使用内网IP提升速度)
 		define('DB_USER', 'nx-xds'); 		//数据库帐号
@@ -97,9 +97,7 @@ date_default_timezone_set('PRC'); //设置时区为中国，非常重要
 
 ini_set("session.cookie_httponly", 1);
 session_start();//启用session机制，非常重要,切勿删除
-
 header("Access-Control-Allow-Origin:*");
-
 header('content-type:application:json;charset=utf8');
 
 ?>

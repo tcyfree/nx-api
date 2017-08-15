@@ -12,10 +12,14 @@
 use think\Route;
 //微信授权,签发Token
 Route::get('api/:version/code','api/:version.Token/getCode');
-Route::post('api/:version/token/user', 'api/:version.Token/getToken');
+Route::post('api/:version/user/token', 'api/:version.Token/getToken');
+Route::delete('api/:version/user/token', 'api/:version.Token/deleteToken');
 
 //OSS
 Route::get('api/:version/oss/sts','api/:version.OSS/getSecurityToken');
+
+//user
+Route::get('api/:version/user', 'api/:version.User/getUserInfo');
 
 Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
 Route::post('api/:version/token/app', 'api/:version.Token/getAppToken');
@@ -65,7 +69,8 @@ Route::post('api/:version/pay/notify', 'api/:version.Pay/receiveNotify');
 Route::post('api/:version/pay/re_notify', 'api/:version.Pay/redirectNotify');
 
 Route::get('api/:version/test', 'api/:version.Community/getIndex');
-Route::get('api/:version/set', 'api/:version.Banner/test');
+Route::get('api/:version/set', 'api/:version.Banner/setCache');
+Route::get('api/:version/get', 'api/:version.Banner/test');
 
 
 

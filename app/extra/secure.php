@@ -7,7 +7,7 @@
  */
 
 return [
-    'token_salt' => '',
+    'token_salt' => 'DmJ7mhOscG3nUcF2',
     'pay_back_url' => ''
 //    http://2whczb.webx.cc
     //Ngrok

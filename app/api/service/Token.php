@@ -44,6 +44,7 @@ class Token
             if (!is_array($vars))
             {
                 $vars = json_decode($vars, true);
+                var_dump($vars);
             }
             if (array_key_exists($key, $vars))
             {
@@ -56,6 +57,19 @@ class Token
         }
     }
 
+    public static function deleteCurrentToken()
+    {
+        $token = Request::instance()->header('token');
+        $res = Cache::store('redis')->rm($token);
+        if (!$res)
+        {
+            throw new TokenException();
+        }
+    }
+    /**
+     * 获取当前用户uuid
+     * @return mixed
+     */
     public static function getCurrentUid()
     {
         //token

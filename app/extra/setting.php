@@ -7,5 +7,5 @@
  */
 return [
     'img_prefix' => 'http://nx-xds.com/',
-    'token_expire_in' => 7200
+    'token_expire_in' => 720000
 ];

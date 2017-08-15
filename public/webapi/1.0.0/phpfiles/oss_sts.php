@@ -37,6 +37,7 @@
     <td><p>{json信息串}</p></td>
     <td><p>详见（四）特别备注</p></td>
   </tr>
+    <?php require_once ("../include/error.inc.php"); ?>
 </table>
 <p><span class="subtitlestyle">（四）特别备注</span>（infor字段说明，仅列出部分关键字段）</p>
 <table width="90%" border="1" class="dbTable">
