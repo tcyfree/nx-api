@@ -9,22 +9,10 @@
 // | Author: tcyfree <1946644259@qq.com>
 // +----------------------------------------------------------------------
 
-namespace app\api\controller\v1;
+namespace app\api\service;
 
-use app\api\model\UserInfo as UserInfoModel;
-use app\api\service\Token as TokenService;
-use app\api\controller\BaseController;
-use app\lib\exception\UserException;
 
-class User extends BaseController
+class User
 {
-    protected $beforeActionList = [
-        'checkPrimaryScope' => ['only' => 'getUserInfo']
-    ];
-    //获取用户信息
-    public function getUserInfo(){
-        return UserInfoModel::userCenter();
-    }
-
 
 }
