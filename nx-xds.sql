@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.5.53)
-# Date: 2017-08-14 19:11:44
+# Date: 2017-08-15 18:41:32
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES utf8 */;
@@ -287,13 +287,13 @@ CREATE TABLE `xds_community` (
   `seo_description` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `name` (`name`) COMMENT '搜索'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='行动社表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='行动社表';
 
 #
 # Data for table "xds_community"
 #
 
-INSERT INTO `xds_community` VALUES (1,100001,'','','','','','500',0,0,'3',0,0,0,'','','');
+INSERT INTO `xds_community` VALUES (1,100001,'','','','','','500',0,0,'3',0,0,0,'','',''),(2,100001,'','','','','','500',0,0,'3',0,0,0,'','','');
 
 #
 # Structure for table "xds_community_transfer"
@@ -321,8 +321,8 @@ DROP TABLE IF EXISTS `xds_community_user`;
 CREATE TABLE `xds_community_user` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `community_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '所属行动社群ID',
-  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '所有者ID(用户ID)',
-  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '关联类型 0 创始人 1 管理员 2 成员',
+  `user_id` char(36) NOT NULL DEFAULT '0' COMMENT '所有者ID(用户ID)',
+  `type` enum('0','1','2') NOT NULL DEFAULT '2' COMMENT '关联类型 0 创始人 1 管理员 2 成员',
   `msg_only_admin` enum('0','1') NOT NULL DEFAULT '0' COMMENT '只接受管理员私信 0=关闭，1=开启。',
   `status` enum('0','1','2') NOT NULL DEFAULT '0' COMMENT '0 未退群 1 已退群 2被暂停成员资格',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '加入时间',
@@ -336,7 +336,26 @@ CREATE TABLE `xds_community_user` (
 # Data for table "xds_community_user"
 #
 
-INSERT INTO `xds_community_user` VALUES (1,1,1,0,'0','0',0,0),(2,1,1,0,'0','0',0,0),(3,1,1,0,'0','0',0,0),(4,2,1,0,'0','0',0,0),(5,2,2,0,'0','0',0,0);
+INSERT INTO `xds_community_user` VALUES (1,1,'0a9064ba-711f-5049-9300-c0cc88e1edf7','0','0','0',1502768581,0),(2,1,'86966993-d3e4-e722-223d-bf16fc2e8421','1','0','0',1502768580,0),(3,2,'0a9064ba-711f-5049-9300-c0cc88e1edf7','1','0','0',1502768581,0),(4,2,'86966993-d3e4-e722-223d-bf16fc2e8421','0','0','0',1502768581,0),(5,1,'86966993-d3e4-e722-223d-bf16fc2e8421','2','0','0',1502768580,0);
+
+#
+# Structure for table "xds_login_history"
+#
+
+DROP TABLE IF EXISTS `xds_login_history`;
+CREATE TABLE `xds_login_history` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` char(36) NOT NULL DEFAULT '' COMMENT '用户主键ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录时间',
+  PRIMARY KEY (`Id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户登录记录表';
+
+#
+# Data for table "xds_login_history"
+#
+
+/*!40000 ALTER TABLE `xds_login_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `xds_login_history` ENABLE KEYS */;
 
 #
 # Structure for table "xds_notice"
@@ -348,11 +367,12 @@ CREATE TABLE `xds_notice` (
   `type` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0系统通知 1被@通知',
   `keyid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联模块主键ID,比如交流区内容ID',
   `content` varchar(500) NOT NULL DEFAULT '' COMMENT '通知内容',
-  `to_user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '通知所属用户主键ID',
-  `from_user_id` int(11) NOT NULL DEFAULT '0' COMMENT '通知来源作者主键ID(关联头像时使用)',
+  `to_user_id` char(36) NOT NULL DEFAULT '0' COMMENT '通知所属用户主键ID',
+  `from_user_id` char(36) NOT NULL DEFAULT '0' COMMENT '通知来源作者主键ID(关联头像时使用)',
   `looktype` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '0未读 1已读',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '通知时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `to_user_id` (`to_user_id`,`from_user_id`,`type`,`keyid`,`looktype`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='消息表';
 
 #
@@ -516,11 +536,11 @@ CREATE TABLE `xds_user` (
   `number` char(8) NOT NULL DEFAULT '0' COMMENT '会员编号(外部ID)',
   `username` varchar(60) NOT NULL DEFAULT '' COMMENT '账户名',
   `password` varchar(64) NOT NULL DEFAULT '' COMMENT '登录密码;password_hash加密',
-  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '用户状态;0:禁用,1:正常',
-  `reg_ip` varchar(15) NOT NULL DEFAULT '' COMMENT '注册IP',
+  `status` enum('0','1') NOT NULL DEFAULT '1' COMMENT '用户状态;0:禁用,1:正常',
+  `reg_ip` char(15) NOT NULL DEFAULT '' COMMENT '注册IP',
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '注册时间',
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `last_login_ip` varchar(15) NOT NULL DEFAULT '' COMMENT '最后登录IP',
+  `last_login_ip` char(15) NOT NULL DEFAULT '' COMMENT '最后登录IP',
   `last_login_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最后登录时间',
   PRIMARY KEY (`id`),
   KEY `number` (`number`)
@@ -530,7 +550,7 @@ CREATE TABLE `xds_user` (
 # Data for table "xds_user"
 #
 
-INSERT INTO `xds_user` VALUES ('0a9064ba-711f-5049-9300-c0cc88e1edf7','68662449','','',1,'127.0.0.1',1502682504,1502682504,'',0);
+INSERT INTO `xds_user` VALUES ('0a9064ba-711f-5049-9300-c0cc88e1edf7','68662449','','','1','127.0.0.1',1502682504,1502768581,'127.0.0.1',1502768581),('86966993-d3e4-e722-223d-bf16fc2e8421','53370684','','','1','127.0.0.1',1502782975,1502782975,'127.0.0.1',1502782975);
 
 #
 # Structure for table "xds_user_info"
@@ -539,7 +559,7 @@ INSERT INTO `xds_user` VALUES ('0a9064ba-711f-5049-9300-c0cc88e1edf7','68662449'
 DROP TABLE IF EXISTS `xds_user_info`;
 CREATE TABLE `xds_user_info` (
   `user_id` char(36) NOT NULL DEFAULT '0' COMMENT '外键，用户UUID',
-  `sex` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '性别;0:保密,1:男,2:女',
+  `sex` enum('0','1','2') NOT NULL DEFAULT '0' COMMENT '性别;0:保密,1:男,2:女',
   `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '用户昵称',
   `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像',
   `signature` varchar(255) NOT NULL DEFAULT '' COMMENT '个性签名',
@@ -557,4 +577,4 @@ CREATE TABLE `xds_user_info` (
 # Data for table "xds_user_info"
 #
 
-INSERT INTO `xds_user_info` VALUES ('0a9064ba-711f-5049-9300-c0cc88e1edf7',1,'好好地 :)','images/2017081418472959917fc1a4288.jpg','','',0.00,0,'o2d00xFpaFdhyl0Itf29kmvK78Jg','ow9BAw33SatfPEFsZtW5PR1Lvofw',1502682504,1502707649);
+INSERT INTO `xds_user_info` VALUES ('0a9064ba-711f-5049-9300-c0cc88e1edf7','1','好好地 :)','images/2017081511430159926dc5556bd.jpg','','',0.00,0,'o2d00xFpaFdhyl0Itf29kmvK78Jg','ow9BAw33SatfPEFsZtW5PR1Lvofw',1502682504,1502768581),('86966993-d3e4-e722-223d-bf16fc2e8421','1','h','images/201708151542555992a5ff4ebd2.jpg','','',0.00,0,'o2d00xH6LHyDA3r1o1ASqzoXhBC0','ow9BAw1VWoxItNT4jw9ROeiK5g6U',1502782975,1502782975);
