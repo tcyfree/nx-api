@@ -76,10 +76,11 @@ class Banner
      */
     public function setCache(){
         // 切换到redis操作
-        $result = Cache::store('redis')->set('name','value',30);
+        $result = Cache::store('redis')->set('name','value',5);
         var_dump($result);
     }
     public function test(){
         var_dump(Cache::store('redis')->get('name')) ;
+        Cache::store('redis')->set('name','value',5);
     }
 }

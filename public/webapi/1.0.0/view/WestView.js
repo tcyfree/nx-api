@@ -43,6 +43,12 @@ Ext.define('WebRoot.view.WestView', {
 									leaf: true
 								},
 								{
+									id: 'user_info',
+									text: '用户信息',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/user_info.php',
+									leaf: true
+								},
+								{
 									id: 'user_login_out',
 									text: '用户登出',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/client_loginout.php',

@@ -20,7 +20,7 @@
     <td>v1/user/token</td>
   </tr>
 </table>
-<p class="subtitlestyle">（二）POST参数列表：</p>
+<p class="subtitlestyle">（二）参数列表：</p>
 <table width="90%" border="1" class="dbTable">
   <tr class="td_header">
     <td width="123">参数名称</td>
