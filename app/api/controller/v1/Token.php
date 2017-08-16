@@ -10,9 +10,11 @@ namespace app\api\controller\v1;
 
 
 use app\api\service\AppToken;
+use app\api\service\Code;
 use app\api\service\UserToken;
 use app\api\validate\AppTokenGet;
 use app\api\validate\TokenGet;
+use app\api\validate\Type;
 use app\lib\exception\ParameterException;
 use app\api\service\Token as TokenService;
 use think\Session;
@@ -23,19 +25,21 @@ class Token
      * 第一步：请求CODE
      * @return array
      */
-    public function getCode(){
-        $wxAppID = config('wx.app_id');
-        $redirect_uri = urlencode('http://auth.xingdongshe.com/api/v1/token/user');
-        // 赋值（当前作用域）
-        $state = mt_rand(1000,9999);
-        Session::set('state',$state);
-        $getCode = sprintf(
-            config('wx.qr_code'),
-            $wxAppID, $redirect_uri, $state);
-        return [
-            'getCodeUri' => $getCode
-        ];
+    public function getCode($type){
+        (new Type())->goCheck();
+        $getCodeUri = new Code();
+        switch ($type){
+            case 1:
+                $res = $getCodeUri->getPCCode($type);
+                break;
+            case 2:
+                $res = $getCodeUri->getAppCode($type);
+                break;
+        }
+
+        return $res;
     }
+
 
     /**
      * 获取用户Token

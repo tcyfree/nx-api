@@ -9,9 +9,16 @@
 // | Author: tcyfree <1946644259@qq.com>
 // +----------------------------------------------------------------------
 
-namespace app\api\service;
+namespace app\api\validate;
 
 
-class User
+class Type extends  BaseValidate
 {
+    protected $rule = [
+        'type' => 'require|isNotEmpty|in:1,2',
+    ];
+
+    protected $message = [
+        'type.isNotEmpty'=> 'type不能为空！',
+    ];
 }

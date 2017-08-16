@@ -10,8 +10,9 @@
 // +----------------------------------------------------------------------
 
 use think\Route;
-//微信授权,签发Token
-Route::get('api/:version/code','api/:version.Token/getCode');
+//微信,签发Token
+Route::get('api/:version/code/:type','api/:version.Token/getCode');
+
 Route::post('api/:version/user/token', 'api/:version.Token/getToken');
 Route::delete('api/:version/user/token', 'api/:version.Token/deleteToken');
 
