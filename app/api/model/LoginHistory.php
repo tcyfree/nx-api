@@ -12,7 +12,9 @@
 namespace app\api\model;
 
 
-class LoginHistory
+class LoginHistory extends BaseModel
 {
-
+    protected $autoWriteTimestamp = true;
+    //关闭自动更新字段
+    protected $updateTime = false;
 }

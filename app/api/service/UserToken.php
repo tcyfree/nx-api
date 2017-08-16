@@ -9,6 +9,7 @@
 namespace app\api\service;
 
 
+use app\api\model\LoginHistory;
 use app\lib\enum\ScopeEnum;
 use app\lib\exception\SessionException;
 use app\lib\exception\TokenException;
@@ -200,7 +201,7 @@ class UserToken extends Token
      * 更新用户登录信息
      * @param $uid
      */
-    private function updateLogin($uid)
+    private function updateLogin($uid,$device_type = 0)
     {
         UserModel::update(
             [
@@ -208,6 +209,12 @@ class UserToken extends Token
             'last_login_time' => time()
             ],
             ['id' => $uid]
+        );
+        LoginHistory::create(
+            [
+                'user_id' => $uid,
+                'device_type' => $device_type
+            ]
         );
     }
 
