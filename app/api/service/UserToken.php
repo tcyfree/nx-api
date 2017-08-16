@@ -90,29 +90,37 @@ class UserToken extends Token
         }
         $this->updateLogin($uid);
         $cachedValue = $this->prepareCachedValue($wxResult,$uid);
-        $token = $this->saveToCache($cachedValue);
+        $token = $this->saveToCache($cachedValue,$uid);
         return $token;
     }
 
     /**
-     * 将token及相关信息缓存到redis
+     * 1.根据用户uid查看是否存在未过期的token，如果存在则删除旧token值，避免旧token还能操作用户信息。
+     * 2.将新签发token及相关信息缓存到redis
      * @param $cachedValue
+     * @param $uid
      * @return string
      * @throws TokenException
      */
-    private function saveToCache($cachedValue){
-        $key = self::generateToken();
+    private function saveToCache($cachedValue,$uid){
+        $token = self::generateToken();
         $value = json_encode($cachedValue);
         $expire_in = config('setting.token_expire_in');
-
-        $request = Cache::store('redis')->set($key,$value,$expire_in);
-        if(!$request){
+        $redis = Cache::store('redis');
+        $exists = $redis->has($uid);
+        if($exists){
+            $oldToken = $redis->get($uid);
+            $redis->rm($oldToken);
+        }
+        $res_uid = $redis->set($uid,$token,$expire_in);
+        $request = $redis->set($token,$value,$expire_in);
+        if(!$request && !$res_uid){
             throw new TokenException([
                 'msg' => '服务器缓存异常',
                 'errorCode' => 10005
             ]);
         }
-        return $key;
+        return $token;
     }
 
     /**
