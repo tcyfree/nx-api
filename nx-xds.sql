@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.5.53)
-# Date: 2017-08-15 18:41:32
+# Date: 2017-08-16 19:29:10
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES utf8 */;
@@ -330,13 +330,15 @@ CREATE TABLE `xds_community_user` (
   PRIMARY KEY (`Id`),
   KEY `community_id` (`community_id`,`user_id`) COMMENT '复合主键',
   KEY `type` (`type`) COMMENT 'type'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='社群用户对应表';
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='社群用户对应表';
 
 #
 # Data for table "xds_community_user"
 #
 
-INSERT INTO `xds_community_user` VALUES (1,1,'0a9064ba-711f-5049-9300-c0cc88e1edf7','0','0','0',1502768581,0),(2,1,'86966993-d3e4-e722-223d-bf16fc2e8421','1','0','0',1502768580,0),(3,2,'0a9064ba-711f-5049-9300-c0cc88e1edf7','1','0','0',1502768581,0),(4,2,'86966993-d3e4-e722-223d-bf16fc2e8421','0','0','0',1502768581,0),(5,1,'86966993-d3e4-e722-223d-bf16fc2e8421','2','0','0',1502768580,0);
+/*!40000 ALTER TABLE `xds_community_user` DISABLE KEYS */;
+INSERT INTO `xds_community_user` VALUES (1,1,'0a9064ba-711f-5049-9300-c0cc88e1edf7','0','0','0',1502768581,0),(2,1,'86966993-d3e4-e722-223d-bf16fc2e8421','1','0','0',1502768580,0),(3,2,'0a9064ba-711f-5049-9300-c0cc88e1edf7','1','0','0',1502768581,0),(4,2,'86966993-d3e4-e722-223d-bf16fc2e8421','0','0','0',1502768581,0),(5,1,'86966993-d3e4-e722-223d-bf16fc2e8421','2','0','0',1502768580,0),(6,3,'0a9064ba-711f-5049-9300-c0cc88e1edf7','0','0','0',1502768581,0);
+/*!40000 ALTER TABLE `xds_community_user` ENABLE KEYS */;
 
 #
 # Structure for table "xds_login_history"
@@ -345,16 +347,19 @@ INSERT INTO `xds_community_user` VALUES (1,1,'0a9064ba-711f-5049-9300-c0cc88e1ed
 DROP TABLE IF EXISTS `xds_login_history`;
 CREATE TABLE `xds_login_history` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` char(36) NOT NULL DEFAULT '' COMMENT '用户主键ID',
+  `user_id` char(36) NOT NULL DEFAULT '' COMMENT '登录用户主键ID',
+  `device_type` enum('0','1','2','3') NOT NULL DEFAULT '0' COMMENT '0 APP第三方授权 1 PC授权 2 安卓 3 苹果',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录时间',
-  PRIMARY KEY (`Id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户登录记录表';
+  PRIMARY KEY (`Id`),
+  KEY `user_id` (`user_id`,`device_type`,`create_time`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='用户登录记录表';
 
 #
 # Data for table "xds_login_history"
 #
 
 /*!40000 ALTER TABLE `xds_login_history` DISABLE KEYS */;
+INSERT INTO `xds_login_history` VALUES (1,'0a9064ba-711f-5049-9300-c0cc88e1edf7','1',1502846529),(2,'0a9064ba-711f-5049-9300-c0cc88e1edf7','1',1502846854),(3,'0a9064ba-711f-5049-9300-c0cc88e1edf7','1',1502847199),(4,'0a9064ba-711f-5049-9300-c0cc88e1edf7','0',1502847287),(5,'0a9064ba-711f-5049-9300-c0cc88e1edf7','0',1502849670),(6,'0a9064ba-711f-5049-9300-c0cc88e1edf7','0',1502849885),(7,'0a9064ba-711f-5049-9300-c0cc88e1edf7','1',1502855749),(8,'0a9064ba-711f-5049-9300-c0cc88e1edf7','1',1502868288),(9,'0a9064ba-711f-5049-9300-c0cc88e1edf7','1',1502877709),(10,'0a9064ba-711f-5049-9300-c0cc88e1edf7','0',1502882795);
 /*!40000 ALTER TABLE `xds_login_history` ENABLE KEYS */;
 
 #
@@ -550,7 +555,7 @@ CREATE TABLE `xds_user` (
 # Data for table "xds_user"
 #
 
-INSERT INTO `xds_user` VALUES ('0a9064ba-711f-5049-9300-c0cc88e1edf7','68662449','','','1','127.0.0.1',1502682504,1502768581,'127.0.0.1',1502768581),('86966993-d3e4-e722-223d-bf16fc2e8421','53370684','','','1','127.0.0.1',1502782975,1502782975,'127.0.0.1',1502782975);
+INSERT INTO `xds_user` VALUES ('0a9064ba-711f-5049-9300-c0cc88e1edf7','68662449','','','1','127.0.0.1',1502682504,1502882795,'192.168.0.165',1502882795),('86966993-d3e4-e722-223d-bf16fc2e8421','53370684','','','1','127.0.0.1',1502782975,1502782975,'127.0.0.1',1502782975);
 
 #
 # Structure for table "xds_user_info"
@@ -577,4 +582,4 @@ CREATE TABLE `xds_user_info` (
 # Data for table "xds_user_info"
 #
 
-INSERT INTO `xds_user_info` VALUES ('0a9064ba-711f-5049-9300-c0cc88e1edf7','1','好好地 :)','images/2017081511430159926dc5556bd.jpg','','',0.00,0,'o2d00xFpaFdhyl0Itf29kmvK78Jg','ow9BAw33SatfPEFsZtW5PR1Lvofw',1502682504,1502768581),('86966993-d3e4-e722-223d-bf16fc2e8421','1','h','images/201708151542555992a5ff4ebd2.jpg','','',0.00,0,'o2d00xH6LHyDA3r1o1ASqzoXhBC0','ow9BAw1VWoxItNT4jw9ROeiK5g6U',1502782975,1502782975);
+INSERT INTO `xds_user_info` VALUES ('0a9064ba-711f-5049-9300-c0cc88e1edf7','1','好好地 :)','images/2017081619263559942beb638a3.jpg','','',0.00,0,'o2d00xFpaFdhyl0Itf29kmvK78Jg','ow9BAw33SatfPEFsZtW5PR1Lvofw',1502682504,1502882795),('86966993-d3e4-e722-223d-bf16fc2e8421','1','h','images/201708151542555992a5ff4ebd2.jpg','','',0.00,0,'o2d00xH6LHyDA3r1o1ASqzoXhBC0','ow9BAw1VWoxItNT4jw9ROeiK5g6U',1502782975,1502782975);
