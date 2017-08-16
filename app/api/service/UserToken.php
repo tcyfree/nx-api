@@ -36,7 +36,7 @@ class UserToken extends Token
 
     /**
      * 给用户签发token
-     * 拿到openid,unionid
+     * 拿到openid,unionid(注意：App授权后access_token返回不包含unionid)
      * 数据库里看一下，这个unionid是不是已经存在
      * 如果存在 则不处理，如果不存在那么新增一条user记录
      * 生成令牌，准备缓存数据，写入缓存
@@ -48,21 +48,44 @@ class UserToken extends Token
      */
 
     private function grantToken($wxResult){
-        $unionid = $wxResult['unionid'];
+        $exists = isset($wxResult['unionid']);
         $openid = $wxResult['openid'];
         $access_token = $wxResult['access_token'];
-        $user = UserInfoModel::getByOpenID($unionid);
-        if($user){
-            $uid = $user->user_id;
-            $this->updateUserInfo($openid,$access_token,$uid);
+        if($exists){
+            $unionid = $wxResult['unionid'];
+            $user = UserInfoModel::getByOpenID($unionid);
+            if($user){
+                $uid = $user->user_id;
+                $this->updateUserInfo($openid,$access_token,$uid);
+            }
+            else{
+                $uid = $this->newUser($unionid,$openid,$access_token);
+                $this->updateUserInfo($openid,$access_token,$uid);
+            }
+            $this->updateLogin($uid,0);
         }
         else{
-            $uid = $this->newUser($unionid,$openid,$access_token);
+            $uf = new WXOauth();
+            $ufResult = $uf->getUserInfo($openid,$access_token,1);
+            $unionid = $ufResult['unionid'];
+            $user = UserInfoModel::getByOpenID($unionid);
+            if($user){
+                $uid = $user->user_id;
+            }
+            else{
+                $uid = $this->newUser($unionid,$openid,$access_token);
+            }
+            //更新用户信息
+            $user  = new UserInfoModel();
+            // 过滤数组中的非数据表字段数据
+            $user->allowField(true)->save($ufResult,['user_id' =>$uid]);
+            $this->updateLogin($uid,1);
         }
-        $this->updateLogin($uid);
+
         $cachedValue = $this->prepareCachedValue($wxResult,$uid);
         $token = $this->saveToCache($cachedValue,$uid);
         return $token;
+
     }
 
     /**
@@ -134,9 +157,6 @@ class UserToken extends Token
             'unionid' => $unionid,
         ]);
 
-        $this->updateUserInfo($openid,$access_token,$id);
-
-
         return $id;
     }
 
@@ -149,38 +169,18 @@ class UserToken extends Token
      */
     private function updateUserInfo($openid,$access_token,$id)
     {
-        $userinfo_url = sprintf(config('wx.qr_userinfo'), $access_token, $openid);
-        $result = curl_get($userinfo_url);
-        $ufResult = json_decode($result, true);
-        if (empty($ufResult))
-        {
-            throw new Exception('微信内部错误');
-        }
-        else
-        {
-            $ufFail = array_key_exists('errcode', $ufResult);
-            if ($ufFail)
-            {
-                $this->processError($ufResult);
-            }
-            else
-            {
-                //请注意，在用户修改微信头像后，旧的微信头像URL将会失效。
-                //因此开发者应该自己在获取用户信息后，将头像图片保存下来，避免微信头像URL失效后的异常情况。
-                $ufResult['avatar'] = downloadImage($ufResult['headimgurl']);
-                $user  = new UserInfoModel();
-                // 过滤数组中的非数据表字段数据
-                $user->allowField(true)->save($ufResult,['user_id' =>$id]);
-            }
-        }
-
+        $uf = new WXOauth();
+        $ufResult = $uf->getUserInfo($openid,$access_token,0);
+        $user  = new UserInfoModel();
+        // 过滤数组中的非数据表字段数据
+        $user->allowField(true)->save($ufResult,['user_id' =>$id]);
     }
 
     /**
      * 更新用户登录信息
      * @param $uid
      */
-    private function updateLogin($uid,$device_type = 1)
+    private function updateLogin($uid,$device_type)
     {
         UserModel::update(
             [

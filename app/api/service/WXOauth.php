@@ -12,6 +12,7 @@
 namespace app\api\service;
 
 use app\lib\exception\ParameterException;
+use app\lib\exception\WeChatException;
 use think\Session;
 
 
@@ -89,7 +90,6 @@ class WXOauth
                     'msg' => '取值范围不正确！'
                 ]);
         }
-
         $result = curl_get($wxLoginUrl);
         $wxResult = json_decode($result, true);
         if (empty($wxResult))
@@ -108,6 +108,52 @@ class WXOauth
                 return $wxResult;
             }
         }
+    }
+
+    /**
+     * 第三步：通通过access_token和openid拉取用户信息(需scope为 snsapi_userinfo)
+     * @param $access_token
+     * @param $openid
+     * @param $type
+     * @return mixed
+     * @throws ParameterException
+     */
+    public function getUserInfo($openid,$access_token,$type){
+        switch ($type){
+            case 0:
+                $userinfo_url = sprintf(config('wx.qr_userinfo'), $access_token, $openid);
+                break;
+            case 1:
+                $userinfo_url = sprintf(config('wx.g_userinfo'), $access_token, $openid);
+                break;
+            default:
+                throw new ParameterException([
+                    'msg' => '取值范围不正确！'
+                ]);
+        }
+        $result = curl_get($userinfo_url);
+        $ufResult = json_decode($result, true);
+        if (empty($ufResult))
+        {
+            throw new Exception('微信内部错误');
+        }
+        else
+        {
+            $ufFail = array_key_exists('errcode', $ufResult);
+            if ($ufFail)
+            {
+                $this->processError($ufResult);
+            }
+            else
+            {
+                //请注意，在用户修改微信头像后，旧的微信头像URL将会失效。
+                //因此开发者应该自己在获取用户信息后，将头像图片保存下来，避免微信头像URL失效后的异常情况。
+                $ufResult['avatar'] = downloadImage($ufResult['headimgurl']);
+
+                return $ufResult;
+            }
+        }
+
     }
     /**
      * 微信接口处理异常
