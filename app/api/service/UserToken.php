@@ -22,50 +22,21 @@ use think\Session;
 
 class UserToken extends Token
 {
-    protected $code;
-    protected $wxAppID;
-    protected $wxAppSecret;
-    protected $wxLoginUrl;
+    /**
+     * 第二步：通过code获取access_token等信息
+     * @return string
+     */
+    public function getAppToken($code,$state)
+    {
+        $getAccessToken = new WXOauth();
+        $wxResult = $getAccessToken->getAccessToken($code,$state);
 
-    function __construct($code,$state)
-    {
-        $session_state = Session::get('state');
-        if($session_state != $state){
-            throw new SessionException();
-        }
-        $this->code = $code;
-        $this->wxAppID = config('wx.app_id');
-        $this->wxAppSecret = config('wx.app_secret');
-        $this->wxLoginUrl = sprintf(
-            config('wx.qr_access_token'),
-            $this->wxAppID, $this->wxAppSecret, $this->code);
-    }
-    //第二步：通过code获取access_token等信息
-    public function get()
-    {
-        $result = curl_get($this->wxLoginUrl);
-        $wxResult = json_decode($result, true);
-        if (empty($wxResult))
-        {
-            throw new Exception('微信内部错误');
-        }
-        else
-        {
-            $loginFail = array_key_exists('errcode', $wxResult);
-            if ($loginFail)
-            {
-                $this->processError($wxResult);
-            }
-            else
-            {
-                return $this->grantToken($wxResult);
-            }
-        }
+        return $this->grantToken($wxResult);
     }
 
     /**
      * 给用户签发token
-     *拿到openid,unionid
+     * 拿到openid,unionid
      * 数据库里看一下，这个unionid是不是已经存在
      * 如果存在 则不处理，如果不存在那么新增一条user记录
      * 生成令牌，准备缓存数据，写入缓存
@@ -136,7 +107,7 @@ class UserToken extends Token
         $cachedValue['scope'] = ScopeEnum::User;
         //$cachedValue['scope'] = 16;
 
-        // scope =32 代表CMS（管理员）用户的权限数值
+        // scope =32 代表平台（管理员）用户的权限数值
         //$cachedValue['scope'] = 32;
         return $cachedValue;
     }
@@ -209,7 +180,7 @@ class UserToken extends Token
      * 更新用户登录信息
      * @param $uid
      */
-    private function updateLogin($uid,$device_type = 0)
+    private function updateLogin($uid,$device_type = 1)
     {
         UserModel::update(
             [
@@ -226,17 +197,5 @@ class UserToken extends Token
         );
     }
 
-    /**
-     * 微信接口处理异常
-     * @param $wxResult
-     * @throws WeChatException
-     */
-    private function processError($wxResult)
-    {
-        throw new WeChatException(
-            [
-                'msg' => $wxResult['errmsg'],
-                'errorCode' => $wxResult['errcode']
-            ]);
-    }
+
 }

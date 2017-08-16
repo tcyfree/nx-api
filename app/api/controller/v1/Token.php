@@ -10,7 +10,7 @@ namespace app\api\controller\v1;
 
 
 use app\api\service\AppToken;
-use app\api\service\Code;
+use app\api\service\WXOauth;
 use app\api\service\UserToken;
 use app\api\validate\AppTokenGet;
 use app\api\validate\TokenGet;
@@ -27,22 +27,15 @@ class Token
      */
     public function getCode($type){
         (new Type())->goCheck();
-        $getCodeUri = new Code();
-        switch ($type){
-            case 1:
-                $res = $getCodeUri->getPCCode($type);
-                break;
-            case 2:
-                $res = $getCodeUri->getAppCode($type);
-                break;
-        }
+        $getCodeUri = new WXOauth();
+        $res = $getCodeUri->getCode($type);
 
         return $res;
     }
 
 
     /**
-     * 获取用户Token
+     * 用户获取AppToken
      * @param string $code
      * @param string $state
      * @return array
@@ -50,8 +43,8 @@ class Token
     public function getToken($code = '',$state = '')
     {
         (new TokenGet())->goCheck();
-        $ut = new UserToken($code,$state);
-        $token = $ut->get();
+        $ut = new UserToken();
+        $token = $ut->getAppToken($code,$state);
         return [
           'token'=>$token
         ];

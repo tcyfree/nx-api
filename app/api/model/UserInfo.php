@@ -62,7 +62,18 @@ class UserInfo extends BaseModel
         //所拥有的社群
         $where['user_id'] = $uid;
         $where['type']    = 0;
+        $where['status']  = 0;
         $comIdOwnArray = $CU->where($where)->field('community_id')->select()->toArray();
+
+        //查询上一次次登录时间节点
+        $loginHistory = new LoginHistory();
+        $lastTwicelogin = $loginHistory->where(['user_id' => $uid, 'device_type' => 1])
+            ->order('id desc')
+            ->limit(0,2)
+            ->field('create_time')
+            ->select()
+            ->toArray();
+        var_dump($lastTwicelogin);
         //新增用户
         $newUserNum = 0;
         foreach ($comIdOwnArray as $value){
@@ -70,11 +81,13 @@ class UserInfo extends BaseModel
                              ->whereTime('create_time','>=', $user_last_time)
                              ->count('user_id');
         }
-        echo $newUserNum;
+//        echo $newUserNum;
         //总用户数
         $totalUserNum = 0;
         foreach ($comIdOwnArray as $value){
-            $totalUserNum += $CU->where('community_id',$value['community_id'])
+            $map['community_id'] = $value['community_id'];
+            $map['status']       = ['neq',1];
+            $totalUserNum += $CU->where($map)
                 ->count('user_id');
         }
 
@@ -83,7 +96,7 @@ class UserInfo extends BaseModel
 //        echo $CU->getLastSql();
 //        echo $newUserNum;
         //总用户数
-        exit(1);
+        exit(0);
         return $userInfo->hidden(['wallet','email']);
     }
 

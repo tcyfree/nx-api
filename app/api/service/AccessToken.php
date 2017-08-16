@@ -13,60 +13,26 @@ use think\Exception;
 
 class AccessToken
 {
-    private $tokenUrl;
-    const TOKEN_CACHED_KEY = 'access';
-    const TOKEN_EXPIRE_IN = 7000;
+    protected $code;
+    protected $wxAppID;
+    protected $wxAppSecret;
+    protected $wxLoginUrl;
 
-    function __construct()
-    {
-        $url = config('wx.access_token_url');
-        $url = sprintf($url, config('wx.app_id'), config('wx.app_secret'));
-        $this->tokenUrl = $url;
+    public function qr_access_token($code){
+        $this->code = $code;
+        $this->wxAppID = config('wx.app_id');
+        $this->wxAppSecret = config('wx.app_secret');
+        $this->wxLoginUrl = sprintf(
+            config('wx.qr_access_token'),
+            $this->wxAppID, $this->wxAppSecret, $this->code);
+    }
+    public function g_access_token($code){
+        $this->code = $code;
+        $this->wxAppID = config('wx.app_id');
+        $this->wxAppSecret = config('wx.app_secret');
+        $this->wxLoginUrl = sprintf(
+            config('wx.qr_access_token'),
+            $this->wxAppID, $this->wxAppSecret, $this->code);
     }
 
-    // 建议用户规模小时每次直接去微信服务器取最新的token
-    // 但微信access_token接口获取是有限制的 2000次/天
-    public function get()
-    {
-        $token = $this->getFromCache();
-        if (!$token)
-        {
-            return $this->getFromWxServer();
-        }
-        else
-        {
-            return $token;
-        }
-    }
-
-    private function getFromCache()
-    {
-        $token = cache(self::TOKEN_CACHED_KEY);
-        if ($token)
-        {
-            return $token;
-        }
-        return null;
-    }
-
-
-    private function getFromWxServer()
-    {
-        $token = curl_get($this->tokenUrl);
-        $token = json_decode($token, true);
-        if (!$token)
-        {
-            throw new Exception('获取AccessToken异常');
-        }
-        if (!empty($token['errcode']))
-        {
-            throw new Exception($token['errmsg']);
-        }
-        $this->saveToCache($token);
-        return $token['access_token'];
-    }
-
-    private function saveToCache($token){
-        cache(self::TOKEN_CACHED_KEY, $token, self::TOKEN_EXPIRE_IN);
-    }
 }
