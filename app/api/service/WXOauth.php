@@ -27,23 +27,21 @@ class WXOauth
      * @throws ParameterException
      */
     public function getCode($type){
+        // 赋值（当前作用域）
+        $state = $type.mt_rand(1000,9999);
+        Session::set('state',$state);
+        //回调uri
+        $redirect_uri = urlencode('http://auth.xingdongshe.com/api/v1/token/user');
+
         switch ($type){
             case 1:
                 $wxAppID = config('wx.app_id');
-                $redirect_uri = urlencode('http://auth.xingdongshe.com/api/v1/token/user');
-                // 赋值（当前作用域）
-                $state = $type.mt_rand(1000,9999);
-                Session::set('state',$state);
                 $getCode = sprintf(
                     config('wx.qr_code'),
                     $wxAppID, $redirect_uri, $state);
                 break;
             case 2:
                 $wxAppID = config('wx.g_app_id');
-                $redirect_uri = urlencode('http://auth.xingdongshe.com/api/v1/token/user');
-                // 赋值（当前作用域）
-                $state = $type.mt_rand(1000,9999);
-                Session::set('state',$state);
                 $getCode = sprintf(
                     config('wx.g_code'),
                     $wxAppID, $redirect_uri, $state);

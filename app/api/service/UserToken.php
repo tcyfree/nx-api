@@ -184,10 +184,12 @@ class UserToken extends Token
     {
         UserModel::update(
             [
-            'last_login_ip' => $_SERVER['REMOTE_ADDR'],
-            'last_login_time' => time()
+                'last_login_ip' => $_SERVER['REMOTE_ADDR'],
+                'last_login_time' => time()
             ],
-            ['id' => $uid]
+            [
+                'id' => $uid
+            ]
         );
         LoginHistory::create(
             [
