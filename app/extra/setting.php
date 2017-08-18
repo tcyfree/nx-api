@@ -6,6 +6,6 @@
  * Time: 10:14
  */
 return [
-    'img_prefix' => 'http://nx-xds.com/',
-    'token_expire_in' => 720000
+    'img_prefix' => '',
+    'token_expire_in' => 7200
 ];
