@@ -1,7 +1,7 @@
 {
-"AccessKeyID" : "LTAI5mD4qUwHl0WV",
-"AccessKeySecret" : "0a5SrojQBLsgn7lEw88Prls1uaf1bD",
-"RoleArn" : "acs:ram::1464192604616828:role/aliyunosstokengeneratorrole",
+"AccessKeyID" : "",
+"AccessKeySecret" : "",
+"RoleArn" : "",
 "BucketName" : "",
 "Endpoint" : "",
 "TokenExpireTime" : "900",
