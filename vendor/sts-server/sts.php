@@ -22,6 +22,7 @@
      */
     function sts(){
         $conf = __DIR__.'/config.json';
+
         $content = read_file($conf);
         $myjsonarray = json_decode($content);
 
@@ -44,12 +45,13 @@
         $rows = array();
         $body = $response->getBody();
         $content = json_decode($body);
+
         $rows['status'] = $response->getStatus();
         if ($response->getStatus() == 200)
         {
 //            $rows['AccessKeyId'] = $content->Credentials->AccessKeyId;
 //            $rows['AccessKeySecret'] = $content->Credentials->AccessKeySecret;
-            $rows['Expiration'] = $content->Credentials->Expiration;
+            $rows['Expiration'] = date('Y-m-d H:m:s',strtotime('+8 hour',time($content->Credentials->Expiration)));
             $rows['SecurityToken'] = $content->Credentials->SecurityToken;
         }
         else
