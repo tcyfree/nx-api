@@ -51,17 +51,20 @@ class UserToken extends Token
         $exists = isset($wxResult['unionid']);
         $openid = $wxResult['openid'];
         $access_token = $wxResult['access_token'];
+
         if($exists){
             $unionid = $wxResult['unionid'];
             $user = UserInfoModel::getByOpenID($unionid);
             if($user){
                 $uid = $user->user_id;
-                $this->updateUserInfo($openid,$access_token,$uid);
+
             }
             else{
+
                 $uid = $this->newUser($unionid,$openid,$access_token);
                 $this->updateUserInfo($openid,$access_token,$uid);
             }
+
             $this->updateLogin($uid,0);
         }
         else{
@@ -74,11 +77,12 @@ class UserToken extends Token
             }
             else{
                 $uid = $this->newUser($unionid,$openid,$access_token);
+                //更新用户信息
+                $user  = new UserInfoModel();
+                // 过滤数组中的非数据表字段数据
+                $user->allowField(true)->save($ufResult,['user_id' =>$uid]);
             }
-            //更新用户信息
-            $user  = new UserInfoModel();
-            // 过滤数组中的非数据表字段数据
-            $user->allowField(true)->save($ufResult,['user_id' =>$uid]);
+
             $this->updateLogin($uid,1);
         }
 
