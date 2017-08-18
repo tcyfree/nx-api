@@ -44,9 +44,9 @@ switch(SYS_SERVER_TYPE)
 		define("SYS_ROOT","http://nx-xds.com/");	//定义项目根地址(网络绝对路径)
 		define("SYS_ROOT_URL","/");			//定义项目根地址（本地相对路径）
 		define('DB_HOST', 'localhost');	//数据库服务器主机地址(此处可以使用内网IP提升速度)
-		define('DB_USER', 'nx-xds'); 		//数据库帐号
-		define('DB_PWD', 'Nx-xds2017'); 		//数据库密码
-		define('DB_NAME', 'nx-xds'); 	//数据库名
+		define('DB_USER', ''); 		//数据库帐号
+		define('DB_PWD', ''); 		//数据库密码
+		define('DB_NAME', ''); 	//数据库名
 		break;
 
 	case 2://公司正式服务器
