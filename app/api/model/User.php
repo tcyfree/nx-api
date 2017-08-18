@@ -12,6 +12,7 @@ namespace app\api\model;
 class User extends BaseModel
 {
     protected $autoWriteTimestamp = true;
+    protected $hidden = ['username','password','update_time'];
 
     public static function last_login_time($uid)
     {

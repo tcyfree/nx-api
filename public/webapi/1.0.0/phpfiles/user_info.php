@@ -61,6 +61,21 @@
         <td>头像</td>
         <td width="581"></td>
     </tr>
+    <tr>
+        <td>signature</td>
+        <td>简介</td>
+        <td width="581"></td>
+    </tr>
+    <tr>
+        <td>execution</td>
+        <td>行动力</td>
+        <td width="581"></td>
+    </tr>
+    <tr>
+        <td>number</td>
+        <td>ID</td>
+        <td width="581"></td>
+    </tr>
 
   
 </table>

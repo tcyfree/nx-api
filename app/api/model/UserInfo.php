@@ -15,6 +15,10 @@ class UserInfo extends BaseModel
     protected $autoWriteTimestamp = true;
     protected $hidden = ['create_time','update_time','unionid',];
 
+    public function userBase()
+    {
+        return $this->hasOne('User','id','user_id');
+    }
     public function community()
     {
         return $this->hasMany('CommunityUser','user_id','user_id');
@@ -39,6 +43,22 @@ class UserInfo extends BaseModel
         $user = self::where('unionid', '=', $unionid)
             ->find();
         return $user;
+    }
+    /**
+     * 用户基本信息
+     */
+    public static function userInfo(){
+        $uid = TokenService::getCurrentUid();
+        $userInfo = self::with('userBase')->where('user_id', $uid)->find();
+        $userInfo->hidden(['user.id']);
+        if(!$userInfo){
+            throw new UserException([
+                'msg' => '用户不存在',
+                'errorCode' => 60001
+            ]);
+        }
+
+        return $userInfo;
     }
 
     /**

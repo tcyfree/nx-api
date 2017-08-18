@@ -23,7 +23,7 @@ class User extends BaseController
     ];
     //获取用户信息
     public function getUserInfo(){
-        return UserInfoModel::userCenter();
+        return UserInfoModel::userInfo();
     }
 
 
