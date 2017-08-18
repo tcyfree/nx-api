@@ -15,6 +15,7 @@ class User extends BaseModel
 
     public static function last_login_time($uid)
     {
-        return (self::where('id',$uid)->field('last_login_time')->find()->toArray())['last_login_time'];
+        $arr = (self::where('id',$uid)->field('last_login_time')->find()->toArray());
+        return $arr['last_login_time'];
     }
 }

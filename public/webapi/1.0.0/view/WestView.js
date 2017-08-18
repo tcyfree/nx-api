@@ -31,7 +31,7 @@ Ext.define('WebRoot.view.WestView', {
 							children: [
 								{
 									id: 'user_login',
-									text: '微信扫描登录',
+									text: '微信授权',
 									//cls: 'redStyle',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/client_login.php',
 									leaf: true

@@ -3,7 +3,7 @@
 <script>whbRemoveMask();</script>
 
 <div class="contentDIV">
-<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：微信扫描接口</span></p>
+<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：微信授权接口</span></p>
 <p class="subtitlestyle">（一）服务接口请求地址：</p>
 <table width="90%" border="1" class="dbTable">
   <tr class="td_header">
@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
       <td>GET</td>
-    <td>v1/code</td>
+    <td>v1/code/:type</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>
@@ -24,7 +24,12 @@
     <td width="25%">参数说明</td>
     <td width="52%">备注</td>
     </tr>
-
+    <tr>
+        <td>type</td>
+        <td><p>1 PC扫码授权 </p>
+            <p>2 微信App授权</p></td>
+        <td>&nbsp;</td>
+    </tr>
     
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>
