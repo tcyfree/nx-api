@@ -31,7 +31,7 @@ class WXOauth
         $state = $type.mt_rand(1000,9999);
         Session::set('state',$state);
         //回调uri
-        $redirect_uri = urlencode('http://auth.xingdongshe.com/api/v1/token/user');
+        $redirect_uri = urlencode('http://auth.xingdongshe.com/api/v1/user/token');
 
         switch ($type){
             case 1:
