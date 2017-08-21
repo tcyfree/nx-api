@@ -9,7 +9,7 @@ class BaseModel extends Model
     //PSR-4,PSR-0
     protected function prefixImgUrl ($value,$data){
         $finalUrl = $value;
-        if($data['from'] == 1){
+        if($data['from'] == 0){
             $finalUrl = config('setting.img_prefix').$value;
         }
         return $finalUrl;

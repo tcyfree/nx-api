@@ -29,8 +29,9 @@ class UserInfo extends BaseModel
      * @param $value
      * @return string
      */
-    public function getAvatarAttr($value){
-        return config('setting.img_prefix').$value;
+    public function getAvatarAttr($value,$data){
+
+        return $this->prefixImgUrl($value,$data);
     }
 
     /**
@@ -50,7 +51,7 @@ class UserInfo extends BaseModel
     public static function userInfo(){
         $uid = TokenService::getCurrentUid();
         $userInfo = self::with('userBase')->where('user_id', $uid)->find();
-        $userInfo->hidden(['user.id']);
+        $userInfo->hidden(['user_base.id','from']);
         if(!$userInfo){
             throw new UserException([
                 'msg' => '用户不存在',

@@ -15,6 +15,9 @@ use app\api\model\UserInfo as UserInfoModel;
 use app\api\service\Token as TokenService;
 use app\api\controller\BaseController;
 use app\lib\exception\UserException;
+use app\api\validate\UerInfo as UserInfoValidate;
+use app\lib\exception\SuccessMessage;
+use app\api\model\User as UserModel;
 
 class User extends BaseController
 {
@@ -29,11 +32,33 @@ class User extends BaseController
     public function getUserInfo(){
         return UserInfoModel::userInfo();
     }
+
     /**
+     *
      * 编辑用户信息
+     * @return \think\response\Json
+     * @throws UserException
      */
     public function editUserInfo(){
+        $validate = new UserInfoValidate();
+        $validate->goCheck();
 
+        $uid = TokenService::getCurrentUid();
+        $user = UserModel::get($uid);
+
+        if (!$user)
+        {
+            throw new UserException();
+        }
+
+        $dataArray = $validate->getDataByRule(input('put.'));
+        $dataArray['from'] = 1;
+
+        $userInfo = new UserInfoModel();
+        $userInfo->save($dataArray,['user_id' => $uid]);
+
+//        return $userInfo;
+        return json(new SuccessMessage(), 201);
     }
 
 

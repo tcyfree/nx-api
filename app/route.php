@@ -23,8 +23,9 @@ Route::group('api/:version/wx',function(){
  */
 Route::group('api/:version/user', function(){
     Route::get('/token','api/:version.Token/getToken');
-    Route::get('/token', 'api/:version.Token/deleteToken');
+    Route::delete('/token', 'api/:version.Token/deleteToken');
     Route::get('','api/:version.User/getUserInfo');
+    Route::put('','api/:version.User/editUserInfo');
 });
 
 
@@ -35,7 +36,12 @@ Route::group('api/:version/oss',function(){
     Route::get('/sts','api/:version.OSS/getSecurityToken');
 });
 
-
+/**
+ * Community
+ */
+Route::group('api/:version/community',function(){
+   Route::get('','api/version.Community/');
+});
 
 Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
 Route::post('api/:version/token/app', 'api/:version.Token/getAppToken');
