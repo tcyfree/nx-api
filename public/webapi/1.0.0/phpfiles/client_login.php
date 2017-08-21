@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
       <td>GET</td>
-    <td>v1/code/:type</td>
+    <td>v1/wx/code/:type</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>

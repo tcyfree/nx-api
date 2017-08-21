@@ -10,22 +10,37 @@
 // +----------------------------------------------------------------------
 
 use think\Route;
-//微信,签发Token
-Route::get('api/:version/code/:type','api/:version.Token/getCode');
 
-Route::post('api/:version/user/token', 'api/:version.Token/getToken');
-Route::delete('api/:version/user/token', 'api/:version.Token/deleteToken');
+/**
+ * 微信,签发Token
+ */
+Route::group('api/:version/wx',function(){
+    Route::get('/code/:type','api/:version.Token/getCode');
+});
 
-//OSS
-Route::get('api/:version/oss/sts','api/:version.OSS/getSecurityToken');
+/**
+ * User
+ */
+Route::group('api/:version/user', function(){
+    Route::get('/token','api/:version.Token/getToken');
+    Route::get('/token', 'api/:version.Token/deleteToken');
+    Route::get('','api/:version.User/getUserInfo');
+});
 
-//user
-Route::get('api/:version/user', 'api/:version.User/getUserInfo');
+
+/**
+ * OSS
+ */
+Route::group('api/:version/oss',function(){
+    Route::get('/sts','api/:version.OSS/getSecurityToken');
+});
+
+
 
 Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
 Route::post('api/:version/token/app', 'api/:version.Token/getAppToken');
 
-Route::get('api/:version/banner/:id', 'api/:version.Banner/getBanner');
+Route::get('api/:version/banner/:id', 'api/:version.Banner/getBanner',[], ['id'=>'\d+']);
 
 
 Route::get('api/:version/theme','api/:version.Theme/getSimpleList');
