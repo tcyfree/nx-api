@@ -17,7 +17,7 @@
 | --------------------------------------------------------
 */
 define("SYS_DEBUG_MODE",true);
-define("SYS_SERVER_TYPE",1);//1:本机localhost 2:公司测试机146  3：公司正式服务器 4:客户正式服务器
+define("SYS_SERVER_TYPE",2);//1:本机localhost 2:公司测试机146  3：公司正式服务器 4:客户正式服务器
 define("SYS_GROUP_NAME","group1");//    group1是开发小组名，需要换成你自己的
 define("SYS_UPLOAD_MAX",5);//上传文件最大限制，单位：M（需要php.ini环境支持）
 /*
@@ -50,12 +50,13 @@ switch(SYS_SERVER_TYPE)
 		break;
 
 	case 2://公司正式服务器
-		define("SYS_SERVER_IP","nx-xds.com");	//此处必须是域名
-		define("SYS_ROOT","http://".SYS_SERVER_IP."/".SYS_EN_NAME."/");	//定义项目根地址(网络绝对路径)	
-		define("SYS_ROOT_URL","/".SYS_EN_NAME."/");					//定义项目根地址(本地相对路径)	
-		define('DB_HOST', '127.0.0.1');		//数据库服务器主机地址(此处可以使用内网IP提升速度)
-		define('DB_USER', 'root'); 			//数据库帐号
-		define('DB_PWD', 'XXXX'); 	//数据库密码
+        define("SYS_SERVER_IP","localhost");
+        define("SYS_ROOT","http://auth.xingdongshe.com/");	//定义项目根地址(网络绝对路径)
+        define("SYS_ROOT_URL","/");			//定义项目根地址（本地相对路径）
+        define('DB_HOST', 'localhost');	//数据库服务器主机地址(此处可以使用内网IP提升速度)
+        define('DB_USER', 'nx-xds'); 		//数据库帐号
+        define('DB_PWD', 'Nx-xds2017'); 		//数据库密码
+        define('DB_NAME', 'nx-xds'); 	//数据库名
 		break;
 
 	default:
