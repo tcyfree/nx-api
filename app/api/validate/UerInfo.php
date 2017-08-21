@@ -12,7 +12,7 @@ use app\lib\RexExp;
 class UerInfo extends BaseValidate
 {
     protected $rule = [
-        'avatar'    => 'require|isNotEmpty',
+        'avatar'    => 'require|isNotEmpty|url',
         'nickname'  => 'require|isNotEmpty|justChineseAlphabet',
         'signature' => 'max:30'
     ];
