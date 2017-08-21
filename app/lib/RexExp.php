@@ -24,5 +24,18 @@ class RexExp
         $res = preg_match($pattern, $subject);
         return $res;
     }
+    /**
+     * 仅匹配汉字、大小写字母和数字
+     * @param $subject
+     * @param $min
+     * @param $max
+     * @return int
+     */
+    public static function justChineseW($subject,$min,$max)
+    {
+        $pattern = '/^([\x{4e00}-\x{9fa5}]|\w){'.$min.','.$max.'}$/u';
+        $res = preg_match($pattern, $subject);
+        return $res;
+    }
 
 }
