@@ -9,14 +9,12 @@
 namespace app\api\controller\v1;
 
 
-use app\api\service\AppToken;
-use app\api\service\WXOauth;
+use app\api\service\Token as TokenService;
 use app\api\service\UserToken;
-use app\api\validate\AppTokenGet;
+use app\api\service\WXOauth;
 use app\api\validate\TokenGet;
 use app\api\validate\Type;
 use app\lib\exception\ParameterException;
-use app\api\service\Token as TokenService;
 use think\Session;
 
 class Token

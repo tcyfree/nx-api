@@ -13,13 +13,13 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => '127.0.0.1',
+    'hostname'        => 'rm-2ze125ne5236itso9o.mysql.rds.aliyuncs.com',
     // 数据库名
-    'database'        => 'nx-xds',
+    'database'        => 'ceshi',
     // 用户名
-    'username'        => 'nx-xds',
+    'username'        => 'ceshi',
     // 密码
-    'password'        => 'Nx-xds2017',
+    'password'        => 'Ceshi123',
     // 端口
     'hostport'        => '3306',
     // 连接dsn

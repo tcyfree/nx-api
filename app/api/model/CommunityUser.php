@@ -14,6 +14,7 @@ namespace app\api\model;
 
 class CommunityUser extends BaseModel
 {
+    protected $autoWriteTimestamp = true;
     protected $hidden = ['create_time','update_time'];
     public function community(){
         return $this->hasMany('Community','id','community_id');
