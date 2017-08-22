@@ -17,6 +17,8 @@ use app\api\service\Token as TokenService;
 use app\api\validate\Community as CommunityValidate;
 use app\api\model\Community as CommunityModel;
 use app\api\validate\Type;
+use app\api\validate\UUID;
+use app\lib\exception\CommunityException;
 use app\lib\exception\SuccessMessage;
 use think\exception\Exception;
 use think\Db;
@@ -105,44 +107,18 @@ class Community extends BaseController
     /**
      * 行动社详情
      * @param $id
-     * @return mixed
+     * @return $this
+     * @throws CommunityException
      */
     public function getDetail($id)
     {
-        (new IDMustBePostiveInt())->goCheck();
-        $orderDetail = OrderModel::get($id);
-        if (!$orderDetail)
+        (new UUID())->goCheck();
+        $communityDetail = CommunityModel::detailWithActPlan($id);
+        if (!$communityDetail)
         {
-            throw new OrderException();
+            throw new CommunityException();
         }
-        return $orderDetail
-            ->hidden(['prepay_id']);
+
+        return $communityDetail->hidden(['act_plan.community_id']);
     }
-
-    /**
-     * 获取全部订单简要信息（分页）
-     * @param int $page
-     * @param int $size
-     * @return array
-     * @throws \app\lib\exception\ParameterException
-     */
-    public function getSummary($page=1, $size = 20){
-        (new PagingParameter())->goCheck();
-        $pagingOrders = OrderModel::getSummaryByPage($page, $size);
-        if ($pagingOrders->isEmpty())
-        {
-            return [
-                'current_page' => $pagingOrders->currentPage(),
-                'data' => []
-            ];
-        }
-        $data = $pagingOrders->hidden(['snap_items', 'snap_address'])
-            ->toArray();
-        return [
-            'current_page' => $pagingOrders->currentPage(),
-            'data' => $data
-        ];
-    }
-
-
 }

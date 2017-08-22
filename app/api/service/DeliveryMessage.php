@@ -10,7 +10,7 @@ namespace app\api\service;
 
 
 use app\api\model\User;
-use app\lib\exception\OrderException;
+use app\lib\exception\CommunityException;
 use app\lib\exception\UserException;
 
 class DeliveryMessage extends WxMessage
@@ -20,7 +20,7 @@ class DeliveryMessage extends WxMessage
     public function sendDeliveryMessage($order, $tplJumpPage = '')
     {
         if (!$order) {
-            throw new OrderException();
+            throw new CommunityException();
         }
         $this->tplID = self::DELIVERY_MSG_ID;
         $this->formID = $order->prepay_id;

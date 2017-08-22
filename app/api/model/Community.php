@@ -16,9 +16,19 @@ class Community extends BaseModel
 {
     protected $autoWriteTimestamp = true;
     protected $hidden = ['create_time','update_time','delete_time'];
-    public function community_user(){
-        $this->hasMany('CommunityUser','community_id','id');
+
+    public function actPlan()
+    {
+        return $this->hasMany('ActPlan','community_id','id');
     }
+
+
+    public static function detailWithActPlan($id)
+    {
+        $res = self::with('actPlan')->where('id',$id)->find();
+        return $res;
+    }
+
 
 
 }

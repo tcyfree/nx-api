@@ -16,7 +16,7 @@ use app\api\validate\OrderPlace;
 use app\api\service\Order as OrderService;
 use app\api\model\Order as OrderModel;
 use app\api\validate\PagingParameter;
-use app\lib\exception\OrderException;
+use app\lib\exception\CommunityException;
 use app\lib\exception\SuccessMessage;
 use think\Controller;
 use app\api\service\Token as TokenService;
@@ -106,7 +106,7 @@ class Order extends BaseController
         $orderDetail = OrderModel::get($id);
         if (!$orderDetail)
         {
-            throw new OrderException();
+            throw new CommunityException();
         }
         return $orderDetail
             ->hidden(['prepay_id']);

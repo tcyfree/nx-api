@@ -9,9 +9,9 @@
 namespace app\lib\exception;
 
 
-class OrderException extends BaseException
+class CommunityException extends BaseException
 {
     public $code = 404;
-    public $msg = '订单不存在，请检查ID';
+    public $msg = '行动社不存在，请检查ID';
     public $errorCode = 80000;
 }

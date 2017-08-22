@@ -91,6 +91,12 @@ Ext.define('WebRoot.view.WestView', {
 									text: '行动社列表',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/community_list.php',
 									leaf: true
+								},
+								{
+									id: 'community_detail',
+									text: '行动社详情',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/community_detail.php',
+									leaf: true
 								}
 							]
 						}

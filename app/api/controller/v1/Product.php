@@ -9,11 +9,9 @@
 namespace app\api\controller\v1;
 
 use app\api\model\Product as ProductModel;
-
 use app\api\validate\Count;
 use app\api\validate\IDMustBePostiveInt;
 use app\lib\exception\ProductException;
-use think\Exception;
 
 class Product
 {
