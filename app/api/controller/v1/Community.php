@@ -20,6 +20,7 @@ use app\api\validate\Type;
 use app\api\validate\UUID;
 use app\lib\exception\CommunityException;
 use app\lib\exception\SuccessMessage;
+use app\lib\exception\UpdateNumException;
 use think\exception\Exception;
 use think\Db;
 use app\lib\exception\ParameterException;
@@ -73,7 +74,51 @@ class Community extends BaseController
             Db::rollback();
             throw $ex;
         }
+    }
 
+    /**
+     * 编辑行动社
+     * @param $id
+     * @return \think\response\Json
+     * @throws ParameterException
+     * @throws UpdateNumException
+     * @throws \Exception
+     */
+    public function updateCommunity($id)
+    {
+        (new UUID())->goCheck();
+        $validate = new CommunityValidate();
+        $validate->goCheck();
+
+        $data['user_id'] = TokenService::getCurrentUid();
+        $dataArray = $validate->getDataByRule(input('put.'));
+        $res = CommunityModel::get(['name' => $dataArray['name']]);
+
+        if($res){
+            throw new ParameterException(
+                [
+                    'msg' => "'".$dataArray['name']."'已经存在了！"
+                ]);
+        }
+
+        Db::startTrans();
+        try
+        {
+            CommunityModel::update($dataArray,['id'=>$id]);
+            $result = CommunityModel::get($id)->toArray();
+            if($result['update_num'] == 0){
+                throw new UpdateNumException();
+            }
+            //自减修改次数
+            CommunityModel::where('id',$id)->setDec('update_num');
+
+            return json(new SuccessMessage(), 201);
+        }
+        catch (Exception $ex)
+        {
+            Db::rollback();
+            throw $ex;
+        }
     }
 
     /**
