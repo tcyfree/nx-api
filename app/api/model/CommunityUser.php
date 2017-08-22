@@ -30,6 +30,7 @@ class CommunityUser extends BaseModel
     public static function getSummaryByUser($uid, $type, $page = 1, $size = 15)
     {
         $where['user_id'] = $uid;
+        $where['status']  = ['neq',1];
         $whereOr = [];
         if($type == 2){
             $where['type']    = 0;
