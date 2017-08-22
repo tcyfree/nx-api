@@ -101,6 +101,7 @@ class Community extends BaseController
                 ]);
         }
 
+        //开启事物
         Db::startTrans();
         try
         {
@@ -111,6 +112,7 @@ class Community extends BaseController
             }
             //自减修改次数
             CommunityModel::where('id',$id)->setDec('update_num');
+            Db::commit();
 
             return json(new SuccessMessage(), 201);
         }
@@ -165,5 +167,18 @@ class Community extends BaseController
         }
 
         return $communityDetail->hidden(['act_plan.community_id']);
+    }
+
+    /**
+     * 更新行动社编辑次数为3
+     */
+    public function initUpdateNum()
+    {
+        $date['update_num'] = 3;
+        CommunityModel::update($date,'1 = 1');
+
+        return [
+            'res' => 'ok'
+        ];
     }
 }
