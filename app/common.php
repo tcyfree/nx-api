@@ -122,9 +122,11 @@ function uuid(){
     $uuid .= substr($str,20,12);
     return $uuid;
 }
+
 /**
  * PHP 根据URL将图片下载到本地
  * @param $url
+ * @return string
  */
 function downloadImage($url) {
     $header = array("Connection: Keep-Alive", "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Pragma: no-cache", "Accept-Language: zh-Hans-CN,zh-Hans;q=0.8,en-US;q=0.5,en;q=0.3", "User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:29.0) Gecko/20100101 Firefox/29.0");

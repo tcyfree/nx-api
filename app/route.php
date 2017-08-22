@@ -41,6 +41,7 @@ Route::group('api/:version/oss',function(){
  */
 Route::group('api/:version/community',function(){
    Route::post('','api/:version.Community/createCommunity');
+   Route::get('/:type/:page/:size','api/:version.Community/getSummaryByUser');
 });
 
 

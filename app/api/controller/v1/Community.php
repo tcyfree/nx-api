@@ -16,10 +16,12 @@ use app\api\model\CommunityUser as CommunityUserModel;
 use app\api\service\Token as TokenService;
 use app\api\validate\Community as CommunityValidate;
 use app\api\model\Community as CommunityModel;
+use app\api\validate\Type;
 use app\lib\exception\SuccessMessage;
 use think\exception\Exception;
 use think\Db;
 use app\lib\exception\ParameterException;
+use app\api\validate\PagingParameter;
 
 class Community extends BaseController
 {
@@ -40,7 +42,6 @@ class Community extends BaseController
         $validate->goCheck();
 
         $data['user_id'] = TokenService::getCurrentUid();
-
         $dataArray = $validate->getDataByRule(input('post.'));
 
         $res = CommunityModel::get(['name' => $dataArray['name']]);
@@ -72,24 +73,50 @@ class Community extends BaseController
         }
 
     }
-    public function getSummaryByUser($page = 1, $size = 15)
+
+    /**
+     * 分页获取行动社列表
+     * @param int $page
+     * @param int $size
+     * @return array
+     */
+    public function getSummaryByUser($type,$page = 1, $size = 15)
     {
         (new PagingParameter())->goCheck();
-        $uid = Token::getCurrentUid();
-        $pagingOrders = OrderModel::getSummaryByUser($uid, $page, $size);
-        if ($pagingOrders->isEmpty())
+        (new Type())->goCheck();
+        $uid = TokenService::getCurrentUid();
+        $pagingData = CommunityUserModel::getSummaryByUser($uid, $type, $page, $size);
+
+        if ($pagingData->isEmpty())
         {
             return [
                 'data' => [],
-                'current_page' => $pagingOrders->getCurrentPage()
+                'current_page' => $pagingData->getCurrentPage()
             ];
         }
-        $data = $pagingOrders->hidden(['snap_items', 'snap_address', 'prepay_id'])
+        $data = $pagingData->visible(['community_id','type', 'community.name', 'community.description', 'community.cover_image'])
             ->toArray();
         return [
             'data' => $data,
-            'current_page' => $pagingOrders->getCurrentPage()
+            'current_page' => $pagingData->getCurrentPage()
         ];
+    }
+
+    /**
+     * 行动社详情
+     * @param $id
+     * @return mixed
+     */
+    public function getDetail($id)
+    {
+        (new IDMustBePostiveInt())->goCheck();
+        $orderDetail = OrderModel::get($id);
+        if (!$orderDetail)
+        {
+            throw new OrderException();
+        }
+        return $orderDetail
+            ->hidden(['prepay_id']);
     }
 
     /**
@@ -117,15 +144,5 @@ class Community extends BaseController
         ];
     }
 
-    public function getDetail($id)
-    {
-        (new IDMustBePostiveInt())->goCheck();
-        $orderDetail = OrderModel::get($id);
-        if (!$orderDetail)
-        {
-            throw new OrderException();
-        }
-        return $orderDetail
-            ->hidden(['prepay_id']);
-    }
+
 }
