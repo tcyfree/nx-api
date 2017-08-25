@@ -21,7 +21,9 @@ class IDCollection extends BaseValidate
 
     //ids = id1,id2...
     protected function checkIDs($value){
-        $values = explode(',', $value);
+
+        $data = str_replace('，', ',', $value);
+        $values = explode(',', $data);
         if(empty($values)){
             return false;
         }
