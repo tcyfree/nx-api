@@ -127,6 +127,7 @@ class Community extends BaseController
      * 分页获取行动社列表
      * @param int $page
      * @param int $size
+     * @param int $type
      * @return array
      */
     public function getSummaryByUser($type,$page = 1, $size = 15)

@@ -43,9 +43,19 @@
     <td>行动社编号ID</td>
     <td>&nbsp;</td>
   </tr>
+    <tr>
+        <td>exclusive_ulr</td>
+        <td>行动社专属链接</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>exclusive_ulr</td>
+        <td>行动社专属链接</td>
+        <td>&nbsp;</td>
+    </tr>
   <tr>
-    <td>act_plan.id</td>
-    <td>行动计划ID</td>
+    <td>qr_code</td>
+    <td>二维码</td>
     <td><p>&nbsp;</p></td>
   </tr>
   <tr>
