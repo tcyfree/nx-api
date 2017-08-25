@@ -23,6 +23,7 @@ class CommunityUser extends BaseModel
     /**
      * 根据用户获取行动社分页
      * @param $uid
+     * @param $type
      * @param int $page
      * @param int $size
      * @return \think\Paginator
@@ -42,6 +43,13 @@ class CommunityUser extends BaseModel
             ->paginate($size, true, ['page' => $page]);
 
         return $pagingData;
+    }
+    /**
+     * 行动社成员
+     */
+    public function member()
+    {
+        return $this->belongsTo('UserInfo','user_id','user_id')->order('user_id asc');
     }
 
     /**

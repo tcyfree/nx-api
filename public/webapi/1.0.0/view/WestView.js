@@ -113,7 +113,13 @@ Ext.define('WebRoot.view.WestView', {
 											id: 'allow',
 											text: '是否允许被搜索或被推荐',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/community_allow.php',
-											leaf :true
+											leaf: true
+										},
+										{
+											id: 'members',
+											text: '成员列表',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/members_list.php',
+											leaf: true
 										}
 									]
 								}

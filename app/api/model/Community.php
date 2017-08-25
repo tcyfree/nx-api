@@ -17,18 +17,25 @@ class Community extends BaseModel
     protected $autoWriteTimestamp = true;
     protected $hidden = ['create_time','update_time','delete_time'];
 
+    /**
+     * 行动社下行动计划
+     * @return \think\model\relation\HasMany
+     */
     public function actPlan()
     {
         return $this->hasMany('ActPlan','community_id','id');
     }
 
-
+    /**
+     * 行动社详情
+     * @param $id
+     * @return array|false|\PDOStatement|string|\think\Model
+     */
     public static function detailWithActPlan($id)
     {
         $res = self::with('actPlan')->where('id',$id)->find();
         return $res;
     }
-
 
 
 }

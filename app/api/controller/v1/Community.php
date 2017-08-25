@@ -137,25 +137,18 @@ class Community extends BaseController
         $uid = TokenService::getCurrentUid();
         $pagingData = CommunityUserModel::getSummaryByUser($uid, $type, $page, $size);
 
-        if ($pagingData->isEmpty())
-        {
-            return [
-                'data' => [],
-                'current_page' => $pagingData->getCurrentPage()
-            ];
-        }
         $data = $pagingData->visible(['community_id','type', 'community.name', 'community.description', 'community.cover_image'])
             ->toArray();
         return [
             'data' => $data,
-            'current_page' => $pagingData->getCurrentPage()
+            'current_page' => $pagingData->currentPage()
         ];
     }
 
     /**
      * 行动社详情
      * @param $id
-     * @return $this
+     * @return array|false|\PDOStatement|string|\think\Model
      * @throws CommunityException
      */
     public function getDetail($id)
@@ -199,5 +192,28 @@ class Community extends BaseController
         CommunityModel::update(['status' => $type-1],['id' => $community_id]);
 
         return json(new SuccessMessage(), 201);
+    }
+
+    /**
+     * 成员列表
+     * @param $id
+     * @param $page
+     * @param $size
+     * @return array
+     */
+    public function getMemberList($id,$page = 1, $size = 15)
+    {
+        (new UUID())->goCheck();
+        (new PagingParameter())->goCheck();
+
+        $where['community_id'] = $id;
+        $pagingData = CommunityUserModel::with('member')->where($where)->paginate($size, true, ['page' => $page]);
+
+        $data = $pagingData->visible(['type', 'status', 'member.user_id', 'member.nickname', 'member.avatar'])
+            ->toArray();
+        return [
+            'data' => $data,
+            'current_page' => $pagingData->currentPage()
+        ];
     }
 }
