@@ -53,6 +53,16 @@
         <td>行动社专属链接</td>
         <td>&nbsp;</td>
     </tr>
+    <tr>
+        <td>status</td>
+        <td>行动社状态</td>
+        <td>&nbsp;状态 0 正常 1 冻结 2 封禁</td>
+    </tr>
+    <tr>
+        <td>recommended</td>
+        <td>是否被推荐或搜索</td>
+        <td> 0 推荐 1 不推荐</td>
+    </tr>
   <tr>
     <td>qr_code</td>
     <td>二维码</td>
