@@ -15,4 +15,12 @@ class AuthUser extends BaseModel
 
     protected $hidden = ['create_time','update_time','delete_time'];
 
+    /**
+     * 创建或跟新用户权限
+     */
+    public static function createOrUpdate($data)
+    {
+        $res = self::get(['to_user_id' => $data['to_user_id'],'community_id' => $data['community_id']]);
+    }
+
 }

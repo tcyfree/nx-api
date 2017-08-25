@@ -7,7 +7,7 @@
  */
 
 namespace app\api\service;
-
+use app\lib\exception\ParameterException;
 
 class Community
 {

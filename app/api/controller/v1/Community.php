@@ -237,7 +237,7 @@ class Community extends BaseController
         $data['auth'] = $auth;
         $data['community_id'] = $dataArray['community_id'];
 
-        AuthUserModel::create($data);
+        AuthUserModel::createOrUpdate($data);
         return json(new SuccessMessage(), 201);
     }
 
