@@ -120,6 +120,12 @@ Ext.define('WebRoot.view.WestView', {
 											text: '成员列表',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/members_list.php',
 											leaf: true
+										},
+										{
+											id: 'manager',
+											text: '设置管理员',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/community_manager.php',
+											leaf: true
 										}
 									]
 								}

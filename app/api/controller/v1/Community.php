@@ -12,19 +12,24 @@
 namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
+use app\api\model\AuthUser;
+use app\api\model\AuthUser as AuthUserModel;
+use app\api\model\Community as CommunityModel;
 use app\api\model\CommunityUser as CommunityUserModel;
 use app\api\service\Token as TokenService;
 use app\api\validate\Community as CommunityValidate;
-use app\api\model\Community as CommunityModel;
+use app\api\validate\PagingParameter;
+use app\api\validate\SetManager;
 use app\api\validate\Type;
 use app\api\validate\UUID;
 use app\lib\exception\CommunityException;
+use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
 use app\lib\exception\UpdateNumException;
-use think\exception\Exception;
 use think\Db;
-use app\lib\exception\ParameterException;
-use app\api\validate\PagingParameter;
+use think\exception\Exception;
+use app\api\service\User as UserService;
+use app\api\service\Community as CommunityService;
 
 class Community extends BaseController
 {
@@ -216,4 +221,24 @@ class Community extends BaseController
             'current_page' => $pagingData->currentPage()
         ];
     }
+
+    /**
+     * 设置管理员
+     * @return \think\response\Json
+     */
+    public function setManager()
+    {
+        (new SetManager())->goCheck();
+        $dataArray = input('post.');
+
+        $data['to_user_id'] = UserService::getManagerUser($dataArray['number'],$dataArray['community_id']);
+        $data['from_user_id'] = TokenService::getCurrentUid();
+        $auth = CommunityService::authFilter($dataArray['auth']);
+        $data['auth'] = $auth;
+        $data['community_id'] = $dataArray['community_id'];
+
+        AuthUserModel::create($data);
+        return json(new SuccessMessage(), 201);
+    }
+
 }

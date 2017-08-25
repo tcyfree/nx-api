@@ -46,9 +46,15 @@ class BaseValidate extends Validate
         }
     }
 
-    protected function isPositiveInteger(
-        $value, $rule = '',
-        $data = '', $field = '')
+    /**
+     * 必须是正整数
+     * @param $value
+     * @param string $rule
+     * @param string $data
+     * @param string $field
+     * @return bool
+     */
+    protected function isPositiveInteger($value, $rule = '', $data = '', $field = '')
     {
         if (is_numeric($value) && is_int($value + 0) && ($value + 0) > 0)
         {
@@ -61,6 +67,31 @@ class BaseValidate extends Validate
         }
     }
 
+    /**
+     * 参数必须是以逗号分隔的多个正整数 ids = id1,id2...
+     * @param $value
+     * @return bool
+     */
+    protected function checkIDs($value){
+
+        $data = str_replace('，', ',', $value);
+        $values = explode(',', $data);
+        if(empty($values)){
+            return false;
+        }
+        foreach ($values as $id){
+            if(!$this->isPositiveInteger($id)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 判断是否为电话号码
+     * @param $value
+     * @return bool
+     */
     protected function isMobile($value)
     {
         $rule = '/^1(3|4|5|7|8)\d{9}$/';
@@ -72,6 +103,14 @@ class BaseValidate extends Validate
         }
     }
 
+    /**
+     * 不为空，包括0
+     * @param $value
+     * @param string $rule
+     * @param string $data
+     * @param string $field
+     * @return bool
+     */
     protected function isNotEmpty($value, $rule = '', $data = '', $field = '')
     {
         if (empty($value))
@@ -84,6 +123,12 @@ class BaseValidate extends Validate
         }
     }
 
+    /**
+     * 过滤非法提交参数
+     * @param $arrays
+     * @return array
+     * @throws ParameterException
+     */
     public function getDataByRule($arrays)
     {
         if (array_key_exists('user_id', $arrays) |
