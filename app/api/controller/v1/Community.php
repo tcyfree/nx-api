@@ -178,8 +178,26 @@ class Community extends BaseController
         $date['update_num'] = 3;
         CommunityModel::update($date,'1 = 1');
 
-        return [
-            'res' => 'ok'
-        ];
+        return json(new SuccessMessage(), 201);
+    }
+
+    /**
+     * 允许被搜索和推荐
+     * @param $id
+     * @param $type
+     * @return null|static
+     */
+    public function permitOrRefuse($id,$type)
+    {
+        (new UUID())->goCheck();
+        (new Type())->goCheck();
+
+        $uid = TokenService::getCurrentUid();
+        $res = CommunityUserModel::get(['user_id' => $uid,'community_id' => $id])->toArray();
+        $community_id = $res['community_id'];
+
+        CommunityModel::update(['status' => $type-1],['id' => $community_id]);
+
+        return json(new SuccessMessage(), 201);
     }
 }
