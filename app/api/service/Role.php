@@ -16,8 +16,8 @@ namespace app\api\service;
 
 use app\api\model\CommunityTransfer;
 use app\api\model\CommunityUser;
-use app\lib\exception\SuccessMessage;
 use think\Db;
+use think\Exception;
 
 class Role
 {
@@ -49,8 +49,6 @@ class Role
 
             CommunityUser::update(['type' => 2], ['user_id' => $data['user_id'], 'community_id' => $data['community_id']]);
             Db::commit();
-
-            return json(new SuccessMessage(), 201);
         }
         catch (Exception $ex)
         {

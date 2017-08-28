@@ -29,7 +29,7 @@ use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
 use app\lib\exception\UpdateNumException;
 use think\Db;
-use think\exception\Exception;
+use think\Exception;
 use app\api\service\User as UserService;
 use app\api\service\Community as CommunityService;
 
@@ -255,7 +255,6 @@ class Community extends BaseController
         $dataArray = input('post.');
 
         CommunityTransfer::transfer($dataArray);
-
         return json(new SuccessMessage(), 201);
 
     }

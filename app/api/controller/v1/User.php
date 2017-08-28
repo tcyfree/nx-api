@@ -34,7 +34,6 @@ class User extends BaseController
     }
 
     /**
-     *
      * 编辑用户信息
      * @return \think\response\Json
      * @throws UserException
