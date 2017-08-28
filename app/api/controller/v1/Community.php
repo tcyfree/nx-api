@@ -17,9 +17,11 @@ use app\api\model\AuthUser as AuthUserModel;
 use app\api\model\Community as CommunityModel;
 use app\api\model\CommunityTransfer;
 use app\api\model\CommunityUser as CommunityUserModel;
+use app\api\model\Report as ReportModel;
 use app\api\service\Token as TokenService;
 use app\api\validate\Community as CommunityValidate;
 use app\api\validate\PagingParameter;
+use app\api\validate\Report;
 use app\api\validate\SetManager;
 use app\api\validate\Transfer;
 use app\api\validate\Type;
@@ -259,4 +261,17 @@ class Community extends BaseController
 
     }
 
+    /**
+     * 投诉
+     */
+    public function reportCommunity()
+    {
+        (new Report())->goCheck();
+
+        $data = input('post.');
+
+        ReportModel::createReport($data);
+
+        return json(new SuccessMessage(), 201);
+    }
 }
