@@ -138,6 +138,12 @@ Ext.define('WebRoot.view.WestView', {
 											text: '投诉',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/community_report.php',
 											leaf: true
+										},
+										{
+											id: 'leave',
+											text: '退出行动社',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/community_leave.php',
+											leaf: true
 										}
 									]
 								}

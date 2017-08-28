@@ -17,6 +17,7 @@ use app\api\model\AuthUser as AuthUserModel;
 use app\api\model\Community as CommunityModel;
 use app\api\model\CommunityTransfer;
 use app\api\model\CommunityUser as CommunityUserModel;
+use app\api\model\CommunityUser;
 use app\api\model\Report as ReportModel;
 use app\api\service\Token as TokenService;
 use app\api\validate\Community as CommunityValidate;
@@ -263,6 +264,7 @@ class Community extends BaseController
 
     /**
      * 投诉
+     * @return \think\response\Json
      */
     public function reportCommunity()
     {
@@ -274,4 +276,27 @@ class Community extends BaseController
 
         return json(new SuccessMessage(), 201);
     }
+
+    /**
+     * 退出行动社
+     * 1 创始人不能推出行动社
+     * @param $id
+     * @return \think\response\Json
+     * @throws ParameterException
+     */
+    public function leaveCommunity($id)
+    {
+        (new UUID())->goCheck();
+        $uid = TokenService::getCurrentUid();
+        $community = CommunityUserModel::get(['user_id' => $uid, 'community_id' => $id])->toArray();
+        if($community['type'] == 0){
+            throw new ParameterException([
+                'msg' => '创始人不能退出行动社'
+            ]);
+        }
+
+        CommunityUserModel::update(['status' => 1], ['user_id' => $uid, 'community_id' => $id]);
+        return json(new SuccessMessage(), 201);
+    }
+
 }

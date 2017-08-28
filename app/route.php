@@ -50,6 +50,7 @@ Route::group('api/:version/community',function(){
     Route::post('/manager','api/:version.Community/setManager');
     Route::post('/transfer','api/:version.Community/transferCommunity');
     Route::post('/report','api/:version.Community/reportCommunity');
+    Route::delete('','api/:version.Community/leaveCommunity');
 });
 
 
