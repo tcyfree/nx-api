@@ -7,7 +7,7 @@
  */
 
 namespace app\api\model;
-
+use app\lib\exception\UserException;
 
 class User extends BaseModel
 {
@@ -18,5 +18,25 @@ class User extends BaseModel
     {
         $arr = (self::where('id',$uid)->field('last_login_time')->find()->toArray());
         return $arr['last_login_time'];
+    }
+
+    /**
+     * 根据用户编号ID判断用户是否存在
+     * 返回用户模型
+     * @param $number
+     * @return null|static
+     * @throws UserException
+     */
+    public static function userInfo($number)
+    {
+        $user = self::get(['number' => $number]);
+        if(!$user){
+            throw new UserException([
+                'msg' => '用户不存在',
+                'errorCode' => 60001
+            ]);
+        }
+
+        return $user;
     }
 }
