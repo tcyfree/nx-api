@@ -15,11 +15,13 @@ use app\api\controller\BaseController;
 use app\api\model\AuthUser;
 use app\api\model\AuthUser as AuthUserModel;
 use app\api\model\Community as CommunityModel;
+use app\api\model\CommunityTransfer;
 use app\api\model\CommunityUser as CommunityUserModel;
 use app\api\service\Token as TokenService;
 use app\api\validate\Community as CommunityValidate;
 use app\api\validate\PagingParameter;
 use app\api\validate\SetManager;
+use app\api\validate\Transfer;
 use app\api\validate\Type;
 use app\api\validate\UUID;
 use app\lib\exception\CommunityException;
@@ -240,6 +242,22 @@ class Community extends BaseController
 
         AuthUserModel::createOrUpdate($data);
         return json(new SuccessMessage(), 201);
+    }
+
+    /**
+     * 转让行动社，可以进行多次转让
+     * 1.如果是本行动社管理员/会员，则升级为社长
+     * 2.社长成为该行动社普通会员
+     */
+    public function transferCommunity()
+    {
+        (new Transfer())->goCheck();
+        $dataArray = input('post.');
+
+        CommunityTransfer::transfer($dataArray);
+
+        return json(new SuccessMessage(), 201);
+
     }
 
 }

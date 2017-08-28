@@ -126,6 +126,12 @@ Ext.define('WebRoot.view.WestView', {
 											text: '设置管理员',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/community_manager.php',
 											leaf: true
+										},
+										{
+											id: 'transfer',
+											text: '转让行动社',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/community_transfer.php',
+											leaf: true
 										}
 									]
 								}

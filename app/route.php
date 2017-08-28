@@ -48,6 +48,7 @@ Route::group('api/:version/community',function(){
     Route::get('/:id','api/:version.Community/getDetail');
     Route::get('/member/:id/:page/:size','api/:version.Community/getMemberList');
     Route::post('/manager','api/:version.Community/setManager');
+    Route::post('/transfer','api/:version.Community/transferCommunity');
 });
 
 
