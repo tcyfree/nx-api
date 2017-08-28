@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 
 namespace app\api\service;
-use app\api\model\CommunityUser;
+use app\api\model\CommunityUser as CommunityUserModel;
 use app\api\model\User as UserModel;
 use app\lib\exception\ParameterException;
 use app\lib\exception\UserException;
@@ -18,7 +18,12 @@ use app\lib\exception\UserException;
 class User
 {
     /**
-     * 获取授权人
+     * 获取授权人并判断是否加入此行动社
+     * @param $number
+     * @param $community_id
+     * @return mixed
+     * @throws ParameterException
+     * @throws UserException
      */
     public static function getManagerUser($number,$community_id)
     {
@@ -32,12 +37,18 @@ class User
         $user = $user->toArray();
         $user_id = $user['id'];
 
-        $res = CommunityUser::get(['user_id' => $user_id, 'community_id' => $community_id]);
+        $res = CommunityUserModel::get(['user_id' => $user_id, 'community_id' => $community_id])->toArray();
         if(!$res)
         {
             throw new ParameterException([
                 'msg' => '该用户还未加入本行动社',
-                'errorCode' => 60001
+                'errorCode' => 60002
+            ]);
+        }
+        if($res['type'] == 0)
+        {
+            throw new  ParameterException([
+                'msg' => '自己不能将自己设置为管理员'
             ]);
         }
 

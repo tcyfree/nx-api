@@ -8,14 +8,11 @@
 
 namespace app\api\controller\v1;
 
-use app\api\model\Image;
-use app\api\service\Token;
-use app\api\validate\IDMustBePostiveInt;
 use app\api\model\Banner as BannerModel;
+use app\api\validate\IDMustBePostiveInt;
 use app\lib\exception\BannerMissException;
 use think\Cache;
 use think\Exception;
-use think\Log;
 
 class Banner
 {

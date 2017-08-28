@@ -42,7 +42,10 @@
     <tr>
         <td>auth</td>
         <td>权限值</td>
-        <td>&nbsp;以逗号分隔如：1,2,3,4</td>
+        <td>&nbsp;
+            <p>以逗号分隔如：1,2,3,4</p>
+            <p><font color="#FF0000">如果为空则auth = (''|""),''/""中间不要有空格</font></p>
+        </td>
     </tr>
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>

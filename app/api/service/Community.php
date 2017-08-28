@@ -12,7 +12,7 @@ use app\lib\exception\ParameterException;
 class Community
 {
     /**
-     * 过滤权限值
+     * 校验、过滤重复权限值
      * @param $auth
      * @return string
      * @throws ParameterException
