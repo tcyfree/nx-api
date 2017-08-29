@@ -61,6 +61,12 @@ Route::group('api/:version/plan',function (){
     Route::put('','api/:version.ActPlan/updateActPlan');
 });
 
+/**
+ * Task
+ */
+Route::group('api/:version/task',function (){
+    Route::post('','api/:version.Task/createTask');
+});
 
 
 

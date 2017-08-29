@@ -54,7 +54,7 @@
   </tr>
   <tr>
     <td>getCodeUri</td>
-    <td>微信扫描地址</td>
+    <td>微信授权地址</td>
     <td>&nbsp;</td>
   </tr>
   </table>
