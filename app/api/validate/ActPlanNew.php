@@ -6,13 +6,22 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: tcyfree <1946644259@qq.com>
+// | Author: probe <1946644259@qq.com>
+// +----------------------------------------------------------------------
+// | DateTime: 2017/8/29/9:23
 // +----------------------------------------------------------------------
 
-namespace app\api\model;
+namespace app\api\validate;
 
 
-class Notice extends BaseModel
+class ActPlanNew extends BaseValidate
 {
-
+    protected $rule = [
+        'community_id' => 'require|length:36',
+        'name'         => 'require|max:50',
+        'description'  => 'require|max:140',
+        'cover_image'  => 'require|url',
+        'fee'          => 'require|between:1,49',
+        'mode'         => 'require|in:0,1'
+    ];
 }

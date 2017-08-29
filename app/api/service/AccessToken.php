@@ -9,8 +9,6 @@
 namespace app\api\service;
 
 
-use think\Exception;
-
 class AccessToken
 {
     protected $code;

@@ -53,6 +53,13 @@ Route::group('api/:version/community',function(){
     Route::delete('','api/:version.Community/leaveCommunity');
 });
 
+/**
+ * ActPlan
+ */
+Route::group('api/:version/plan',function (){
+    Route::post('','api/:version.ActPlan/createActPlan');
+});
+
 
 
 

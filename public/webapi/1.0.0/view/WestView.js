@@ -148,6 +148,19 @@ Ext.define('WebRoot.view.WestView', {
 									]
 								}
 							]
+						},
+						{
+							id: 'menu_act_plan',
+							text: '行动计划',
+							expanded: true,
+							children: [
+								{
+									id: 'create',
+									text: '创建行动计划',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/act_plan_create.php',
+									leaf: true
+								}
+							]
 						}
 					]
 			}
