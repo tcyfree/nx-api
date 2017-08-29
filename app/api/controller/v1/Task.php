@@ -18,6 +18,7 @@ use app\api\validate\TaskNew;
 use app\api\service\Token as TokenService;
 use app\api\model\Task as TaskModel;
 use app\api\model\TaskRecord as TaskRecordModel;
+use app\api\validate\TaskUpdate;
 use app\lib\exception\SuccessMessage;
 
 class Task extends BaseController
@@ -41,5 +42,24 @@ class Task extends BaseController
         TaskRecordModel::create($data);
 
         return json(new SuccessMessage(),201);
+    }
+
+    /**
+     * 编辑任务
+     */
+    public function updateTask()
+    {
+        $validate = new TaskUpdate();
+        $validate->goCheck();
+        $data['user_id'] = TokenService::getCurrentUid();
+
+        $dataArray = $validate->getDataByRule(input('put.'));
+        TaskModel::update($dataArray,['id' => $dataArray['id']]);
+
+        $data['task_id'] = $dataArray['id'];
+        $data['type'] = 1;
+        TaskRecordModel::create($data);
+
+        return json(new SuccessMessage(), 201);
     }
 }

@@ -178,6 +178,12 @@ Ext.define('WebRoot.view.WestView', {
 									text: '创建任务',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/task_create.php',
 									leaf: true
+								},
+								{
+									id: 'update',
+									text: '编辑任务',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/task_update.php',
+									leaf: true
 								}
 							]
 						}
