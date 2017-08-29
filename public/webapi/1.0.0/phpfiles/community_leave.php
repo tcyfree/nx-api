@@ -28,13 +28,11 @@
     <td width="598">备注</td>
     </tr>
   <?php require_once ("../include/token.inc.php"); ?>
-  <tr>
     <tr>
         <td>id</td>
         <td width="226">行动社ID</td>
         <td width="598"></td>
     </tr>
-
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>
 <table width="90%" border="1" class="dbTable">
