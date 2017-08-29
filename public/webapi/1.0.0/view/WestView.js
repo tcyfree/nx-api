@@ -15,11 +15,11 @@ Ext.define('WebRoot.view.WestView', {
 			rootVisible: true,
 			root: {
 					text: '根目录',
-					iconCls: 'menuroot',
+					iconCls: 'menu_root',
 					expanded: true,
 					children: [
 						{
-							id: 'menu_errorcode',
+							id: 'menu_error_code',
 							text: '错误编码表',
 							hrefTarget: SYS_API_ROOT + 'phpfiles/error_code.php',
 							leaf: true
@@ -174,13 +174,13 @@ Ext.define('WebRoot.view.WestView', {
 							expanded: true,
 							children: [
 								{
-									id: 'create',
+									id: 'task_create',
 									text: '创建任务',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/task_create.php',
 									leaf: true
 								},
 								{
-									id: 'update',
+									id: 'task_update0',
 									text: '编辑任务',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/task_update.php',
 									leaf: true
