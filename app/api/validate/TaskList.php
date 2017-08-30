@@ -8,32 +8,22 @@
 // +----------------------------------------------------------------------
 // | Author: probe <1946644259@qq.com>
 // +----------------------------------------------------------------------
-// | DateTime: 2017/8/29/14:08
+// | DateTime: 2017/8/30/9:51
 // +----------------------------------------------------------------------
 
-namespace app\api\model;
+namespace app\api\validate;
 
 
-use think\Paginator;
-
-class Task extends BaseModel
+class TaskList extends BaseValidate
 {
-    protected $autoWriteTimestamp = true;
+    protected $rule = [
+        'id'   => 'length:36',
+        'page' => 'isPositiveInteger',
+        'size' => 'isPositiveInteger'
+    ];
 
-    /**
-     * @param $id
-     * @param $page
-     * @param $size
-     * @return Paginator
-     */
-    public static function getSummaryList($id, $page, $size)
-    {
-        $where['act_plan_id'] = $id;
-        $where['release'] = 1;
-        $pagingData = self::where($where)
-            ->order('create_time asc')
-            ->paginate($size, true, ['page' => $page]);
-
-        return $pagingData;
-    }
+    protected $message = [
+        'page' => '分页参数必须是正整数',
+        'size' => '分页参数必须是正整数'
+    ];
 }

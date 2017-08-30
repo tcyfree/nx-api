@@ -67,6 +67,7 @@ Route::group('api/:version/plan',function (){
 Route::group('api/:version/task',function (){
     Route::post('','api/:version.Task/createTask');
     Route::put('','api/:version.Task/updateTask');
+    Route::get('/:id/:page/:size', 'api/:version.Task/getSummaryList');
 });
 
 

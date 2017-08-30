@@ -14,6 +14,7 @@
 namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
+use app\api\validate\TaskList;
 use app\api\validate\TaskNew;
 use app\api\service\Token as TokenService;
 use app\api\model\Task as TaskModel;
@@ -61,5 +62,25 @@ class Task extends BaseController
         TaskRecordModel::create($data);
 
         return json(new SuccessMessage(), 201);
+    }
+
+    /**
+     * 任务列表
+     * @param $id
+     * @param int $page
+     * @param int $size
+     * @return array
+     */
+    public function getSummaryList($id,$page = 1, $size = 15)
+    {
+        (new TaskList())->goCheck();
+
+        $pagingData = TaskModel::getSummaryList($id, $page, $size);
+        $data = $pagingData->visible(['id','name'])
+            ->toArray();
+        return [
+            'data' => $data,
+            'current_page' => $pagingData->currentPage()
+        ];
     }
 }
