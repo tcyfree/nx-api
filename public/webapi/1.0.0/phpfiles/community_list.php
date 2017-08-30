@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
       <td>GET</td>
-    <td>community/user/:type/:page/:size</td>
+    <td>v1/community/:type/:page/:size</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>
