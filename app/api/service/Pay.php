@@ -53,7 +53,7 @@ class Pay
 
     private function makeWxPreOrder($totalPrice)
     {
-        //openid
+        //openid:通过令牌来换取openid
         $openid = Token::getCurrentTokenVar('openid');
         if (!$openid)
         {
