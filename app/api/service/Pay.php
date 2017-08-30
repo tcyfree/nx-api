@@ -19,6 +19,8 @@ use think\Loader;
 use think\Log;
 
 //   extend/WxPay/WxPay.Api.php
+//  类库导入：如果你不需要系统的自动加载功能，又或者没有使用命名空间的话，那么也可以使用think\Loader类的import方法手动加载类库文件
+//  extend目录比较特别，如果有命名空间的话，TP5会自动加载类库
 Loader::import('WxPay.WxPay', EXTEND_PATH, '.Api.php');
 
 class Pay
