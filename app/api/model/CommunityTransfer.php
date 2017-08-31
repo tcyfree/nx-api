@@ -40,7 +40,7 @@ class CommunityTransfer extends BaseModel
                 'msg' => '自己不能转让给自己'
             ]);
         }
-        //非创始人不能转让行动社
+        //非社长不能转让行动社
         $res = CommunityUser::get(['user_id' => $uid, 'community_id' => $dataArray['community_id']])->toArray();
         if($res['type'] != 0){
             throw new ForbiddenException();

@@ -246,7 +246,7 @@ DROP TABLE IF EXISTS `xds_community_user`;
 CREATE TABLE `xds_community_user` (
   `community_id` char(36) NOT NULL DEFAULT '0' COMMENT '所属行动社群ID',
   `user_id` char(36) NOT NULL DEFAULT '0' COMMENT '所有者ID(用户ID)',
-  `type` enum('0','1','2') NOT NULL DEFAULT '2' COMMENT '关联类型 0 创始人 1 管理员 2 成员',
+  `type` enum('0','1','2') NOT NULL DEFAULT '2' COMMENT '关联类型 0 社长 1 管理员 2 成员',
   `msg_only_admin` enum('0','1') NOT NULL DEFAULT '0' COMMENT '只接受管理员私信 0=关闭，1=开启。',
   `status` enum('0','1','2') NOT NULL DEFAULT '0' COMMENT '0 未退群 1 已退群 2被暂停成员资格',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '加入时间',

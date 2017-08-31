@@ -279,7 +279,7 @@ class Community extends BaseController
 
     /**
      * 退出行动社
-     * 1 创始人不能推出行动社
+     * 1 社长不能退出行动社
      * @param $id
      * @return \think\response\Json
      * @throws ParameterException
@@ -291,7 +291,7 @@ class Community extends BaseController
         $community = CommunityUserModel::get(['user_id' => $uid, 'community_id' => $id])->toArray();
         if($community['type'] == 0){
             throw new ParameterException([
-                'msg' => '创始人不能退出行动社'
+                'msg' => '社长不能退出行动社'
             ]);
         }
 

@@ -25,7 +25,7 @@ class Role
      * 1 转让行动社
      * 2 角色转换
      * 2.1 果不是本行动社成员，则创建一条记录。否则更新其行动社关联属性
-     * 2.2 将创始人变成普通成员
+     * 2.2 将社长变成普通成员
      * @param $data
      * @return \think\response\Json
      * @throws \Exception
