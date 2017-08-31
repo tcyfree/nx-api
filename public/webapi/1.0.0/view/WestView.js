@@ -192,6 +192,19 @@ Ext.define('WebRoot.view.WestView', {
 									leaf: true
 								}
 							]
+						},
+						{
+							id: 'menu_wallet',
+							text: '我的钱包',
+							expanded: true,
+							children: [
+								{
+									id: 'create_order',
+									text: '创建订单',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/wallet_create_order.php',
+									leaf: true
+								}
+							]
 						}
 					]
 			}

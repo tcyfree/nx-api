@@ -70,6 +70,13 @@ Route::group('api/:version/task',function (){
     Route::get('/:id/:page/:size', 'api/:version.Task/getSummaryList');
 });
 
+/**
+ * Wallet
+ */
+Route::group('api/:version/wallet',function (){
+    Route::post('/order','api/:version.Recharge/createWXOrder');
+});
+
 
 
 

@@ -12,14 +12,11 @@ namespace app\lib\enum;
 class OrderStatusEnum
 {
     // 待支付
-    const UNPAID = 1;
+    const UNPAID = 0;
 
     // 已支付
-    const PAID = 2;
+    const PAID =1;
 
-    // 已发货
-    const DELIVERED = 3;
-
-    // 已支付，但库存不足
-    const PAID_BUT_OUT_OF = 4;
+    // 已支付，但人数已满
+    const PAID_BUT_OUT_OF = 2;
 }
