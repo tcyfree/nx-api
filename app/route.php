@@ -75,6 +75,7 @@ Route::group('api/:version/task',function (){
  */
 Route::group('api/:version/wallet',function (){
     Route::post('/order','api/:version.Recharge/createWXOrder');
+    Route::put('/order','api/:version.Recharge/getPreOrder');
 });
 
 

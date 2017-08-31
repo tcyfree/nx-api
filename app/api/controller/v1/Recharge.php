@@ -15,6 +15,7 @@ namespace app\api\controller\v1;
 
 
 use app\api\model\Recharge as RechargeModel;
+use app\api\validate\PreOrder;
 use app\api\validate\RechargeWx;
 use app\api\service\Recharge as RechargeService;
 use app\api\validate\IDMustBePostiveInt;
@@ -44,7 +45,7 @@ class Recharge extends BaseController
      */
     public function getPreOrder($id = '')
     {
-        (new IDMustBePostiveInt())->goCheck();
+        (new PreOrder())->goCheck();
         $pay = new RechargeService($id);
         return $pay->pay();
     }
