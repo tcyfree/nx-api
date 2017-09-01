@@ -115,6 +115,7 @@ class Order extends BaseController
     public function placeOrder()
     {
         (new OrderPlace())->goCheck();
+        //****/a 获取数组参数
         $products = input('post.products/a');
         $uid = TokenService::getCurrentUid();
 

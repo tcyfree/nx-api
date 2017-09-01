@@ -12,7 +12,7 @@ namespace app\api\service;
 use app\api\model\Order as OrderModel;
 use app\api\service\Order as OrderService;
 use app\lib\enum\OrderStatusEnum;
-use app\lib\exception\OrderException;
+use app\lib\exception\CommunityException;
 use app\lib\exception\TokenException;
 use think\Exception;
 use think\Loader;
@@ -21,7 +21,7 @@ use think\Log;
 //   extend/WxPay/WxPay.Api.php
 //  类库导入：如果你不需要系统的自动加载功能，又或者没有使用命名空间的话，那么也可以使用think\Loader类的import方法手动加载类库文件
 //  extend目录比较特别，如果有命名空间的话，TP5会自动加载类库
-Loader::import('WxPay.lib.WxPay', EXTEND_PATH, '.Api.php');
+Loader::import('WxPay.WxPay', EXTEND_PATH, '.Api.php');
 
 class Pay
 {
@@ -120,7 +120,7 @@ class Pay
             ->find();
         if (!$order)
         {
-            throw new OrderException();
+            throw new CommunityException();
         }
         if (!Token::isValidOperate($order->user_id))
         {
@@ -132,7 +132,7 @@ class Pay
         }
         if ($order->status != OrderStatusEnum::UNPAID)
         {
-            throw new OrderException(
+            throw new CommunityException(
                 [
                     'msg' => '订单已支付过啦',
                     'errorCode' => 80003,
