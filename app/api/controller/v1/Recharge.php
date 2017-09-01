@@ -14,12 +14,11 @@
 namespace app\api\controller\v1;
 
 
+use app\api\controller\BaseController;
 use app\api\model\Recharge as RechargeModel;
+use app\api\service\Recharge as RechargeService;
 use app\api\validate\PreOrder;
 use app\api\validate\RechargeWx;
-use app\api\service\Recharge as RechargeService;
-use app\api\validate\IDMustBePostiveInt;
-use app\api\controller\BaseController;
 
 class Recharge extends BaseController
 {

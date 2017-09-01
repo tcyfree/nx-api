@@ -12,8 +12,11 @@
 namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
+use think\Loader;
 
-require_once (__DIR__.'/../../../../vendor/sts-server/sts.php');
+//require_once (__DIR__.'/../../../../vendor/sts-server/sts.php');
+
+Loader::import('sts-server.sts', EXTEND_PATH, '.php');
 
 class OSS extends BaseController
 {
