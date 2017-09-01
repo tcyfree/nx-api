@@ -162,7 +162,7 @@ class Recharge
         $rawValues = $jsApiPayData->GetValues();
         $rawValues['paySign'] = $sign;
 
-        unset($rawValues['appId']);
+//        unset($rawValues['appId']);
 
         return $rawValues;
     }

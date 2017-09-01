@@ -51,7 +51,11 @@
                 <td width="27%">参数说明</td>
                 <td width="57%">备注</td>
             </tr>
-
+            <tr>
+                <td>网页端接口参数列表</td>
+                <td>参考微信字段</td>
+                <td><a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&index=6" target="_blank">微信内H5调起支付</a> </td>
+            </tr>
         </table>
         <p>&nbsp;</p>
     </div>
