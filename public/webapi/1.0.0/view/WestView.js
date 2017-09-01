@@ -29,19 +29,19 @@ Ext.define('WebRoot.view.WestView', {
 							text: '用户相关',
 							expanded: true,
 							children: [
-								{
-									id: 'user_login',
-									text: '微信授权',
-									//cls: 'redStyle',
-									hrefTarget: SYS_API_ROOT + 'phpfiles/client_login.php',
-									leaf: true
-								},
-								{
-									id: 'user_token',
-									text: '获取token',
-									hrefTarget: SYS_API_ROOT + 'phpfiles/user_token.php',
-									leaf: true
-								},
+                                // {
+                                //     id: 'user_login',
+                                //     text: '微信授权',
+                                //     //cls: 'redStyle',
+                                //     hrefTarget: SYS_API_ROOT + 'phpfiles/client_login.php',
+                                //     leaf: true
+                                // },
+                                // {
+									// id: 'user_token',
+									// text: '获取token',
+									// hrefTarget: SYS_API_ROOT + 'phpfiles/user_token.php',
+									// leaf: true
+                                // },
 								{
 									id: 'user_info',
 									text: '用户信息',

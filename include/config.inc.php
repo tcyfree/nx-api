@@ -51,7 +51,7 @@ switch(SYS_SERVER_TYPE)
 
 	case 2://公司正式服务器
         define("SYS_SERVER_IP","localhost");
-        define("SYS_ROOT","http://auth.xingdongshe.com/");	//定义项目根地址(网络绝对路径)
+        define("SYS_ROOT","http://api.xingdongshe.com/");	//定义项目根地址(网络绝对路径)
         define("SYS_ROOT_URL","/");			//定义项目根地址（本地相对路径）
         define('DB_HOST', 'localhost');	//数据库服务器主机地址(此处可以使用内网IP提升速度)
         define('DB_USER', 'nx-xds'); 		//数据库帐号

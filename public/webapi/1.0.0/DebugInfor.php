@@ -11,7 +11,7 @@
     }
     ?>
         <span class="titlestyle">  【接口说明】</span></p>
-      <span class="subtitlestyle">1、项目根地址：</span><span class="inforstyle">[sys_web_service] =<?php echo SYS_ROOT."api/"?> </span>(该常量请务必配置在客户端，作为其他服务接口的前缀)
+      <span class="subtitlestyle">1、项目根地址：</span><span class="inforstyle">[sys_web_service] =<?php echo SYS_ROOT?> </span>(该常量请务必配置在客户端，作为其他服务接口的前缀)
 <!--      <p class="inforstyle">特别注意：正式测试时需要换成客户所提供服务器的公网IP地址或域名（我方正式服务器的IP地址为：xxx.xxx.xxx.xxx）</p>-->
 <!--      <p><span class="subtitlestyle">2、项目 logo 图片固定访问地址为：</span><span class="inforstyle">[sys_root]public/images/logo.png </span>(帖子分享等模块会使用，尺寸 120*120)</p>-->
 <!--      <p><span class="subtitlestyle">3、项目 init 初始化固定访问地址为：</span><span class="inforstyle">[sys_root]webservice/index/init</span>（不含版本号）</p>-->

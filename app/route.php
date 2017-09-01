@@ -10,18 +10,10 @@
 // +----------------------------------------------------------------------
 
 use think\Route;
-
-/**
- * 微信,签发Token
- */
-Route::group('api/:version/wx',function(){
-    Route::get('/code/:type','api/:version.Token/getCode');
-});
-
 /**
  * User
  */
-Route::group('api/:version/user', function(){
+Route::group(':version/user', function(){
     Route::get('/token','api/:version.Token/getToken');
     Route::delete('/token', 'api/:version.Token/deleteToken');
     Route::get('','api/:version.User/getUserInfo');
@@ -32,14 +24,14 @@ Route::group('api/:version/user', function(){
 /**
  * OSS
  */
-Route::group('api/:version/oss',function(){
+Route::group(':version/oss',function(){
     Route::get('/sts','api/:version.OSS/getSecurityToken');
 });
 
 /**
  * Community
  */
-Route::group('api/:version/community',function(){
+Route::group(':version/community',function(){
     Route::post('','api/:version.Community/createCommunity');
     Route::put('/allow','api/:version.Community/permitOrRefuse');
     Route::put('/init','api/:version.Community/initUpdateNum');
@@ -56,7 +48,7 @@ Route::group('api/:version/community',function(){
 /**
  * ActPlan
  */
-Route::group('api/:version/plan',function (){
+Route::group(':version/plan',function (){
     Route::post('','api/:version.ActPlan/createActPlan');
     Route::put('','api/:version.ActPlan/updateActPlan');
 });
@@ -64,7 +56,7 @@ Route::group('api/:version/plan',function (){
 /**
  * Task
  */
-Route::group('api/:version/task',function (){
+Route::group(':version/task',function (){
     Route::post('','api/:version.Task/createTask');
     Route::put('','api/:version.Task/updateTask');
     Route::get('/:id/:page/:size', 'api/:version.Task/getSummaryList');
@@ -73,7 +65,7 @@ Route::group('api/:version/task',function (){
 /**
  * Wallet
  */
-Route::group('api/:version/wallet',function (){
+Route::group(':version/wallet',function (){
     Route::post('/order','api/:version.Recharge/createWXOrder');
     Route::put('/order','api/:version.Recharge/getPreOrder');
     Route::post('/re_notify', 'api/:version.Recharge/redirectNotify');
