@@ -174,6 +174,6 @@ class Recharge
     private function recordPreOrder($wxOrder)
     {
         RechargeModel::where('out_trade_no', '=', $this->orderNO)
-            ->update(['prepay_id' => $wxOrder['prepay_id']]);
+            ->update(['prepay_id' => $wxOrder['prepay_id'],'update_time' => time()]);
     }
 }
