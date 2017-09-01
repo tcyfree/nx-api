@@ -19,6 +19,7 @@ use app\api\model\Recharge as RechargeModel;
 use app\api\service\Recharge as RechargeService;
 use app\api\validate\PreOrder;
 use app\api\validate\RechargeWx;
+use app\api\service\WxNotify;
 
 class Recharge extends BaseController
 {
