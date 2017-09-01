@@ -56,6 +56,7 @@ class Pay extends BaseController
 //        $notify = new WxNotify();
 //        $notify->Handle();
 
+        //接口转发！！！！！
         $xmlData = file_get_contents('php://input');
         $result = curl_post_raw('http:/z.cn/api/v1/pay/re_notify?XDEBUG_SESSION_START=13322',
             $xmlData);
