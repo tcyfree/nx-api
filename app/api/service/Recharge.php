@@ -142,7 +142,7 @@ class Recharge
     }
 
     /**
-     * 签名
+     * 签名，在一定程度保护参数不被篡改
      * @param $wxOrder
      * @return array
      */
