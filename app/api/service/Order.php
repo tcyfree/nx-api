@@ -15,7 +15,7 @@ use app\api\model\UserAddress;
 use app\api\model\Order as OrderModel;
 use app\api\validate\OrderPlace;
 use app\lib\enum\OrderStatusEnum;
-use app\lib\exception\CommunityException;
+use app\lib\exception\OrderException;
 use app\lib\exception\UserException;
 use think\Db;
 use think\Exception;
@@ -206,7 +206,7 @@ class Order
         if ($pIndex == -1)
         {
             // 客户端传递的product_id有可能根本不存在
-            throw new CommunityException(
+            throw new OrderExceptionException(
                 [
                     'msg' => 'id为' . $oPID . '的商品不存在，创建订单失败'
                 ]);
@@ -252,10 +252,10 @@ class Order
         $order = OrderModel::where('id', '=', $orderID)
             ->find();
         if (!$order) {
-            throw new CommunityException();
+            throw new OrderExceptionException();
         }
         if ($order->status != OrderStatusEnum::PAID) {
-            throw new CommunityException([
+            throw new OrderExceptionException([
                 'msg' => '还没付款呢，想干嘛？或者你已经更新过订单了，不要再刷了',
                 'errorCode' => 80002,
                 'code' => 403
