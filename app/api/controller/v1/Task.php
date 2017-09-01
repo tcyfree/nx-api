@@ -14,6 +14,7 @@
 namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
+use app\api\model\ActPlanUser;
 use app\api\validate\TaskList;
 use app\api\validate\TaskNew;
 use app\api\service\Token as TokenService;
@@ -75,9 +76,15 @@ class Task extends BaseController
     {
         (new TaskList())->goCheck();
 
+        $uid = TokenService::getCurrentUid();
         $pagingData = TaskModel::getSummaryList($id, $page, $size);
         $data = $pagingData->visible(['id','name'])
             ->toArray();
+        $res = ActPlanUser::get(['act_plan_id' => $id, 'user_id' => $uid]);
+        $data['flag'] = 0;
+        if ($res){
+            $data['flag'] = 1;
+        }
         return [
             'data' => $data,
             'current_page' => $pagingData->currentPage()

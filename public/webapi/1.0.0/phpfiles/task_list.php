@@ -48,6 +48,11 @@
         <td>任务名称</td>
         <td></td>
     </tr>
+    <tr>
+        <td>flag</td>
+        <td>0 未参加 1 已参加</td>
+        <td></td>
+    </tr>
 </table>
 <p>&nbsp;</p>
 </div>
