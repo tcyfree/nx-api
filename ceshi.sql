@@ -1,5 +1,5 @@
 ﻿# Host: rm-2ze125ne5236itso9o.mysql.rds.aliyuncs.com  (Version: 5.6.34)
-# Date: 2017-08-31 10:04:13
+# Date: 2017-09-01 18:51:35
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES utf8 */;
@@ -48,7 +48,7 @@ CREATE TABLE `xds_act_plan_user` (
   `user_id` char(36) NOT NULL DEFAULT '' COMMENT '联合主键，执行用户ID',
   `mode` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 普通模式 1 挑战者模式',
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '参加时间',
-  PRIMARY KEY (`act_plan_id`,`user_id`)
+  KEY `user_id` (`user_id`,`act_plan_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行动计划 用户对应表';
 
 #
@@ -256,6 +256,38 @@ CREATE TABLE `xds_community_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='社群用户对应表';
 
 #
+# Structure for table "xds_income_expenses"
+#
+
+DROP TABLE IF EXISTS `xds_income_expenses`;
+CREATE TABLE `xds_income_expenses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `act_plan_id` char(36) NOT NULL DEFAULT '' COMMENT '行动计划ID',
+  `order_no` varchar(20) NOT NULL COMMENT '订单号',
+  `fee` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '消费金额',
+  `mode` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 普通 1 挑战模式',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '计划名称',
+  `create_time` int(11) NOT NULL DEFAULT '0',
+  `update_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `order_no` (`order_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='收支明细交易表';
+
+#
+# Structure for table "xds_income_expenses_user"
+#
+
+DROP TABLE IF EXISTS `xds_income_expenses_user`;
+CREATE TABLE `xds_income_expenses_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` char(36) NOT NULL DEFAULT '' COMMENT '用户ID',
+  `ie_id` int(11) unsigned DEFAULT '0' COMMENT '收支明细表ID',
+  `type` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 支出 1 收入',
+  `create_time` int(10) NOT NULL DEFAULT '0' COMMENT '交易时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='收支对应用户表';
+
+#
 # Structure for table "xds_login_history"
 #
 
@@ -267,7 +299,7 @@ CREATE TABLE `xds_login_history` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录时间',
   PRIMARY KEY (`Id`),
   KEY `user_id` (`user_id`,`device_type`,`create_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户登录记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户登录记录表';
 
 #
 # Structure for table "xds_notice"
@@ -293,14 +325,16 @@ CREATE TABLE `xds_notice` (
 
 DROP TABLE IF EXISTS `xds_recharge`;
 CREATE TABLE `xds_recharge` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '充值用户ID',
-  `order_no` varchar(255) NOT NULL DEFAULT '' COMMENT '订单号',
-  `amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '充值金额',
-  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '充值时间',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` char(36) NOT NULL DEFAULT '0' COMMENT '充值用户ID',
+  `total_fee` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '充值金额',
   `out_trade_no` varchar(32) NOT NULL DEFAULT '' COMMENT '系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。',
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='充值表';
+  `prepay_id` varchar(100) DEFAULT NULL COMMENT '订单微信支付的预订单id（用于发送模板消息）',
+  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0：未支付  1：已支付',
+  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '订单创建时间',
+  `update_time` int(10) NOT NULL DEFAULT '0' COMMENT '更新订单状态时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='充值表';
 
 #
 # Structure for table "xds_report"
