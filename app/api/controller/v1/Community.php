@@ -193,8 +193,10 @@ class Community extends BaseController
         {
             throw new CommunityException();
         }
+        $data = $communityDetail->hidden(['act_plan.community_id']);
+        CommunityService::getUserStatus($data);
 
-        return $communityDetail->hidden(['act_plan.community_id']);
+        return $data;
     }
 
     /**

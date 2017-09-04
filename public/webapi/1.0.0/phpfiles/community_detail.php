@@ -78,6 +78,11 @@
     <td>内含任务总数</td>
     <td>&nbsp;</td>
   </tr>
+    <tr>
+        <td>user_status</td>
+        <td>2 被管理员暂停成员资格</td>
+        <td>&nbsp;</td>
+    </tr>
 
  
 </table>

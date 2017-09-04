@@ -7,11 +7,10 @@
  */
 
 namespace app\api\service;
-use app\lib\exception\ParameterException;
 use app\api\model\ActPlanUser as ActPlanUserModel;
-use app\api\service\Token as TokenService;
-use think\Exception;
 use app\api\model\CommunityUser as CommunityUserModel;
+use app\api\service\Token as TokenService;
+use app\lib\exception\ParameterException;
 
 class Community
 {
@@ -81,5 +80,17 @@ class Community
 
         }
         return $data;
+    }
+
+    public static function getUserStatus($data)
+    {
+        $uid = TokenService::getAnyhowUid();
+        $res = CommunityUserModel::get(['user_id' => $uid, 'community_id' => $data['id']]);
+        if($res['status'] == 1){
+            throw new ParameterException([
+                'msg' => '该成员已退群'
+            ]);
+        }
+        return $data['user_status'] = $res['status'];
     }
 }
