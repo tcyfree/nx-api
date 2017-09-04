@@ -77,7 +77,27 @@ class Token
         return $uid;
     }
 
-    // 需要用户和CMS管理员都可以访问的权限
+    /**
+     * 游客和用户同时查看的接口返回用户uuid
+     * @return int
+     */
+    public static function getAnyhowUid()
+    {
+        try{
+            $uid = TokenService::getCurrentUid();
+        }catch (Exception $ex)
+        {
+            $uid = 0;
+        }
+
+        return $uid;
+    }
+    /**
+     * 需要用户和CMS管理员都可以访问的权限
+     * @return bool
+     * @throws ForbiddenException
+     * @throws TokenException
+     */
     public static function needPrimaryScope()
     {
         $scope = self::getCurrentTokenVar('scope');
@@ -98,7 +118,12 @@ class Token
         }
     }
 
-    // 只有用户才能访问的接口权限
+    /**
+     * 只有用户才能访问的接口权限
+     * @return bool
+     * @throws ForbiddenException
+     * @throws TokenException
+     */
     public static function needExclusiveScope()
     {
         $scope = self::getCurrentTokenVar('scope');
