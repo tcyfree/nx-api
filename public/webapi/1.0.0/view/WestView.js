@@ -146,6 +146,19 @@ Ext.define('WebRoot.view.WestView', {
 											leaf: true
 										}
 									]
+								},
+								{
+									id: 'menu_recommend',
+									text: '推荐行动社',
+									expanded: true,
+									children: [
+										{
+											id: 'recommend_list',
+											text: '推荐列表',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/recommend_list.php',
+											leaf: true
+										}
+									]
 								}
 							]
 						},

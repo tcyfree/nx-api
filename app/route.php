@@ -36,6 +36,7 @@ Route::group(':version/community',function(){
     Route::put('/allow','api/:version.Community/permitOrRefuse');
     Route::put('/init','api/:version.Community/initUpdateNum');
     Route::put('/:id','api/:version.Community/updateCommunity');
+    Route::get('/recommend/:page/:size','api/:version.Community/getRecommendSummary');
     Route::get('/:type/:page/:size','api/:version.Community/getSummaryByUser');
     Route::get('/:id','api/:version.Community/getDetail');
     Route::get('/member/:id/:page/:size','api/:version.Community/getMemberList');

@@ -37,5 +37,24 @@ class Community extends BaseModel
         return $res;
     }
 
+    /**
+     * 获取推荐行动社分页
+     * @param int $page
+     * @param int $size
+     * @return \think\Paginator
+     */
+    public static function getSummaryList($page = 1, $size = 15)
+    {
+        $where['recommended'] = 1;
+        $where['status'] = 0;
+
+        $pagingData = self::where($where)
+            ->order('create_time desc')
+            ->paginate($size, true, ['page' => $page]);
+
+
+        return $pagingData;
+    }
+
 
 }

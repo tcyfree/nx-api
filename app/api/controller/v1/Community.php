@@ -156,6 +156,30 @@ class Community extends BaseController
     }
 
     /**
+     * 分页获取推荐行动社
+     * @param int $page
+     * @param int $size
+     * @return array
+     */
+    public function getRecommendSummary($page = 1, $size = 15)
+    {
+        (new PagingParameter())->goCheck();
+
+        $pagingData = CommunityModel::getSummaryList($page, $size);
+
+        $data = $pagingData->visible(['id','name', 'description', 'cover_image'])
+            ->toArray();
+
+        $data = CommunityService::getSumActing($data);
+        $data = CommunityService::getType($data);
+
+        return [
+            'data' => $data,
+            'current_page' => $pagingData->currentPage()
+        ];
+    }
+
+    /**
      * 行动社详情
      * @param $id
      * @return array|false|\PDOStatement|string|\think\Model
