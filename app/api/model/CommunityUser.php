@@ -32,15 +32,20 @@ class CommunityUser extends BaseModel
     {
         $where['user_id'] = $uid;
         $where['status']  = ['neq',1];
-        $whereOr = [];
         if($type == 2){
-            $where['type']    = 0;
-            $whereOr['type']    = 1;
+            $pagingData = self::with('community')
+                ->where(function ($query){
+                    $query->where('type',0)->whereOr('type',1);
+                })
+                ->where($where)
+                ->order('create_time desc')
+                ->paginate($size, true, ['page' => $page]);
+        }else{
+            $pagingData = self::with('community')
+                ->where($where)
+                ->order('create_time desc')
+                ->paginate($size, true, ['page' => $page]);
         }
-
-        $pagingData = self::with('community')->where($where)->whereOr($whereOr)
-            ->order('create_time desc')
-            ->paginate($size, true, ['page' => $page]);
 
         return $pagingData;
     }
