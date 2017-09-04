@@ -68,7 +68,7 @@ Route::group(':version/task',function (){
 Route::group(':version/wallet',function (){
     Route::post('/order','api/:version.Recharge/createWXOrder');
     Route::put('/order','api/:version.Recharge/getPreOrder');
-    Route::post('/re_notify', 'api/:version.Recharge/redirectNotify');
+    Route::post('/notify', 'api/:version.Recharge/receiveNotify');
     Route::delete('','api/:version.Wallet/expensesActPlan');
 });
 
