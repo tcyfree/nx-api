@@ -84,7 +84,7 @@ class Token
     public static function getAnyhowUid()
     {
         try{
-            $uid = TokenService::getCurrentUid();
+            $uid = self::getCurrentUid();
         }catch (Exception $ex)
         {
             $uid = 0;
