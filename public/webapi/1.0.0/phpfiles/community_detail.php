@@ -91,7 +91,7 @@
     <tr>
         <td>user.count</td>
         <td>用户已加入有效行动社数量</td>
-        <td>&nbsp;</td>
+        <td>&nbsp;判断用户是否可免费加入</td>
     </tr>
 
  
