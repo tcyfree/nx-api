@@ -85,6 +85,7 @@ class Community
 
     /**
      * 获取用户和行动社的关联关系
+     * 用户已经参加的行动社数量
      * @param $data
      * @return mixed
      * @throws ParameterException
@@ -103,6 +104,9 @@ class Community
         }
         $data['user']['status'] = $community_user['status'];
         $data['user']['type'] = $community_user['type'];
+
+        $obj = new CommunityUserModel();
+        $data['user']['count'] = $obj->where(['user_id' => $uid, 'status' =>['neq',1]])->count('user_id');
         return $data;
     }
 
