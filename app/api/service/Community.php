@@ -142,6 +142,7 @@ class Community
 
     /**
      * 判断用户相关的行动是否达到上限5个
+     * 不包含已退的行动社
      * @param $uid
      * @throws CommunityException
      */
@@ -149,6 +150,7 @@ class Community
     {
         $obj = new CommunityUserModel();
         $where['user_id'] = $uid;
+        $where['status'] = ['neq',1];
         $count = $obj->where($where)->count('user_id');
         if($count == AllowJoinStatusEnum::ALLOW_JOIN_OUT){
             throw new CommunityException([
