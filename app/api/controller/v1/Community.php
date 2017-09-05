@@ -327,18 +327,17 @@ class Community extends BaseController
 
     /**
      * 免费加入行动社
+     * @param $id
+     * @return \think\response\Json
+     * @throws ParameterException
      */
     public function freeJoin($id)
     {
         (new UUID())->goCheck();
         $uid = TokenService::getCurrentUid();
-        $res = CommunityModel::get(['id' => $id]);
-        if(!$res){
-            throw new ParameterException([
-                'msg' => '行动社不存在,请检查ID'
-            ]);
-        }
-        CommunityUserModel::create(['id' => $id, 'user_id' => $uid]);
+        CommunityService::checkCommunityUserExists($id,$uid);
+
+        CommunityUserModel::create(['community_id' => $id, 'user_id' => $uid]);
         return json(new SuccessMessage(),201);
     }
 

@@ -11,6 +11,7 @@ use app\api\model\ActPlanUser as ActPlanUserModel;
 use app\api\model\CommunityUser as CommunityUserModel;
 use app\api\service\Token as TokenService;
 use app\lib\exception\ParameterException;
+use app\api\model\Community as CommunityModel;
 
 class Community
 {
@@ -82,6 +83,12 @@ class Community
         return $data;
     }
 
+    /**
+     * 获取用户和行动社的关联关系
+     * @param $data
+     * @return mixed
+     * @throws ParameterException
+     */
     public static function getUserStatus($data)
     {
         $uid = TokenService::getAnyhowUid();
@@ -97,5 +104,34 @@ class Community
         $data['user']['status'] = $community_user['status'];
         $data['user']['type'] = $community_user['type'];
         return $data;
+    }
+
+    /**
+     * 1. 判断加入行动社是否存在
+     * 2. 判断是否重复加入该行动社
+     * @param $id
+     * @param $uid
+     * @throws ParameterException
+     */
+    public static function checkCommunityUserExists($id, $uid)
+    {
+        $community = CommunityModel::get(['id' => $id]);
+        if(!$community){
+            throw new ParameterException([
+                'msg' => '行动社不存在,请检查ID'
+            ]);
+        }
+        $where['community_id'] = $id;
+        $where['user_id'] = $uid;
+        $where['status'] = ['neq','1'];
+        $community_user = CommunityUserModel::get(function ($query) use ($where){
+            $query->where($where);
+        });
+        if($community_user){
+            throw new ParameterException([
+                'msg' => '已加入该行动社成员，不能重复加入'
+            ]);
+        }
+
     }
 }

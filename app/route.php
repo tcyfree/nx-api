@@ -33,6 +33,7 @@ Route::group(':version/oss',function(){
  */
 Route::group(':version/community',function(){
     Route::post('','api/:version.Community/createCommunity');
+    Route::put('/join','api/:version.Community/freeJoin');
     Route::put('/allow','api/:version.Community/permitOrRefuse');
     Route::put('/init','api/:version.Community/initUpdateNum');
     Route::put('/:id','api/:version.Community/updateCommunity');

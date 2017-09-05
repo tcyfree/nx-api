@@ -157,6 +157,12 @@ Ext.define('WebRoot.view.WestView', {
 											text: '推荐列表',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/recommend_list.php',
 											leaf: true
+										},
+										{
+											id: 'free_join',
+											text: '免费加入',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/community_free_join.php',
+											leaf: true
 										}
 									]
 								}
