@@ -45,6 +45,7 @@ class Community extends BaseController
     /**
      * 创建行动社
      * 1.名称不能重复
+     * 2.判断是否和用户相关的行动是否达到上限5个
      * @return \think\response\Json
      * @throws ParameterException
      * @throws \Exception
@@ -55,6 +56,7 @@ class Community extends BaseController
         $validate->goCheck();
 
         $data['user_id'] = TokenService::getCurrentUid();
+        CommunityService::checkAllowJoinStatus($data['user_id']);
         $dataArray = $validate->getDataByRule(input('post.'));
 
         $res = CommunityModel::get(['name' => $dataArray['name']]);
@@ -335,6 +337,7 @@ class Community extends BaseController
     {
         (new UUID())->goCheck();
         $uid = TokenService::getCurrentUid();
+        CommunityService::checkAllowJoinStatus($uid);
         CommunityService::checkCommunityUserExists($id,$uid);
 
         CommunityUserModel::create(['community_id' => $id, 'user_id' => $uid]);

@@ -10,6 +10,8 @@ namespace app\api\service;
 use app\api\model\ActPlanUser as ActPlanUserModel;
 use app\api\model\CommunityUser as CommunityUserModel;
 use app\api\service\Token as TokenService;
+use app\lib\enum\AllowJoinStatusEnum;
+use app\lib\exception\CommunityException;
 use app\lib\exception\ParameterException;
 use app\api\model\Community as CommunityModel;
 
@@ -136,6 +138,23 @@ class Community
                 'msg' => '已加入该行动社成员，不能重复加入'
             ]);
         }
+    }
 
+    /**
+     * 判断用户相关的行动是否达到上限5个
+     * @param $uid
+     * @throws CommunityException
+     */
+    public static function checkAllowJoinStatus($uid)
+    {
+        $obj = new CommunityUserModel();
+        $where['user_id'] = $uid;
+        $count = $obj->where($where)->count('user_id');
+        if($count == AllowJoinStatusEnum::ALLOW_JOIN_OUT){
+            throw new CommunityException([
+                'msg' => '加入行动社数量超过5个',
+                'code' => 400
+            ]);
+        }
     }
 }
