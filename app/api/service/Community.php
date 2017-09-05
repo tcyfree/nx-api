@@ -85,12 +85,17 @@ class Community
     public static function getUserStatus($data)
     {
         $uid = TokenService::getAnyhowUid();
-        $res = CommunityUserModel::get(['user_id' => $uid, 'community_id' => $data['id']]);
-        if($res['status'] == 1){
-            throw new ParameterException([
-                'msg' => '该成员已退群'
-            ]);
+
+        $community_user = CommunityUserModel::get(['user_id' => $uid, 'community_id' => $data['id']]);
+        if($community_user){
+            if($community_user['status'] == 1){
+                throw new ParameterException([
+                    'msg' => '该成员已退群'
+                ]);
+            }
         }
-        return $data['user_status'] = $res['status'];
+        $data['user']['status'] = $community_user['status'];
+        $data['user']['type'] = $community_user['type'];
+        return $data;
     }
 }

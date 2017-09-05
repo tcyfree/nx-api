@@ -79,8 +79,13 @@
     <td>&nbsp;</td>
   </tr>
     <tr>
-        <td>user_status</td>
-        <td>2 被管理员暂停成员资格</td>
+        <td>user.status</td>
+        <td>0 未退群 1 已退群 2被暂停成员资格</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>user.type</td>
+        <td>关联类型 0 社长 1 管理员 2 成员</td>
         <td>&nbsp;</td>
     </tr>
 

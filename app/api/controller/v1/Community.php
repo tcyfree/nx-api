@@ -193,8 +193,8 @@ class Community extends BaseController
         {
             throw new CommunityException();
         }
-        $data = $communityDetail->hidden(['act_plan.community_id']);
-        CommunityService::getUserStatus($data);
+        $data = $communityDetail->hidden(['act_plan.community_id'])->toArray();
+        $data = CommunityService::getUserStatus($data);
 
         return $data;
     }
@@ -323,6 +323,23 @@ class Community extends BaseController
 
         CommunityUserModel::update(['status' => 1], ['user_id' => $uid, 'community_id' => $id]);
         return json(new SuccessMessage(), 201);
+    }
+
+    /**
+     * 免费加入行动社
+     */
+    public function freeJoin($id)
+    {
+        (new UUID())->goCheck();
+        $uid = TokenService::getCurrentUid();
+        $res = CommunityModel::get(['id' => $id]);
+        if(!$res){
+            throw new ParameterException([
+                'msg' => '行动社不存在,请检查ID'
+            ]);
+        }
+        CommunityUserModel::create(['id' => $id, 'user_id' => $uid]);
+        return json(new SuccessMessage(),201);
     }
 
 }
