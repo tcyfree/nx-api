@@ -88,6 +88,11 @@
         <td>关联类型 0 社长 1 管理员 2 成员</td>
         <td>&nbsp;</td>
     </tr>
+    <tr>
+        <td>user.count</td>
+        <td>用户已加入有效行动社数量</td>
+        <td>&nbsp;</td>
+    </tr>
 
  
 </table>
