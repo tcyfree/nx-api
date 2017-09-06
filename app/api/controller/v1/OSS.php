@@ -16,19 +16,30 @@ use think\Loader;
 
 //require_once (__DIR__.'/../../../../vendor/sts-server/sts.php');
 
-Loader::import('sts-server.sts', EXTEND_PATH, '.php');
+Loader::import('OSS.sts-server.sts', EXTEND_PATH, '.php');
+Loader::import('OSS.oss-h5-upload-js-php.php.get', EXTEND_PATH, '.php');
 
 class OSS extends BaseController
 {
     protected $beforeActionList = [
       'checkPrimaryScope' => ['only' => 'getSecurityToken']
     ];
+
     /**
      * 获取STS上传凭证
      * @return array
      */
-    public function getSecurityToken(){
+    public function getSecurityToken()
+    {
         return sts();
+    }
+
+    /**
+     * 获取Policy及签名
+     */
+    public function getPolicySignature()
+    {
+        return policy();
     }
 
 }

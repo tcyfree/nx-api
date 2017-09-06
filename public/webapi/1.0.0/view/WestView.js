@@ -72,6 +72,12 @@ Ext.define('WebRoot.view.WestView', {
 									text: '获取上传凭证',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/oss_sts.php',
 									leaf: true
+								},
+								{
+									id: 'oss_policy',
+									text: '获取policy及签名 ',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/oss_policy.php',
+									leaf: true
 								}
 							]
 						},

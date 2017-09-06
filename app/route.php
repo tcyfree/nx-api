@@ -26,6 +26,7 @@ Route::group(':version/user', function(){
  */
 Route::group(':version/oss',function(){
     Route::get('/sts','api/:version.OSS/getSecurityToken');
+    Route::get('/policy','api/:version.OSS/getPolicySignature');
 });
 
 /**
@@ -44,6 +45,7 @@ Route::group(':version/community',function(){
     Route::post('/manager','api/:version.Community/setManager');
     Route::post('/transfer','api/:version.Community/transferCommunity');
     Route::post('/report','api/:version.Community/reportCommunity');
+    Route::post('/search','api/:version.Community/searchCommunity');
     Route::delete('','api/:version.Community/leaveCommunity');
 });
 
