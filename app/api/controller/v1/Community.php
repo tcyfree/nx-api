@@ -227,7 +227,7 @@ class Community extends BaseController
         $res = CommunityUserModel::get(['user_id' => $uid,'community_id' => $id])->toArray();
         $community_id = $res['community_id'];
 
-        CommunityModel::update(['status' => $type-1],['id' => $community_id]);
+        CommunityModel::update(['search' => $type-1],['id' => $community_id]);
 
         return json(new SuccessMessage(), 201);
     }
