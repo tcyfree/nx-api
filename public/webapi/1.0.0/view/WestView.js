@@ -171,6 +171,20 @@ Ext.define('WebRoot.view.WestView', {
 											leaf: true
 										}
 									]
+								},
+								{
+									id: 'search',
+									text: '搜索',
+									expanded: true,
+									children: [
+										{
+											id: 'search_community',
+											text: '搜索行动社',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/community_search.php',
+											leaf: true
+										}
+									]
+
 								}
 							]
 						},

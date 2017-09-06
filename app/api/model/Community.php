@@ -53,6 +53,25 @@ class Community extends BaseModel
             ->order('create_time desc')
             ->paginate($size, true, ['page' => $page]);
 
+        return $pagingData;
+    }
+
+    /**
+     * 根据行动社名称模糊查询
+     * @param $name
+     * @param int $page
+     * @param int $size
+     * @return \think\Paginator
+     */
+    public static function searchCommunity($name, $page = 1, $size = 15)
+    {
+        $where['status'] = 0;
+        $where['search'] = 0;
+        $where['name'] = ['like','%'.$name.'%'];
+
+        $pagingData = self::where($where)
+            ->order('create_time desc')
+            ->paginate($size, true, ['page' => $page]);
 
         return $pagingData;
     }

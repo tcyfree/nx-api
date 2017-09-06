@@ -344,4 +344,31 @@ class Community extends BaseController
         return json(new SuccessMessage(),201);
     }
 
+    /**
+     * 根据行动社名称模糊查询
+     * @param $name
+     * @param $page
+     * @param $size
+     * @return array
+     */
+    public function searchCommunity($name, $page, $size)
+    {
+        $pagingData = CommunityModel::searchCommunity($name, $page, $size);
+        $data = $pagingData->visible(['id','name', 'description', 'cover_image'])
+            ->toArray();
+
+        $data = CommunityService::getSumActing($data);
+        $data = CommunityService::getType($data);
+
+        return [
+            'data' => $data,
+            'current_page' => $pagingData->currentPage()
+        ];
+    }
+
+    public function searchActPlan()
+    {
+
+    }
+
 }
