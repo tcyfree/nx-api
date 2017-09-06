@@ -47,6 +47,7 @@ class Community extends BaseModel
     {
         $where['recommended'] = 1;
         $where['status'] = 0;
+        $where['search'] = 0;
 
         $pagingData = self::where($where)
             ->order('create_time desc')
