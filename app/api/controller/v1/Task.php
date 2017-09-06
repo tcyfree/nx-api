@@ -22,6 +22,7 @@ use app\api\model\Task as TaskModel;
 use app\api\model\TaskRecord as TaskRecordModel;
 use app\api\validate\TaskUpdate;
 use app\lib\exception\SuccessMessage;
+use app\api\model\ActPlan as ActPlanModel;
 
 class Task extends BaseController
 {
@@ -36,6 +37,7 @@ class Task extends BaseController
         $id = uuid();
 
         $dataArray = input('post.');
+        ActPlanModel::checkActPlanExists($dataArray['act_plan_id']);
         $dataArray['id'] = $id;
         TaskModel::create($dataArray);
 

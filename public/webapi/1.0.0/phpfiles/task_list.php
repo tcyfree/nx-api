@@ -14,11 +14,12 @@
   <tr>
     <td>请求的地址</td>
       <td>GET</td>
-    <td>v1/task/:type/:page/:size</td>
+    <td>v1/task/:id/:page/:size</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>
 <table width="90%" border="1" class="dbTable">
+    <?php require_once("../include/token.inc.php");?>
     <tr>
         <td>id</td>
         <td>行动计划ID</td>

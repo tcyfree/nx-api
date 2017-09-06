@@ -9,6 +9,8 @@
 namespace app\api\model;
 
 
+use app\lib\exception\ParameterException;
+
 class ActPlan extends BaseModel
 {
     protected $autoWriteTimestamp = true;
@@ -30,5 +32,15 @@ class ActPlan extends BaseModel
             ->paginate($size, true, ['page' => $page]);
 
         return $pagingData;
+    }
+
+    public static function checkActPlanExists($id)
+    {
+        $res = self::get(['id' => $id]);
+        if(!$res){
+            throw new ParameterException([
+                'msg' => '行动计划不存在，请检查ID'
+            ]);
+        }
     }
 }
