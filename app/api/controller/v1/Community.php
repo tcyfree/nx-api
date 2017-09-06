@@ -23,6 +23,7 @@ use app\api\service\Token as TokenService;
 use app\api\validate\Community as CommunityValidate;
 use app\api\validate\PagingParameter;
 use app\api\validate\Report;
+use app\api\validate\SearchName;
 use app\api\validate\SetManager;
 use app\api\validate\Transfer;
 use app\api\validate\Type;
@@ -353,11 +354,13 @@ class Community extends BaseController
      */
     public function searchCommunity($name, $page, $size)
     {
+        (new SearchName())->goCheck();
+        (new PagingParameter())->goCheck();
+
         $pagingData = CommunityModel::searchCommunity($name, $page, $size);
         $data = $pagingData->visible(['id','name', 'description', 'cover_image'])
             ->toArray();
 
-        $data = CommunityService::getSumActing($data);
         $data = CommunityService::getType($data);
 
         return [
