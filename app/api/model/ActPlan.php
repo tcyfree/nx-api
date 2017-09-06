@@ -34,6 +34,11 @@ class ActPlan extends BaseModel
         return $pagingData;
     }
 
+    /**
+     * 检查行动计划是否存在
+     * @param $id
+     * @throws ParameterException
+     */
     public static function checkActPlanExists($id)
     {
         $res = self::get(['id' => $id]);
