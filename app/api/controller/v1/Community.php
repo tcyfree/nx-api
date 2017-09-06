@@ -366,9 +366,4 @@ class Community extends BaseController
         ];
     }
 
-    public function searchActPlan()
-    {
-
-    }
-
 }

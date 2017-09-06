@@ -19,7 +19,11 @@
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>
 <table width="90%" border="1" class="dbTable">
-    <?php require_once ("../include/token.inc.php"); ?>
+    <tr class="inforstyle">
+        <td>token</td>
+        <td>登录令牌</td>
+        <td>请配置在header中传值&nbsp;<font color="red">不是必须</font> </td>
+    </tr>
     <tr>
         <td>name</td>
         <td>行动社名称</td>
