@@ -55,6 +55,7 @@ Route::group(':version/community',function(){
 Route::group(':version/plan',function (){
     Route::post('','api/:version.ActPlan/createActPlan');
     Route::put('','api/:version.ActPlan/updateActPlan');
+    Route::post('/search','api/:version.ActPlan/searchActPlan');
 });
 
 /**

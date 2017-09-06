@@ -69,7 +69,7 @@ Ext.define('WebRoot.view.WestView', {
 							children: [
 								{
 									id: 'oss_sts',
-									text: '获取上传凭证',
+									text: '获取上传凭证STS',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/oss_sts.php',
 									leaf: true
 								},
@@ -182,7 +182,13 @@ Ext.define('WebRoot.view.WestView', {
 											text: '搜索行动社',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/community_search.php',
 											leaf: true
-										}
+										},
+                                        {
+                                            id: 'search_act_plan',
+                                            text: '搜索行动计划',
+                                            hrefTarget: SYS_API_ROOT + 'phpfiles/act_plan_search.php',
+                                            leaf: true
+                                        }
 									]
 
 								}

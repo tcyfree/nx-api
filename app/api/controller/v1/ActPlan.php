@@ -21,6 +21,8 @@ use app\api\model\ActPlanRecord as ActPlanRecordModel;
 use app\api\validate\ActPlanUpdate;
 use app\lib\exception\SuccessMessage;
 use app\api\service\Token as TokenService;
+use app\api\validate\SearchName;
+use app\api\validate\PagingParameter;
 
 class ActPlan extends BaseController
 {
@@ -63,5 +65,27 @@ class ActPlan extends BaseController
         ActPlanRecordModel::create($data);
 
         return json(new SuccessMessage(), 201);
+    }
+
+    /**
+     * 根据行动计划名称模糊查询
+     * @param $name
+     * @param $page
+     * @param $size
+     * @return array
+     */
+    public function searchActPlan($name, $page, $size)
+    {
+        (new SearchName())->goCheck();
+        (new PagingParameter())->goCheck();
+
+        $pagingData = ActPlanModel::searchActPlan($name, $page, $size);
+        $data = $pagingData->visible(['id','name', 'description', 'cover_image'])
+            ->toArray();
+
+        return [
+            'data' => $data,
+            'current_page' => $pagingData->currentPage()
+        ];
     }
 }
