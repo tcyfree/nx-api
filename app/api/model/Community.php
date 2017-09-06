@@ -11,6 +11,7 @@
 
 namespace app\api\model;
 
+use app\lib\exception\ParameterException;
 
 class Community extends BaseModel
 {
@@ -74,6 +75,21 @@ class Community extends BaseModel
             ->paginate($size, true, ['page' => $page]);
 
         return $pagingData;
+    }
+
+    /**
+     * 检查行动社是否存在
+     * @param $id
+     * @throws ParameterException
+     */
+    public static function checkCommunityExists($id)
+    {
+        $res = self::get(['id' => $id]);
+        if(!$res){
+            throw new ParameterException([
+                'msg' => '行动社不存在，请检查ID'
+            ]);
+        }
     }
 
 

@@ -23,6 +23,7 @@ use app\lib\exception\SuccessMessage;
 use app\api\service\Token as TokenService;
 use app\api\validate\SearchName;
 use app\api\validate\PagingParameter;
+use app\api\model\Community as CommunityModel;
 
 class ActPlan extends BaseController
 {
@@ -37,6 +38,7 @@ class ActPlan extends BaseController
         $id = uuid();
         $dataArray = input('post.');
         $dataArray['id'] = $id;
+        CommunityModel::checkCommunityExists($dataArray['community_id']);
         ActPlanModel::create($dataArray);
 
         $data['act_plan_id'] = $id;
