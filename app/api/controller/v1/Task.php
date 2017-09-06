@@ -79,6 +79,7 @@ class Task extends BaseController
         (new TaskList())->goCheck();
 
         $uid = TokenService::getCurrentUid();
+
         $pagingData = TaskModel::getSummaryList($id, $page, $size);
         $data = $pagingData->visible(['id','name'])
             ->toArray();
@@ -87,6 +88,7 @@ class Task extends BaseController
         if ($res){
             $data['flag'] = 1;
         }
+        $data['mode'] = ActPlanModel::getActPlanMode($id);
         return [
             'data' => $data,
             'current_page' => $pagingData->currentPage()

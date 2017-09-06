@@ -54,6 +54,11 @@
         <td>0 未参加 1 已参加</td>
         <td></td>
     </tr>
+    <tr>
+        <td>mode</td>
+        <td>行动计划模式</td>
+        <td>0 普通模式 1 普通模式+挑战者模式</td>
+    </tr>
 </table>
 <p>&nbsp;</p>
 </div>

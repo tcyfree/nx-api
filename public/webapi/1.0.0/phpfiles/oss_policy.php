@@ -48,8 +48,8 @@
   </tr>
   <tr>
       <td></td>
-      <td> Html直接表单直传阿里云存储OSS</td>
-    <td>&nbsp;<a href="https://bbs.aliyun.com/read/262307.html?spm=5176.bbsl211.0.0.8gmdkz" target="_blank">第二个例子：讲解签名在服务端（php）完成，然后直接通过表单上传到OSS</a> </td>
+      <td> 服务端签名后直传</td>
+    <td>&nbsp;<a href="https://help.aliyun.com/document_detail/31926.html" target="_blank">服务端签名后直传</a> </td>
   </tr>
   </table>
 <p>&nbsp;</p>
