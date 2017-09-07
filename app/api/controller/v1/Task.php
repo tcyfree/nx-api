@@ -81,12 +81,12 @@ class Task extends BaseController
         $uid = TokenService::getCurrentUid();
 
         $pagingData = TaskModel::getSummaryList($id, $page, $size);
-        $data = $pagingData->visible(['id','name'])
+        $data['task'] = $pagingData->visible(['id','name'])
             ->toArray();
         $res = ActPlanUser::get(['act_plan_id' => $id, 'user_id' => $uid]);
-        $data['flag'] = 0;
+        $data['flag'] = '0';
         if ($res){
-            $data['flag'] = 1;
+            $data['flag'] = '1';
         }
         $data['mode'] = ActPlanModel::getActPlanMode($id);
         return [
