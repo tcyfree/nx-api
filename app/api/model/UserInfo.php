@@ -19,6 +19,10 @@ class UserInfo extends BaseModel
     {
         return $this->hasOne('User','id','user_id');
     }
+    public function userProperty()
+    {
+        return $this->hasOne('UserProperty','user_id','user_id');
+    }
     public function community()
     {
         return $this->hasMany('CommunityUser','user_id','user_id');
@@ -50,8 +54,8 @@ class UserInfo extends BaseModel
      */
     public static function userInfo(){
         $uid = TokenService::getCurrentUid();
-        $userInfo = self::with('userBase')->where('user_id', $uid)->find();
-        $userInfo->hidden(['user_base.id','from']);
+        $userInfo = self::with('userBase,userProperty')->where('user_id', $uid)->find();
+        $userInfo->visible(['user_id','sex','nickname','avatar','signature','openid','user_base.number','user_property.wallet','user_property.execution']);
         if(!$userInfo){
             throw new UserException([
                 'msg' => '用户不存在',
