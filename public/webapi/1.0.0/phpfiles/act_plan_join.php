@@ -30,11 +30,6 @@
         <td width="226">行动计划ID</td>
         <td width="598"</td>
     </tr>
- <tr>
-   <td>name</td>
-   <td width="226">行动计划名称</td>
-   <td width="598"></td>
- </tr>
   <tr>
    <td>mode</td>
    <td width="226">参加模式</td>
