@@ -10,15 +10,14 @@ namespace app\api\service;
 
 
 use app\api\model\LoginHistory;
-use app\lib\enum\ScopeEnum;
-use app\lib\exception\SessionException;
-use app\lib\exception\TokenException;
-use app\lib\exception\WeChatException;
-use think\Cache;
-use think\Exception;
 use app\api\model\User as UserModel;
 use app\api\model\UserInfo as UserInfoModel;
-use think\Session;
+use app\lib\enum\ScopeEnum;
+use app\lib\exception\TokenException;
+use think\Cache;
+use think\Db;
+use think\Exception;
+use app\api\model\UserProperty as UserPropertyModel;
 
 class UserToken extends Token
 {
@@ -61,7 +60,7 @@ class UserToken extends Token
             }
             else{
 
-                $uid = $this->newUser($unionid,$openid,$access_token);
+                $uid = $this->newUser($unionid,$openid);
                 $this->updateUserInfo($openid,$access_token,$uid);
             }
 
@@ -76,7 +75,7 @@ class UserToken extends Token
                 $uid = $user->user_id;
             }
             else{
-                $uid = $this->newUser($unionid,$openid,$access_token);
+                $uid = $this->newUser($unionid,$openid);
                 //更新用户信息
                 $user  = new UserInfoModel();
                 // 过滤数组中的非数据表字段数据
@@ -143,23 +142,34 @@ class UserToken extends Token
      * 新增用户
      * @param $unionid
      * @param $openid
-     * @param $access_token
      * @return string
+     * @throws Exception
      */
-    private function newUser($unionid,$openid,$access_token)
+    private function newUser($unionid,$openid)
     {
         $register_ip = $_SERVER['REMOTE_ADDR'];
         $id = uuid();
-        UserModel::create([
-            'id' => $id,
-            'number' => number(),
-            'reg_ip' => $register_ip
-        ]);
-        UserInfoModel::create([
-            'user_id' => $id,
-            'openid'  => $openid,
-            'unionid' => $unionid,
-        ]);
+        Db::startTrans();
+        try {
+            UserModel::create([
+                'id' => $id,
+                'number' => number(),
+                'reg_ip' => $register_ip
+            ]);
+            UserInfoModel::create([
+                'user_id' => $id,
+                'openid' => $openid,
+                'unionid' => $unionid,
+            ]);
+            UserPropertyModel::create([
+                'user_id' => $id
+            ]);
+
+            Db::commit();
+        }catch (Exception $ex){
+            Db::rollback();
+            throw $ex;
+        }
 
         return $id;
     }
