@@ -20,6 +20,7 @@ class Wallet
 {
     public static function checkActPlanFee($id,$join_fee)
     {
+        ActPlanModel::checkActPlanExists($id);
         $res = ActPlanModel::get(['id' => $id, 'fee' => $join_fee]);
         if(!$res){
             throw new ParameterException([
