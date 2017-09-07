@@ -216,6 +216,12 @@ Ext.define('WebRoot.view.WestView', {
 									text: '参加行动计划',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/act_plan_join.php',
 									leaf: true
+								},
+								{
+									id: 'join_user',
+									text: '我参加的行动计划',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/act_plan_join_user.php',
+									leaf: true
 								}
 							]
 						},

@@ -15,15 +15,16 @@ namespace app\api\controller\v1;
 
 
 use app\api\controller\BaseController;
-use app\api\validate\ActPlanNew;
 use app\api\model\ActPlan as ActPlanModel;
 use app\api\model\ActPlanRecord as ActPlanRecordModel;
-use app\api\validate\ActPlanUpdate;
-use app\lib\exception\SuccessMessage;
-use app\api\service\Token as TokenService;
-use app\api\validate\SearchName;
-use app\api\validate\PagingParameter;
+use app\api\model\ActPlanUser as ActPlanUserModel;
 use app\api\model\Community as CommunityModel;
+use app\api\service\Token as TokenService;
+use app\api\validate\ActPlanNew;
+use app\api\validate\ActPlanUpdate;
+use app\api\validate\PagingParameter;
+use app\api\validate\SearchName;
+use app\lib\exception\SuccessMessage;
 
 class ActPlan extends BaseController
 {
@@ -83,6 +84,28 @@ class ActPlan extends BaseController
 
         $pagingData = ActPlanModel::searchActPlan($name, $page, $size);
         $data = $pagingData->visible(['id','name', 'description', 'cover_image'])
+            ->toArray();
+
+        return [
+            'data' => $data,
+            'current_page' => $pagingData->currentPage()
+        ];
+    }
+
+    /**
+     * 获取用户参加的行动社
+     * @param $page
+     * @param $size
+     * @return array
+     */
+    public function joinActPlanByUser($page, $size)
+    {
+        (new PagingParameter())->goCheck();
+
+        $uid = TokenService::getCurrentUid();
+        $pagingData = ActPlanUserModel::actPlanByUser($uid, $page,$size);
+
+        $data = $pagingData->visible(['finish','act_plan.id','act_plan.name','act_plan.description','act_plan.cover_image'])
             ->toArray();
 
         return [

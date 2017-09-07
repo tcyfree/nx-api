@@ -13,9 +13,32 @@
 
 namespace app\api\model;
 
-
 class ActPlanUser extends BaseModel
 {
     protected $autoWriteTimestamp = true;
     protected $updateTime = false;
+
+    public function actPlan()
+    {
+        return $this->hasMany('ActPlan','id','act_plan_id');
+    }
+
+    /**
+     * 获取用户参加的行动社
+     * @param $uid
+     * @param $page
+     * @param $size
+     * @return \think\Paginator
+     */
+    public static function actPlanByUser($uid ,$page, $size)
+    {
+        $where['user_id'] = $uid;
+
+        $pagingData = self::with('actPlan')
+            ->where($where)
+            ->order('create_time asc')
+            ->paginate($size, true, ['page' => $page]);
+
+        return $pagingData;
+    }
 }
