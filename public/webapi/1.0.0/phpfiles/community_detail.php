@@ -93,6 +93,11 @@
         <td>用户已加入有效行动社数量</td>
         <td>&nbsp;判断用户是否可免费加入，最多可以参加5个</td>
     </tr>
+    <tr>
+        <td>user.join</td>
+        <td>用户是否加入该行动社</td>
+        <td>否：false 是：true </td>
+    </tr>
 
  
 </table>

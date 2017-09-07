@@ -88,6 +88,7 @@ class Community
     /**
      * 获取用户和行动社的关联关系
      * 用户已经参加的行动社数量
+     * 用户是否加入该行动社
      * @param $data
      * @return mixed
      * @throws ParameterException
@@ -97,15 +98,16 @@ class Community
         $uid = TokenService::getAnyhowUid();
 
         $community_user = CommunityUserModel::get(['user_id' => $uid, 'community_id' => $data['id']]);
-        if($community_user){
-            if($community_user['status'] == 1){
-                throw new ParameterException([
-                    'msg' => '该成员已退群'
-                ]);
-            }
+        if(!$community_user){
+            $data['user']['join'] = false;
+            $data['user']['status'] = null;
+            $data['user']['type'] = null;
+        }else{
+            $data['user']['join'] = true;
+            $data['user']['status'] = $community_user['status'];
+            $data['user']['type'] = $community_user['type'];
         }
-        $data['user']['status'] = $community_user['status'];
-        $data['user']['type'] = $community_user['type'];
+
 
         $obj = new CommunityUserModel();
         $data['user']['count'] = $obj->where(['user_id' => $uid, 'status' =>['neq',1]])->count('user_id');
