@@ -64,6 +64,11 @@
         <td>正在行动的人数</td>
         <td>&nbsp;</td>
     </tr>
+    <tr>
+        <td>community_id</td>
+        <td>行动社ID</td>
+        <td><font color="red">注：若用户未参加该行动计划的行动社，则去行动计划详情橱窗</font></td>
+    </tr>
 </table>
 <p>&nbsp;</p>
 </div>

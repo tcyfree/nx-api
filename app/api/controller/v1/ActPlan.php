@@ -83,7 +83,7 @@ class ActPlan extends BaseController
         (new PagingParameter())->goCheck();
 
         $pagingData = ActPlanModel::searchActPlan($name, $page, $size);
-        $data = $pagingData->visible(['id','name', 'description', 'cover_image'])
+        $data = $pagingData->visible(['id','name', 'description', 'cover_image', 'community_id'])
             ->toArray();
 
         return [
