@@ -85,7 +85,8 @@ class IncomeExpenses extends BaseModel
         $user_property = UserProperty::get(['user_id' => $uid]);
         if ($data['fee'] > $user_property->wallet){
             throw new ParameterException([
-                'msg' => '余额不足，请先去充值！'
+                'msg' => '余额不足，请先去充值！',
+                'errorCode' => 10007
             ]);
         }
         $res = ActPlan::get(['id' => $data['act_plan_id']]);
