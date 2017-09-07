@@ -15,6 +15,7 @@ use app\api\service\Token;
 use app\api\service\Token as TokenService;
 use app\api\validate\Expenses;
 use app\lib\exception\SuccessMessage;
+use app\api\service\Wallet as WalletService;
 
 class Wallet extends BaseController
 {
@@ -25,6 +26,7 @@ class Wallet extends BaseController
 
     /**
      * 购买行动计划
+     * 1 检查参加费用是否和创建行动计划任务费用相同
      * @return \think\response\Json
      */
     public function expensesActPlan()
@@ -32,7 +34,7 @@ class Wallet extends BaseController
         (new Expenses())->goCheck();
         $data = input('delete.');
         $uid = TokenService::getCurrentUid();
-
+        WalletService::checkActPlanFee($data['act_plan_id'],$data['fee']);
         IncomeExpenses::place($uid,$data);
 
         return json(new SuccessMessage(),201);
