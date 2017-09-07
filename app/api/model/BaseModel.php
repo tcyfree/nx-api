@@ -12,6 +12,8 @@ class BaseModel extends Model
         $finalUrl = $value;
         if($data['from'] == 0){
             $finalUrl = config('setting.img_prefix').$value;
+        }else if ($data['from'] == 2){
+            $finalUrl = config('setting.oss_uri_prefix').$value;
         }
         return $finalUrl;
     }
