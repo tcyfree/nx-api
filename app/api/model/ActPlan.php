@@ -37,6 +37,7 @@ class ActPlan extends BaseModel
     /**
      * 检查行动计划是否存在
      * @param $id
+     * @return null|static
      * @throws ParameterException
      */
     public static function checkActPlanExists($id)
@@ -47,24 +48,8 @@ class ActPlan extends BaseModel
                 'msg' => '行动计划不存在，请检查ID'
             ]);
         }
+
+        return $res;
     }
 
-    /**
-     * 检查行动计划是否存在
-     * 返回行动计划模式
-     * @param $id
-     * @return mixed
-     * @throws ParameterException
-     */
-    public static function getActPlanMode($id)
-    {
-        $res = self::get(['id' => $id]);
-        if(!$res){
-            throw new ParameterException([
-                'msg' => '行动计划不存在，请检查ID'
-            ]);
-        }
-
-        return $res['mode'];
-    }
 }
