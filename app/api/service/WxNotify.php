@@ -13,6 +13,7 @@ use think\Db;
 use think\Exception;
 use think\Loader;
 use think\Log;
+use app\api\model\UserProperty as UserPropertyModel;
 
 Loader::import('WxPay.lib.WxPay', EXTEND_PATH, '.Api.php');
 
@@ -59,6 +60,14 @@ class WxNotify extends \WxPayNotify
                 {
                     RechargeModel::where('out_trade_no', '=', $orderNo)
                         ->update(['status' => 1]);
+                    $res = RechargeModel::get(['out_trade_no' => $orderNo,'status' =>0]);
+                    if($res){
+                        UserPropertyModel::where(['user_id' => $res['user_id']])
+                            ->update([
+                                'update_time'  => ['exp','now()'],
+                                'wallet' => ['exp','wallet+'.$res['total_fee']],
+                            ]);
+                    }
                 }
                 Db::commit();
                 return true;
