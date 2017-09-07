@@ -15,6 +15,7 @@ namespace app\api\model;
 use app\lib\exception\ParameterException;
 use think\Db;
 use think\Exception;
+use app\api\model\UserProperty as UserPropertyModel;
 
 class IncomeExpenses extends BaseModel
 {
@@ -40,21 +41,28 @@ class IncomeExpenses extends BaseModel
             $data['order_no'] = self::makeOrderNo();
             self::create($data);
             $dataArray['ie_id'] = self::getLastInsID();
-            //支出用户
+
+            //支出用户,减少钱包金额
             $dataArray['user_id'] = $uid;
             IncomeExpensesUser::create($dataArray);
-            //收入用户
+            self::updateWallet($dataArray['user_id'],$data['fee'],false);
+
+            //收入用户,增加钱包金额
             $community_id = (ActPlan::get(['id' => $data['act_plan_id']]))->community_id;
             $dataArray['user_id'] = (CommunityUser::get(['community_id' => $community_id, 'type' => 0]))->user_id;
             $dataArray['type'] = 1;
             IncomeExpensesUser::create($dataArray);
+            self::updateWallet($dataArray['user_id'],$data['fee'],true);
+
             //记录行动计划参加用户
             $actData['user_id'] = $uid;
             $actData['act_plan_id'] = $data['act_plan_id'];
             $actData['mode'] = $data['mode'];
             ActPlanUser::create($actData);
+
             //更新参加人数
             ActPlan::where('id',$data['act_plan_id'])->setInc('total_participant');
+
             Db::commit();
 
         }catch (Exception $ex)
@@ -74,8 +82,8 @@ class IncomeExpenses extends BaseModel
      */
     private static function checkOrderValid($uid,$data)
     {
-        $userInfo = UserInfo::get(['user_id' => $uid]);
-        if ($data['fee'] > $userInfo->wallet){
+        $user_property = UserProperty::get(['user_id' => $uid]);
+        if ($data['fee'] > $user_property->wallet){
             throw new ParameterException([
                 'msg' => '余额不足，请先去充值！'
             ]);
@@ -106,5 +114,32 @@ class IncomeExpenses extends BaseModel
                 'd') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf(
                 '%02d', rand(0, 99));
         return $orderSn;
+    }
+
+    /**
+     *  更新用户钱包
+     *  success：
+     *  true：收入
+     *  false：支出
+     * @param $uid
+     * @param $fee
+     * @param $success
+     */
+    private static function updateWallet($uid, $fee, $success)
+    {
+        if($success){
+            UserPropertyModel::where(['user_id' => $uid])
+                ->update([
+                    'update_time'  => ['exp','now()'],
+                    'wallet' => ['exp','wallet+'.$fee],
+                ]);
+        }else{
+            UserPropertyModel::where(['user_id' => $uid])
+                ->update([
+                    'update_time'  => ['exp','now()'],
+                    'wallet' => ['exp','wallet-'.$fee],
+                ]);
+        }
+
     }
 }
