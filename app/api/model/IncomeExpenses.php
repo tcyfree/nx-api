@@ -31,6 +31,8 @@ class IncomeExpenses extends BaseModel
     public static function place($uid,$data)
     {
         self::checkOrderValid($uid,$data);
+        $res = ActPlan::get(['id' => $data['act_plan_id']]);
+        $data['name'] = $res['name'];
 
         Db::startTrans();
         try{

@@ -20,6 +20,5 @@ class Expenses extends BaseValidate
         'act_plan_id' => 'require|length:36',
         'mode' => 'require|in:0,1',
         'fee' => 'require|between:1,49',
-        'name' => 'require'
     ];
 }
