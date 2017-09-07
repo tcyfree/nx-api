@@ -24,12 +24,15 @@ use app\api\validate\TaskUpdate;
 use app\lib\exception\SuccessMessage;
 use app\api\model\ActPlan as ActPlanModel;
 use app\api\service\Community as CommunityService;
+use think\Exception;
+use think\Db;
 
 class Task extends BaseController
 {
     /**
      * 创建任务
      * @return \think\response\Json
+     * @throws Exception
      */
     public function createTask()
     {
@@ -40,11 +43,22 @@ class Task extends BaseController
         $dataArray = input('post.');
         ActPlanModel::checkActPlanExists($dataArray['act_plan_id']);
         $dataArray['id'] = $id;
-        TaskModel::create($dataArray);
 
-        $data['task_id'] = $id;
-        $data['type'] = 0;
-        TaskRecordModel::create($data);
+        Db::startTrans();
+        try {
+            TaskModel::create($dataArray);
+            //更新任务数
+            $where['id'] = $dataArray['act_plan_id'];
+            ActPlanModel::where($where)->setInc('task_num');
+
+            $data['task_id'] = $id;
+            $data['type'] = 0;
+            TaskRecordModel::create($data);
+            Db::commit();
+        }catch (Exception $ex){
+            Db::rollback();
+            throw $ex;
+        }
 
         return json(new SuccessMessage(),201);
     }
