@@ -14,6 +14,7 @@ use app\lib\enum\AllowJoinStatusEnum;
 use app\lib\exception\CommunityException;
 use app\lib\exception\ParameterException;
 use app\api\model\Community as CommunityModel;
+use app\api\model\ActPlan as ActPlanModel;
 
 class Community
 {
@@ -160,5 +161,27 @@ class Community
                 'code' => 400
             ]);
         }
+    }
+
+    /**
+     * 根据行动计划id判断该用户是否参加对应的行动社
+     * @param $uid
+     * @param $act_plan_id
+     * @return bool
+     * @throws ParameterException
+     */
+    public static function checkJoinCommunityByUser($uid, $act_plan_id)
+    {
+        $data = ActPlanModel::checkActPlanExists($act_plan_id);
+
+        $community_id = $data['community_id'];
+
+        $res = CommunityUserModel::get(['user_id' => $uid, 'community_id' => $community_id]);
+        if(!$res){
+            throw new ParameterException([
+                'msg' => '该用户还未参加此行动计划的行动社'
+            ]);
+        }else
+            return true;
     }
 }

@@ -60,7 +60,7 @@
         <td>0 普通模式 1 普通模式+挑战者模式</td>
     </tr>
 </table>
-<p>&nbsp;</p>
+    <span class="titlestyle"><font color="red">注：若用户未参加该行动计划的行动社，则去行动计划详情橱窗</font> </span>
 </div>
 
 

@@ -23,6 +23,7 @@ use app\api\model\TaskRecord as TaskRecordModel;
 use app\api\validate\TaskUpdate;
 use app\lib\exception\SuccessMessage;
 use app\api\model\ActPlan as ActPlanModel;
+use app\api\service\Community as CommunityService;
 
 class Task extends BaseController
 {
@@ -79,7 +80,7 @@ class Task extends BaseController
         (new TaskList())->goCheck();
 
         $uid = TokenService::getCurrentUid();
-
+        CommunityService::checkJoinCommunityByUser($uid,$id);
         $pagingData = TaskModel::getSummaryList($id, $page, $size);
         $data['task'] = $pagingData->visible(['id','name'])
             ->toArray();
@@ -88,7 +89,8 @@ class Task extends BaseController
         if ($res){
             $data['flag'] = '1';
         }
-        $data['mode'] = ActPlanModel::getActPlanMode($id);
+        $res_data = ActPlanModel::checkActPlanExists($id);
+        $data['mode'] = $res_data['mode'];
         return [
             'data' => $data,
             'current_page' => $pagingData->currentPage()
