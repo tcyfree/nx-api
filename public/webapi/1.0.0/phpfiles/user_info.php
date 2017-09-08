@@ -67,12 +67,12 @@
         <td width="581"></td>
     </tr>
     <tr>
-        <td>execution</td>
+        <td>user_property.execution</td>
         <td>行动力</td>
         <td width="581"></td>
     </tr>
     <tr>
-        <td>number</td>
+        <td>user_base.number</td>
         <td>ID</td>
         <td width="581"></td>
     </tr>
