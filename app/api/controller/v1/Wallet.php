@@ -42,6 +42,12 @@ class Wallet extends BaseController
         return json(new SuccessMessage(),201);
     }
 
+    /**
+     * 用户收支明细
+     * @param $page
+     * @param $size
+     * @return array
+     */
     public function getIncomeExpensesSummary($page,$size)
     {
         (new PagingParameter())->goCheck();
