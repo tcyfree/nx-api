@@ -14,7 +14,37 @@
 namespace app\api\model;
 
 
+use think\Db;
+
 class UserProperty extends BaseModel
 {
     protected $autoWriteTimestamp = true;
+
+    public function userInfo()
+    {
+        return $this->hasOne('UserInfo','user_id','user_id');
+    }
+
+    /**
+     * 1. 查找当前用户行动力排名
+     * 2. 全局前5名用户
+     * @param $uid
+     * @return mixed
+     */
+    public static function executionRankByUser($uid)
+    {
+        $sqlstr = "SELECT * FROM (
+                   SELECT a.user_id,a.execution,(@rowno:=@rowno+1) as rowno 
+                   FROM xds_user_property a,(select (@rowno:=0)) b ORDER BY a.execution DESC) c 
+                   WHERE c.user_id = '$uid'";
+        $res = Db::query($sqlstr);
+        $data['mine'] = $res;
+
+        $res = self::with('userInfo')
+            ->order(['execution ' => 'desc'])
+            ->limit(5)
+            ->select();
+        $data['rank'] = $res->visible(['user_id','execution','user_info.nickname','user_info.avatar']);
+        return $data;
+    }
 }

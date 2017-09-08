@@ -18,6 +18,7 @@ Route::group(':version/user', function(){
     Route::delete('/token', 'api/:version.Token/deleteToken');
     Route::get('','api/:version.User/getUserInfo');
     Route::put('','api/:version.User/editUserInfo');
+    Route::get('/execution','api/:version.User/getExecutionRankByUser');
 });
 
 

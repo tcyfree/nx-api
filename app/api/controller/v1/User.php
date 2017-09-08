@@ -18,6 +18,7 @@ use app\lib\exception\UserException;
 use app\api\validate\UerInfo as UserInfoValidate;
 use app\lib\exception\SuccessMessage;
 use app\api\model\User as UserModel;
+use app\api\model\UserProperty as UserPropertyModel;
 
 class User extends BaseController
 {
@@ -58,6 +59,18 @@ class User extends BaseController
 
 //        return $userInfo;
         return json(new SuccessMessage(), 201);
+    }
+
+    /**
+     * 1. 查找当前用户行动力排名
+     * 2. 全局前5名用户
+     * @return mixed
+     */
+    public function getExecutionRankByUser()
+    {
+        $uid = TokenService::getCurrentUid();
+        $data = UserPropertyModel::executionRankByUser($uid);
+        return $data;
     }
 
 
