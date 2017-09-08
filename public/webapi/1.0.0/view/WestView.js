@@ -59,6 +59,12 @@ Ext.define('WebRoot.view.WestView', {
 									text: '用户登出',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/client_loginout.php',
 									leaf: true
+								},
+								{
+									id: 'advice',
+									text: '意见与建议',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/advice.php',
+									leaf: true
 								}
 							]
 						},
