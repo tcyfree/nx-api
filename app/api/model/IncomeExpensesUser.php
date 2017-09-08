@@ -13,9 +13,25 @@
 
 namespace app\api\model;
 
-
 class IncomeExpensesUser extends BaseModel
 {
     protected $autoWriteTimestamp = true;
     protected $updateTime = false;
+
+    public function incomeExpenses()
+    {
+        return $this->hasOne('IncomeExpenses','id','ie_id');
+    }
+
+    public static function incomeExpensesSummary($uid,$page,$size)
+    {
+        $where['user_id'] = $uid;
+        $pagingData = self::with('incomeExpenses')
+            ->where($where)
+            ->group('create_time')
+            ->order(['create_time' => 'desc'])
+            ->paginate($size, true, ['page' => $page]);
+
+        return $pagingData;
+    }
 }

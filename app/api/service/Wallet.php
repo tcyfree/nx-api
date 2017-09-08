@@ -34,4 +34,21 @@ class Wallet
             ]);
         }
     }
+
+    /**
+     * 收支明细按年分组
+     * @param $data
+     * @return mixed
+     */
+    public static function getDataByYear($data)
+    {
+        $newData = [];
+        foreach ($data as $v){
+            $index = date('Y',strtotime($v['create_time']));
+            $newData[$index][] = $v;
+        }
+        krsort($newData);
+
+        return $newData;
+    }
 }
