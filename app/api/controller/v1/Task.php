@@ -21,11 +21,13 @@ use app\api\service\Token as TokenService;
 use app\api\model\Task as TaskModel;
 use app\api\model\TaskRecord as TaskRecordModel;
 use app\api\validate\TaskUpdate;
+use app\api\validate\UUID;
 use app\lib\exception\SuccessMessage;
 use app\api\model\ActPlan as ActPlanModel;
 use app\api\service\Community as CommunityService;
 use think\Exception;
 use think\Db;
+use app\api\service\Task as TaskService;
 
 class Task extends BaseController
 {
@@ -109,5 +111,21 @@ class Task extends BaseController
             'data' => $data,
             'current_page' => $pagingData->currentPage()
         ];
+    }
+
+    /**
+     * 任务详情
+     * @param $id
+     * @return $this
+     */
+    public function getTaskDetail($id)
+    {
+        (new UUID())->goCheck();
+        $uid = TokenService::getCurrentUid();
+        TaskModel::checkTaskExists($id);
+        TaskService::checkTaskByUser($uid,$id);
+        $data = TaskModel::get(['id' => $id]);
+
+        return $data->visible(['id','name','requirement','content','reference_time']);
     }
 }

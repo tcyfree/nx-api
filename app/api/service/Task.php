@@ -8,42 +8,34 @@
 // +----------------------------------------------------------------------
 // | Author: probe <1946644259@qq.com>
 // +----------------------------------------------------------------------
-// | DateTime: 2017/8/29/14:08
+// | DateTime: 2017/9/8/18:27
 // +----------------------------------------------------------------------
 
-namespace app\api\model;
+namespace app\api\service;
 
-
+use app\api\model\ActPlanUser as ActPlanUserModel;
 use app\lib\exception\ParameterException;
-use think\Paginator;
 
-class Task extends BaseModel
+class Task
 {
-    protected $autoWriteTimestamp = true;
 
     /**
+     * 判断该任务是否为此用户的
+     * @param $uid
      * @param $id
-     * @param $page
-     * @param $size
-     * @return Paginator
+     * @throws ParameterException
      */
-    public static function getSummaryList($id, $page, $size)
+    public static function checkTaskByUser($uid,$id)
     {
-        $where['act_plan_id'] = $id;
-        $where['release'] = 1;
-        $pagingData = self::where($where)
-            ->order('create_time asc')
-            ->paginate($size, true, ['page' => $page]);
-
-        return $pagingData;
-    }
-
-    public static function checkTaskExists($id)
-    {
-        $res = self::get(['id' => $id]);
+        $act_plan_user = new ActPlanUserModel();
+        $res = $act_plan_user->where('act_plan_id','eq',function ($query) use ($id){
+            $query->table('xds_task')->where('id',$id)->field('act_plan_id');
+        })
+            ->where('user_id',$uid)
+            ->find();
         if(!$res){
             throw new ParameterException([
-                'msg' => '该任务不存在，请检查ID'
+                'msg' =>'该任务不是你的！！！！'
             ]);
         }
     }
