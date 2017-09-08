@@ -18,6 +18,12 @@ use app\lib\exception\ParameterException;
 
 class Wallet
 {
+    /**
+     * 检查购买费用和实际行动计划任务费用是否相同
+     * @param $id
+     * @param $join_fee
+     * @throws ParameterException
+     */
     public static function checkActPlanFee($id,$join_fee)
     {
         ActPlanModel::checkActPlanExists($id);
