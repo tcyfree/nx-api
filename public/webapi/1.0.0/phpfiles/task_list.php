@@ -50,6 +50,11 @@
         <td></td>
     </tr>
     <tr>
+        <td>finish</td>
+        <td>是否完成该任务</td>
+        <td 0 否 1 是</td>
+    </tr>
+    <tr>
         <td>flag</td>
         <td>0 未参加 1 已参加</td>
         <td></td>
