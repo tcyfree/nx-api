@@ -39,7 +39,12 @@ class IncomeExpenses extends BaseModel
         try{
             //记录交易
             $data['order_no'] = self::makeOrderNo();
-            self::create($data);
+            self::create([
+                'act_plan_id' => $data['act_plan_id'],
+                'order_no' => $data['order_no'],
+                'fee' => $data['fee'],
+                'name' => $data['name']
+            ]);
             $dataArray['ie_id'] = self::getLastInsID();
 
             //支出用户,减少钱包金额
