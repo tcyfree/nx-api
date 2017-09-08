@@ -22,9 +22,10 @@
     <tr class="td_header">
         <td width="16%">参数名称</td>
         <td width="27%">参数说明</td>
+        <td width="27%">是否必须</td>
         <td width="57%">备注</td>
     </tr>
-<?php require_once("../include/token.inc.php");?>
+<?php require_once("../include/token.required.php");?>
 
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>
