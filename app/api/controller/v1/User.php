@@ -16,12 +16,14 @@ use app\api\model\UserInfo;
 use app\api\service\Token as TokenService;
 use app\api\controller\BaseController;
 use app\api\validate\Advice;
+use app\api\validate\UUID;
 use app\lib\exception\UserException;
 use app\api\validate\UerInfo as UserInfoValidate;
 use app\lib\exception\SuccessMessage;
 use app\api\model\User as UserModel;
 use app\api\model\UserProperty as UserPropertyModel;
 use app\api\model\Advice as AdviceModel;
+use app\api\model\BlockedList as BlockListModel;
 
 class User extends BaseController
 {
@@ -91,6 +93,20 @@ class User extends BaseController
             'content' => $content,
             'nickname' => $user->nickname
         ]);
+
+        return json(new SuccessMessage(),201);
+    }
+
+    /**
+     * 加入黑名单
+     * @param $id
+     * @return \think\response\Json
+     */
+    public function blockUser($id)
+    {
+        (new UUID())->goCheck();
+        $uid = TokenService::getCurrentUid();
+        BlockListModel::blockUser($uid, $id);
 
         return json(new SuccessMessage(),201);
     }

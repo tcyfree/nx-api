@@ -20,6 +20,7 @@ Route::group(':version/user', function(){
     Route::put('','api/:version.User/editUserInfo');
     Route::get('/execution','api/:version.User/getExecutionRankByUser');
     Route::post('/advice','api/:version.User/addAdvice');
+    Route::post('/block','api/:version.User/blockUser');
 });
 
 

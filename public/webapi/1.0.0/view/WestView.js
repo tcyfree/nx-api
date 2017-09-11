@@ -65,6 +65,12 @@ Ext.define('WebRoot.view.WestView', {
 									text: '意见与建议',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/advice.php',
 									leaf: true
+								},
+								{
+									id: 'block',
+									text: '加入黑名单',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/user_block.php',
+									leaf: true
 								}
 							]
 						},
