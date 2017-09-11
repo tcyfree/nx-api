@@ -17,7 +17,7 @@
   <tr>
     <td>请求的地址</td>
       <td>PUT</td>
-    <td>v1/community/:id</td>
+    <td>v1/community</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>
@@ -28,7 +28,11 @@
     <td width="598">备注</td>
     </tr>
   <?php require_once ("../include/token.inc.php"); ?>
-  <tr>
+    <tr>
+        <td>id</td>
+        <td width="226">行动社主键ID</td>
+        <td width="598"></td>
+    </tr>
     <tr>
         <td>name</td>
         <td width="226">名称</td>

@@ -12,6 +12,7 @@ use app\lib\RexExp;
 class Community extends BaseValidate
 {
     protected $rule = [
+        'id' => 'require|length:36',
         'name' => 'require|justChineseW',
         'description' => 'require|max:140',
         'cover_image'=> 'require|url'

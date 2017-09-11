@@ -97,16 +97,18 @@ class Community extends BaseController
      * @throws UpdateNumException
      * @throws \Exception
      */
-    public function updateCommunity($id)
+    public function updateCommunity()
     {
         (new UUID())->goCheck();
         $validate = new CommunityValidate();
         $validate->goCheck();
+        $uid = TokenService::getCurrentUid();
 
-        $data['user_id'] = TokenService::getCurrentUid();
+        $data['user_id'] = $uid;
         $dataArray = $validate->getDataByRule(input('put.'));
         $res = CommunityModel::get(['name' => $dataArray['name']]);
-
+        $id = $dataArray['id'];
+        CommunityUserModel::checkCommunityBelongsToUser($uid, $id);
         if($res){
             throw new ParameterException(
                 [
