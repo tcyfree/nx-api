@@ -53,8 +53,10 @@ class IncomeExpenses extends BaseModel
             self::updateWallet($dataArray['user_id'],$data['fee'],false);
 
             //收入用户,增加钱包金额
-            $community_id = (ActPlan::get(['id' => $data['act_plan_id']]))->community_id;
-            $dataArray['user_id'] = (CommunityUser::get(['community_id' => $community_id, 'type' => 0]))->user_id;
+            $act_plan = ActPlan::get(['id' => $data['act_plan_id']]);
+            $community_id = $act_plan->community_id;
+            $community_user = CommunityUser::get(['community_id' => $community_id, 'type' => 0]);
+            $dataArray['user_id'] = $community_user->user_id;
             $dataArray['type'] = 1;
             IncomeExpensesUser::create($dataArray);
             self::updateWallet($dataArray['user_id'],$data['fee'],true);
