@@ -59,9 +59,9 @@
         <td>&nbsp;状态 0 正常 1 冻结 2 封禁</td>
     </tr>
     <tr>
-        <td>recommended</td>
-        <td>是否被推荐或搜索</td>
-        <td> 0 推荐 1 不推荐</td>
+        <td>update_num</td>
+        <td>本月剩余编辑次数</td>
+        <td>一个月只能修改3次</td>
     </tr>
   <tr>
     <td>qr_code</td>
