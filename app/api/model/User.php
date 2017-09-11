@@ -39,4 +39,25 @@ class User extends BaseModel
 
         return $user;
     }
+
+    /**
+     * 根据用户ID判断是否存在
+     * @param $id
+     * @return null|static
+     * @throws UserException
+     */
+    public static function checkUserExists($id)
+    {
+        $user = self::get(['id' => $id]);
+
+        if(!$user){
+            throw new UserException([
+                'msg' => '用户不存在',
+                'errorCode' => 60001
+            ]);
+        }
+
+        return $user;
+    }
+
 }
