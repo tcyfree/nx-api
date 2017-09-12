@@ -25,6 +25,7 @@ use app\api\validate\ActPlanUpdate;
 use app\api\validate\PagingParameter;
 use app\api\validate\SearchName;
 use app\lib\exception\SuccessMessage;
+use app\api\service\Community as CommunityService;
 
 class ActPlan extends BaseController
 {
@@ -39,6 +40,11 @@ class ActPlan extends BaseController
         $id = uuid();
         $dataArray = input('post.');
         $dataArray['id'] = $id;
+
+        $c_obj = new CommunityService();
+        $auth_array[0] = 1;
+        $c_obj->checkManagerAuthority($uid,$dataArray['community_id'],$auth_array);
+
         CommunityModel::checkCommunityExists($dataArray['community_id']);
         ActPlanModel::create($dataArray);
 
