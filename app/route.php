@@ -45,8 +45,8 @@ Route::group(':version/community',function(){
     Route::put('','api/:version.Community/updateCommunity');
     Route::get('/recommend/:page/:size','api/:version.Community/getRecommendSummary');
     Route::get('/:type/:page/:size','api/:version.Community/getSummaryByUser');
+    Route::get('/member','api/:version.Community/getMemberList');
     Route::get('/:id','api/:version.Community/getDetail');
-    Route::get('/member/:id/:page/:size','api/:version.Community/getMemberList');
     Route::post('/manager','api/:version.Community/setManager');
     Route::post('/transfer','api/:version.Community/transferCommunity');
     Route::post('/report','api/:version.Community/reportCommunity');

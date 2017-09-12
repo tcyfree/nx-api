@@ -14,19 +14,22 @@
   <tr>
     <td>请求的地址</td>
       <td>GET</td>
-    <td>v1/community/user/:type/:page/:size</td>
+    <td>v1/community/member</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>
 <table width="90%" border="1" class="dbTable">
-    <?php require_once ("../include/token.inc.php"); ?>
+
+    <?php require_once ("../include/required_or_optional.php"); ?>
+    <?php require_once ("../include/token.required.php"); ?>
     <tr>
         <td>id</td>
         <td>行动社ID</td>
-        <td width="533"></td>
+        <td >是</td>
+        <td ></td>
     </tr>
 
-<?php require_once("../include/page.inc.php");?>
+<?php require_once("../include/page.required.php");?>
 
 </table>
 <?php require_once ("../include/json_info.php"); ?>
@@ -47,13 +50,8 @@
          <p>2： 成员</p>
      </td>
   </tr>
-    <tr>
-        <td>status</td>
-        <td>成员状态</td>
-        <td>0 未退群 1 已退群 2被暂停成员资格</td>
-    </tr>
   <tr>
-    <td>member.user_id</td>
+    <td>user_id</td>
     <td>用户ID</td>
     <td>&nbsp;</td>
   </tr>

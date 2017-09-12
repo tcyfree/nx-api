@@ -236,6 +236,7 @@ class Community extends BaseController
 
     /**
      * 成员列表
+     * 权限：社长、管理员、付费用户
      * @param $id
      * @param $page
      * @param $size
@@ -245,6 +246,11 @@ class Community extends BaseController
     {
         (new UUID())->goCheck();
         (new PagingParameter())->goCheck();
+
+        $cs = new CommunityService();
+        $params['community_id'] = $id;
+        $params['user_id'] = TokenService::getCurrentUid();
+        $cs->checkAuthority($params);
 
         $where['community_id'] = $id;
         $pagingData = CommunityUserModel::with('member')->where($where)->paginate($size, true, ['page' => $page]);

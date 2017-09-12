@@ -12,6 +12,7 @@ use app\api\model\CommunityUser as CommunityUserModel;
 use app\api\service\Token as TokenService;
 use app\lib\enum\AllowJoinStatusEnum;
 use app\lib\exception\CommunityException;
+use app\lib\exception\ForbiddenException;
 use app\lib\exception\ParameterException;
 use app\api\model\Community as CommunityModel;
 use app\api\model\ActPlan as ActPlanModel;
@@ -216,5 +217,24 @@ class Community
             ]);
         }else
             return true;
+    }
+
+    /**
+     * 判断用户是否有权限查看成员列表
+     * 1.社长或管理员
+     * 2.付费用户
+     * @param $where
+     * @return bool
+     * @throws ForbiddenException
+     */
+    public function checkAuthority($where)
+    {
+        $res = CommunityUserModel::get($where);
+
+        if (($res->type != 2) || ($res->pay == 1)){
+            return true;
+        }else{
+            throw new ForbiddenException();
+        }
     }
 }
