@@ -44,7 +44,7 @@
         <td>权限值</td>
         <td>&nbsp;
             <p>以逗号分隔如：1,2,3,4</p>
-            <p><font color="#FF0000">如果为空则auth = (''|""),''/""中间不要有空格</font></p>
+            <p><font color="#FF0000">如果为空则auth = ''或者"",''和""中间不要有空格</font></p>
         </td>
     </tr>
 </table>
