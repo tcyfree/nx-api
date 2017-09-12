@@ -19,13 +19,15 @@
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>
 <table width="90%" border="1" class="dbTable">
-    <tr class="td_header">
-        <td width="16%">参数名称</td>
-        <td width="27%">参数说明</td>
-        <td width="57%">备注</td>
-    </tr>
-<?php require_once("../include/token.inc.php");?>
 
+<?php require_once("../include/required_or_optional.php");?>
+<?php require_once("../include/token.required.php");?>
+    <tr>
+        <td>user_id</td>
+        <td></td>
+        <td>否</td>
+        <td>查看某个用户主页时用</td>
+    </tr>
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>
 <table width="90%" border="1" class="dbTable">
