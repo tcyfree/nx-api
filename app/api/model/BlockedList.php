@@ -21,6 +21,11 @@ class BlockedList extends BaseModel
     protected $autoWriteTimestamp = true;
     protected $updateTime = false;
 
+    public function userInfo()
+    {
+        return $this->hasOne('UserInfo','user_id','blocked_user_id');
+    }
+
     /**
      * 加入黑名单
      * @param $uid
@@ -49,12 +54,31 @@ class BlockedList extends BaseModel
             ]);
         }
 
-        $res = self::get(['user_id' => $uid, 'blocked_user_id' => $blocked_user_id]);
+        $res = self::get(['user_id' => $uid, 'blocked_user_id' => $blocked_user_id, 'delete_time' => 0]);
         if ($res){
             throw new ParameterException([
                 'msg' => '该用户已经被加入黑名单了'
             ]);
         }
+    }
+
+    /**
+     * 分页获取我的黑名单列表
+     * @param $uid
+     * @param $page
+     * @param $size
+     * @return \think\Paginator
+     */
+    public static function getBlockedList($uid, $page, $size)
+    {
+        $where['user_id'] = $uid;
+        $where['delete_time'] = ['eq',0];
+
+        $pagingData = self::with('userInfo')
+            ->where($where)
+            ->paginate($size, true, ['page' => $page]);
+
+        return $pagingData;
     }
 
 }

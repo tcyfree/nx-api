@@ -16,6 +16,7 @@ use app\api\model\UserInfo;
 use app\api\service\Token as TokenService;
 use app\api\controller\BaseController;
 use app\api\validate\Advice;
+use app\api\validate\PagingParameter;
 use app\api\validate\UUID;
 use app\lib\exception\UserException;
 use app\api\validate\UerInfo as UserInfoValidate;
@@ -109,6 +110,26 @@ class User extends BaseController
         BlockListModel::blockUser($uid, $id);
 
         return json(new SuccessMessage(),201);
+    }
+
+    /**
+     * 我的黑名单
+     * @param $page
+     * @param $size
+     * @return array
+     */
+    public function blockedList($page, $size)
+    {
+        (new PagingParameter())->goCheck();
+        $uid = TokenService::getCurrentUid();
+        $pagingData = BlockListModel::getBlockedList($uid, $page, $size);
+
+        $data = $pagingData->visible(['user_info.user_id','user_info.nickname','user_info.avatar'])->toArray();
+
+        return [
+            'data' => $data,
+            'current_page' => $pagingData->currentPage()
+        ];
     }
 
 
