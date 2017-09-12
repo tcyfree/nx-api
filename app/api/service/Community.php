@@ -234,7 +234,9 @@ class Community
         if (($res->type != 2) || ($res->pay == 1)){
             return true;
         }else{
-            throw new ForbiddenException();
+            throw new ForbiddenException([
+                'msg' => '你是普通用户，没有此权限！'
+            ]);
         }
     }
 }
