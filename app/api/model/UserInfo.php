@@ -9,6 +9,7 @@
 namespace app\api\model;
 use app\api\service\Token as TokenService;
 use app\api\model\User as UserModel;
+use app\lib\exception\UserException;
 
 class UserInfo extends BaseModel
 {
@@ -54,21 +55,26 @@ class UserInfo extends BaseModel
      */
     public static function userInfo(){
         $uid = TokenService::getCurrentUid();
+        if(input('get.user_id')){
+            $uid = input('get.user_id');
+        }
         $userInfo = self::with('userBase,userProperty')->where('user_id', $uid)->find();
-        $userInfo->visible(['user_id','sex','nickname','avatar','signature','openid','user_base.number','user_property.wallet','user_property.execution']);
         if(!$userInfo){
             throw new UserException([
                 'msg' => '用户不存在',
                 'errorCode' => 60001
             ]);
         }
+        $userInfo->visible(['user_id','sex','nickname','avatar','signature','openid','user_base.number','user_property.wallet','user_property.execution']);
 
         return $userInfo;
     }
 
     /**
+     * 未完
      * 用户中心首页
      * @return mixed
+     * @throws UserException
      */
     public static function userCenter()
     {
