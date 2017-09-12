@@ -253,6 +253,7 @@ class Community extends BaseController
         $cs->checkAuthority($params);
 
         $where['community_id'] = $id;
+        $where['pay'] = 1;
         $pagingData = CommunityUserModel::with('member')->where($where)->paginate($size, true, ['page' => $page]);
 
         $data = $pagingData->visible(['type', 'status', 'member.user_id', 'member.nickname', 'member.avatar'])
