@@ -22,6 +22,7 @@ use app\api\service\Community as CommunityService;
 use app\api\service\Token as TokenService;
 use app\api\service\User as UserService;
 use app\api\validate\Community as CommunityValidate;
+use app\api\validate\CommunityNew as CommunityNewValidate;
 use app\api\validate\PagingParameter;
 use app\api\validate\Report;
 use app\api\validate\SearchName;
@@ -52,7 +53,7 @@ class Community extends BaseController
      */
     public function createCommunity()
     {
-        $validate = new CommunityValidate();
+        $validate = new CommunityNewValidate();
         $validate->goCheck();
 
         $data['user_id'] = TokenService::getCurrentUid();
