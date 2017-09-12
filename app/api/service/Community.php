@@ -164,7 +164,9 @@ class Community
     }
 
     /**
-     * 检查该行动社人数是否已达上限
+     * 1. 检查该行动社人数是否已达上限
+     * 2. 检查付费用户是否达上限
+     * 二者满足其一即不然再加入行动社了
      * @param $community_id
      * @throws CommunityException
      */
@@ -179,6 +181,16 @@ class Community
         if($count == $community->scale_num){
             throw new CommunityException([
                 'msg' => '该行动上人数上限已满',
+                'code' => 400
+            ]);
+        }
+
+        $where['pay'] = 1;
+        $count = $obj->where($where)->count('user_id');
+
+        if($count == $community->pay_num){
+            throw new CommunityException([
+                'msg' => '该行动上付费人数上限已满',
                 'code' => 400
             ]);
         }
