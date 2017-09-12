@@ -30,11 +30,20 @@ class BlockedList extends BaseModel
      * 加入黑名单
      * @param $uid
      * @param $blocked_user_id
+     * @throws ParameterException
      */
     public static function blockUser($uid, $blocked_user_id)
     {
         UserModel::checkUserExists($blocked_user_id);
-        self::checkRecordExists($uid, $blocked_user_id);
+        $where['user_id'] = $uid;
+        $where['blocked_user_id'] = $blocked_user_id;
+        $where['delete_time'] = 0;
+        $res = self::checkRecordExists($where);
+        if ($res){
+            throw new ParameterException([
+                'msg' => '该用户已经被加入黑名单了'
+            ]);
+        }
         self::create(['user_id' => $uid, 'blocked_user_id' => $blocked_user_id]);
 
     }
@@ -42,24 +51,21 @@ class BlockedList extends BaseModel
     /**
      * 1. 自己不能把自己加入黑名单
      * 2. 检查是否重复添加
-     * @param $uid
-     * @param $blocked_user_id
+     * @param $where
+     * @return null|static
      * @throws ParameterException
      */
-    public static function checkRecordExists($uid, $blocked_user_id)
+    public static function checkRecordExists($where)
     {
-        if($uid == $blocked_user_id){
+        if($where['user_id'] == $where['blocked_user_id']){
             throw new ParameterException([
-                'msg' => '自己不能把自己加入黑名单！'
+                'msg' => '自己不能把自己列入黑名单！'
             ]);
         }
 
-        $res = self::get(['user_id' => $uid, 'blocked_user_id' => $blocked_user_id, 'delete_time' => 0]);
-        if ($res){
-            throw new ParameterException([
-                'msg' => '该用户已经被加入黑名单了'
-            ]);
-        }
+        $res = self::get($where);
+
+        return $res;
     }
 
     /**
@@ -81,4 +87,22 @@ class BlockedList extends BaseModel
         return $pagingData;
     }
 
+    /**
+     * 解除黑名单
+     * @param $uid
+     * @param $blocked_user_id
+     * @throws ParameterException
+     */
+    public static function deleteBlockUser($uid,$blocked_user_id)
+    {
+        $where['user_id'] = $uid;
+        $where['blocked_user_id'] = $blocked_user_id;
+        $where['delete_time'] = 0;
+        $res = self::checkRecordExists($where);
+        if (!$res){
+            throw new ParameterException();
+        }
+
+        self::update(['delete_time' => time()],$where);
+    }
 }

@@ -68,16 +68,29 @@ Ext.define('WebRoot.view.WestView', {
 									leaf: true
 								},
 								{
-									id: 'block',
-									text: '加入黑名单',
-									hrefTarget: SYS_API_ROOT + 'phpfiles/user_block.php',
-									leaf: true
-								},
-								{
-									id: 'blocked_list',
-									text: '我的黑名单',
-									hrefTarget: SYS_API_ROOT + 'phpfiles/user_blocked_list.php',
-									leaf: true
+									id: 'menu_block',
+									text: '黑名单相关',
+									expanded: true,
+									children: [
+                                        {
+                                            id: 'block_add',
+                                            text: '加入黑名单',
+                                            hrefTarget: SYS_API_ROOT + 'phpfiles/user_block.php',
+                                            leaf: true
+                                        },
+                                        {
+                                            id: 'blocked_list',
+                                            text: '我的黑名单',
+                                            hrefTarget: SYS_API_ROOT + 'phpfiles/user_blocked_list.php',
+                                            leaf: true
+                                        },
+										{
+											id: 'block_delete',
+											text: '解除黑名单',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/user_block_delete.php',
+											leaf: true
+										}
+									]
 								}
 							]
 						},

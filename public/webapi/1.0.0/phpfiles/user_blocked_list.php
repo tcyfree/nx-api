@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
       <td>GET</td>
-    <td>v1/user/blocked_list</td>
+    <td>v1/user/block</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>

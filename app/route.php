@@ -21,7 +21,8 @@ Route::group(':version/user', function(){
     Route::get('/execution','api/:version.User/getExecutionRankByUser');
     Route::post('/advice','api/:version.User/addAdvice');
     Route::post('/block','api/:version.User/blockUser');
-    Route::get('/blocked_list','api/:version.User/blockedList');
+    Route::delete('/block','api/:version.User/deleteBlockUser');
+    Route::get('/block','api/:version.User/blockedList');
 });
 
 

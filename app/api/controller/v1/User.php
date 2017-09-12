@@ -132,5 +132,18 @@ class User extends BaseController
         ];
     }
 
+    /**
+     * 解除黑名单
+     * @param $id
+     * @return \think\response\Json
+     */
+    public function deleteBlockUser($id)
+    {
+        (new UUID())->goCheck();
+        $uid = TokenService::getCurrentUid();
+        BlockListModel::deleteBlockUser($uid,$id);
+
+        return json(new SuccessMessage(),201);
+    }
 
 }
