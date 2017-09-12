@@ -239,4 +239,28 @@ class Community
             ]);
         }
     }
+
+    /**
+     * 检查此行动社管理员权限
+     */
+    public function checkManagerAuthority($community_id,$uid)
+    {
+
+    }
+
+    /**
+     * 检查是否是社长
+     * @param $community_id
+     * @param $uid
+     * @throws ForbiddenException
+     */
+    public function checkPresident($community_id,$uid)
+    {
+        $res = CommunityUserModel::get(['community_id' => $community_id, 'user_id' => $uid]);
+        if ($res->type !=1){
+            throw new ForbiddenException([
+                'msg' => '你不是社长，没有此权限！'
+            ]);
+        }
+    }
 }

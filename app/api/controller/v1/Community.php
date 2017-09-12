@@ -273,9 +273,13 @@ class Community extends BaseController
     {
         (new SetManager())->goCheck();
         $dataArray = input('post.');
+        $uid = TokenService::getCurrentUid();
+
+        $cs = new CommunityService();
+        $cs->checkPresident($dataArray['community_id'],$uid);
 
         $data['to_user_id'] = UserService::getManagerUser($dataArray['number'],$dataArray['community_id']);
-        $data['from_user_id'] = TokenService::getCurrentUid();
+        $data['from_user_id'] = $uid;
         $auth = CommunityService::authFilter($dataArray['auth']);
         $data['auth'] = $auth;
         $data['community_id'] = $dataArray['community_id'];
