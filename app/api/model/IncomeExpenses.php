@@ -70,6 +70,11 @@ class IncomeExpenses extends BaseModel
             //更新参加人数
             ActPlan::where('id',$data['act_plan_id'])->setInc('total_participant');
 
+            //将普通用户变成付费用户
+            $where['community_id'] = $community_id;
+            $where['user_id'] = $uid;
+            CommunityUser::update(['pay' => 1],$where);
+
             Db::commit();
 
         }catch (Exception $ex)

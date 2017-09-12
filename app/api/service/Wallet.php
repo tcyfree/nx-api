@@ -19,20 +19,16 @@ use app\lib\exception\ParameterException;
 class Wallet
 {
     /**
-     * 检查购买费用和实际行动计划任务费用是否相同
+     * 获取行动计划费用
      * @param $id
-     * @param $join_fee
-     * @throws ParameterException
+     * @return mixed
      */
-    public static function checkActPlanFee($id,$join_fee)
+    public static function getActPlanFee($id)
     {
         ActPlanModel::checkActPlanExists($id);
-        $res = ActPlanModel::get(['id' => $id, 'fee' => $join_fee]);
-        if(!$res){
-            throw new ParameterException([
-                'msg' => '购买费用和行动计划费用不匹配哦！'
-            ]);
-        }
+        $res = ActPlanModel::get(['id' => $id,]);
+
+        return $res->fee;
     }
 
     /**

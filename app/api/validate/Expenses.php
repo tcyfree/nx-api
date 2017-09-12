@@ -18,7 +18,6 @@ class Expenses extends BaseValidate
 {
     protected $rule = [
         'act_plan_id' => 'require|length:36',
-        'mode' => 'require|in:0,1',
-        'fee' => 'require|between:1,49',
+        'mode' => 'require|in:0,1'
     ];
 }

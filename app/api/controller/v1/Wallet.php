@@ -36,7 +36,7 @@ class Wallet extends BaseController
         (new Expenses())->goCheck();
         $data = input('delete.');
         $uid = TokenService::getCurrentUid();
-        WalletService::checkActPlanFee($data['act_plan_id'],$data['fee']);
+        $data['fee'] = WalletService::getActPlanFee($data['act_plan_id']);
         IncomeExpensesModel::place($uid,$data);
 
         return json(new SuccessMessage(),201);

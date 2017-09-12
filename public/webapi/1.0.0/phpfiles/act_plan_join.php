@@ -35,13 +35,6 @@
    <td width="226">参加模式</td>
    <td width="598">0 普通 1 挑战模式</td>
  </tr>
-
-    <tr>
-        <td>fee</td>
-        <td>费用（元）</td>
-        <td>&nbsp;1~49</td>
-    </tr>
-
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>
 <table width="90%" border="1" class="dbTable">
