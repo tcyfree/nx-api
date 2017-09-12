@@ -17,9 +17,10 @@ use app\api\model\AuthUser as AuthUserModel;
 use app\api\model\Community as CommunityModel;
 use app\api\model\CommunityTransfer;
 use app\api\model\CommunityUser as CommunityUserModel;
-use app\api\model\CommunityUser;
 use app\api\model\Report as ReportModel;
+use app\api\service\Community as CommunityService;
 use app\api\service\Token as TokenService;
+use app\api\service\User as UserService;
 use app\api\validate\Community as CommunityValidate;
 use app\api\validate\PagingParameter;
 use app\api\validate\Report;
@@ -34,8 +35,6 @@ use app\lib\exception\SuccessMessage;
 use app\lib\exception\UpdateNumException;
 use think\Db;
 use think\Exception;
-use app\api\service\User as UserService;
-use app\api\service\Community as CommunityService;
 
 class Community extends BaseController
 {
@@ -91,7 +90,6 @@ class Community extends BaseController
 
     /**
      * 编辑行动社
-     * @param $id
      * @return \think\response\Json
      * @throws ParameterException
      * @throws UpdateNumException
@@ -120,6 +118,7 @@ class Community extends BaseController
         Db::startTrans();
         try
         {
+
             CommunityModel::update($dataArray,['id'=>$id]);
             $result = CommunityModel::get($id)->toArray();
             if($result['update_num'] == 0){
@@ -334,16 +333,28 @@ class Community extends BaseController
      * 免费加入行动社
      * @param $id
      * @return \think\response\Json
-     * @throws ParameterException
+     * @throws Exception
      */
     public function freeJoin($id)
     {
         (new UUID())->goCheck();
         $uid = TokenService::getCurrentUid();
-        CommunityService::checkAllowJoinStatus($uid);
-        CommunityService::checkCommunityUserExists($id,$uid);
 
-        CommunityUserModel::create(['community_id' => $id, 'user_id' => $uid]);
+        Db::startTrans();
+        try{
+
+            CommunityService::checkAllowJoinStatus($uid);
+            CommunityService::checkCommunityUserExists($id,$uid);
+            CommunityService::checkCommunityUserLimit($id);
+            CommunityUserModel::create(['community_id' => $id, 'user_id' => $uid]);
+
+            Db::commit();
+        }catch (Exception $ex)
+        {
+            Db::rollback();
+            throw $ex;
+        }
+
         return json(new SuccessMessage(),201);
     }
 
