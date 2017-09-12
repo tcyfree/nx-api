@@ -105,15 +105,11 @@ class Community extends BaseController
 
         $data['user_id'] = $uid;
         $dataArray = $validate->getDataByRule(input('put.'));
-        $res = CommunityModel::get(['name' => $dataArray['name']]);
         $id = $dataArray['id'];
         CommunityUserModel::checkCommunityBelongsToUser($uid, $id);
-        if($res){
-            throw new ParameterException(
-                [
-                    'msg' => "'".$dataArray['name']."'已经存在了！"
-                ]);
-        }
+
+        CommunityModel::checkNameUpdate($id,$dataArray['name']);
+
 
         //开启事物
         Db::startTrans();

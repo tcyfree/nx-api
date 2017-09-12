@@ -8,6 +8,7 @@
 
 namespace app\api\service;
 use app\api\model\ActPlanUser as ActPlanUserModel;
+use app\api\model\AuthUser;
 use app\api\model\CommunityUser as CommunityUserModel;
 use app\api\service\Token as TokenService;
 use app\lib\enum\AllowJoinStatusEnum;
@@ -16,6 +17,7 @@ use app\lib\exception\ForbiddenException;
 use app\lib\exception\ParameterException;
 use app\api\model\Community as CommunityModel;
 use app\api\model\ActPlan as ActPlanModel;
+use app\api\model\AuthUser as AuthUserModel;
 
 class Community
 {
@@ -242,10 +244,24 @@ class Community
 
     /**
      * 检查此行动社管理员权限
+     * @param $uid
+     * @param $community_id
+     * @param $subject
+     * @throws ForbiddenException
      */
-    public function checkManagerAuthority($community_id,$uid)
+    public function checkManagerAuthority($uid,$community_id,$subject)
     {
+        $where['to_user_id'] = $uid;
+        $where['community_id'] = $community_id;
+        $res = AuthUserModel::get($where);
 
+        $pattern = explode(',', $res->auth);
+        foreach ($subject as $v){
+            if (!in_array($v, $pattern))
+            {
+                throw new ForbiddenException();
+            }
+        }
     }
 
     /**

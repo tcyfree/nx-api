@@ -92,5 +92,28 @@ class Community extends BaseModel
         }
     }
 
+    /**
+     * 编辑行动社时，可以不修改名称保存
+     * @param $community_id
+     * @param $name
+     * @return bool
+     * @throws ParameterException
+     */
+    public static function checkNameUpdate($community_id,$name)
+    {
+        $res = self::get(['id' => $community_id,'name' => $name]);
+        if($res){
+            return true;
+        }
+
+        $result = self::get(['name' => $name]);
+        if($result){
+            throw new ParameterException(
+                [
+                    'msg' => "'".$name."'已经存在了,换一个修改名称吧"
+                ]);
+        }
+    }
+
 
 }
