@@ -32,6 +32,7 @@ class UserInfo extends BaseModel
     /**
      * 读取器自动拼接图片URL
      * @param $value
+     * @param $data
      * @return string
      */
     public function getAvatarAttr($value,$data){

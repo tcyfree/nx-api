@@ -21,7 +21,7 @@ Ext.define('WebRoot.view.NorthView', {
 			xtype:'displayfield',
 			width:500,
 			readOnly:true,
-			value: '<span style="color:red;margin-left:2px">[系统提示：左侧菜单树中被"标注红色"的接口，表示与上一版本比较，已经变更]</span><br>' 
+			value: '<span style="color:red;margin-left:2px">[请注意：左侧菜单树中被"标注红色"的接口，表示已经变更]</span><br>'
 		},				              
 	    '->',//->符号表示剩余按钮右对齐
 		{

@@ -164,6 +164,27 @@ class Community
     }
 
     /**
+     * 检查该行动社人数是否已达上限
+     * @param $community_id
+     * @throws CommunityException
+     */
+    public static function checkCommunityUserLimit($community_id)
+    {
+        $obj = new CommunityUserModel();
+        $where['community_id'] = $community_id;
+        $where['status'] = ['neq',1];
+        $count = $obj->where($where)->count('user_id');
+
+        $community = CommunityModel::get(['id' => $community_id]);
+        if($count == $community->scale_num){
+            throw new CommunityException([
+                'msg' => '该行动上人数上限已满',
+                'code' => 400
+            ]);
+        }
+    }
+
+    /**
      * 根据行动计划id判断该用户是否参加对应的行动社
      * @param $uid
      * @param $act_plan_id
