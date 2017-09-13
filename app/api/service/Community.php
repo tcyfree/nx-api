@@ -244,15 +244,23 @@ class Community
 
     /**
      * 检查此行动社管理员权限
+     * 1.如果是社长直接放行
      * @param $uid
      * @param $community_id
      * @param $subject
+     * @return bool
      * @throws ForbiddenException
      */
     public function checkManagerAuthority($uid,$community_id,$subject)
     {
         $where['to_user_id'] = $uid;
         $where['community_id'] = $community_id;
+
+        $res = CommunityUserModel::get(['community_id' => $community_id, 'user_id' => $uid]);
+        if ($res->type ==0){
+            return true;
+        }
+
         $res = AuthUserModel::get($where);
 
         $pattern = explode(',', $res->auth);
