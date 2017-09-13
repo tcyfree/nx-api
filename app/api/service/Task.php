@@ -46,12 +46,15 @@ class Task
      * 判断是否有操作任务权限
      * @param $uid
      * @param $act_plan_id
+     * @throws ParameterException
      */
     public function checkAuthority($uid,$act_plan_id)
     {
         $ap_obj = ActPlanModel::get(['id' => $act_plan_id]);
         if (!$ap_obj){
-            $auth_array[0] = 1;
+            throw new ParameterException();
+        }else{
+            $auth_array[0] = 2;
             $c_obj = new CommunityService();
             $c_obj->checkManagerAuthority($uid,$ap_obj->community_id,$auth_array);
         }

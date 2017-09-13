@@ -22,6 +22,7 @@ use app\api\model\Task as TaskModel;
 use app\api\model\TaskRecord as TaskRecordModel;
 use app\api\validate\TaskUpdate;
 use app\api\validate\UUID;
+use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
 use app\api\model\ActPlan as ActPlanModel;
 use app\api\service\Community as CommunityService;
@@ -84,6 +85,8 @@ class Task extends BaseController
         $dataArray = $validate->getDataByRule(input('put.'));
         $t_obj = TaskModel::get(['id' => $dataArray['id']]);
         if (!$t_obj){
+           throw new ParameterException();
+        }else{
             $ts = new TaskService();
             $ts->checkAuthority($uid,$t_obj->act_plan_id);
         }

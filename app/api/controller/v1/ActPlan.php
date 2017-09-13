@@ -24,6 +24,7 @@ use app\api\validate\ActPlanNew;
 use app\api\validate\ActPlanUpdate;
 use app\api\validate\PagingParameter;
 use app\api\validate\SearchName;
+use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
 use app\api\service\Community as CommunityService;
 
@@ -61,6 +62,7 @@ class ActPlan extends BaseController
      * 编辑行动计划
      * 1.鉴权
      * @return \think\response\Json
+     * @throws ParameterException
      */
     public function updateActPlan()
     {
@@ -73,6 +75,8 @@ class ActPlan extends BaseController
 
         $ap_obj = ActPlanModel::get(['id' => $id]);
         if(!$ap_obj){
+            throw new ParameterException();
+        }else{
             $c_obj = new CommunityService();
             $auth_array[0] = 1;
             $c_obj->checkManagerAuthority($uid,$ap_obj->community_id,$auth_array);
