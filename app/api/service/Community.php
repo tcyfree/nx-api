@@ -260,16 +260,19 @@ class Community
         if ($res->type ==0){
             return true;
         }
-
         $res = AuthUserModel::get($where);
-
-        $pattern = explode(',', $res->auth);
-        foreach ($subject as $v){
-            if (!in_array($v, $pattern))
-            {
-                throw new ForbiddenException();
+        if(!$res){
+            throw new ForbiddenException();
+        }else{
+            $pattern = explode(',', $res->auth);
+            foreach ($subject as $v){
+                if (!in_array($v, $pattern))
+                {
+                    throw new ForbiddenException();
+                }
             }
         }
+
     }
 
     /**
