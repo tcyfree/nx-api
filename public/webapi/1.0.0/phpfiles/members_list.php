@@ -50,6 +50,12 @@
          <p>2： 成员</p>
      </td>
   </tr>
+    <tr>
+        <td>status</td>
+        <td>状态</td>
+        <td>0 未退群 1 已退群 2被暂停成员资格
+        </td>
+    </tr>
   <tr>
     <td>user_id</td>
     <td>用户ID</td>
