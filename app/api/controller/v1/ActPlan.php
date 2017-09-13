@@ -31,6 +31,7 @@ class ActPlan extends BaseController
 {
     /**
      * 创建行动计划
+     * 1.鉴权
      * @return \think\response\Json
      */
     public function createActPlan()
@@ -57,16 +58,24 @@ class ActPlan extends BaseController
     }
 
     /**
-     * 编辑行动社
+     * 编辑行动计划
+     * 1.鉴权
      * @return \think\response\Json
      */
     public function updateActPlan()
     {
         $validate = new ActPlanUpdate();
         $validate->goCheck();
-        $data['user_id'] = TokenService::getCurrentUid();
+        $uid = TokenService::getCurrentUid();
+        $data['user_id'] = $uid;
         $dataArray = $validate->getDataByRule(input('put.'));
         $id = $dataArray['id'];
+
+        $ap_obj = ActPlanModel::get(['id' => $id]);
+        $c_obj = new CommunityService();
+        $auth_array[0] = 1;
+        $c_obj->checkManagerAuthority($uid,$ap_obj->community_id,$auth_array);
+
         ActPlanModel::update($dataArray,['id' => $id]);
 
         $data['act_plan_id'] = $id;
