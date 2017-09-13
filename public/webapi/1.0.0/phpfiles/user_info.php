@@ -69,14 +69,19 @@
         <td width="581"></td>
     </tr>
     <tr>
-        <td>user_property.execution</td>
+        <td>execution</td>
         <td>行动力</td>
         <td width="581"></td>
     </tr>
     <tr>
-        <td>user_base.number</td>
+        <td>number</td>
         <td>ID</td>
         <td width="581"></td>
+    </tr>
+    <tr>
+        <td>blocked</td>
+        <td>是否为我的黑名单</td>
+        <td width="581">true 是 false 否 只有在查看别人信息时有此字段</td>
     </tr>
 
   
