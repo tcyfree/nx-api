@@ -105,4 +105,23 @@ class BlockedList extends BaseModel
 
         self::update(['delete_time' => time()],$where);
     }
+
+    /**
+     * 判断此用户是否是自己的黑名单用户
+     * @param $uid
+     * @param $to_uid
+     * @return bool
+     */
+    public static function judgeBlockedListUser($uid,$to_uid)
+    {
+        $where['user_id'] = $uid;
+        $where['blocked_user_id'] = $to_uid;
+        $where['delete_time'] = 0;
+        $res = self::get($where);
+        if ($res) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

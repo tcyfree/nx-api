@@ -10,6 +10,7 @@ namespace app\api\model;
 use app\api\service\Token as TokenService;
 use app\api\model\User as UserModel;
 use app\lib\exception\UserException;
+use app\api\model\BlockedList as BlockedListModel;
 
 class UserInfo extends BaseModel
 {
@@ -51,24 +52,34 @@ class UserInfo extends BaseModel
             ->find();
         return $user;
     }
+
     /**
      * 用户基本信息
+     * 1. 增加是否黑名单标识blocked
      */
     public static function userInfo(){
         $uid = TokenService::getCurrentUid();
-        if(input('get.user_id')){
-            $uid = input('get.user_id');
+        $to_uid = input('get.user_id');
+        if($to_uid){
+            $userInfo = self::with('userBase,userProperty')->where('user_id', $to_uid)->find();
+            $blocked = BlockedListModel::judgeBlockedListUser($uid,$to_uid);
+        }else{
+            $userInfo = self::with('userBase,userProperty')->where('user_id', $uid)->find();
         }
-        $userInfo = self::with('userBase,userProperty')->where('user_id', $uid)->find();
+
         if(!$userInfo){
             throw new UserException([
                 'msg' => '用户不存在',
                 'errorCode' => 60001
             ]);
         }
-        $userInfo->visible(['user_id','sex','nickname','avatar','signature','openid','user_base.number','user_property.wallet','user_property.execution']);
+        $data = $userInfo->visible(['user_id','sex','nickname','avatar','signature','openid','user_base.number','user_property.wallet','user_property.execution'])
+                         ->toArray();
 
-        return $userInfo;
+        if($to_uid){
+            $data['blocked'] = $blocked;
+        }
+        return $data;
     }
 
     /**
