@@ -33,18 +33,23 @@ class Task extends BaseController
 {
     /**
      * 创建任务
+     * 1.鉴权
      * @return \think\response\Json
      * @throws Exception
      */
     public function createTask()
     {
         (new TaskNew())->goCheck();
-        $data['user_id'] = TokenService::getCurrentUid();
+        $uid = TokenService::getCurrentUid();
+        $data['user_id'] = $uid;
         $id = uuid();
 
         $dataArray = input('post.');
         ActPlanModel::checkActPlanExists($dataArray['act_plan_id']);
         $dataArray['id'] = $id;
+
+        $ts = new TaskService();
+        $ts->checkAuthority($uid,$dataArray['act_plan_id']);
 
         Db::startTrans();
         try {
@@ -67,16 +72,23 @@ class Task extends BaseController
 
     /**
      * 编辑任务
+     * 1.鉴权
      */
     public function updateTask()
     {
         $validate = new TaskUpdate();
         $validate->goCheck();
-        $data['user_id'] = TokenService::getCurrentUid();
+        $uid = TokenService::getCurrentUid();
+        $data['user_id'] = $uid;
 
         $dataArray = $validate->getDataByRule(input('put.'));
-        TaskModel::update($dataArray,['id' => $dataArray['id']]);
+        $t_obj = TaskModel::get(['id' => $dataArray['id']]);
+        if (!$t_obj){
+            $ts = new TaskService();
+            $ts->checkAuthority($uid,$t_obj->act_plan_id);
+        }
 
+        TaskModel::update($dataArray,['id' => $dataArray['id']]);
         $data['task_id'] = $dataArray['id'];
         $data['type'] = 1;
         TaskRecordModel::create($data);

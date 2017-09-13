@@ -256,8 +256,8 @@ class Community
         $where['to_user_id'] = $uid;
         $where['community_id'] = $community_id;
 
-        $res = CommunityUserModel::get(['community_id' => $community_id, 'user_id' => $uid]);
-        if ($res->type ==0){
+        $cu_obj = CommunityUserModel::get(['community_id' => $community_id, 'user_id' => $uid]);
+        if ($cu_obj->type ==0){
             return true;
         }
         $res = AuthUserModel::get($where);

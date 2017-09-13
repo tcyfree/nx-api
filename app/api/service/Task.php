@@ -15,6 +15,8 @@ namespace app\api\service;
 
 use app\api\model\ActPlanUser as ActPlanUserModel;
 use app\lib\exception\ParameterException;
+use app\api\model\ActPlan as ActPlanModel;
+use app\api\service\Community as CommunityService;
 
 class Task
 {
@@ -37,6 +39,21 @@ class Task
             throw new ParameterException([
                 'msg' =>'该任务不是你的！！！！'
             ]);
+        }
+    }
+
+    /**
+     * 判断是否有操作任务权限
+     * @param $uid
+     * @param $act_plan_id
+     */
+    public function checkAuthority($uid,$act_plan_id)
+    {
+        $ap_obj = ActPlanModel::get(['id' => $act_plan_id]);
+        if (!$ap_obj){
+            $auth_array[0] = 1;
+            $c_obj = new CommunityService();
+            $c_obj->checkManagerAuthority($uid,$ap_obj->community_id,$auth_array);
         }
     }
 }
