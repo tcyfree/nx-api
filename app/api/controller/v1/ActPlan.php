@@ -72,9 +72,11 @@ class ActPlan extends BaseController
         $id = $dataArray['id'];
 
         $ap_obj = ActPlanModel::get(['id' => $id]);
-        $c_obj = new CommunityService();
-        $auth_array[0] = 1;
-        $c_obj->checkManagerAuthority($uid,$ap_obj->community_id,$auth_array);
+        if(!$ap_obj){
+            $c_obj = new CommunityService();
+            $auth_array[0] = 1;
+            $c_obj->checkManagerAuthority($uid,$ap_obj->community_id,$auth_array);
+        }
 
         ActPlanModel::update($dataArray,['id' => $id]);
 
