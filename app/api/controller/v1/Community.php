@@ -27,6 +27,7 @@ use app\api\validate\PagingParameter;
 use app\api\validate\Report;
 use app\api\validate\SearchName;
 use app\api\validate\SetManager;
+use app\api\validate\SuspendMember;
 use app\api\validate\Transfer;
 use app\api\validate\Type;
 use app\api\validate\UUID;
@@ -390,4 +391,24 @@ class Community extends BaseController
         ];
     }
 
+    /**
+     * 暂停/恢复成员资格
+     */
+    public function suspendMember()
+    {
+        (new SuspendMember())->goCheck();
+        $uid = TokenService::getCurrentUid();
+        $data = input('put.');
+        if ($data)
+
+        $cs_obj = new CommunityService();
+        $auth_array[0] = 3;
+        $cs_obj->checkManagerAuthority($uid,$data['community_id'],$auth_array);
+
+        CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
+        CommunityUserModel::checkCommunityBelongsToUser($data['user_id'],$data['community_id']);
+        CommunityUserModel::update(['status' => $data['status']],['user_id' => $data['user_id'], 'community_id' => $data['community_id']]);
+
+        return json(new SuccessMessage(),201);
+    }
 }
