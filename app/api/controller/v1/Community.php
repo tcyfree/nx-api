@@ -32,6 +32,7 @@ use app\api\validate\Transfer;
 use app\api\validate\Type;
 use app\api\validate\UUID;
 use app\lib\exception\CommunityException;
+use app\lib\exception\ForbiddenException;
 use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
 use app\lib\exception\UpdateNumException;
@@ -203,15 +204,21 @@ class Community extends BaseController
 
     /**
      * 更新行动社编辑次数为3
+     * 1.限制只能自己服务器IP才能执行此接口
      */
     public function initUpdateNum()
     {
-        echo request()->ip();
-        die(0);
-        $date['update_num'] = 3;
-        CommunityModel::update($date,'1 = 1');
+        $request_ip =  request()->ip();
+        $allow_ip = '59.110.156.26';
+        if ($request_ip == $allow_ip){
+            $date['update_num'] = 3;
+            CommunityModel::update($date,'1 = 1');
+            return json(new SuccessMessage(), 201);
 
-        return json(new SuccessMessage(), 201);
+        }else{
+            throw new ForbiddenException();
+        }
+
     }
 
     /**
