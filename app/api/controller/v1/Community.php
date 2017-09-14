@@ -209,15 +209,22 @@ class Community extends BaseController
     public function initUpdateNum()
     {
         $request_ip =  request()->ip();
-        $allow_ip = '59.110.156.26';
-        if ($request_ip == $allow_ip){
+        $allow_ip_array = config('secure.allow_ip');
+        $allow = false;
+        foreach ($allow_ip_array as $value){
+            if ($request_ip == $value){
+                $allow = true;
+                break;
+            }
+        }
+        if ($allow){
             $date['update_num'] = 3;
             CommunityModel::update($date,'1 = 1');
             return json(new SuccessMessage(), 201);
-
         }else{
             throw new ForbiddenException();
         }
+
 
     }
 
