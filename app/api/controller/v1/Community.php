@@ -195,7 +195,7 @@ class Community extends BaseController
         {
             throw new CommunityException();
         }
-        $data = $communityDetail->hidden(['recommended','act_plan.community_id'])->toArray();
+        $data = $communityDetail->hidden(['recommended','scale_num','pay_num','search'])->toArray();
         $data = CommunityService::getUserStatus($data);
 
         return $data;

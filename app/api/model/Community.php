@@ -34,7 +34,7 @@ class Community extends BaseModel
      */
     public static function detailWithActPlan($id)
     {
-        $res = self::with('actPlan')->where('id',$id)->find();
+        $res = self::where('id',$id)->find();
         return $res;
     }
 

@@ -68,24 +68,19 @@
     <td>二维码</td>
     <td><p>&nbsp;</p></td>
   </tr>
-  <tr>
-    <td>act_plan.total_participant</td>
-    <td>累计参与人数</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>act_plan.task_num</td>
-    <td>内含任务总数</td>
-    <td>&nbsp;</td>
-  </tr>
+    <tr>
+        <td>user.join</td>
+        <td>用户是否加入该行动社</td>
+        <td>否：false 是：true </td>
+    </tr>
     <tr>
         <td>user.status</td>
-        <td>0 未退群 1 已退群 2被暂停成员资格</td>
+        <td>0 未退群 1 已退群 2被暂停成员资格 null 未加入</td>
         <td>&nbsp;</td>
     </tr>
     <tr>
         <td>user.type</td>
-        <td>关联类型 0 社长 1 管理员 2 成员</td>
+        <td>关联类型 0 社长 1 管理员 2 成员 null 未加入</td>
         <td>&nbsp;</td>
     </tr>
     <tr>
@@ -93,11 +88,7 @@
         <td>用户已加入有效行动社数量</td>
         <td>&nbsp;判断用户是否可免费加入，最多可以参加5个</td>
     </tr>
-    <tr>
-        <td>user.join</td>
-        <td>用户是否加入该行动社</td>
-        <td>否：false 是：true </td>
-    </tr>
+
 
  
 </table>
