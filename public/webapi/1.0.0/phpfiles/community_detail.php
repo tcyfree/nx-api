@@ -34,9 +34,9 @@
 <p><span class="subtitlestyle">（四）特别备注</span>（infor字段说明，仅列出部分关键字段）</p>
 <table width="90%" border="1" class="dbTable">
     <tr class="td_header">
-    <td width="118">参数名称</td>
-    <td width="210">参数说明</td>
-    <td width="567">备注</td>
+    <td >参数名称</td>
+    <td >参数说明</td>
+    <td >备注</td>
   </tr>
   <tr>
     <td>outside_id</td>
