@@ -39,11 +39,7 @@
     <td width="27%">参数说明</td>
     <td width="57%">备注</td>
   </tr>
-    <tr>
-        <td>finish</td>
-        <td>是否已完成该行动计划</td>
-        <td>&nbsp;0 否 1 是</td>
-    </tr>
+
     <tr>
         <td>id</td>
         <td>行动计划ID</td>
@@ -62,6 +58,16 @@
     <tr>
         <td>description</td>
         <td>简介</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>total_participant</td>
+        <td>累计参与人数</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>task_num</td>
+        <td>任务总数</td>
         <td>&nbsp;</td>
     </tr>
 </table>
