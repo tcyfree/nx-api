@@ -21,6 +21,7 @@ use app\api\model\ActPlanUser as ActPlanUserModel;
 use app\api\model\Community as CommunityModel;
 use app\api\service\Token as TokenService;
 use app\api\validate\ActPlanNew;
+use app\api\validate\ActPlanSummaryList;
 use app\api\validate\ActPlanUpdate;
 use app\api\validate\PagingParameter;
 use app\api\validate\SearchName;
@@ -127,6 +128,25 @@ class ActPlan extends BaseController
         $pagingData = ActPlanUserModel::actPlanByUser($uid, $page,$size);
 
         $data = $pagingData->visible(['finish','act_plan.id','act_plan.name','act_plan.description','act_plan.cover_image'])
+            ->toArray();
+
+        return [
+            'data' => $data,
+            'current_page' => $pagingData->currentPage()
+        ];
+    }
+
+    /**
+     * 根据行动社分页查找对应行动计划列表
+     * @return array
+     */
+    public function getSummaryListByCommunity()
+    {
+        (new ActPlanSummaryList())->goCheck();
+        $data = input('get.');
+        $pagingData = ActPlanModel::actPlanByList($data);
+
+        $data = $pagingData->hidden(['fee','create_time','update_time','delete_time','community_id','mode'])
             ->toArray();
 
         return [

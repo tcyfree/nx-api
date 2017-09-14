@@ -63,6 +63,7 @@ Route::group(':version/plan',function (){
     Route::put('','api/:version.ActPlan/updateActPlan');
     Route::post('/search','api/:version.ActPlan/searchActPlan');
     Route::get('/user/:page/:size','api/:version.ActPlan/joinActPlanByUser');
+    Route::get('','api/:version.ActPlan/getSummaryListByCommunity');
 });
 
 /**

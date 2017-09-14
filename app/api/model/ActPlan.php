@@ -52,4 +52,22 @@ class ActPlan extends BaseModel
         return $res;
     }
 
+    /**
+     * 根据行动社分页查找对应行动计划列表
+     * @param $data
+     * @return \think\Paginator
+     */
+    public static function actPlanByList($data)
+    {
+        $page = $data['page'];
+        $size = $data['size'];
+        $where['community_id'] = $data['community_id'];
+
+        $pagingData = self::where($where)
+            ->order('create_time asc')
+            ->paginate($size, true, ['page' => $page]);
+
+        return $pagingData;
+    }
+
 }
