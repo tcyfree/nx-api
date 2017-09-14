@@ -206,6 +206,8 @@ class Community extends BaseController
      */
     public function initUpdateNum()
     {
+        echo request()->ip();
+        die(0);
         $date['update_num'] = 3;
         CommunityModel::update($date,'1 = 1');
 

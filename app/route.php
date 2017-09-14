@@ -41,7 +41,7 @@ Route::group(':version/community',function(){
     Route::post('','api/:version.Community/createCommunity');
     Route::put('/join','api/:version.Community/freeJoin');
     Route::put('/allow','api/:version.Community/permitOrRefuse');
-    Route::post('/init','api/:version.Community/initUpdateNum');
+    Route::get('/init','api/:version.Community/initUpdateNum');
     Route::put('','api/:version.Community/updateCommunity');
     Route::get('/recommend/:page/:size','api/:version.Community/getRecommendSummary');
     Route::get('/:type/:page/:size','api/:version.Community/getSummaryByUser');
