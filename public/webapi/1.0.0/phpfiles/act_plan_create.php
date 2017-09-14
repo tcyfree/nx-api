@@ -51,7 +51,7 @@
         <td>&nbsp;1~49</td>
     </tr>
     <tr>
-        <td>model</td>
+        <td>mode</td>
         <td>模式</td>
         <td>&nbsp;0 普通 1 普通+挑战</td>
     </tr>
