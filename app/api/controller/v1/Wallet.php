@@ -18,6 +18,7 @@ use app\api\validate\PagingParameter;
 use app\lib\exception\SuccessMessage;
 use app\api\service\Wallet as WalletService;
 use app\api\model\IncomeExpensesUser as IncomeExpensesUserModel;
+use app\api\model\UserProperty as UserPropertyModel;
 
 class Wallet extends BaseController
 {
@@ -64,5 +65,15 @@ class Wallet extends BaseController
         ];
     }
 
+    /**
+     * 获取我的钱包余额
+     * @return $this
+     */
+    public function getWalletByUser(){
+        $uid = TokenService::getCurrentUid();
+        $user_property = UserPropertyModel::get(['user_id' => $uid]);
+
+        return $user_property->visible(['user_id','wallet']);
+    }
 
 }

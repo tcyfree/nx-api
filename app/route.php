@@ -86,6 +86,7 @@ Route::group(':version/wallet',function (){
     Route::post('/notify', 'api/:version.Recharge/receiveNotify');
     Route::delete('','api/:version.Wallet/expensesActPlan');
     Route::get('/list','api/:version.Wallet/getIncomeExpensesSummary');
+    Route::get('','api/:version.Wallet/getWalletByUser');
 });
 
 

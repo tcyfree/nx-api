@@ -334,7 +334,13 @@ Ext.define('WebRoot.view.WestView', {
                                             text: '预支付交易单',
                                             hrefTarget: SYS_API_ROOT + 'phpfiles/wallet_prepay.php',
                                             leaf: true
-                                        }
+                                        },
+										{
+											id: 'waller_user',
+											text: '钱包余额',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/wallet_user.php',
+											leaf: true
+										}
 									]
 								},
 								{
