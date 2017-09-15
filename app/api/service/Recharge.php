@@ -150,7 +150,7 @@ class Recharge
     private function sign($wxOrder)
     {
         $jsApiPayData = new \WxPayJsApiPay();
-        $jsApiPayData->SetAppid(config('wx.app_id'));
+        $jsApiPayData->SetAppid(config('wx.g_app_id'));
         $jsApiPayData->SetTimeStamp((string)time());
 
         $rand = md5(time() . mt_rand(0, 1000));
