@@ -60,7 +60,7 @@ class WxNotify extends \WxPayNotify
                 {
                     RechargeModel::where('out_trade_no', '=', $orderNo)
                         ->update(['status' => 1]);
-                    $res = RechargeModel::get(['out_trade_no' => $orderNo,'status' =>0]);
+                    $res = RechargeModel::get(['out_trade_no' => $orderNo,'status' =>1]);
                     if($res){
                         UserPropertyModel::where(['user_id' => $res['user_id']])
                             ->update([
