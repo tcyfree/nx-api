@@ -56,6 +56,11 @@
         <td>参考用时</td>
         <td>&nbsp;时间戳（s）</td>
     </tr>
+    <tr>
+        <td>user_id</td>
+        <td></td>
+        <td>&nbsp;</td>
+    </tr>
 
 </table>
 <p>&nbsp;</p>
