@@ -15,6 +15,7 @@ namespace app\api\model;
 
 
 use app\lib\exception\ParameterException;
+use app\api\model\Task as TaskModel;
 
 class TaskUser extends BaseModel
 {
@@ -35,5 +36,16 @@ class TaskUser extends BaseModel
                 'msg' => '任务已经结束了！'
             ]);
         }
+    }
+
+    /**
+     * 结束任务
+     * @param $uid
+     * @param $task_id
+     */
+    public static function newTaskUser($uid, $task_id)
+    {
+        $res = TaskModel::where('id', $task_id)->field('act_plan_id')->find();
+        self::create(['user_id' => $uid, 'task_id' => $task_id, 'act_plan_id' => $res['act_plan_id']]);
     }
 }

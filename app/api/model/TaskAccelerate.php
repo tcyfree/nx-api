@@ -39,7 +39,7 @@ class TaskAccelerate extends BaseModel
             $dataArray['user_id'] = $data['user_id'];
             $dataArray['task_id'] = $data['task_id'];
             self::create($dataArray);
-            TaskUserModel::create(['user_id' => $data['user_id'], 'task_id' => $data['task_id']]);
+            TaskUserModel::newTaskUser($data['user_id'],  $data['task_id']);
             Db::commit();
         }catch (Exception $ex){
             Db::rollback();
