@@ -115,8 +115,10 @@ class Task extends BaseController
         $uid = TokenService::getCurrentUid();
         CommunityService::checkJoinCommunityByUser($uid,$id);
         $pagingData = TaskModel::getSummaryList($id, $page, $size);
-        $data['task'] = $pagingData->visible(['id','name','finish'])
+        $pagingArray = $pagingData->visible(['id','name'])
             ->toArray();
+        $task_obj = new TaskService();
+        $data['task'] = $task_obj->checkTaskFinish($pagingArray,$uid);
         $res = ActPlanUser::get(['act_plan_id' => $id, 'user_id' => $uid]);
         $data['flag'] = '0';
         if ($res){

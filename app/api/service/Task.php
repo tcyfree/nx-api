@@ -13,14 +13,13 @@
 
 namespace app\api\service;
 
-use app\api\model\ActPlanUser as ActPlanUserModel;
-use app\lib\exception\ParameterException;
 use app\api\model\ActPlan as ActPlanModel;
-use app\api\service\Community as CommunityService;
+use app\api\model\ActPlanUser as ActPlanUserModel;
 use app\api\model\Task as TaskModel;
-use app\api\model\TaskAccelerate as TaskAccelerateModel;
-use app\lib\exception\AcceleateTaskException;
 use app\api\model\TaskUser as TaskUserModel;
+use app\api\service\Community as CommunityService;
+use app\lib\exception\AcceleateTaskException;
+use app\lib\exception\ParameterException;
 
 class Task
 {
@@ -93,5 +92,26 @@ class Task
                 'msg' => '挑战者模式不能被加速！'
             ]);
         }
+    }
+
+    /**
+     * 判断用户是否完成该任务
+     * @param $data
+     * @param $uid
+     * @return mixed
+     */
+    public function checkTaskFinish($data, $uid){
+        $res = TaskUserModel::where(['user_id' => $uid])->field('task_id')->select()->toArray();
+        $patternArray = [];
+        foreach ($res as $v) {
+            $patternArray[] = $v['task_id'];
+        }
+        foreach ($data as &$v) {
+            $v['finish'] = 0;
+            if (in_array($v['id'],$patternArray)){
+                $v['finish'] = 1;
+            }
+        }
+        return $data;
     }
 }
