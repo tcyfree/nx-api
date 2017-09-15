@@ -38,6 +38,11 @@ class Task extends BaseModel
         return $pagingData;
     }
 
+    /**
+     * 检查任务是否存在
+     * @param $id
+     * @throws ParameterException
+     */
     public static function checkTaskExists($id)
     {
         $res = self::get(['id' => $id]);
