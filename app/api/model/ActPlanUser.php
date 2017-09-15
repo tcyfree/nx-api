@@ -13,6 +13,8 @@
 
 namespace app\api\model;
 
+use app\lib\exception\ParameterException;
+
 class ActPlanUser extends BaseModel
 {
     protected $autoWriteTimestamp = true;
@@ -40,5 +42,22 @@ class ActPlanUser extends BaseModel
             ->paginate($size, true, ['page' => $page]);
 
         return $pagingData;
+    }
+
+    /**
+     * 获取用户参加行动计划模式
+     * @param $uid
+     * @param $act_plan_id
+     * @return mixed
+     * @throws ParameterException
+     */
+    public static function getActPlanUserMode($uid,$act_plan_id){
+        $res = self::where(['user_id' => $uid, 'act_plan_id' => $act_plan_id])->field('mode')->toArray();
+        if (!$res){
+            throw new ParameterException([
+                'msg' => '该用户未参加此行动计划'
+            ]);
+        }
+        return $res['mode'];
     }
 }
