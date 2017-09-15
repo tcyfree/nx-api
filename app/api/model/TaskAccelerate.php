@@ -14,7 +14,9 @@
 namespace app\api\model;
 
 use app\api\service\Task as TaskService;
-use app\lib\exception\AcceleateTaskException;
+use think\Db;
+use think\Exception;
+use app\api\model\TaskUser as TaskUserModel;
 
 class TaskAccelerate extends BaseModel
 {
@@ -25,20 +27,24 @@ class TaskAccelerate extends BaseModel
      * 用户的普通任务加速
      * @param $uid
      * @param $data
-     * @throws AcceleateTaskException
+     * @throws Exception
      */
     public static function accelerateTask($uid,$data){
-        $where['from_user_id'] = $uid;
-        $where['user_id'] = $data['user_id'];
-        $where['task_id'] = $data['task_id'];
-        $res = self::get($where);
-        if ($res){
-            throw new AcceleateTaskException();
+        $ts_obj = new TaskService();
+        $ts_obj->checkAccelerateTask($data);
+
+        Db::startTrans();
+        try{
+            $dataArray['from_user_id'] = $uid;
+            $dataArray['user_id'] = $data['user_id'];
+            $dataArray['task_id'] = $data['task_id'];
+            self::create($dataArray);
+            TaskUserModel::create(['user_id' => $data['user_id'], 'task_id' => $data['task_id']]);
+            Db::commit();
+        }catch (Exception $ex){
+            Db::rollback();
+            throw $ex;
         }
 
-        $ts_obj = new TaskService();
-        $ts_obj->checkAccelerateTaskMode($data);
-
-        self::create($where);
     }
 }

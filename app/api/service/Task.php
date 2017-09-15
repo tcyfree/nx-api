@@ -18,6 +18,9 @@ use app\lib\exception\ParameterException;
 use app\api\model\ActPlan as ActPlanModel;
 use app\api\service\Community as CommunityService;
 use app\api\model\Task as TaskModel;
+use app\api\model\TaskAccelerate as TaskAccelerateModel;
+use app\lib\exception\AcceleateTaskException;
+use app\api\model\TaskUser as TaskUserModel;
 
 class Task
 {
@@ -64,25 +67,26 @@ class Task
     /**
      * 检查加速任务
      * @param $data
+     * @throws AcceleateTaskException
      * @throws ParameterException
      */
-    public function checkAccelerateTaskMode($data){
-        $task = TaskModel::get(['id' => $data['task_id']]);
+    public function checkAccelerateTask($data){
+
+        $task = TaskModel::get($data['task_id']);
         if (!$task){
             throw new ParameterException([
-                'msg' => '任务不存在！'
+                'msg' => '该任务不存在，请检查ID'
             ]);
         }
-        if ($task['finish'] == 1){
-            throw new ParameterException([
-                'msg' => '该任务已经结束啦'
-            ]);
-        }
+        TaskUserModel::checkTaskUserFinish($data['user_id'],$data['task_id']);
+
         $where['user_id'] = $data['user_id'];
         $where['act_plan_id'] = $task['act_plan_id'];
         $act_plan_user = ActPlanUserModel::where($where)->field('mode')->find();
         if (!$act_plan_user){
-            throw new ParameterException();
+            throw new ParameterException([
+                'msg' => '该用户还未参加加速行动计划'
+            ]);
         }
         if ($act_plan_user['mode'] == 1){
             throw new ParameterException([
