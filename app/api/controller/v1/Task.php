@@ -15,6 +15,7 @@ namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
 use app\api\model\ActPlanUser;
+use app\api\validate\AccelerateTask;
 use app\api\validate\TaskList;
 use app\api\validate\TaskNew;
 use app\api\service\Token as TokenService;
@@ -29,6 +30,7 @@ use app\api\service\Community as CommunityService;
 use think\Exception;
 use think\Db;
 use app\api\service\Task as TaskService;
+use app\api\model\TaskAccelerate as TaskAccelerateModel;
 
 class Task extends BaseController
 {
@@ -141,6 +143,28 @@ class Task extends BaseController
         TaskService::checkTaskByUser($uid,$id);
         $data = TaskModel::get(['id' => $id]);
 
-        return $data->visible(['id','name','requirement','content','reference_time']);
+        $return_data = $data->visible(['id','name','requirement','content','reference_time'])->toArray();
+        $return_data['user_id'] = $uid;
+
+        return $return_data;
+    }
+
+    /**
+     * 普通任务加速
+     * 1. 自己不能给自己加速
+     * @throws ParameterException
+     */
+    public function accelerateTask(){
+        (new AccelerateTask())->goCheck();
+        $uid = TokenService::getCurrentUid();
+        $data = input('post.');
+        if ($uid == $data['user_id']){
+            throw new ParameterException([
+                'msg' => '小样儿，自己不能给自己加速哦'
+            ]);
+        }
+        TaskAccelerateModel::accelerateTask($uid,$data);
+
+        return json(new SuccessMessage(),201);
     }
 }
