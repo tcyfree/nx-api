@@ -18,6 +18,7 @@ use app\lib\exception\ParameterException;
 use think\Paginator;
 use app\api\model\TaskUser as TaskUserModel;
 use app\api\model\Task as TaskModel;
+use app\api\model\ActPlanUser as ActPlanUserModel;
 
 class Task extends BaseModel
 {
@@ -75,6 +76,23 @@ class Task extends BaseModel
         }
         $task = TaskModel::where('id', $task_id)->field('act_plan_id')->find();
         TaskUserModel::create(['user_id' => $uid, 'task_id' => $task_id, 'act_plan_id' => $task['act_plan_id']]);
+    }
+
+    public static function getTaskMode($task_id,$uid){
+        $res = self::where(['id' => $task_id])->field(['act_plan_id'])->find();
+        if (!$res){
+            throw new ParameterException([
+                'msg' => '任务ID错误'
+            ]);
+        }
+        $mode = ActPlanUserModel::get(['user_id' => $uid, 'act_plan_id' => $res['act_plan_id']]);
+        if (!$mode){
+            throw new ParameterException([
+                'msg' => '不存在！'
+            ]);
+        }
+
+        return $mode['mode'];
     }
     public function getSumTaskDoing($act_plan_id, $task_id)
     {

@@ -73,9 +73,11 @@ Route::group(':version/task',function (){
     Route::post('','api/:version.Task/createTask');
     Route::put('','api/:version.Task/updateTask');
     Route::put('/accelerate','api/:version.Task/accelerateTask');
+    Route::get('/feedback','api/:version.Task/getFeedbackStatus');
     Route::get('/:id/:page/:size', 'api/:version.Task/getSummaryList');
     Route::get('/:id', 'api/:version.Task/getTaskDetail');
     Route::post('/go','api/:version.Task/goTask');
+
 });
 
 /**

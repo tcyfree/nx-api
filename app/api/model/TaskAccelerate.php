@@ -31,10 +31,10 @@ class TaskAccelerate extends BaseModel
      */
     public static function accelerateTask($uid,$data){
         $ts_obj = new TaskService();
-        $ts_obj->checkAccelerateTask($data);
 
         Db::startTrans();
         try{
+            $ts_obj->checkAccelerateTask($data);
             $dataArray['from_user_id'] = $uid;
             $dataArray['user_id'] = $data['user_id'];
             $dataArray['task_id'] = $data['task_id'];

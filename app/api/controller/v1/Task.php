@@ -16,6 +16,8 @@ namespace app\api\controller\v1;
 use app\api\controller\BaseController;
 use app\api\model\ActPlanUser;
 use app\api\validate\AccelerateTask;
+use app\api\validate\Feedback;
+use app\api\validate\GetFeedback;
 use app\api\validate\TaskList;
 use app\api\validate\TaskNew;
 use app\api\service\Token as TokenService;
@@ -31,6 +33,7 @@ use think\Exception;
 use think\Db;
 use app\api\service\Task as TaskService;
 use app\api\model\TaskAccelerate as TaskAccelerateModel;
+use app\api\model\TaskFeedback as TaskFeedbackModel;
 
 class Task extends BaseController
 {
@@ -181,8 +184,52 @@ class Task extends BaseController
         return json(new SuccessMessage(),201);
     }
 
+    /**
+     * 正常结束普通任务回调接口
+     */
     public function overTask()
     {
+
+    }
+
+    /**
+     * 获取挑战模式下的状态
+     * @return array
+     * @throws ParameterException
+     */
+    public function getFeedbackStatus(){
+        (new UUID())->goCheck();
+        $task_id = input('get.id');
+        $uid = TokenService::getCurrentUid();
+        $mode = TaskModel::getTaskMode($task_id,$uid);
+        if ($mode == 0){
+            throw new ParameterException([
+                'msg' => '此任务为普通模式'
+            ]);
+        }
+        $res = TaskFeedbackModel::get(['user_id' => $uid, 'task_id' => $task_id]);
+        if (!$res){
+            return ['status' => null];
+        }else{
+            return ['status' => $res['status']];
+        }
+
+    }
+    public function feedback()
+    {
+        $validate = new Feedback();
+        $dataArray = input('post.');
+        $dataRules = $validate->getDataByRules($dataArray,'status');
+        $uid = TokenService::getCurrentUid();
+        $res = TaskFeedbackModel::checkTaskFeedback($uid, $dataRules['task_id']);
+        if ($res == false){
+            TaskFeedbackModel::create($dataRules);
+            return json(new SuccessMessage(),201);
+        }else{
+            if ($res['status'] == 0){
+
+            }
+        }
 
     }
 }
