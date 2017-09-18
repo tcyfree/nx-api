@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
       <td>POST</td>
-    <td>v1/task</td>
+    <td>v1/task/feedback</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）POST参数列表：</p>
