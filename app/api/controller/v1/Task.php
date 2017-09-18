@@ -204,7 +204,7 @@ class Task extends BaseController
         $mode = TaskModel::getTaskMode($task_id,$uid);
         if ($mode == 0){
             throw new ParameterException([
-                'msg' => '此任务为普通模式'
+                'msg' => '此任务为普通模式参加'
             ]);
         }
         $res = TaskFeedbackModel::get(['user_id' => $uid, 'task_id' => $task_id]);
@@ -215,20 +215,44 @@ class Task extends BaseController
         }
 
     }
+
+    /**
+     * 任务反馈
+     * @return \think\response\Json
+     * @throws ParameterException
+     */
     public function feedback()
     {
         $validate = new Feedback();
-        $dataArray = input('post.');
-        $dataRules = $validate->getDataByRules($dataArray,'status');
+        $validate->goCheck();
+        $dataRules = $validate->getDataByRules(input('post.'),'status');
         $uid = TokenService::getCurrentUid();
+        $dataRules['user_id'] = $uid;
+        if ($dataRules)
+        if ($uid == $dataRules['to_user_id']){
+            throw new ParameterException([
+                'msg' => '自己不能给自己反馈哦'
+            ]);
+        }
+        $mode = TaskModel::getTaskMode($dataRules['task_id'],$uid);
+        if ($mode == 0){
+            throw new ParameterException([
+                'msg' => '此任务为普通模式参加，不能反馈'
+            ]);
+        }
         $res = TaskFeedbackModel::checkTaskFeedback($uid, $dataRules['task_id']);
+
         if ($res == false){
             TaskFeedbackModel::create($dataRules);
             return json(new SuccessMessage(),201);
+        }elseif ($res['status'] == 1){
+            TaskFeedbackModel::update(['content' => $dataRules['content'],'location' => $dataRules['location'],'status' => 0, 'update_time' => time()],
+                ['user_id' => $uid,'task_id' => $dataRules['task_id']]);
+            return json(new SuccessMessage(),201);
         }else{
-            if ($res['status'] == 0){
-
-            }
+            throw new ParameterException([
+                'msg' => '任务待审核或审核通过了'
+            ]);
         }
 
     }

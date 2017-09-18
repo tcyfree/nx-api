@@ -1,0 +1,38 @@
+<?php
+// +----------------------------------------------------------------------
+// | ThinkNuan-x [ WE CAN DO IT MORE SIMPLE ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2017-2018 http://www.nuan-x.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: probe <1946644259@qq.com>
+// +----------------------------------------------------------------------
+// | DateTime: 2017/9/18/11:54
+// +----------------------------------------------------------------------
+
+namespace app\api\model;
+
+
+use app\api\model\Task as TaskModel;
+
+class TaskFeedback extends BaseModel
+{
+    protected $autoWriteTimestamp = true;
+
+    /**
+     * @param $user_id
+     * @param $task_id
+     * @return bool|null|static
+     */
+    public static function checkTaskFeedback($user_id, $task_id){
+        TaskModel::checkTaskExists($task_id);
+        $res = self::get(['user_id' => $user_id, 'task_id' => $task_id]);
+        if (!$res){
+           return false;
+        }else{
+            return $res;
+        }
+    }
+
+}

@@ -313,10 +313,23 @@ Ext.define('WebRoot.view.WestView', {
 									leaf: true
 								},
 								{
-									id: 'task_feedback',
-									text: '反馈状态',
-									hrefTarget: SYS_API_ROOT + 'phpfiles/task_feedback.php',
-									leaf: true
+									id: 'challenge',
+									text: '挑战相关',
+									expanded: true,
+									children: [
+                                        {
+                                            id: 'task_feedback',
+                                            text: '反馈状态',
+                                            hrefTarget: SYS_API_ROOT + 'phpfiles/task_feedback.php',
+                                            leaf: true
+                                        },
+										{
+											id: 'task_feedback_create',
+											text: '提交反馈',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/task_feedback_create.php',
+											leaf: true
+										}
+									]
 								},
 								{
 									id: 'task_accelerate',

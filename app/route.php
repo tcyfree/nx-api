@@ -77,6 +77,7 @@ Route::group(':version/task',function (){
     Route::get('/:id/:page/:size', 'api/:version.Task/getSummaryList');
     Route::get('/:id', 'api/:version.Task/getTaskDetail');
     Route::post('/go','api/:version.Task/goTask');
+    Route::post('feedback','api/:version.Task/feedback');
 
 });
 
