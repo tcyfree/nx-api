@@ -152,6 +152,19 @@ class Task extends BaseController
     }
 
     /**
+     * GO任务
+     * @return \think\response\Json
+     */
+    public function goTask(){
+        (new UUID())->goCheck();
+        $task_id = input('post.id');
+        $uid = TokenService::getCurrentUid();
+        TaskModel::goTask($uid, $task_id);
+
+        return json(new SuccessMessage(),201);
+    }
+
+    /**
      * 普通任务加速
      * 1. 自己不能给自己加速
      * @throws ParameterException
@@ -168,5 +181,10 @@ class Task extends BaseController
         TaskAccelerateModel::accelerateTask($uid,$data);
 
         return json(new SuccessMessage(),201);
+    }
+
+    public function overTask()
+    {
+
     }
 }

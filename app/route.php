@@ -75,6 +75,7 @@ Route::group(':version/task',function (){
     Route::put('/accelerate','api/:version.Task/accelerateTask');
     Route::get('/:id/:page/:size', 'api/:version.Task/getSummaryList');
     Route::get('/:id', 'api/:version.Task/getTaskDetail');
+    Route::post('/go','api/:version.Task/goTask');
 });
 
 /**

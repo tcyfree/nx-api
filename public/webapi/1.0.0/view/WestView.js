@@ -306,6 +306,12 @@ Ext.define('WebRoot.view.WestView', {
 									leaf: true
 								},
 								{
+									id: 'task_go',
+									text: 'GO',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/task_go.php',
+									leaf: true
+								},
+								{
 									id: 'task_accelerate',
 									text: '任务加速',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/task_accelerate.php',
