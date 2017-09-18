@@ -23,6 +23,9 @@ class Task extends BaseModel
 {
     protected $autoWriteTimestamp = true;
 
+    public function taskUser(){
+        return $this->hasOne('TaskUser','task_id','id');
+    }
     /**
      * @param $id
      * @param $page

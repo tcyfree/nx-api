@@ -20,7 +20,6 @@ use app\api\model\Task as TaskModel;
 class TaskUser extends BaseModel
 {
     protected $autoWriteTimestamp = true;
-    protected $updateTime = false;
 
     /**
      * 检查用户任务是否已经结束
@@ -30,7 +29,7 @@ class TaskUser extends BaseModel
      */
     public static function checkTaskUserFinish($uid,$task_id)
     {
-        $res = self::get(['user_id' => $uid, 'task_id' => $task_id]);
+        $res = self::get(['user_id' => $uid, 'task_id' => $task_id, 'finish' => 1]);
         if($res){
             throw new ParameterException([
                 'msg' => '任务已经结束了！'
@@ -45,7 +44,6 @@ class TaskUser extends BaseModel
      */
     public static function newTaskUser($uid, $task_id)
     {
-        $res = TaskModel::where('id', $task_id)->field('act_plan_id')->find();
-        self::create(['user_id' => $uid, 'task_id' => $task_id, 'act_plan_id' => $res['act_plan_id']]);
+        self::update(['finish' => 1, 'update_time' => time()],['user_id' => $uid, 'task_id' => $task_id]);
     }
 }

@@ -36,6 +36,11 @@
     <td width="210">参数说明</td>
     <td width="567">备注</td>
   </tr>
+    <tr>
+        <td>id</td>
+        <td>任务主键ID</td>
+        <td>&nbsp;</td>
+    </tr>
   <tr>
     <td>name</td>
     <td>任务名称</td>
@@ -57,9 +62,24 @@
         <td>&nbsp;时间戳（s）</td>
     </tr>
     <tr>
+        <td>task_user</td>
+        <td>若用户还未GO，则为null</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
         <td>user_id</td>
         <td></td>
         <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>finish</td>
+        <td>该任务是否完成</td>
+        <td>&nbsp;0 否  1 是</td>
+    </tr>
+    <tr>
+        <td>create_time</td>
+        <td>GO时间</td>
+        <td>&nbsp;若finish为0，则倒计时为:now-create_time</td>
     </tr>
 
 </table>

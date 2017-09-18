@@ -143,10 +143,8 @@ class Task extends BaseController
         $uid = TokenService::getCurrentUid();
         TaskModel::checkTaskExists($id);
         TaskService::checkTaskByUser($uid,$id);
-        $data = TaskModel::get(['id' => $id]);
-
-        $return_data = $data->visible(['id','name','requirement','content','reference_time'])->toArray();
-        $return_data['user_id'] = $uid;
+        $data = TaskModel::with('taskUser')->where(['id' => $id])->find();
+        $return_data = $data->visible(['id','name','requirement','content','reference_time','task_user.user_id','task_user.finish','task_user.create_time'])->toArray();
 
         return $return_data;
     }
