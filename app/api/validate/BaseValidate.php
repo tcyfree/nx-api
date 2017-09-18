@@ -130,25 +130,24 @@ class BaseValidate extends Validate
         }
         return $newArray;
     }
+
     /**
      * 过滤指定非法提交参数
      * @param $arrays
+     * @param $key
      * @return array
      * @throws ParameterException
      */
-    public function getDataByRules($arrays, $keys)
+    public function getDataByRules($arrays, $key)
     {
-        foreach ($keys as $key => $value){
-            if (array_key_exists($key, $arrays))
-            {
-                // 不允许包含非指定key
-                throw new ParameterException(
-                    [
-                        'msg' => '参数中包含有非法的参数名'.$key
-                    ]);
-            }
+        if (array_key_exists($key, $arrays))
+        {
+            // 不允许包含非指定key
+            throw new ParameterException(
+                [
+                    'msg' => '参数中包含有非法的参数名'.$key
+                ]);
         }
-
 
         $newArray = [];
 
