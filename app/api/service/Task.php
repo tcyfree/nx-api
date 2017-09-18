@@ -40,7 +40,7 @@ class Task
             ->find();
         if(!$res){
             throw new ParameterException([
-                'msg' =>'该任务不是你的！！！！'
+                'msg' =>'该计划你未参加，不能查看任务详情'
             ]);
         }
     }
