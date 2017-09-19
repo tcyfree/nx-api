@@ -20,6 +20,7 @@ use app\api\model\Community as CommunityModel;
 use app\api\service\Token as TokenService;
 use app\api\validate\CommunicationList;
 use app\api\validate\CreateCommunication;
+use app\api\validate\UUID;
 use app\lib\exception\SuccessMessage;
 use app\api\model\CommunicationOperate as CommunicationOperateModel;
 
@@ -82,6 +83,29 @@ class Communication extends BaseController
             'data' => $data,
             'current_page' => $pageData->currentPage()
         ];
+    }
+
+    /**
+     * 顶赞/取消顶赞
+     * @return \think\response\Json
+     */
+    public function operateCommunityByUser()
+    {
+        (new UUID())->goCheck();
+        $communication_id = input('put.id');
+        CommunicationModel::checkCommunicationExists($communication_id);
+        $uid = TokenService::getCurrentUid();
+        $where['user_id'] = $uid;
+        $where['communication_id'] = $communication_id;
+        $where['type'] = 1;
+        $res = CommunicationOperateModel::get($where);
+        if ($res){
+            CommunicationOperateModel::where(['communication_id' => $communication_id])->delete();
+        }else{
+            CommunicationOperateModel::create($where);
+        }
+
+        return json(new SuccessMessage(),201);
     }
 
 }

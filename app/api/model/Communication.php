@@ -14,6 +14,8 @@
 namespace app\api\model;
 
 
+use app\lib\exception\ParameterException;
+
 class Communication extends BaseModel
 {
     protected $autoWriteTimestamp = true;
@@ -21,6 +23,17 @@ class Communication extends BaseModel
     public function userInfo()
     {
         return $this->hasOne('UserInfo','user_id','user_id');
+    }
+
+    public static function checkCommunicationExists($id){
+        $res = self::get(['id' => $id]);
+        if (!$res){
+            throw new ParameterException([
+                'msg' => '交流内容不存在，请检查ID'
+            ]);
+        }else{
+            return $res;
+        }
     }
 
     /**

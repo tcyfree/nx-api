@@ -407,6 +407,12 @@ Ext.define('WebRoot.view.WestView', {
 									text: '交流区列表',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/communication_list.php',
 									leaf: true
+								},
+								{
+									id: 'do_like',
+									text: '点赞/取消点赞',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/communication_do_like.php',
+									leaf: true
 								}
 							]
 						}
