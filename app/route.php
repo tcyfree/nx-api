@@ -93,6 +93,13 @@ Route::group(':version/wallet',function (){
     Route::get('','api/:version.Wallet/getWalletByUser');
 });
 
+/**
+ * Communication
+ */
+Route::group(':version/communication',function (){
+    Route::post('','api/:version.Communication/createCommunication');
+});
+
 
 
 

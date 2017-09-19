@@ -3,7 +3,7 @@
 <script>whbRemoveMask();</script>
 
 <div class="contentDIV">
-<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：任务反馈接口</span></p>
+<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：发布内容接口</span></p>
 <p class="subtitlestyle">（一）服务接口请求地址：</p>
 <table width="90%" border="1" class="dbTable">
   <tr class="td_header">
@@ -14,37 +14,33 @@
   <tr>
     <td>请求的地址</td>
       <td>POST</td>
-    <td>v1/task/feedback</td>
+    <td>v1/communication</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）POST参数列表：</p>
 <table width="90%" border="1" class="dbTable">
-  <tr class="td_header">
-    <td>参数名称</td>
-    <td width="226">参数说明</td>
-    <td width="598">备注</td>
-    </tr>
- <?php require_once ("../include/token.inc.php"); ?>
+
+ <?php require_once ("../include/required_or_optional.php"); ?>
+ <?php require_once ("../include/token.required.php"); ?>
     <tr>
-        <td>task_id</td>
-        <td width="226">任务ID</td>
-        <td width="598"></td>
+        <td>community_id</td>
+        <td >行动社ID</td>
+        <td >是</td>
+        <td ></td>
     </tr>
- <tr>
-   <td>content</td>
-   <td width="226">反馈内容</td>
-   <td width="598"></td>
- </tr>
-  <tr>
-   <td>location</td>
-   <td width="226">位置</td>
-   <td width="598"></td>
- </tr>
- <tr>
-     <td>to_user_id</td>
-     <td>审核人ID</td>
-     <td>&nbsp;</td>
- </tr>
+    <tr>
+        <td>content</td>
+        <td >发布内容</td>
+        <td >是</td>
+        <td ></td>
+    </tr>
+    <tr>
+        <td>location</td>
+        <td >位置</td>
+        <td >是</td>
+        <td ></td>
+    </tr>
+
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>
 <table width="90%" border="1" class="dbTable">
