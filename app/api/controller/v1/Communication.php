@@ -15,11 +15,13 @@ namespace app\api\controller\v1;
 
 
 use app\api\controller\BaseController;
-use app\api\validate\CreateCommunication;
-use app\api\service\Token as TokenService;
 use app\api\model\Communication as CommunicationModel;
-use app\lib\exception\SuccessMessage;
 use app\api\model\Community as CommunityModel;
+use app\api\service\Token as TokenService;
+use app\api\validate\CommunicationList;
+use app\api\validate\CreateCommunication;
+use app\lib\exception\SuccessMessage;
+use app\api\model\CommunicationOperate as CommunicationOperateModel;
 
 class Communication extends BaseController
 {
@@ -39,6 +41,7 @@ class Communication extends BaseController
         CommunityModel::checkCommunityExists($dataArray['community_id']);
         $uid = TokenService::getCurrentUid();
         $dataArray['user_id'] = $uid;
+        $dataArray['id'] = uuid();
         $c_obj = new CommunicationModel();
         // 过滤数组中的非数据表字段数据
         $c_obj->allowField(true)->save($dataArray);
@@ -50,4 +53,35 @@ class Communication extends BaseController
 
         return json(new SuccessMessage(),201);
     }
+
+    /**
+     * 交流区列表
+     * 1.判断当前用户是否点赞
+     * @param int $page
+     * @param int $size
+     * @return array
+     */
+    public function getCommunicationList($page = 1, $size = 15)
+    {
+        (new CommunicationList())->goCheck();
+        $community_id = input('get.community_id');
+        $uid = TokenService::getCurrentUid();
+        $pageData = CommunicationModel::getList($uid,$page,$size,$community_id);
+        $data = $pageData->visible(['id','content','location','likes','comments','user_info.user_id','create_time','user_info.nickname','user_info.avatar'])->toArray();
+        foreach ($data as &$v){
+            CommunicationModel::where('id',$v['id'])->setInc('hits');
+            $res = CommunicationOperateModel::get(['user_id' => $uid, 'communication_id' => $v['id'],'type' => 1]);
+            if ($res){
+                $v['do_like'] = true;
+            }else{
+                $v['do_like'] = false;
+            }
+        }
+
+        return [
+            'data' => $data,
+            'current_page' => $pageData->currentPage()
+        ];
+    }
+
 }

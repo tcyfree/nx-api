@@ -8,29 +8,14 @@
 // +----------------------------------------------------------------------
 // | Author: probe <1946644259@qq.com>
 // +----------------------------------------------------------------------
-// | DateTime: 2017/9/19/10:23
+// | DateTime: 2017/9/19/16:25
 // +----------------------------------------------------------------------
 
 namespace app\api\model;
 
 
-class Communication extends BaseModel
+class CommunicationOperate extends BaseModel
 {
     protected $autoWriteTimestamp = true;
-
-    public function userInfo()
-    {
-        return $this->hasOne('UserInfo','user_id','user_id');
-    }
-
-    public static function getList($uid,$page,$size,$community_id)
-    {
-        $where['community_id'] = $community_id;
-        $pageData = self::with('userInfo')
-            ->where($where)
-            ->order('create_time desc')
-            ->paginate($size,true,['page' => $page]);
-
-        return $pageData;
-    }
+    protected $updateTime = false;
 }
