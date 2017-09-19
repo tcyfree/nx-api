@@ -15,10 +15,14 @@ namespace app\api\model;
 
 
 use app\lib\exception\ParameterException;
+use traits\model\SoftDelete;
+
 
 class Communication extends BaseModel
 {
+    use SoftDelete;
     protected $autoWriteTimestamp = true;
+    protected $deleteTime = 'delete_time';
 
     public function userInfo()
     {
@@ -47,6 +51,7 @@ class Communication extends BaseModel
     public static function getList($uid,$page,$size,$community_id)
     {
         $where['community_id'] = $community_id;
+        $where['delete_time'] = 0;
         $pageData = self::with('userInfo')
             ->where($where)
             ->order('create_time desc')

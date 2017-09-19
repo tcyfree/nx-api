@@ -27,7 +27,7 @@ use app\api\model\CommunicationOperate as CommunicationOperateModel;
 class Communication extends BaseController
 {
     protected $beforeActionList = [
-        'checkPrimaryScope' => ['only' => '']
+        'checkExclusiveScope' => ['only' => 'deleteCommunication']
     ];
 
     /**
@@ -110,6 +110,19 @@ class Communication extends BaseController
         }else{
             CommunicationOperateModel::create($where);
         }
+
+        return json(new SuccessMessage(),201);
+    }
+
+    /**
+     * 删除条目
+     * @return \think\response\Json
+     */
+    public function deleteCommunication()
+    {
+        (new UUID())->goCheck();
+        $communication_id = input('delete.id');
+        CommunicationModel::destroy(['id' => $communication_id]);
 
         return json(new SuccessMessage(),201);
     }
