@@ -202,3 +202,28 @@ function qr_code($url){
     //返回生产图片的文件名
     return $filename.'.png';
 }
+
+/**
+ * 判断数组是关联数组还是索引数组
+ * @param $array
+ * @return bool|int
+ */
+function AssociativeOrIndexArray($array){
+    if (!is_array($array)){
+//            echo 'not array';
+        return false;
+    }
+    $c = count($array);
+    $in = array_intersect_key($array,range(0,$c-1));
+
+    if(count($in) == $c) {
+//            echo '索引数组';
+        return 1;
+    }else if(empty($in)) {
+//            echo '关联数组';
+        return 2;
+    }else{
+//            echo '混合数组';
+        return 3;
+    }
+}
