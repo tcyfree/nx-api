@@ -23,6 +23,14 @@ class Communication extends BaseModel
         return $this->hasOne('UserInfo','user_id','user_id');
     }
 
+    /**
+     * 交流区列表
+     * @param $uid
+     * @param $page
+     * @param $size
+     * @param $community_id
+     * @return \think\Paginator
+     */
     public static function getList($uid,$page,$size,$community_id)
     {
         $where['community_id'] = $community_id;
