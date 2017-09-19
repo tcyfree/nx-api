@@ -40,6 +40,12 @@
         <td >是</td>
         <td ></td>
     </tr>
+    <tr>
+        <td>@user_ids</td>
+        <td >被@用户id的json值类型：数组</td>
+        <td >否</td>
+        <td >形如："@user_ids":["0a9064ba-711f-5049-9300-c0cc88e1edf7","501969d6-b26d-bb2d-29e3-5264a923def9"]</td>
+    </tr>
 
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>

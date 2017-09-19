@@ -29,17 +29,24 @@ class Communication extends BaseController
 
     /**
      * 发布内容
+     * 1.被@的用户
      * @return \think\response\Json
      */
     public function createCommunication()
     {
-        $validate = new CreateCommunication();
-        $validate->goCheck();
-        $dataArray = $validate->getDataByRule(input('post.'));
+        (new CreateCommunication())->goCheck();
+        $dataArray = input('post.');
         CommunityModel::checkCommunityExists($dataArray['community_id']);
         $uid = TokenService::getCurrentUid();
         $dataArray['user_id'] = $uid;
-        CommunicationModel::create($dataArray);
+        $c_obj = new CommunicationModel();
+        // 过滤数组中的非数据表字段数据
+        $c_obj->allowField(true)->save($dataArray);
+        //@用户，发消息通知
+        if (isset($dataArray['@user_ids'])){
+            //TODO
+//            var_dump($dataArray['@user_ids']);
+        }
 
         return json(new SuccessMessage(),201);
     }
