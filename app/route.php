@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 
 use think\Route;
+use app\lib\exception\MissException;
 /**
  * User
  */
@@ -98,6 +99,14 @@ Route::group(':version/wallet',function (){
  */
 Route::group(':version/communication',function (){
     Route::post('','api/:version.Communication/createCommunication');
+});
+
+/**
+ * MISS路由，当全部路由没有匹配到时
+ * 将返回资源未找到的信息
+ */
+Route::miss(function () {
+    throw  new MissException();
 });
 
 
