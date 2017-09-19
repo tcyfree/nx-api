@@ -68,7 +68,7 @@ class Communication extends BaseController
         $community_id = input('get.community_id');
         $uid = TokenService::getCurrentUid();
         $pageData = CommunicationModel::getList($uid,$page,$size,$community_id);
-        $data = $pageData->visible(['id','content','location','likes','comments','user_info.user_id','create_time','user_info.nickname','user_info.avatar'])->toArray();
+        $data = $pageData->visible(['id','content','user_id','location','likes','comments','user_info.user_id','create_time','user_info.nickname','user_info.avatar'])->toArray();
         foreach ($data as &$v){
             CommunicationModel::where('id',$v['id'])->setInc('hits');
             $res = CommunicationOperateModel::get(['user_id' => $uid, 'communication_id' => $v['id'],'type' => 1]);
@@ -76,6 +76,12 @@ class Communication extends BaseController
                 $v['do_like'] = true;
             }else{
                 $v['do_like'] = false;
+            }
+
+            if ($uid == $v['user_id']){
+                $v['own'] = true;
+            }else{
+                $v['own'] = false;
             }
         }
 

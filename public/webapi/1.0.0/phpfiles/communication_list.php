@@ -80,6 +80,11 @@
         <td>当前用户是否点赞</td>
         <td>&nbsp;false 否  true 是</td>
     </tr>
+    <tr>
+        <td>own</td>
+        <td>是否为自己发的条目</td>
+        <td>&nbsp;false 否  true 是</td>
+    </tr>
   
 </table>
 <p>&nbsp;</p>
