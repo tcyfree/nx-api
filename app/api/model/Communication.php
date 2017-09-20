@@ -15,15 +15,10 @@ namespace app\api\model;
 
 
 use app\lib\exception\ParameterException;
-use traits\model\SoftDelete;
-
 
 class Communication extends BaseModel
 {
-    use SoftDelete;
     protected $autoWriteTimestamp = true;
-    protected $deleteTime = 'delete_time';
-
     public function userInfo()
     {
         return $this->hasOne('UserInfo','user_id','user_id');
@@ -42,13 +37,12 @@ class Communication extends BaseModel
 
     /**
      * 交流区列表
-     * @param $uid
      * @param $page
      * @param $size
      * @param $community_id
      * @return \think\Paginator
      */
-    public static function getList($uid,$page,$size,$community_id)
+    public static function getList($page,$size,$community_id)
     {
         $where['community_id'] = $community_id;
         $where['delete_time'] = 0;
@@ -56,7 +50,6 @@ class Communication extends BaseModel
             ->where($where)
             ->order('create_time desc')
             ->paginate($size,true,['page' => $page]);
-
         return $pageData;
     }
 }

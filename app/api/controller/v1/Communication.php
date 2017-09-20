@@ -67,7 +67,7 @@ class Communication extends BaseController
         (new CommunicationList())->goCheck();
         $community_id = input('get.community_id');
         $uid = TokenService::getCurrentUid();
-        $pageData = CommunicationModel::getList($uid,$page,$size,$community_id);
+        $pageData = CommunicationModel::getList($page,$size,$community_id);
         $data = $pageData->visible(['id','content','user_id','location','likes','comments','user_info.user_id','create_time','user_info.nickname','user_info.avatar'])->toArray();
         foreach ($data as &$v){
             CommunicationModel::where('id',$v['id'])->setInc('hits');
@@ -116,13 +116,15 @@ class Communication extends BaseController
 
     /**
      * 删除条目
+     * !!!!BUG：不能使用软删除，否则分页获取接口不能查询数据
      * @return \think\response\Json
      */
     public function deleteCommunication()
     {
         (new UUID())->goCheck();
         $communication_id = input('delete.id');
-        CommunicationModel::destroy(['id' => $communication_id]);
+        CommunicationModel::checkCommunicationExists($communication_id);
+        CommunicationModel::update(['delete_time' => time()],['id' => $communication_id]);
 
         return json(new SuccessMessage(),201);
     }
