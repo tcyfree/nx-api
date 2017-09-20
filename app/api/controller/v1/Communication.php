@@ -106,7 +106,7 @@ class Communication extends BaseController
         $where['type'] = 1;
         $res = CommunicationOperateModel::get($where);
         if ($res){
-            CommunicationOperateModel::where(['communication_id' => $communication_id])->delete();
+            CommunicationOperateModel::where(['communication_id' => $communication_id, 'user_id' => $uid])->delete();
         }else{
             CommunicationOperateModel::create($where);
         }
