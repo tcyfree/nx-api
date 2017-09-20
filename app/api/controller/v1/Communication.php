@@ -71,7 +71,7 @@ class Communication extends BaseController
         $data = $pageData->visible(['id','content','user_id','location','likes','comments','user_info.user_id','create_time','user_info.nickname','user_info.avatar'])->toArray();
         foreach ($data as &$v){
             CommunicationModel::where('id',$v['id'])->setInc('hits');
-            $res = CommunicationOperateModel::get(['user_id' => $uid, 'communication_id' => $v['id'],'type' => 1]);
+            $res = CommunicationOperateModel::get(['user_id' => $uid, 'communication_id' => $v['id'],'type' => 1,'delete_time' => 0]);
             if ($res){
                 $v['do_like'] = true;
             }else{
@@ -106,9 +106,11 @@ class Communication extends BaseController
         $where['type'] = 1;
         $res = CommunicationOperateModel::get($where);
         if ($res){
-            CommunicationOperateModel::where(['communication_id' => $communication_id, 'user_id' => $uid])->delete();
+            CommunicationOperateModel::update(['delete_time' => time()],['communication_id' => $communication_id, 'user_id' => $uid]);
+            CommunicationModel::where('id',$communication_id)->setDec('likes');
         }else{
             CommunicationOperateModel::create($where);
+            CommunicationModel::where('id',$communication_id)->setInc('likes');
         }
 
         return json(new SuccessMessage(),201);
