@@ -26,7 +26,6 @@ Route::group(':version/user', function(){
     Route::get('/block','api/:version.User/blockedList');
 });
 
-
 /**
  * OSS
  */
@@ -102,6 +101,13 @@ Route::group(':version/communication',function (){
     Route::get('','api/:version.Communication/getCommunicationList');
     Route::put('like','api/:version.Communication/operateCommunityByUser');
     Route::delete('','api/:version.Communication/deleteCommunication');
+});
+
+/**
+ * Comment
+ */
+Route::group(':version/comment',function (){
+    Route::post('','api/:version.Comment/createComment');
 });
 
 /**
