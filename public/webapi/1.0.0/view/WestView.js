@@ -436,6 +436,12 @@ Ext.define('WebRoot.view.WestView', {
 											text: '评论列表',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/comment_list.php',
 											leaf: true
+										},
+										{
+											id: 'comment_do_like',
+											text: '点赞/取消点赞',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/comment_do_like.php',
+											leaf: true
 										}
 									]
 								}
