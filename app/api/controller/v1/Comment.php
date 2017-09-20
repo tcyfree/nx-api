@@ -17,11 +17,17 @@ use app\api\controller\BaseController;
 use app\api\service\Token as TokenService;
 use app\api\validate\CommentNew;
 use app\api\model\Comment as CommentModel;
+use app\api\validate\UUID;
 use app\lib\exception\SuccessMessage;
 use app\api\model\Communication as CommunicationModel;
+use app\api\model\CommentOperate as CommentOperateModel;
 
 class Comment extends  BaseController
 {
+    protected $beforeActionList = [
+        'checkExclusiveScope' => ['only' => 'getCommentList']
+    ];
+
     /**
      * 评论
      * @return \think\response\Json
@@ -36,6 +42,40 @@ class Comment extends  BaseController
         CommentModel::create(['id' => $id, 'user_id' => $uid, 'comment' => $data['comment'], 'communication_id' => $data['communication_id']]);
 
         return json(new SuccessMessage(),201);
+    }
+
+    /**
+     * 评论列表
+     * @param int $page
+     * @param int $size
+     * @return array
+     */
+    public function getCommentList($page = 1, $size = 15)
+    {
+        (new UUID())->goCheck();
+        $uid = TokenService::getCurrentUid();
+        $communication_id = input('get.id');
+        CommunicationModel::checkCommunicationExists($communication_id);
+
+        $pageData = CommentModel::commentList($communication_id,$page,$size);
+        $data = $pageData->visible(['id','comment','likes','user_info.user_id','user_info.nickname'])->toArray();
+
+        foreach ($data as &$v){
+            $comment_id = $v['id'];
+            $res = CommentOperateModel::get(['comment_id' => $comment_id, 'user_id' => $uid]);
+            if ($res)
+            {
+                $v['do_like'] = true;
+            }else
+            {
+                $v['do_like'] = false;
+            }
+        }
+
+        return [
+            'data' => $data,
+            'current_page' => $pageData->currentPage()
+        ];
     }
 
 }

@@ -108,6 +108,7 @@ Route::group(':version/communication',function (){
  */
 Route::group(':version/comment',function (){
     Route::post('','api/:version.Comment/createComment');
+    Route::get('','api/:version.Comment/getCommentList');
 });
 
 /**
