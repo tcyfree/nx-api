@@ -14,6 +14,8 @@
 namespace app\api\model;
 
 
+use app\lib\exception\ParameterException;
+
 class Comment extends BaseModel
 {
     protected $autoWriteTimestamp = true;
@@ -22,6 +24,18 @@ class Comment extends BaseModel
     public function userInfo()
     {
         return $this->hasOne('UserInfo','user_id','user_id');
+    }
+
+    public static function checkCommentExists($id)
+    {
+        $res = self::get(['id' => $id]);
+        if (!$res){
+            throw new ParameterException([
+                'msg' => '评论不存在，请检查ID'
+            ]);
+        }else{
+            return $res;
+        }
     }
 
     /**

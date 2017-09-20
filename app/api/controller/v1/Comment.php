@@ -24,10 +24,6 @@ use app\api\model\CommentOperate as CommentOperateModel;
 
 class Comment extends  BaseController
 {
-    protected $beforeActionList = [
-        'checkExclusiveScope' => ['only' => 'getCommentList']
-    ];
-
     /**
      * 评论
      * @return \think\response\Json
@@ -62,7 +58,7 @@ class Comment extends  BaseController
 
         foreach ($data as &$v){
             $comment_id = $v['id'];
-            $res = CommentOperateModel::get(['comment_id' => $comment_id, 'user_id' => $uid]);
+            $res = CommentOperateModel::get(['comment_id' => $comment_id, 'user_id' => $uid, 'delete_time' => 0]);
             if ($res)
             {
                 $v['do_like'] = true;
@@ -76,6 +72,29 @@ class Comment extends  BaseController
             'data' => $data,
             'current_page' => $pageData->currentPage()
         ];
+    }
+
+    /**
+     * 顶赞/取消顶赞
+     * @return \think\response\Json
+     */
+    public function operateCommentByUser()
+    {
+        (new UUID())->goCheck();
+        $comment_id = input('put.id');
+        CommentModel::checkCommentExists($comment_id);
+        $uid = TokenService::getCurrentUid();
+        $where['user_id'] = $uid;
+        $where['comment_id'] = $comment_id;
+        $where['delete_time'] = 0;
+        $res = CommentOperateModel::get($where);
+        if ($res){
+            CommentOperateModel::update(['delete_time' => time()],['comment_id' => $comment_id, 'user_id' => $uid]);
+        }else{
+            CommentOperateModel::create($where);
+        }
+
+        return json(new SuccessMessage(),201);
     }
 
 }
