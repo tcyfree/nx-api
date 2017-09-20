@@ -21,12 +21,15 @@ use app\api\validate\UUID;
 use app\lib\exception\SuccessMessage;
 use app\api\model\Communication as CommunicationModel;
 use app\api\model\CommentOperate as CommentOperateModel;
+use think\Db;
+use think\Exception;
 
 class Comment extends  BaseController
 {
     /**
      * 评论
      * @return \think\response\Json
+     * @throws Exception
      */
     public function createComment()
     {
@@ -35,7 +38,16 @@ class Comment extends  BaseController
         $data = input('post.');
         CommunicationModel::checkCommunicationExists($data['communication_id']);
         $id = uuid();
-        CommentModel::create(['id' => $id, 'user_id' => $uid, 'comment' => $data['comment'], 'communication_id' => $data['communication_id']]);
+        Db::startTrans();
+        try{
+            CommentModel::create(['id' => $id, 'user_id' => $uid, 'comment' => $data['comment'], 'communication_id' => $data['communication_id']]);
+            CommunicationModel::where('id',$data['communication_id'])->setInc('comments');
+            Db::commit();
+        }catch (Exception $ex){
+            Db::rollback();
+            throw $ex;
+        }
+
 
         return json(new SuccessMessage(),201);
     }
@@ -90,8 +102,10 @@ class Comment extends  BaseController
         $res = CommentOperateModel::get($where);
         if ($res){
             CommentOperateModel::update(['delete_time' => time()],['comment_id' => $comment_id, 'user_id' => $uid]);
+            CommentModel::where(['id' => $comment_id])->setDec('likes');
         }else{
             CommentOperateModel::create($where);
+            CommentModel::where(['id' => $comment_id])->setInc('likes');
         }
 
         return json(new SuccessMessage(),201);
