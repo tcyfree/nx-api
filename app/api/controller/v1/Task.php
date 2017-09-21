@@ -278,10 +278,15 @@ class Task extends BaseController
             ->where($where)
             ->paginate($size,true,['page' => $page]);
 
-        $data = $pageData->visible(['id','content','status','create_time','task.name','user_info.nickname','task.act_plan'])->toArray();
+        $data = $pageData->visible(['id','content','status','create_time','task.name','task.requirement','user_info.nickname','task.act_plan'])->toArray();
         return[
             'data' => $data,
             'current_page' => $pageData->currentPage()
         ];
+    }
+
+    public function feedDetail()
+    {
+
     }
 }

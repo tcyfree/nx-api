@@ -57,6 +57,11 @@
     <td>&nbsp;</td>
   </tr>
     <tr>
+        <td>task.requirement</td>
+        <td>任务要求</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
         <td>act_plan.name</td>
         <td>行动计划名称</td>
         <td>&nbsp;</td>
