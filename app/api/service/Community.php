@@ -228,11 +228,16 @@ class Community
      * @param $where
      * @return bool
      * @throws ForbiddenException
+     * @throws ParameterException
      */
     public function checkAuthority($where)
     {
         $res = CommunityUserModel::get($where);
-
+        if (!$res){
+            throw new ParameterException([
+                'msg' => '还未参加该行动社'
+            ]);
+        }
         if (($res->type != 2) || ($res->pay == 1)){
             return true;
         }else{
