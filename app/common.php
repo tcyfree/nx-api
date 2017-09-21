@@ -290,5 +290,5 @@ function getCharIndex($zh){
             $ret .= $s1;
         }
     }
-    return $ret;
+    return strtoupper($ret);
 }
