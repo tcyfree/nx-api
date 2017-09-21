@@ -148,6 +148,12 @@ class Task extends BaseController
         TaskService::checkTaskByUser($uid,$id);
         $data = TaskModel::with('taskUser')->where(['id' => $id])->find();
         $return_data = $data->visible(['id','name','requirement','content','reference_time','task_user.user_id','task_user.finish','task_user.create_time'])->toArray();
+        $feedback = TaskFeedbackModel::where(['user_id' => $uid, 'task_id' => $id])->field('status')->find();
+        if ($feedback){
+            $return_data['feedback'] = $feedback['status'];
+        }else{
+            $return_data['feedback'] = null;
+        }
 
         return $return_data;
     }

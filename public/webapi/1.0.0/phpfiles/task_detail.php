@@ -81,6 +81,11 @@
         <td>GO时间</td>
         <td>&nbsp;若finish为0，则倒计时为:now-create_time</td>
     </tr>
+    <tr>
+        <td>feedback</td>
+        <td>是否提交反馈</td>
+        <td>&nbsp;null 未提交反馈/普通模式 0 待审核 1 未通过审核 2 审核通过</td>
+    </tr>
 
 </table>
 <p>&nbsp;</p>
