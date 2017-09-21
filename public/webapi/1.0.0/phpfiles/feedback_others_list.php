@@ -41,7 +41,7 @@
     <td>&nbsp;</td>
   </tr>
   <tr>
-     <td>comment</td>
+     <td>content</td>
      <td>反馈内容</td>
      <td>   </td>
   </tr>

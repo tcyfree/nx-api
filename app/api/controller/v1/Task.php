@@ -37,6 +37,9 @@ use app\api\model\TaskFeedback as TaskFeedbackModel;
 
 class Task extends BaseController
 {
+    protected $beforeActionList = [
+        'checkPrimaryScope' => ['only' => 'feedbackDetail']
+    ];
     /**
      * 创建任务
      * 1.鉴权
@@ -249,6 +252,7 @@ class Task extends BaseController
         $res = TaskFeedbackModel::checkTaskFeedback($uid, $dataRules['task_id']);
 
         if ($res == false){
+            $dataRules['id'] = uuid();
             TaskFeedbackModel::create($dataRules);
             return json(new SuccessMessage(),201);
         }elseif ($res['status'] == 1){
@@ -272,7 +276,7 @@ class Task extends BaseController
     public function feedbackByOthers($page = 1, $size = 15)
     {
         $uid = TokenService::getCurrentUid();
-        $where['user_id'] = $uid;
+        $where['to_user_id'] = $uid;
         $where['status'] = '0';
         $pageData = TaskFeedbackModel::with('task,userInfo,task.actPlan,task.actPlan.community')
             ->where($where)
@@ -285,8 +289,25 @@ class Task extends BaseController
         ];
     }
 
-    public function feedDetail()
+    /**
+     * 反馈详情
+     * @return null|static
+     * @throws ParameterException
+     */
+    public function feedbackDetail()
     {
+        (new UUID())->goCheck();
+        $id = input('get.id');
+        $res = TaskFeedbackModel::get(['id' => $id]);
+        if (!$res){
+            throw new ParameterException();
+        }elseif ($res['status'] != 0){
+            throw new ParameterException([
+                'msg' => '该反馈已不在待审核中'
+            ]);
+        }
+
+        return $res;
 
     }
 }
