@@ -156,6 +156,7 @@ Ext.define('WebRoot.view.WestView', {
 										{
 											id: 'members',
 											text: '成员列表',
+											cls: 'redStyle',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/members_list.php',
 											leaf: true
 										},
