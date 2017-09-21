@@ -59,6 +59,7 @@ class User extends BaseController
 
         $dataArray = $validate->getDataByRule(input('put.'));
         $dataArray['from'] = 1;
+        $dataArray['char_index'] = getCharIndex($dataArray['nickname']);
 
         $userInfo = new UserInfoModel();
         $userInfo->save($dataArray,['user_id' => $uid]);

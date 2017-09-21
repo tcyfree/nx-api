@@ -234,6 +234,7 @@ function AssociativeOrIndexArray($array){
  * @return null|string
  */
 function getFirstChar($s0){
+    error_reporting(E_ALL || ~E_NOTICE); //显示除去 E_NOTICE 之外的所有错误信息
     $fchar = ord($s0{0});
     if($fchar >= ord("A") and $fchar <= ord("z") )return strtoupper($s0{0});
     $s1 = iconv("utf-8","gb2312", $s0);
@@ -273,6 +274,7 @@ function getFirstChar($s0){
  * @return string
  */
 function getCharIndex($zh){
+    error_reporting(E_ALL || ~E_NOTICE); //显示除去 E_NOTICE 之外的所有错误信息
     $ret = "";
     $s1 = iconv("UTF-8","gb2312", $zh);
     $s2 = iconv("gb2312","UTF-8", $s1);
