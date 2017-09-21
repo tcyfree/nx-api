@@ -127,8 +127,12 @@ class ActPlan extends BaseController
         $uid = TokenService::getCurrentUid();
         $pagingData = ActPlanUserModel::actPlanByUser($uid, $page,$size);
 
-        $data = $pagingData->visible(['finish','act_plan.id','act_plan.name','act_plan.description','act_plan.cover_image'])
+        $data = $pagingData->visible(['finish','act_plan.id','act_plan.name','act_plan.description','act_plan.cover_image','act_plan.community_id'])
             ->toArray();
+        foreach ($data as &$v){
+            $community_name = CommunityModel::where(['id' => $v['act_plan']['community_id']])->field('name')->find();
+            $v['act_plan']['community_name'] = $community_name['name'];
+        }
 
         return [
             'data' => $data,

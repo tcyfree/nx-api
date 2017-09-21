@@ -58,6 +58,16 @@
         <td>简介</td>
         <td>&nbsp;</td>
     </tr>
+    <tr>
+        <td>community_id</td>
+        <td>行动社ID</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>community_name</td>
+        <td>行动社名称</td>
+        <td>&nbsp;</td>
+    </tr>
 </table>
 <p>&nbsp;</p>
 </div>

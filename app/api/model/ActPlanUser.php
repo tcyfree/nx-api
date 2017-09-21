@@ -22,7 +22,7 @@ class ActPlanUser extends BaseModel
 
     public function actPlan()
     {
-        return $this->hasMany('ActPlan','id','act_plan_id');
+        return $this->hasOne('ActPlan','id','act_plan_id');
     }
 
     /**
