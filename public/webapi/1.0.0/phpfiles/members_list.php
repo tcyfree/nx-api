@@ -66,6 +66,11 @@
     <td>昵称</td>
     <td>&nbsp;</td>
   </tr>
+    <tr>
+        <td>char_index</td>
+        <td>昵称首字母索引</td>
+        <td>&nbsp;</td>
+    </tr>
    <tr>
     <td>avatar</td>
     <td>头像uri</td>

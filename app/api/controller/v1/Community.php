@@ -258,6 +258,7 @@ class Community extends BaseController
      */
     public function getMemberList($id,$page = 1, $size = 15)
     {
+
         (new UUID())->goCheck();
         (new PagingParameter())->goCheck();
 
@@ -265,16 +266,25 @@ class Community extends BaseController
         $params['community_id'] = $id;
         $params['user_id'] = TokenService::getCurrentUid();
         $cs->checkAuthority($params);
+        $page = $page - 1;
 
-        $where['community_id'] = $id;
-        $where['pay'] = 1;
-        $pagingData = CommunityUserModel::with('member')->where($where)->paginate($size, true, ['page' => $page]);
-
-        $data = $pagingData->visible(['type', 'status', 'member.user_id', 'member.nickname', 'member.avatar'])
-            ->toArray();
+        $where['c_u.community_id'] = $id;
+        $where['c_u.pay'] = '1';
+        $data = Db::table('xds_community_user')
+            ->alias('c_u')
+            ->join('__USER_INFO__ u','c_u.user_id = u.user_id')
+            ->where($where)
+            ->order('u.char_index ASC')
+            ->field('c_u.type,c_u.status,u.user_id,u.nickname,u.char_index,u.avatar')
+            ->limit($page,$size)
+            ->select();
+        $newData = [];
+        foreach ($data as $v) {
+            $newData[$v['char_index']][] = $v;
+        }
         return [
-            'data' => $data,
-            'current_page' => $pagingData->currentPage()
+            'data' => $newData,
+            'current_page' => $page
         ];
     }
 
