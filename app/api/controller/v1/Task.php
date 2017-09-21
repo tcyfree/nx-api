@@ -307,7 +307,7 @@ class Task extends BaseController
             ]);
         }
 
-        return $res;
+        return $res->visible(['id','content']);
 
     }
 }
