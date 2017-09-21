@@ -262,4 +262,26 @@ class Task extends BaseController
         }
 
     }
+
+    /**
+     * 其他用户给我的反馈
+     * @param int $page
+     * @param int $size
+     * @return array
+     */
+    public function feedbackByOthers($page = 1, $size = 15)
+    {
+        $uid = TokenService::getCurrentUid();
+        $where['user_id'] = $uid;
+        $where['status'] = '0';
+        $pageData = TaskFeedbackModel::with('task,userInfo,task.actPlan,task.actPlan.community')
+            ->where($where)
+            ->paginate($size,true,['page' => $page]);
+
+        $data = $pageData->visible(['id','content','status','create_time','task.name','user_info.nickname','task.act_plan'])->toArray();
+        return[
+            'data' => $data,
+            'current_page' => $pageData->currentPage()
+        ];
+    }
 }

@@ -20,6 +20,16 @@ class TaskFeedback extends BaseModel
 {
     protected $autoWriteTimestamp = true;
 
+    public function task()
+    {
+        return $this->hasOne('Task','id','task_id');
+    }
+
+    public function userInfo()
+    {
+        return $this->hasOne('UserInfo','user_id','to_user_id');
+    }
+
     /**
      * @param $user_id
      * @param $task_id

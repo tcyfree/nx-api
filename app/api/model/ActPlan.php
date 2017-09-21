@@ -16,6 +16,10 @@ class ActPlan extends BaseModel
     protected $autoWriteTimestamp = true;
     protected $hidden = ['delete_time','create_time','update_time'];
 
+    public function community()
+    {
+        return $this->hasOne('Community','id','community_id');
+    }
     /**
      * 根据行动计划名称模糊查询
      * @param $name

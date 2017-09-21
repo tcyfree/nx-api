@@ -27,6 +27,11 @@ class Task extends BaseModel
     public function taskUser(){
         return $this->hasOne('TaskUser','task_id','id');
     }
+
+    public function actPlan()
+    {
+        return $this->hasOne('ActPlan','id','act_plan_id');
+    }
     /**
      * @param $id
      * @param $page
