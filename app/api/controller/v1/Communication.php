@@ -106,18 +106,27 @@ class Communication extends BaseController
     {
         (new UUID())->goCheck();
         $communication_id = input('put.id');
-        CommunicationModel::checkCommunicationExists($communication_id);
+        $communication = CommunicationModel::checkCommunicationExists($communication_id);
         $uid = TokenService::getCurrentUid();
         $where['user_id'] = $uid;
         $where['communication_id'] = $communication_id;
         $where['type'] = 1;
+        $where['delete_time'] = 0;
         $res = CommunicationOperateModel::get($where);
         if ($res){
             CommunicationOperateModel::update(['delete_time' => time()],['communication_id' => $communication_id, 'user_id' => $uid]);
             CommunicationModel::where('id',$communication_id)->setDec('likes');
+            NoticeModel::update(['delete_time' => time()],['from_user_id' => $uid,'communication_id' => $communication_id,'type' =>1]);
         }else{
             CommunicationOperateModel::create($where);
             CommunicationModel::where('id',$communication_id)->setInc('likes');
+
+            $data['id'] = uuid();
+            $data['to_user_id'] = $communication['user_id'];
+            $data['from_user_id'] = $uid;
+            $data['communication_id'] = $communication_id;
+            $data['type'] = 1;
+            NoticeModel::create($data);
         }
 
         return json(new SuccessMessage(),201);

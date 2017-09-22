@@ -33,6 +33,7 @@ class Notice extends BaseController
         (new PagingParameter())->goCheck();
         $uid = TokenService::getCurrentUid();
         $where['to_user_id'] = $uid;
+        $where['delete_time'] =0;
         $pageData = NoticeModel::with('userInfo,communication,communication.community')
             ->where($where)
             ->whereTime('create_time','-3 days')
