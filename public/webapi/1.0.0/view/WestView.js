@@ -472,6 +472,19 @@ Ext.define('WebRoot.view.WestView', {
 									]
 								}
 							]
+						},
+						{
+							id: 'menu_notice',
+							text: '提醒相关',
+							expanded: true,
+							children: [
+								{
+									id: 'notice_list',
+									text: '提醒列表',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/notice_list.php',
+									leaf: true
+								}
+							]
 						}
 					]
 			}

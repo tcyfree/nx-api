@@ -19,9 +19,15 @@ use app\lib\exception\ParameterException;
 class Communication extends BaseModel
 {
     protected $autoWriteTimestamp = true;
+
     public function userInfo()
     {
         return $this->hasOne('UserInfo','user_id','user_id');
+    }
+
+    public function community()
+    {
+        return $this->hasOne('Community','id','community_id');
     }
 
     public static function checkCommunicationExists($id){

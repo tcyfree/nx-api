@@ -17,4 +17,15 @@ namespace app\api\model;
 class Notice extends BaseModel
 {
     protected $autoWriteTimestamp = true;
+
+    public function userInfo()
+    {
+        return $this->hasOne('UserInfo','user_id','from_user_id');
+    }
+
+    public function communication()
+    {
+        return $this->hasOne('Communication','id','communication_id');
+    }
+
 }

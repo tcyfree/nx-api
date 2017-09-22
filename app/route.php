@@ -115,6 +115,10 @@ Route::group(':version/comment',function (){
     Route::put('/like','api/:version.Comment/operateCommentByUser');
 });
 
+Route::group(':version/notice',function (){
+    Route::get('','api/:version.Notice/getNoticeList');
+});
+
 /**
  * MISS路由，当全部路由没有匹配到时
  * 将返回资源未找到的信息
