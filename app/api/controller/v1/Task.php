@@ -17,6 +17,8 @@ use app\api\controller\BaseController;
 use app\api\model\ActPlanUser;
 use app\api\validate\AccelerateTask;
 use app\api\validate\Feedback;
+use app\api\validate\FeedbackFailReason;
+use app\api\validate\FeedbackPassOrFail;
 use app\api\validate\GetFeedback;
 use app\api\validate\TaskList;
 use app\api\validate\TaskNew;
@@ -298,16 +300,42 @@ class Task extends BaseController
     {
         (new UUID())->goCheck();
         $id = input('get.id');
-        $res = TaskFeedbackModel::get(['id' => $id]);
-        if (!$res){
-            throw new ParameterException();
-        }elseif ($res['status'] != 0){
-            throw new ParameterException([
-                'msg' => '该反馈已不在待审核中'
-            ]);
-        }
+        $res = TaskFeedbackModel::checkTaskFeedbackStatus($id);
 
         return $res->visible(['id','content']);
+
+    }
+
+    /**
+     * 审核任务通过或不通过
+     * @return \think\response\Json
+     * @throws Exception
+     */
+    public function feedbackPassOrFail()
+    {
+        (new FeedbackPassOrFail())->goCheck();
+        $data = input('put.');
+        $uid = TokenService::getCurrentUid();
+        $res = TaskFeedbackModel::get(['to_user_id' => $uid,'id' => $data['id']]);
+        if (!$res){
+            throw new ParameterException();
+        }
+        Db::startTrans();
+        try{
+            TaskFeedbackModel::checkTaskFeedbackStatus($data['id']);
+            if ($data['pass']){
+                TaskFeedbackModel::update(['status' => 2,'update_time' => time()],['id' => $data['id'],'to_user_id' => $uid]);
+            }else{
+                (new FeedbackFailReason())->goCheck();
+                TaskFeedbackModel::update(['reason' => $data['reason'],'status' => 1,'update_time' => time()],['id' => $data['id'],'to_user_id' => $uid]);
+            }
+            Db::commit();
+            return json(new SuccessMessage(),201);
+        }catch (Exception $ex)
+        {
+            Db::rollback();
+            throw $ex;
+        }
 
     }
 }

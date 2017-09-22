@@ -15,6 +15,7 @@ namespace app\api\model;
 
 
 use app\api\model\Task as TaskModel;
+use app\lib\exception\ParameterException;
 
 class TaskFeedback extends BaseModel
 {
@@ -43,6 +44,19 @@ class TaskFeedback extends BaseModel
         }else{
             return $res;
         }
+    }
+
+    public static function checkTaskFeedbackStatus($id){
+        $res = self::get(['id' => $id]);
+        if (!$res){
+            throw new ParameterException();
+        }elseif ($res['status'] == 2 || $res['status'] == 3){
+            throw new ParameterException([
+                'msg' => '该反馈已审核通过或失效'
+            ]);
+        }
+
+        return $res;
     }
 
 

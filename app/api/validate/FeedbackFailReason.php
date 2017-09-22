@@ -8,17 +8,15 @@
 // +----------------------------------------------------------------------
 // | Author: probe <1946644259@qq.com>
 // +----------------------------------------------------------------------
-// | DateTime: 2017/9/5/11:47
+// | DateTime: 2017/9/22/11:13
 // +----------------------------------------------------------------------
 
-namespace app\lib\enum;
+namespace app\api\validate;
 
 
-class AllowJoinStatusEnum
+class FeedbackFailReason extends BaseValidate
 {
-    // 允许加入
-    const ALLOW_JOIN =0;
-
-    // 加入数量已满
-    const ALLOW_JOIN_OUT = 50;
+    protected $rule = [
+        'reason' => 'require|max:255'
+    ];
 }

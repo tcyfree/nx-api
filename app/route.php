@@ -80,6 +80,7 @@ Route::group(':version/task',function (){
     Route::get('/:id', 'api/:version.Task/getTaskDetail');
     Route::post('/go','api/:version.Task/goTask');
     Route::post('feedback','api/:version.Task/feedback');
+    Route::put('feedback','api/:version.Task/feedbackPassOrFail');
 
 });
 

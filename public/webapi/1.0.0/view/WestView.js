@@ -354,6 +354,12 @@ Ext.define('WebRoot.view.WestView', {
 											text: '反馈详情',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/feedback_detail.php',
 											leaf: true
+										},
+										{
+											id: 'feedback_pass_or_fail',
+											text: '反馈通过或不通过',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/feedback_pass_or_fail.php',
+											leaf: true
 										}
 									]
 								}
