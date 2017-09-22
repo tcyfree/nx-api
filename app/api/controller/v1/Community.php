@@ -82,7 +82,12 @@ class Community extends BaseController
             CommunityUserModel::create($data);
             Db::commit();
 
-            return json(new SuccessMessage(), 201);
+            return [
+                'id' => $community['id'],
+                'msg' => 'ok',
+                'errorCode' => 0
+            ];
+//            return json(new SuccessMessage(), 201);
         }
         catch (Exception $ex)
         {
