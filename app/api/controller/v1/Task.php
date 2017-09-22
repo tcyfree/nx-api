@@ -134,7 +134,8 @@ class Task extends BaseController
         }
         $res_data = ActPlanModel::checkActPlanExists($id);
         $data['mode'] = $res_data['mode'];
-        return [
+        $data['fee']  = $res_data['fee'];
+         return [
             'data' => $data,
             'current_page' => $pagingData->currentPage()
         ];
