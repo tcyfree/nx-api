@@ -37,7 +37,7 @@
     <tr>
         <td>location</td>
         <td >位置</td>
-        <td >是</td>
+        <td >否</td>
         <td ></td>
     </tr>
     <tr>

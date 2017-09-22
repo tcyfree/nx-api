@@ -21,7 +21,7 @@ class CreateCommunication extends BaseValidate
     protected $rule = [
         'content' => 'require',
         'community_id' => 'require|length:36',
-        'location' => 'require|max:255',
+        'location' => 'max:255',
         '@user_ids' => 'user_ids'
     ];
 
