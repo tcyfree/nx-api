@@ -48,12 +48,6 @@
                 </td>
             </tr>
             <tr>
-                <td>look</td>
-                <td>状态</td>
-                <td>0未读 1已读
-                </td>
-            </tr>
-            <tr>
                 <td>nickname</td>
                 <td>用户昵称</td>
                 <td>&nbsp;</td>
