@@ -39,10 +39,34 @@ class Notice extends BaseController
             ->order('create_time DESC')
             ->paginate($size,true,['page' => $page]);
         $data = $pageData->visible(['id','type','create_time','communication.content','user_info.avatar','user_info.nickname','communication.community.name']);
-        NoticeModel::update(['look' => 1,'update_time'],['to_user_id' => $uid]);
+        NoticeModel::update(['look' => 1,'update_time' => time()],['to_user_id' => $uid]);
         return [
             'data' => $data,
             'current_page' => $pageData->currentPage()
         ];
+    }
+
+    /**
+     * 最近三天是否有提醒
+     * @return array
+     */
+    public function getNoticeLook()
+    {
+        $uid = TokenService::getCurrentUid();
+        $where['to_user_id'] = $uid;
+        $where['look'] = 0;
+        $res = NoticeModel::where($where)
+            ->whereTime('create_time','-3 days')
+            ->field('look')
+            ->find();
+        if (!$res){
+            return [
+                'look' => false
+            ];
+        }else{
+            return [
+                'look' => true
+            ];
+        }
     }
 }

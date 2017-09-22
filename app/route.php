@@ -117,6 +117,7 @@ Route::group(':version/comment',function (){
 
 Route::group(':version/notice',function (){
     Route::get('','api/:version.Notice/getNoticeList');
+    Route::get('/look','api/:version.Notice/getNoticeLook');
 });
 
 /**
