@@ -14,7 +14,15 @@
 namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
+use app\api\model\ActPlan as ActPlanModel;
 use app\api\model\ActPlanUser;
+use app\api\model\Task as TaskModel;
+use app\api\model\TaskAccelerate as TaskAccelerateModel;
+use app\api\model\TaskFeedback as TaskFeedbackModel;
+use app\api\model\TaskRecord as TaskRecordModel;
+use app\api\service\Community as CommunityService;
+use app\api\service\Task as TaskService;
+use app\api\service\Token as TokenService;
 use app\api\validate\AccelerateTask;
 use app\api\validate\Feedback;
 use app\api\validate\FeedbackFailReason;
@@ -22,20 +30,12 @@ use app\api\validate\FeedbackPassOrFail;
 use app\api\validate\GetFeedback;
 use app\api\validate\TaskList;
 use app\api\validate\TaskNew;
-use app\api\service\Token as TokenService;
-use app\api\model\Task as TaskModel;
-use app\api\model\TaskRecord as TaskRecordModel;
 use app\api\validate\TaskUpdate;
 use app\api\validate\UUID;
 use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
-use app\api\model\ActPlan as ActPlanModel;
-use app\api\service\Community as CommunityService;
-use think\Exception;
 use think\Db;
-use app\api\service\Task as TaskService;
-use app\api\model\TaskAccelerate as TaskAccelerateModel;
-use app\api\model\TaskFeedback as TaskFeedbackModel;
+use think\Exception;
 
 class Task extends BaseController
 {
@@ -151,14 +151,10 @@ class Task extends BaseController
         $uid = TokenService::getCurrentUid();
         TaskModel::checkTaskExists($id);
         TaskService::checkTaskByUser($uid,$id);
-        $data = TaskModel::with('taskUser')->where(['id' => $id])->find();
-        $return_data = $data->visible(['id','name','requirement','content','reference_time','task_user.user_id','task_user.finish','task_user.create_time'])->toArray();
-        $feedback = TaskFeedbackModel::where(['user_id' => $uid, 'task_id' => $id])->field('status')->find();
-        if ($feedback){
-            $return_data['feedback'] = $feedback['status'];
-        }else{
-            $return_data['feedback'] = null;
-        }
+        $data = TaskModel::with('taskUser,feedback')->where(['id' => $id])->find();
+        $return_data = $data->visible(['id','name','requirement','content','reference_time','task_user.user_id',
+                                        'task_user.finish','task_user.create_time',
+                                        'feedback.content','feedback.create_time','feedback.status','feedback.reason'])->toArray();
 
         return $return_data;
     }

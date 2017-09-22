@@ -82,9 +82,29 @@
         <td>&nbsp;若finish为0，则倒计时为:now-create_time</td>
     </tr>
     <tr>
-        <td>feedback</td>
-        <td>是否提交反馈</td>
-        <td>&nbsp;null 未提交反馈/普通模式 0 待审核 1 未通过审核 2 审核通过</td>
+        <td class="inforstyle">feedback</td>
+        <td>反馈</td>
+        <td>&nbsp;null 未提交反馈/普通模式</td>
+    </tr>
+    <tr>
+        <td>content</td>
+        <td>反馈内容</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>status</td>
+        <td>反馈状态</td>
+        <td>0 待审核 1 未通过审核 2 审核通过 3 失效</td>
+    </tr>
+    <tr>
+        <td>reason</td>
+        <td>原因</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>create_time</td>
+        <td>反馈时间</td>
+        <td></td>
     </tr>
 
 </table>

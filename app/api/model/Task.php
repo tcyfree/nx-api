@@ -32,6 +32,11 @@ class Task extends BaseModel
     {
         return $this->hasOne('ActPlan','id','act_plan_id');
     }
+
+    public function feedback()
+    {
+        return $this->hasMany('TaskFeedback','task_id','id');
+    }
     /**
      * @param $id
      * @param $page
