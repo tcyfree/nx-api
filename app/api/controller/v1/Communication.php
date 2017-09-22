@@ -23,6 +23,7 @@ use app\api\validate\CreateCommunication;
 use app\api\validate\UUID;
 use app\lib\exception\SuccessMessage;
 use app\api\model\CommunicationOperate as CommunicationOperateModel;
+use app\api\model\Notice as NoticeModel;
 
 class Communication extends BaseController
 {
@@ -42,14 +43,20 @@ class Communication extends BaseController
         CommunityModel::checkCommunityExists($dataArray['community_id']);
         $uid = TokenService::getCurrentUid();
         $dataArray['user_id'] = $uid;
-        $dataArray['id'] = uuid();
+        $id = uuid();
+        $dataArray['id'] = $id;
         $c_obj = new CommunicationModel();
         // 过滤数组中的非数据表字段数据
         $c_obj->allowField(true)->save($dataArray);
         //@用户，发消息通知
         if (isset($dataArray['@user_ids'])){
-            //TODO
-//            var_dump($dataArray['@user_ids']);
+            foreach ($dataArray['@user_ids'] as $v){
+                $data['id'] = uuid();
+                $data['to_user_id'] = $v;
+                $data['from_user_id'] = $uid;
+                $data['communication_id'] = $id;
+                NoticeModel::create($data);
+            }
         }
 
         return json(new SuccessMessage(),201);
