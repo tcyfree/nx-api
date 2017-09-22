@@ -16,14 +16,14 @@ namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
 use app\api\model\Communication as CommunicationModel;
+use app\api\model\CommunicationOperate as CommunicationOperateModel;
 use app\api\model\Community as CommunityModel;
+use app\api\model\Notice as NoticeModel;
 use app\api\service\Token as TokenService;
 use app\api\validate\CommunicationList;
 use app\api\validate\CreateCommunication;
 use app\api\validate\UUID;
 use app\lib\exception\SuccessMessage;
-use app\api\model\CommunicationOperate as CommunicationOperateModel;
-use app\api\model\Notice as NoticeModel;
 
 class Communication extends BaseController
 {

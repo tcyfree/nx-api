@@ -39,6 +39,7 @@ class Notice extends BaseController
             ->order('create_time DESC')
             ->paginate($size,true,['page' => $page]);
         $data = $pageData->visible(['id','type','create_time','communication.content','user_info.avatar','user_info.nickname','communication.community.name']);
+        NoticeModel::update(['look' => 1,'update_time'],['to_user_id' => $uid]);
         return [
             'data' => $data,
             'current_page' => $pageData->currentPage()
