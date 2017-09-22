@@ -20,6 +20,6 @@ class Feedback extends BaseValidate
         'content' => 'require|max:255',
         'task_id' => 'require|length:36',
         'to_user_id' => 'require|length:36',
-        'location' => 'require|max:255'
+        'location' => 'max:255'
     ];
 }
