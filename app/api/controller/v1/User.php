@@ -16,6 +16,7 @@ use app\api\model\UserInfo;
 use app\api\service\Token as TokenService;
 use app\api\controller\BaseController;
 use app\api\validate\Advice;
+use app\api\validate\Number;
 use app\api\validate\PagingParameter;
 use app\api\validate\UUID;
 use app\lib\exception\UserException;
@@ -29,7 +30,7 @@ use app\api\model\BlockedList as BlockListModel;
 class User extends BaseController
 {
     protected $beforeActionList = [
-        'checkPrimaryScope' => ['only' => 'getUserInfo,editUserInfo']
+        'checkPrimaryScope' => ['only' => 'getUserInfo,editUserInfo,getUserByNumber']
     ];
 
     /**
@@ -145,6 +146,20 @@ class User extends BaseController
         BlockListModel::deleteBlockUser($uid,$id);
 
         return json(new SuccessMessage(),201);
+    }
+
+    /**
+     * 根据number获取用户昵称
+     * @return array
+     */
+    public function getUserByNumber()
+    {
+        (new Number())->goCheck();
+        $number = input('get.number');
+        $user = UserModel::userInfo($number);
+        $user_info = UserInfoModel::get(['user_id' => $user['id']]);
+
+        return $user_info;
     }
 
 }

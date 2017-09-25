@@ -186,6 +186,12 @@ Ext.define('WebRoot.view.WestView', {
 											leaf: true
 										},
 										{
+											id: 'user_info_number',
+											text: '获取number用户信息',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/user_info_number.php',
+											leaf: true
+										},
+										{
 											id: 'report',
 											text: '投诉',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/community_report.php',

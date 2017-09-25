@@ -24,6 +24,7 @@ Route::group(':version/user', function(){
     Route::post('/block','api/:version.User/blockUser');
     Route::delete('/block','api/:version.User/deleteBlockUser');
     Route::get('/block','api/:version.User/blockedList');
+    Route::get('/number','api/:version.User/getUserByNumber');
 });
 
 /**
@@ -115,9 +116,19 @@ Route::group(':version/comment',function (){
     Route::put('/like','api/:version.Comment/operateCommentByUser');
 });
 
+/**
+ * Notice
+ */
 Route::group(':version/notice',function (){
     Route::get('','api/:version.Notice/getNoticeList');
     Route::get('/look','api/:version.Notice/getNoticeLook');
+});
+
+/**
+ * WeiXin
+ */
+Route::group(':version/wx',function (){
+    Route::get('media_uri','api/:version.WeiXin/getDownloadMediaUri');
 });
 
 /**
