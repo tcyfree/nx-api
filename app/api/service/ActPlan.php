@@ -26,7 +26,6 @@ class ActPlan
     public function getType($data)
     {
         $uid = TokenService::getAnyhowUid();
-        echo $uid;
         foreach ($data as &$v){
             $where['community_id'] = $v['community_id'];
             $where['user_id'] = $uid;
