@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
       <td>PUT</td>
-    <td>v1/community</td>
+    <td>v1/community/join</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>
