@@ -75,6 +75,7 @@ class CommunityUser extends BaseModel
      * 判断此行动社是否是该用户
      * @param $uid
      * @param $community_id
+     * @return null|static
      * @throws ParameterException
      */
     public static function checkCommunityBelongsToUser($uid,$community_id)
@@ -85,5 +86,7 @@ class CommunityUser extends BaseModel
                 'msg' => '此行动社不是你的！'
             ]);
         }
+
+        return $res;
     }
 }

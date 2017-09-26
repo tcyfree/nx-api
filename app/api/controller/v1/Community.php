@@ -246,7 +246,8 @@ class Community extends BaseController
         (new Type())->goCheck();
 
         $uid = TokenService::getCurrentUid();
-        $res = CommunityUserModel::get(['user_id' => $uid,'community_id' => $id])->toArray();
+        echo $uid;
+        $res = CommunityUserModel::checkCommunityBelongsToUser($uid,$id);
         $community_id = $res['community_id'];
 
         CommunityModel::update(['search' => $type-1],['id' => $community_id]);
