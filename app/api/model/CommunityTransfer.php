@@ -41,7 +41,10 @@ class CommunityTransfer extends BaseModel
             ]);
         }
         //非社长不能转让行动社
-        $res = CommunityUser::get(['user_id' => $uid, 'community_id' => $dataArray['community_id']])->toArray();
+        $res = CommunityUser::get(['user_id' => $uid, 'community_id' => $dataArray['community_id']]);
+        if (!$res){
+            throw new ParameterException();
+        }
         if($res['type'] != 0){
             throw new ForbiddenException();
         }
