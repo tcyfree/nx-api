@@ -14,7 +14,6 @@ namespace app\api\controller\v1;
 use app\api\controller\BaseController;
 use think\Loader;
 
-//require_once (__DIR__.'/../../../../vendor/sts-server/sts.php');
 
 Loader::import('OSS.sts-server.sts', EXTEND_PATH, '.php');
 Loader::import('OSS.oss-h5-upload-js-php.php.get', EXTEND_PATH, '.php');
