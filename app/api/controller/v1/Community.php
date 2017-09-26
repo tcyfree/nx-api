@@ -38,6 +38,7 @@ use app\lib\exception\SuccessMessage;
 use app\lib\exception\UpdateNumException;
 use think\Db;
 use think\Exception;
+use app\api\model\CommunityUserRecord;
 
 class Community extends BaseController
 {
@@ -348,24 +349,38 @@ class Community extends BaseController
     }
 
     /**
-     * 退出行动社
+     * 退出行动社,保留记录同时删除原有记录
      * 1 社长不能退出行动社
      * @param $id
      * @return \think\response\Json
+     * @throws Exception
      * @throws ParameterException
      */
     public function leaveCommunity($id)
     {
         (new UUID())->goCheck();
         $uid = TokenService::getCurrentUid();
-        $community = CommunityUserModel::get(['user_id' => $uid, 'community_id' => $id])->toArray();
+        $community = CommunityUserModel::get(['user_id' => $uid, 'community_id' => $id]);
+        if (!$community){
+            throw new ParameterException();
+        }
         if($community['type'] == 0){
             throw new ParameterException([
                 'msg' => '社长不能退出行动社'
             ]);
         }
 
-        CommunityUserModel::update(['status' => 1], ['user_id' => $uid, 'community_id' => $id]);
+        Db::startTrans();
+        try{
+            CommunityUserRecord::create(['user_id' => $uid, 'community_id' => $id, 'type' => $community['type'],
+                'join_time' => strtotime($community['create_time']), 'pay' => $community['pay']]);
+            CommunityUserModel::where(['user_id' => $uid, 'community_id' => $id])->delete();
+            Db::commit();
+        }catch (Exception $ex){
+            throw $ex;
+            Db::rollback();
+        }
+
         return json(new SuccessMessage(), 201);
     }
 
