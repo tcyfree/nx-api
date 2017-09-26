@@ -291,7 +291,7 @@ class Community extends BaseController
         }
         return [
             'data' => $newData,
-            'current_page' => $page
+            'current_page' => $page + 1
         ];
     }
 
