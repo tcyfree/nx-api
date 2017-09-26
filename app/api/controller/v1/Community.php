@@ -329,7 +329,12 @@ class Community extends BaseController
         $dataArray = input('post.');
 
         CommunityTransfer::transfer($dataArray);
-        return json(new SuccessMessage(), 201);
+        return [
+            'code' => 201,
+            'msg' => 'ok',
+            'errorCode' => 0,
+            'type' => 2
+        ];
 
     }
 
