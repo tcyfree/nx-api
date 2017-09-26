@@ -29,7 +29,7 @@
         <td ></td>
     </tr>
 
-<?php require_once("../include/page.required.php");?>
+<?php require_once("../include/page.required_or_optional.php");?>
 
 </table>
 <?php require_once ("../include/json_info.php"); ?>
