@@ -47,4 +47,20 @@ class Wallet
 
         return $newData;
     }
+
+    /**
+     * 收入扣除10%
+     * @param $data
+     * @return mixed
+     */
+    public function withdrawalFee($data)
+    {
+        foreach ($data as &$v){
+            if ($v['type'] == 1){
+                $v['income_expenses']['fee'] = strval(($v['income_expenses']['fee'])*(1-config('fee.withdrawal fee')));
+            }
+        }
+
+        return $data;
+    }
 }

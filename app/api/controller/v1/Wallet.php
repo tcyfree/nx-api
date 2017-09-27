@@ -49,7 +49,7 @@ class Wallet extends BaseController
      * @param $size
      * @return array
      */
-    public function getIncomeExpensesSummary($page,$size)
+    public function getIncomeExpensesSummary($page = 1, $size = 15)
     {
         (new PagingParameter())->goCheck();
 
@@ -57,6 +57,8 @@ class Wallet extends BaseController
         $pagingData = IncomeExpensesUserModel::incomeExpensesSummary($uid,$page,$size);
         $data = $pagingData->visible(['id','type','create_time','income_expenses.order_no','income_expenses.fee',
             'income_expenses.name'])->toArray();
+        $w_s = new WalletService();
+        $data = $w_s->withdrawalFee($data);
         $newData = WalletService::getDataByYear($data);
 
         return [
