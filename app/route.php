@@ -31,8 +31,9 @@ Route::group(':version/user', function(){
  * OSS
  */
 Route::group(':version/oss',function(){
-    Route::get('/sts','api/:version.OSS/getSecurityToken');
-    Route::get('/policy','api/:version.OSS/getPolicySignature');
+    Route::get('/sts','api/:version.OSSManager/getSecurityToken');
+    Route::get('/policy','api/:version.OSSManager/getPolicySignature');
+    Route::post('/upload','api/:version.OSSManager/uploadObject');
 });
 
 /**
@@ -95,6 +96,7 @@ Route::group(':version/wallet',function (){
     Route::delete('','api/:version.Wallet/expensesActPlan');
     Route::get('/list','api/:version.Wallet/getIncomeExpensesSummary');
     Route::get('','api/:version.Wallet/getWalletByUser');
+    Route::get('/recharge','api/:version.Wallet/getRechargeList');
 });
 
 /**

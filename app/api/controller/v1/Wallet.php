@@ -19,6 +19,7 @@ use app\lib\exception\SuccessMessage;
 use app\api\service\Wallet as WalletService;
 use app\api\model\IncomeExpensesUser as IncomeExpensesUserModel;
 use app\api\model\UserProperty as UserPropertyModel;
+use app\api\model\Recharge as RechargeModel;
 
 class Wallet extends BaseController
 {
@@ -64,6 +65,29 @@ class Wallet extends BaseController
         return [
             'data' => $newData,
             'current_page' => $pagingData->currentPage()
+        ];
+    }
+
+    /**
+     * 充值列表
+     * @param int $page
+     * @param int $size
+     * @return array
+     */
+    public function getRechargeList($page = 1, $size = 15)
+    {
+        $uid = TokenService::getCurrentUid();
+        $where['user_id'] = $uid;
+        $where['status'] = 1;
+        $pageData = RechargeModel::where($where)
+            ->order('create_time DESC')
+            ->paginate($size, true, ['page' => $page]);
+        $data = $pageData->hidden(['update_time','prepay_id','status'])->toArray();
+        $newData = WalletService::getDataByYear($data);
+
+        return [
+            'data' => $newData,
+            'current_page' => $pageData->currentPage()
         ];
     }
 

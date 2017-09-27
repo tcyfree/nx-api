@@ -19,7 +19,7 @@ use app\api\service\Token as TokenService;
 class Recharge extends BaseModel
 {
     protected $autoWriteTimestamp = true;
-    protected $hidden = ['create_time','update_time'];
+//    protected $hidden = ['create_time','update_time'];
 
     /**
      * 创建订单

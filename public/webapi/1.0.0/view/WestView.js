@@ -406,6 +406,12 @@ Ext.define('WebRoot.view.WestView', {
 									text: '收支明细',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/income_expenses.php',
 									leaf: true
+								},
+								{
+									id: 'recharge_list',
+									text: '充值明细',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/wallet_recharge_list.php',
+									leaf: true
 								}
 
 							]
