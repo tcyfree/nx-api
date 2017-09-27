@@ -160,7 +160,7 @@ class Community
         $count = $obj->where($where)->count('user_id');
         if($count == AllowJoinStatusEnum::ALLOW_JOIN_OUT){
             throw new CommunityException([
-                'msg' => '加入行动社数量超过5个',
+                'msg' => '加入行动社数量超过'.AllowJoinStatusEnum::ALLOW_JOIN_OUT.'个',
                 'code' => 400
             ]);
         }
