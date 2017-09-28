@@ -33,7 +33,7 @@ Route::group(':version/user', function(){
 Route::group(':version/oss',function(){
     Route::get('/sts','api/:version.OSSManager/getSecurityToken');
     Route::get('/policy','api/:version.OSSManager/getPolicySignature');
-    Route::post('/upload','api/:version.OSSManager/uploadObject');
+    Route::post('/upload','api/:version.OSSManager/uploadOSS');
 });
 
 /**
@@ -130,7 +130,7 @@ Route::group(':version/notice',function (){
  * WeiXin
  */
 Route::group(':version/wx',function (){
-    Route::get('media_uri','api/:version.WeiXin/getDownloadMediaUri');
+    Route::get('/media_uri','api/:version.WeiXin/getDownloadMediaUri');
 });
 
 /**
