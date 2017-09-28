@@ -107,6 +107,7 @@ Route::group(':version/communication',function (){
     Route::get('','api/:version.Communication/getCommunicationList');
     Route::put('like','api/:version.Communication/operateCommunityByUser');
     Route::delete('','api/:version.Communication/deleteCommunication');
+    Route::get('/detail','api/:version.Communication/getCommunicationDetail');
 });
 
 /**

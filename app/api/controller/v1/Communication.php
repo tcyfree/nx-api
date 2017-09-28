@@ -99,6 +99,37 @@ class Communication extends BaseController
     }
 
     /**
+     * 条目详情
+     * @param $id
+     * @return array|false|\PDOStatement|string|\think\Model
+     */
+    public function getCommunicationDetail($id){
+        (new UUID())->goCheck();
+        $uid = TokenService::getCurrentUid();
+        $id = input('get.id');
+        $where['id'] = $id;
+        $where['delete_time'] = 0;
+        $data = CommunicationModel::with('userInfo')
+            ->where($where)
+            ->find();
+        $data->hidden(['update_time','delete_time','user_info.id','user_info.user_id']);
+        $res = CommunicationOperateModel::get(['user_id' => $uid, 'communication_id' => $data['id'],'type' => 1,'delete_time' => 0]);
+        if ($res){
+            $data['do_like'] = true;
+        }else{
+            $data['do_like'] = false;
+        }
+
+        if ($uid == $data['user_id']){
+            $data['own'] = true;
+        }else{
+            $data['own'] = false;
+        }
+        return $data;
+
+    }
+
+    /**
      * 顶赞/取消顶赞
      * @return \think\response\Json
      */
@@ -145,6 +176,13 @@ class Communication extends BaseController
         CommunicationModel::update(['delete_time' => time()],['id' => $communication_id]);
 
         return json(new SuccessMessage(),201);
+    }
+
+    public function getListByUser($page = 1, $size = 15)
+    {
+        $uid = TokenService::getCurrentUid();
+
+
     }
 
 }
