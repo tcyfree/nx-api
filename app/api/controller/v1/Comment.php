@@ -66,7 +66,7 @@ class Comment extends  BaseController
         CommunicationModel::checkCommunicationExists($communication_id);
 
         $pageData = CommentModel::commentList($communication_id,$page,$size);
-        $data = $pageData->visible(['id','comment','likes','create_time','user_info.user_id','user_info.nickname'])->toArray();
+        $data = $pageData->visible(['id','comment','likes','create_time','user_info.user_id','user_info.nickname','user_info.avatar'])->toArray();
 
         foreach ($data as &$v){
             $comment_id = $v['id'];
