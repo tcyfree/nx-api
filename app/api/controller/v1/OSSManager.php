@@ -82,8 +82,11 @@ class OSSManager extends BaseController
 
     /**
      * 上传文件到OSS
+     *
+     * @param $object
+     * @return mixed
      */
-    public function uploadOSS()
+    public function uploadOSS($object)
     {
         $ossClient = $this->getOssClient();
         $bucket = config('oss.Bucket');
