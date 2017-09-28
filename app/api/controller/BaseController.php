@@ -34,7 +34,7 @@ class BaseController extends Controller
      * @return mixed
      * @throws Exception
      */
-    public function getAccessToken()
+    public function getWXAccessToken()
     {
         $wxAppID = config('wx.g_app_id');
         $wxAppSecret = config('wx.g_app_secret');
@@ -66,6 +66,23 @@ class BaseController extends Controller
         }
 
         return $wxResult['access_token'];
+    }
+
+    /**
+     * 获取访问微信接口的access_token
+     * @return mixed
+     */
+    public function getAccessToken()
+    {
+        $redis = Cache::store('redis');
+        $wx_access_token = $redis->get('wx_access_token');
+        if (!$wx_access_token){
+            $access_token = $this->getWXAccessToken();
+        }else{
+            $access_token = $wx_access_token;
+        }
+
+        return $access_token;
     }
 
 }
