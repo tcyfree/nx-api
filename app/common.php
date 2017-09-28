@@ -292,3 +292,14 @@ function getCharIndex($zh){
     }
     return strtoupper($ret);
 }
+
+/**
+ * 接口响应时间
+ */
+function sys_processTime(){
+    $endTime = explode(" ", microtime());
+    $endTime = $endTime[1] + $endTime[0];
+    $totalTime = ($endTime - $GLOBALS['_beginTime']);
+    $processTime = number_format($totalTime, 7);
+    return $processTime.'s';
+}
