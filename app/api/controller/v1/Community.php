@@ -281,13 +281,22 @@ class Community extends BaseController
             ->join('__USER_INFO__ u','c_u.user_id = u.user_id')
             ->where($where)
             ->order('u.char_index ASC')
-            ->field('c_u.type,c_u.status,u.user_id,u.nickname,u.char_index,u.avatar')
+            ->field('c_u.type,c_u.status,u.user_id,u.nickname,u.char_index,u.avatar,u.from')
             ->limit($page,$size)
-            ->select();
+            ->select()
+            ->toArray();
+        foreach ($data as &$v) {
+            if ($v['from'] == '0'){
+                $v['avatar'] = config('setting.img_prefix').$v['avatar'];
+            }
+        }
         $newData = [];
-        foreach ($data as $v) {
+        //按照拼音首字母分组
+        foreach ($data as &$v) {
             $newData[$v['char_index']][] = $v;
         }
+
+
         return [
             'data' => $newData,
             'current_page' => $page + 1
