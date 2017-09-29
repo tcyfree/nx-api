@@ -81,6 +81,29 @@ class OSSManager extends BaseController
     }
 
     /**
+     * 分片上传本地文件
+     * 通过multipart上传文件
+     *
+     * @param OssClient $ossClient OSSClient实例
+     * @param string $bucket 存储空间名称
+     * @param string $object 名字
+     * @return mixed
+     */
+    function multiUploadFile($ossClient, $bucket, $object)
+    {
+        $file = $_SERVER['DOCUMENT_ROOT'].'/static/audio/'.$object;
+        try{
+            $res = $ossClient->multiuploadFile($bucket, $object, $file);
+            return $res;
+        } catch(OssException $e) {
+            return [
+                'error' => 'FAILED',
+                'msg'   => $e->getMessage()
+            ];
+        }
+    }
+
+    /**
      * 上传文件到OSS
      *
      * @param $object
@@ -90,8 +113,9 @@ class OSSManager extends BaseController
     {
         $ossClient = $this->getOssClient();
         $bucket = config('oss.Bucket');
-        $object = '2.mp3';
+//        $object = '2.mp3';
         $res = $this->uploadFile($ossClient,$bucket,$object);
+        $res['processTime'] = sys_processTime();
 
         return $res;
     }
