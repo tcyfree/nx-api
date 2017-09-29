@@ -55,14 +55,19 @@
         <td 0 否 1 是</td>
     </tr>
     <tr>
+        <td>mode</td>
+        <td>行动计划模式</td>
+        <td>0 普通模式 1 普通模式+挑战者模式</td>
+    </tr>
+    <tr>
         <td>flag</td>
         <td>0 未参加 1 已参加</td>
         <td></td>
     </tr>
     <tr>
-        <td>mode</td>
-        <td>行动计划模式</td>
-        <td>0 普通模式 1 普通模式+挑战者模式</td>
+        <td>user_join_mode</td>
+        <td>null 未参加 0 普通 1 挑战模式</td>
+        <td></td>
     </tr>
 </table>
     <span class="titlestyle"><font color="red">注：若用户未参加该行动计划的行动社，则去行动计划详情橱窗</font> </span>

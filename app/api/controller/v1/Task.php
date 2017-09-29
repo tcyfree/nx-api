@@ -128,9 +128,9 @@ class Task extends BaseController
         $task_obj = new TaskService();
         $data['task'] = $task_obj->checkTaskFinish($pagingArray,$uid);
         $res = ActPlanUser::get(['act_plan_id' => $id, 'user_id' => $uid]);
-        $data['flag'] = '0';
+        $data['user_join_mode'] = null;
         if ($res){
-            $data['flag'] = '1';
+            $data['user_join_mode'] = $res['mode'];
         }
         $res_data = ActPlanModel::checkActPlanExists($id);
         $data['mode'] = $res_data['mode'];
