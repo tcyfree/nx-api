@@ -60,11 +60,6 @@
         <td>0 普通模式 1 普通模式+挑战者模式</td>
     </tr>
     <tr>
-        <td>flag</td>
-        <td>0 未参加 1 已参加</td>
-        <td></td>
-    </tr>
-    <tr>
         <td>user_join_mode</td>
         <td>null 未参加 0 普通 1 挑战模式</td>
         <td></td>
