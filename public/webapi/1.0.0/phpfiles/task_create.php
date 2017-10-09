@@ -43,7 +43,7 @@
  <tr>
      <td>reference_time</td>
      <td>参考用时(秒）</td>
-     <td>&nbsp;时间戳</td>
+     <td>&nbsp;</td>
  </tr>
     <tr>
         <td>content</td>
