@@ -70,6 +70,7 @@ class BaseController extends Controller
 
     /**
      * 获取访问微信接口的access_token
+     *
      * @return mixed
      */
     public function getAccessToken()
