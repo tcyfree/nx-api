@@ -509,6 +509,19 @@ Ext.define('WebRoot.view.WestView', {
 									leaf: true
 								}
 							]
+						},
+						{
+							id: 'wei_xin_menu',
+							text: '微信相关',
+							expanded: true,
+							children: [
+								{
+									id: 'wei_xin_audio',
+									text: '音频uri',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/wei_xin_audio.php',
+									leaf: true
+								}
+							]
 						}
 					]
 			}
