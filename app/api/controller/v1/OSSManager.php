@@ -113,9 +113,7 @@ class OSSManager extends BaseController
     {
         $ossClient = $this->getOssClient();
         $bucket = config('oss.Bucket');
-//        $object = '2.mp3';
         $res = $this->uploadFile($ossClient,$bucket,$object);
-        $res['processTime'] = sys_processTime();
 
         return $res;
     }
