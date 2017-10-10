@@ -53,7 +53,7 @@ class WeiXin
     }
 
     /**
-     * 删除本地音频
+     * 删除本地音频文件
      *
      * @param $filename
      * @return bool
