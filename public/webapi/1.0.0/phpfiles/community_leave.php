@@ -4,7 +4,7 @@
 
 
 <div class="contentDIV">
-<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：退出行动社接口</span>
+<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：退出行动社/辞去管理员接口</span>
   <input type="hidden" name="hiddenField" id="hiddenField" />
 </p>
 <p class="subtitlestyle">（一）服务接口请求地址：</p>

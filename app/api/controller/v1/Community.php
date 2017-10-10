@@ -365,6 +365,8 @@ class Community extends BaseController
     /**
      * 退出行动社,保留记录同时删除原有记录
      * 1 社长不能退出行动社
+     * 2 主动辞去管理员，变成普通成员，注销其所有权限
+     *
      * @param $id
      * @return \think\response\Json
      * @throws Exception
@@ -386,9 +388,15 @@ class Community extends BaseController
 
         Db::startTrans();
         try{
-            CommunityUserRecord::create(['user_id' => $uid, 'community_id' => $id, 'type' => $community['type'],
-                'join_time' => strtotime($community['create_time']), 'pay' => $community['pay']]);
-            CommunityUserModel::where(['user_id' => $uid, 'community_id' => $id])->delete();
+            if($community['type'] == 1){
+                CommunityUserModel::update(['type' => '2','update_time' => time()],['user_id' => $uid, 'community_id' => $id]);
+                AuthUserModel::update(['auth' => '', 'update_time' => time()],['to_user_id' => $uid,'community_id' => $id]);
+            }else{
+                CommunityUserRecord::create(['user_id' => $uid, 'community_id' => $id, 'type' => $community['type'],
+                    'join_time' => strtotime($community['create_time']), 'pay' => $community['pay']]);
+                CommunityUserModel::where(['user_id' => $uid, 'community_id' => $id])->delete();
+            }
+
             Db::commit();
         }catch (Exception $ex){
             throw $ex;
