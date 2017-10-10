@@ -264,7 +264,6 @@ class Community extends BaseController
      */
     public function getMemberList($id,$page = 1, $size = 15)
     {
-
         (new UUID())->goCheck();
         (new PagingParameter())->goCheck();
 
@@ -274,14 +273,14 @@ class Community extends BaseController
         $cs->checkAuthority($params);
         $page = $page - 1;
 
-        $where['c_u.community_id'] = $id;
-        $where['c_u.pay'] = '1';
+        $pay = '1';
+        $type = '2';
         $data = Db::table('xds_community_user')
             ->alias('c_u')
             ->join('__USER_INFO__ u','c_u.user_id = u.user_id')
-            ->where($where)
+            ->where('(c_u.pay = '."'".$pay."'".' OR c_u.type <> '."'".$type."'".') AND c_u.community_id = '."'".$id."'")
             ->order('u.char_index ASC')
-            ->field('c_u.type,c_u.status,u.user_id,u.nickname,u.char_index,u.avatar,u.from')
+            ->field('c_u.type,c_u.pay,c_u.status,u.user_id,u.nickname,u.char_index,u.avatar,u.from')
             ->limit($page,$size)
             ->select()
             ->toArray();
@@ -296,8 +295,8 @@ class Community extends BaseController
             $newData[$v['char_index']][] = $v;
         }
 
-
         return [
+            'origin_data' => $data,
             'data' => $newData,
             'current_page' => $page + 1
         ];
