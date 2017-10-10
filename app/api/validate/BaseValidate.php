@@ -158,5 +158,23 @@ class BaseValidate extends Validate
         return $newArray;
     }
 
+    /**
+     * 过滤指定非法提交参数,不抛出错误
+     *
+     * @param $arrays
+     * @return array
+     * @throws ParameterException
+     */
+    public function getDataRules($arrays)
+    {
+        $newArray = [];
+
+        foreach ($this->rule as $key => $value)
+        {
+            $newArray[$key] = $arrays[$key];
+        }
+        return $newArray;
+    }
+
 
 }
