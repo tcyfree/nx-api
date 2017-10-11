@@ -19,6 +19,7 @@ use think\Paginator;
 use app\api\model\TaskUser as TaskUserModel;
 use app\api\model\Task as TaskModel;
 use app\api\model\ActPlanUser as ActPlanUserModel;
+use app\api\model\ActPlan as ActPlanModel;
 
 class Task extends BaseModel
 {
@@ -107,5 +108,26 @@ class Task extends BaseModel
     public function getSumTaskDoing($act_plan_id, $task_id)
     {
 
+    }
+
+    /**
+     *  根据任务ID查找行动社ID
+     *
+     * @param $task_id
+     * @return mixed
+     */
+    public static function getCommunityIDByTaskID($task_id)
+    {
+        self::checkTaskExists($task_id);
+        $where['id'] = $task_id;
+        $res = self::where($where)
+            ->field('act_plan_id')
+            ->find();
+        $act_plan_id = $res['act_plan_id'];
+
+        $res = ActPlanModel::where('id',$act_plan_id)
+            ->field('community_id')
+            ->find();
+        return $res['community_id'];
     }
 }
