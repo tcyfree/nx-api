@@ -89,4 +89,21 @@ class CommunityUser extends BaseModel
 
         return $res;
     }
+
+    /**
+     * 查找行动社管理员和社长ID
+     *
+     * @param $community_id
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public static function getManagerID($community_id)
+    {
+        $where['community_id'] = $community_id;
+        $where['type'] = ['neq',2];
+
+        $res = self::where($where)
+            ->field('user_id')
+            ->select()->toArray();
+        return $res;
+    }
 }
