@@ -65,6 +65,7 @@
 
         </table>
         <p>&nbsp;</p>
+        <span class="titlestyle"><font color="red">注：提醒内容只保存和显示最近三天的</font> </span>
     </div>
 
 

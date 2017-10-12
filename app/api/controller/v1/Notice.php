@@ -39,7 +39,7 @@ class Notice extends BaseController
             ->whereTime('create_time','-3 days')
             ->order('create_time DESC')
             ->paginate($size,true,['page' => $page]);
-        $data = $pageData->visible(['id','type','create_time','communication.content','user_info.avatar','user_info.nickname','communication.community.name']);
+        $data = $pageData->visible(['id','type','create_time','communication.id','communication.content','user_info.avatar','user_info.nickname','communication.community.name']);
         NoticeModel::update(['look' => 1,'update_time' => time()],['to_user_id' => $uid]);
         return [
             'data' => $data,
