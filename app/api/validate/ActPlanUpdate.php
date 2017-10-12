@@ -24,4 +24,4 @@ class ActPlanUpdate extends BaseValidate
         'fee'          => 'require|between:1,49',
 //        'mode'         => 'require|in:0,1'
     ];
-}
+}   

@@ -19,30 +19,31 @@
 </table>
 <p class="subtitlestyle">（二）POST参数列表：</p>
 <table width="90%" border="1" class="dbTable">
-  <tr class="td_header">
-    <td>参数名称</td>
-    <td width="226">参数说明</td>
-    <td width="598">备注</td>
-    </tr>
- <?php require_once ("../include/token.inc.php"); ?>
+
+ <?php require_once ("../include/required_or_optional.php"); ?>
+ <?php require_once ("../include/token.required.php"); ?>
     <tr>
         <td>task_id</td>
         <td width="226">任务ID</td>
+        <td width="226">是</td>
         <td width="598"></td>
     </tr>
  <tr>
    <td>content</td>
    <td width="226">反馈内容</td>
+     <td width="226">是</td>
    <td width="598"></td>
  </tr>
   <tr>
    <td>location</td>
    <td width="226">位置</td>
+      <td width="226">否</td>
    <td width="598"></td>
  </tr>
  <tr>
      <td>to_user_id</td>
      <td>审核人ID</td>
+     <td width="226">否</td>
      <td>&nbsp;</td>
  </tr>
 </table>

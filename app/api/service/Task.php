@@ -15,11 +15,14 @@ namespace app\api\service;
 
 use app\api\model\ActPlan as ActPlanModel;
 use app\api\model\ActPlanUser as ActPlanUserModel;
+use app\api\model\CommunityUser as CommunityUserModel;
 use app\api\model\Task as TaskModel;
 use app\api\model\TaskUser as TaskUserModel;
 use app\api\service\Community as CommunityService;
 use app\lib\exception\AcceleateTaskException;
 use app\lib\exception\ParameterException;
+use app\api\model\TaskFeedbackUsers as TaskFeedbackUsersModel;
+use think\Db;
 
 class Task
 {
@@ -114,4 +117,113 @@ class Task
         }
         return $data;
     }
+
+    /**
+     * 获取随机反馈人：社长、管理员
+     *
+     *备选人和反馈用户表差集
+     *
+     * 1 反馈表没有用户或备选人和反馈用户表差集不为空，则从备选人中随机挑选一位
+     * 2 备选人和反馈用户表差集为空，按备选人在反馈表中tag值最小结果集随机挑选一位
+     * 3 在反馈表中查询出的用户可能不在备选人中
+     * @param $task_id
+     * @return mixed
+     */
+    public function getRandManagerID($task_id)
+    {
+        $community_id = TaskModel::getCommunityIDByTaskID($task_id);
+
+        $manager_ids = CommunityUserModel::getManagerID($community_id);
+        $new_manager = $this->twoToOneDimensionalArrays($manager_ids);
+
+        $feedback_users = TaskFeedbackUsersModel::getUserIDS($community_id);
+        if ($feedback_users){
+            $new_feedback = $this->twoToOneDimensionalArrays($feedback_users);
+
+            $intersection = array_diff($new_manager,$new_feedback);
+            if ($intersection){
+                $user_id = $this->randManagerID($intersection,$community_id);
+
+            }else{
+                $user_id = $this->randFeedbackUser($new_manager,$community_id);
+            }
+
+        }else{
+            $user_id = $this->randManagerID($new_manager,$community_id);
+        }
+
+
+        return $user_id;
+    }
+
+    /**
+     * 排除获取反馈表不在备选人中的用户
+     *
+     * 从新的备选中里tag最小中获取第一个人，更新被选中者的tag + 1
+     *
+     * @param $new_manager
+     * @param $community_id
+     */
+    public function randFeedbackUser($new_manager,$community_id)
+    {
+        $where['community_id'] = $community_id;
+
+        TaskFeedbackUsersModel::update(['tag' => 1],['community_id' => $community_id]);
+
+        $data = TaskFeedbackUsersModel::where($where)
+            ->field('user_id,tag')
+            ->order('tag ASC')
+            ->select()
+            ->toArray();
+
+        foreach ($data as $v)
+        {
+            $user_id = $v['user_id'];
+            if (in_array($user_id,$new_manager)){
+                break;
+            }
+        }
+
+        $where['user_id'] = $user_id;
+        Db::table('xds_task_feedback_users')->where($where)->setInc('tag');
+
+        return $user_id;
+    }
+
+    /**
+     * 在备选人中随机抽取一位
+     *
+     * 1 将备选者记录到反馈用户表中，同时更新所有tag为1
+     * @param $managers
+     * @param $community_id
+     * @return mixed
+     */
+    public function randManagerID($managers,$community_id)
+    {
+        $rand_index = array_rand($managers);
+        $user_id = $managers[$rand_index];
+        $data['user_id'] = $user_id;
+        $data['community_id'] = $community_id;
+        TaskFeedbackUsersModel::create($data);
+        TaskFeedbackUsersModel::update(['tag' => 1],['community_id' => $community_id]);
+        return $user_id;
+    }
+
+    /**
+     * 将二维数组变成一维数组
+     *
+     * @param $twos
+     * @return array
+     */
+    public function twoToOneDimensionalArrays($twos)
+    {
+        $new_array = [];
+        foreach ($twos as $v){
+            $new_array[] = $v['user_id'];
+        }
+
+        return $new_array;
+    }
+
+
 }

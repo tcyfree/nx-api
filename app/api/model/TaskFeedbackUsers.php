@@ -8,18 +8,27 @@
 // +----------------------------------------------------------------------
 // | Author: probe <1946644259@qq.com>
 // +----------------------------------------------------------------------
-// | DateTime: 2017/9/14/18:53
+// | DateTime: 2017/10/11/10:18
 // +----------------------------------------------------------------------
 
-namespace app\api\validate;
+namespace app\api\model;
 
 
-class Feedback extends BaseValidate
+class TaskFeedbackUsers extends BaseModel
 {
-    protected $rule = [
-        'content' => 'require|max:255',
-        'task_id' => 'require|length:36',
-        'to_user_id' => 'length:36',
-        'location' => 'max:255'
-    ];
+    protected $autoWriteTimestamp = true;
+
+    /**
+     * 查找该行动社已分配社长和管理员ID
+     * @param $community_id
+     * @return array
+     */
+    public static function getUserIDS($community_id)
+    {
+        $where['community_id'] = $community_id;
+        $res = self::where($where)
+            ->field('user_id')
+            ->select()->toArray();
+        return $res;
+    }
 }

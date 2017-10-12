@@ -226,6 +226,8 @@ class Task extends BaseController
 
     /**
      * 任务反馈
+     *
+     * 1 如果to_user_id为空，则随机选择一个备选人审核
      * @return \think\response\Json
      * @throws ParameterException
      */
@@ -235,8 +237,11 @@ class Task extends BaseController
         $validate->goCheck();
         $dataRules = $validate->getDataByRules(input('post.'),'status');
         $uid = TokenService::getCurrentUid();
+        if (!$dataRules['to_user_id']){
+            $task_service = new TaskService();
+            $dataRules['to_user_id'] = $task_service->getRandManagerID($dataRules['task_id']);
+        }
         $dataRules['user_id'] = $uid;
-        if ($dataRules)
         if ($uid == $dataRules['to_user_id']){
             throw new ParameterException([
                 'msg' => '自己不能给自己反馈哦'
@@ -335,4 +340,5 @@ class Task extends BaseController
         }
 
     }
+
 }
