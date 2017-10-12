@@ -43,6 +43,7 @@ class Communication extends BaseModel
 
     /**
      * 交流区列表
+     *
      * @param $page
      * @param $size
      * @param $community_id
@@ -55,6 +56,25 @@ class Communication extends BaseModel
         $pageData = self::with('userInfo')
             ->where($where)
             ->order('create_time desc')
+            ->paginate($size,true,['page' => $page]);
+        return $pageData;
+    }
+
+    /**
+     * 用户自己发布的条目列表
+     *
+     * @param $page
+     * @param $size
+     * @param $uid
+     * @return \think\Paginator
+     */
+    public static function getListByUser($page, $size, $uid)
+    {
+        $where['delete_time'] = 0;
+        $where['user_id'] = $uid;
+        $pageData = self::with('community')
+            ->where($where)
+            ->order('create_time DESC')
             ->paginate($size,true,['page' => $page]);
         return $pageData;
     }

@@ -178,10 +178,44 @@ class Communication extends BaseController
         return json(new SuccessMessage(),201);
     }
 
+    /**
+     * 用户条目列表
+     *
+     * 1 个人中心
+     * 2 查看成员列表个人中心
+     * @param int $page
+     * @param int $size
+     * @return array
+     */
     public function getListByUser($page = 1, $size = 15)
     {
-        $uid = TokenService::getCurrentUid();
+        $user_id = TokenService::getCurrentUid();
+        $uid = input('get.id');
+        if (!$uid){
+            $uid = $user_id;
+        }else{
+            (new UUID())->goCheck();
+        }
 
+        $pageData = CommunicationModel::getListByUser($page, $size, $uid);
+        $data = $pageData->visible(['id','content','user_id','location','likes','comments',
+            'create_time','community.id','community.name'])->toArray();
+
+        foreach ($data as &$v){
+            CommunicationModel::where('id',$v['id'])->setInc('hits');
+            $res = CommunicationOperateModel::get(['user_id' => $user_id, 'communication_id' => $v['id'],'type' => 1,'delete_time' => 0]);
+            if ($res){
+                $v['do_like'] = true;
+            }else{
+                $v['do_like'] = false;
+            }
+
+        }
+
+        return [
+            'data' => $data,
+            'current_page' => $pageData->currentPage()
+        ];
 
     }
 

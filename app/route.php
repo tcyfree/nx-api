@@ -105,6 +105,7 @@ Route::group(':version/wallet',function (){
 Route::group(':version/communication',function (){
     Route::post('','api/:version.Communication/createCommunication');
     Route::get('','api/:version.Communication/getCommunicationList');
+    Route::get('/user','api/:version.Communication/getListByUser');
     Route::put('like','api/:version.Communication/operateCommunityByUser');
     Route::delete('','api/:version.Communication/deleteCommunication');
     Route::get('/detail','api/:version.Communication/getCommunicationDetail');
