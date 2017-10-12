@@ -74,6 +74,7 @@ class Task extends BaseModel
      * GO任务
      * @param $uid
      * @param $task_id
+     * @return $this
      * @throws ParameterException
      */
     public static function goTask($uid, $task_id)
@@ -86,7 +87,7 @@ class Task extends BaseModel
             ]);
         }
         $task = TaskModel::where('id', $task_id)->field('act_plan_id')->find();
-        TaskUserModel::create(['user_id' => $uid, 'task_id' => $task_id, 'act_plan_id' => $task['act_plan_id']]);
+        return TaskUserModel::create(['user_id' => $uid, 'finish' => 0,'task_id' => $task_id, 'act_plan_id' => $task['act_plan_id']]);
     }
 
     public static function getTaskMode($task_id,$uid){

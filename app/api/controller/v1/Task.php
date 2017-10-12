@@ -144,7 +144,7 @@ class Task extends BaseController
     /**
      * 任务详情
      * @param $id
-     * @return $this
+     * @return mixed
      */
     public function getTaskDetail($id)
     {
@@ -162,15 +162,17 @@ class Task extends BaseController
 
     /**
      * GO任务
-     * @return \think\response\Json
+     * @return array
      */
     public function goTask(){
         (new UUID())->goCheck();
         $task_id = input('post.id');
         $uid = TokenService::getCurrentUid();
-        TaskModel::goTask($uid, $task_id);
-
-        return json(new SuccessMessage(),201);
+        $res = TaskModel::goTask($uid, $task_id);
+        $res = $res->toArray();
+        return [
+            'task_user' => $res
+        ];
     }
 
     /**
