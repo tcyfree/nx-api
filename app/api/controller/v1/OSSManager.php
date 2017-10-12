@@ -118,5 +118,20 @@ class OSSManager extends BaseController
         return $res;
     }
 
+    /**
+     * 上传文件到：输入媒体Bucket
+     *
+     * @param $object
+     * @return mixed
+     */
+    public function uploadOSSMtsInput($object)
+    {
+        $ossClient = $this->getOssClient();
+        $bucket = config('oss.MTS_INPUT');
+        $res = $this->uploadFile($ossClient,$bucket,$object);
+
+        return $res;
+    }
+
 
 }
