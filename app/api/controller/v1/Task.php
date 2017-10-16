@@ -162,13 +162,18 @@ class Task extends BaseController
 
     /**
      * GO任务
+     * 1 添加定时任务
+     *
      * @return array
+     * @throws Exception
      */
     public function goTask(){
         (new UUID())->goCheck();
         $task_id = input('post.id');
         $uid = TokenService::getCurrentUid();
+
         $res = TaskModel::goTask($uid, $task_id);
+
         $res = $res->toArray();
         return [
             'task_user' => $res

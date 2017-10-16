@@ -20,6 +20,8 @@ use app\api\model\TaskUser as TaskUserModel;
 use app\api\model\Task as TaskModel;
 use app\api\model\ActPlanUser as ActPlanUserModel;
 use app\api\model\ActPlan as ActPlanModel;
+use think\Db;
+use app\api\model\Callback as CallbackModel;
 
 class Task extends BaseModel
 {
@@ -72,10 +74,13 @@ class Task extends BaseModel
 
     /**
      * GO任务
+     * 1 添加定时-回调任务
+     *
      * @param $uid
      * @param $task_id
-     * @return $this
+     * @return $this|null|static
      * @throws ParameterException
+     * @throws \Exception
      */
     public static function goTask($uid, $task_id)
     {
@@ -87,7 +92,19 @@ class Task extends BaseModel
             ]);
         }
         $task = TaskModel::where('id', $task_id)->field('act_plan_id')->find();
-        return TaskUserModel::create(['user_id' => $uid, 'finish' => 0,'task_id' => $task_id, 'act_plan_id' => $task['act_plan_id']]);
+        $id = uuid();
+        Db::startTrans();
+        try{
+            $res = TaskUserModel::create(['id' => $id, 'user_id' => $uid, 'finish' => 0,'task_id' => $task_id,
+                'act_plan_id' => $task['act_plan_id']]);
+            CallbackModel::create(['key_id' => $task_id, 'user_id' => $uid, 'expire_seconds' => $task['reference_time']]);
+            Db::commit();
+        }catch (Exception $ex)
+        {
+            Db::rollback();
+            throw $ex;
+        }
+        return $res;
     }
 
     public static function getTaskMode($task_id,$uid){
