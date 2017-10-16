@@ -16,8 +16,9 @@ use OSS\Core\OssException;
 use OSS\OssClient;
 use think\Loader;
 
-Loader::import('OSS.sts-server.sts', EXTEND_PATH, '.php');
+//Loader::import('OSS.sts-server.sts', EXTEND_PATH, '.php');
 Loader::import('OSS.oss-h5-upload-js-php.php.get', EXTEND_PATH, '.php');
+Loader::import('OSS.Mts.main',EXTEND_PATH,'.php');
 
 class OSSManager extends BaseController
 {
@@ -25,14 +26,14 @@ class OSSManager extends BaseController
       'checkPrimaryScope' => ['only' => 'getSecurityToken,getPolicySignature']
     ];
 
-    /**
-     * 获取STS上传凭证
-     * @return array
-     */
-    public function getSecurityToken()
-    {
-        return sts();
-    }
+//    /**
+//     * 获取STS上传凭证
+//     * @return array
+//     */
+//    public function getSecurityToken()
+//    {
+//        return sts();
+//    }
 
     /**
      * 获取Policy及签名
@@ -127,11 +128,21 @@ class OSSManager extends BaseController
     public function uploadOSSMtsInput($object)
     {
         $ossClient = $this->getOssClient();
-        $bucket = config('oss.MTS_INPUT');
+        $bucket = config('oss.input_bucket');
         $res = $this->uploadFile($ossClient,$bucket,$object);
 
         return $res;
     }
 
-
+    /**
+     * 输入媒体Bucket转码，返回输出媒体uri
+     *
+     * @param string $inputObjectName
+     * @return array
+     */
+    public function OSSAmrTransCodingMp3($inputObjectName)
+    {
+        $url = submitJobAndWaitJobComplete($inputObjectName);
+        return $url;
+    }
 }
