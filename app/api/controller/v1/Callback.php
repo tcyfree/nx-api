@@ -28,7 +28,6 @@ class Callback extends BaseController
     {
         $this->checkIPWhiteList();
         $where['status'] = ['neq',1];
-        $where['mode']   = ['neq',1];
         $callback_array = CallbackModel::whereTime('deadline','<=',time())->where($where)->select()->toArray();
         $log = $_SERVER['DOCUMENT_ROOT'].'/linux/callback.log';
         if ($callback_array){
