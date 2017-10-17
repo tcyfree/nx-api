@@ -36,6 +36,7 @@ use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
 use think\Db;
 use think\Exception;
+use app\api\service\Execution as ExecutionService;
 
 class Task extends BaseController
 {
@@ -334,6 +335,8 @@ class Task extends BaseController
             TaskFeedbackModel::checkTaskFeedbackStatus($data['id']);
             if ($data['pass']){
                 TaskFeedbackModel::update(['status' => 2,'update_time' => time()],['id' => $data['id'],'to_user_id' => $uid]);
+                $execution = new ExecutionService();
+                $execution->addExecution($res['task_id'],$res['user_id'],1);
             }else{
                 (new FeedbackFailReason())->goCheck();
                 TaskFeedbackModel::update(['reason' => $data['reason'],'status' => 1,'update_time' => time()],['id' => $data['id'],'to_user_id' => $uid]);

@@ -28,7 +28,12 @@ class Execution
     public function addExecution($task_id, $user_id, $mode)
     {
         if ($mode == 1){
-            UserPropertyModel::where(['user_id' => $user_id])->setInc('execution',2);
+            $where['task_id'] = $task_id;
+            $where['user_id'] = $user_id;
+            $res = TaskUserModel::whereTime('deadline','<=',time())->where($where)->find();
+            if ($res){
+                UserPropertyModel::where(['user_id' => $user_id])->setInc('execution',2);
+            }
         }else{
             UserPropertyModel::where(['user_id' => $user_id])->setInc('execution',1);
         }
