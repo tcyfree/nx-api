@@ -76,6 +76,7 @@ class Task extends BaseModel
     /**
      * GO任务
      * 1 添加定时-回调任务
+     * 2 记录用户参加行动计划模式
      *
      * @param $uid
      * @param $task_id
@@ -93,11 +94,12 @@ class Task extends BaseModel
             ]);
         }
         $task = TaskModel::where('id', $task_id)->field('act_plan_id')->find();
+        $act_plan_user_mode = ActPlanUserModel::where('act_plan_id',$task['act_plan_id'])->field('mode')->find();
         $id = uuid();
         Db::startTrans();
         try{
             $res = TaskUserModel::create(['id' => $id, 'user_id' => $uid, 'finish' => 0,'task_id' => $task_id,
-                'act_plan_id' => $task['act_plan_id']]);
+                'act_plan_id' => $task['act_plan_id'], 'mode' => $act_plan_user_mode['mode']]);
             $deadline = $task['reference_time'] + time();
             CallbackModel::create(['key_id' => $task_id, 'user_id' => $uid, 'deadline' => $deadline]);
             Db::commit();
