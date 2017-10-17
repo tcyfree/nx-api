@@ -77,6 +77,7 @@ class Task extends BaseModel
      * GO任务
      * 1 添加定时-回调任务
      * 2 记录用户参加行动计划模式
+     * 3 结束时间戳
      *
      * @param $uid
      * @param $task_id
@@ -98,9 +99,9 @@ class Task extends BaseModel
         $id = uuid();
         Db::startTrans();
         try{
-            $res = TaskUserModel::create(['id' => $id, 'user_id' => $uid, 'finish' => 0,'task_id' => $task_id,
-                'act_plan_id' => $task['act_plan_id'], 'mode' => $act_plan_user_mode['mode']]);
             $deadline = $task['reference_time'] + time();
+            $res = TaskUserModel::create(['id' => $id, 'user_id' => $uid, 'finish' => 0,'task_id' => $task_id,
+                'act_plan_id' => $task['act_plan_id'], 'mode' => $act_plan_user_mode['mode'], 'deadline' => $deadline]);
             CallbackModel::create(['key_id' => $task_id, 'user_id' => $uid, 'deadline' => $deadline]);
             Db::commit();
         }catch (Exception $ex)
@@ -165,10 +166,9 @@ class Task extends BaseModel
     {
         Db::startTrans();
         try{
-            TaskUserModel::update(['finish' => 1, 'update_time' => time()],
-                ['task_id' => $v['key_id'], 'user_id' => $v['user_id']]);
             CallbackModel::update(['status' => 1, 'update_time' => time()],
                 ['id' => $v['id']]);
+            self::finishTask($v);
             $execution = new ExecutionService();
             $execution->addExecution($v['key_id'],$v['user_id']);
             Db::commit();
@@ -178,5 +178,16 @@ class Task extends BaseModel
             Db::rollback();
             throw $ex;
         }
+    }
+
+    /**
+     * 完成任务更新各个状态
+     *
+     * @param $v
+     */
+    public static function finishTask($v)
+    {
+        TaskUserModel::update(['finish' => 1, 'update_time' => time()],
+            ['task_id' => $v['key_id'], 'user_id' => $v['user_id']]);
     }
 }
