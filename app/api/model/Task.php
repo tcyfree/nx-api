@@ -97,7 +97,8 @@ class Task extends BaseModel
         try{
             $res = TaskUserModel::create(['id' => $id, 'user_id' => $uid, 'finish' => 0,'task_id' => $task_id,
                 'act_plan_id' => $task['act_plan_id']]);
-            CallbackModel::create(['key_id' => $task_id, 'user_id' => $uid, 'expire_seconds' => $task['reference_time']]);
+            $deadline = $task['reference_time'] + time();
+            CallbackModel::create(['key_id' => $task_id, 'user_id' => $uid, 'deadline' => $deadline]);
             Db::commit();
         }catch (Exception $ex)
         {
