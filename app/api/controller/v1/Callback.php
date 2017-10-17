@@ -21,12 +21,15 @@ class Callback extends BaseController
 
     /**
      * callback.sh每秒执行此接口
+     * 1 挑战模式不通过此接口结束任务
      *
      */
     public function doCallback()
     {
         $this->checkIPWhiteList();
-        $callback_array = CallbackModel::whereTime('deadline','<=',time())->where('status','neq',1)->select()->toArray();
+        $where['status'] = ['neq',1];
+        $where['mode']   = ['neq',1];
+        $callback_array = CallbackModel::whereTime('deadline','<=',time())->where($where)->select()->toArray();
         $log = $_SERVER['DOCUMENT_ROOT'].'/linux/callback.log';
         if ($callback_array){
             foreach ($callback_array as $v){
