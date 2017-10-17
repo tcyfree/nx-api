@@ -157,6 +157,7 @@ class Task extends BaseModel
     /**
      * 完成任务
      * 1 更新用户对应行动力值
+     * 2 排除挑战模式
      *
      * @param $v
      * @param $log
@@ -168,9 +169,12 @@ class Task extends BaseModel
         try{
             CallbackModel::update(['status' => 1, 'update_time' => time()],
                 ['id' => $v['id']]);
-            self::finishTask($v);
-            $execution = new ExecutionService();
-            $execution->addExecution($v['key_id'],$v['user_id']);
+            $task = TaskModel::where('id', $v['key_id'])->field('act_plan_id')->find();
+            $act_plan_user_mode = ActPlanUserModel::where('act_plan_id',$task['act_plan_id'])->field('mode')->find();
+            if ($act_plan_user_mode['mode'] != 1){
+                $execution = new ExecutionService();
+                $execution->addExecution($v['key_id'],$v['user_id'],0);
+            }
             Db::commit();
             file_put_contents($log, TaskUserModel::getLastSql().' && '.CallbackModel::getLastSql().' '.
                 date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
@@ -178,16 +182,5 @@ class Task extends BaseModel
             Db::rollback();
             throw $ex;
         }
-    }
-
-    /**
-     * 完成任务更新各个状态
-     *
-     * @param $v
-     */
-    public static function finishTask($v)
-    {
-        TaskUserModel::update(['finish' => 1, 'update_time' => time()],
-            ['task_id' => $v['key_id'], 'user_id' => $v['user_id']]);
     }
 }
