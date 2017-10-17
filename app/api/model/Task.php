@@ -22,6 +22,7 @@ use app\api\model\ActPlanUser as ActPlanUserModel;
 use app\api\model\ActPlan as ActPlanModel;
 use think\Db;
 use app\api\model\Callback as CallbackModel;
+use app\api\service\Execution as ExecutionService;
 
 class Task extends BaseModel
 {
@@ -148,5 +149,32 @@ class Task extends BaseModel
             ->field('community_id')
             ->find();
         return $res['community_id'];
+    }
+
+    /**
+     * 完成任务
+     * 1 更新用户对应行动力值
+     *
+     * @param $v
+     * @param $log
+     * @throws \Exception
+     */
+    public static function missionComplete($v, $log)
+    {
+        Db::startTrans();
+        try{
+            TaskUserModel::update(['finish' => 1, 'update_time' => time()],
+                ['task_id' => $v['key_id'], 'user_id' => $v['user_id']]);
+            CallbackModel::update(['status' => 1, 'update_time' => time()],
+                ['id' => $v['id']]);
+            $execution = new ExecutionService();
+            $execution->addExecution($v['key_id'],$v['user_id']);
+            Db::commit();
+            file_put_contents($log, TaskUserModel::getLastSql().' && '.CallbackModel::getLastSql().' '.
+                date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
+        }catch (Exception $ex) {
+            Db::rollback();
+            throw $ex;
+        }
     }
 }

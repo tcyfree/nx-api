@@ -14,9 +14,7 @@
 namespace app\api\controller\v1;
 use app\api\controller\BaseController;
 use app\api\model\Callback as CallbackModel;
-use app\api\model\TaskUser as TaskUserModel;
-use think\Db;
-use think\Exception;
+use app\api\model\Task as TaskModel;
 
 class Callback extends BaseController
 {
@@ -29,25 +27,12 @@ class Callback extends BaseController
     {
         $this->checkIPWhiteList();
         $callback_array = CallbackModel::whereTime('deadline','<=',time())->where('status','neq',1)->select()->toArray();
-        $file = $_SERVER['DOCUMENT_ROOT'].'/linux/callback.log';
+        $log = $_SERVER['DOCUMENT_ROOT'].'/linux/callback.log';
         if ($callback_array){
             foreach ($callback_array as $v){
                 switch ($v['key_type']){
                     case 0:
-                        Db::startTrans();
-                        try{
-                            TaskUserModel::update(['finish' => 1, 'update_time' => time()],
-                                ['task_id' => $v['key_id'], 'user_id' => $v['user_id']]);
-                            CallbackModel::update(['status' => 1, 'update_time' => time()],
-                                ['id' => $v['id']]);
-                            Db::commit();
-                            file_put_contents($file, TaskUserModel::getLastSql().' && '.CallbackModel::getLastSql().' '.
-                                date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
-                        }catch (Exception $ex) {
-                            Db::rollback();
-                            throw $ex;
-                        }
-
+                        TaskModel::missionComplete($v,$log);
                         break;
                     default:
                         continue;
@@ -55,6 +40,6 @@ class Callback extends BaseController
             }
             return;
         }
-//        file_put_contents($file, 'callback_'.date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
+//        file_put_contents($log, 'callback_'.date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
     }
 }
