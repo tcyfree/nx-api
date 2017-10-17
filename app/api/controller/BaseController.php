@@ -94,11 +94,16 @@ class BaseController extends Controller
     public function checkIPWhiteList()
     {
         $request_ip =  request()->ip();
+        $allow = false;
         $allow_ip_array = config('secure.allow_ip');
         foreach ($allow_ip_array as $value){
-            if ($request_ip != $value){
-                throw new ForbiddenException();
+            if ($request_ip == $value){
+                $allow = true;
+                break;
             }
+        }
+        if (!$allow){
+            throw new ForbiddenException();
         }
     }
 
