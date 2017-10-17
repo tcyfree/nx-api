@@ -64,6 +64,7 @@ class Execution
 
         $whereTaskUserNum['act_plan_id'] = $act_plan_id['act_plan_id'];
         $whereTaskUserNum['user_id']     = $user_id;
+        $whereTaskUserNum['finish']     = 1;
         $task_user_num = TaskUserModel::where($whereTaskUserNum)->count();
 
         if ($task_num == $task_user_num){

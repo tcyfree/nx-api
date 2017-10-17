@@ -73,6 +73,7 @@ Route::group(':version/plan',function (){
  * Task
  */
 Route::group(':version/task',function (){
+    Route::get('test','api/:version.Task/test');
     Route::post('','api/:version.Task/createTask');
     Route::put('','api/:version.Task/updateTask');
     Route::put('/accelerate','api/:version.Task/accelerateTask');

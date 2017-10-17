@@ -37,6 +37,7 @@ use app\lib\exception\SuccessMessage;
 use think\Db;
 use think\Exception;
 use app\api\service\Execution as ExecutionService;
+use app\api\service\Execution as Es;
 
 class Task extends BaseController
 {
@@ -349,6 +350,12 @@ class Task extends BaseController
             throw $ex;
         }
 
+    }
+
+    public function test()
+    {
+        $t = new Es();
+        $t->checkActPlanUserFinish('8b47815b-0f9c-0811-3a6a-accc9e4acdbd','b9d25df4-8e9e-f917-f559-4872db0b9ea6');
     }
 
 }
