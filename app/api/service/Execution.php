@@ -15,6 +15,8 @@ namespace app\api\service;
 
 use app\api\model\TaskUser as TaskUserModel;
 use app\api\model\UserProperty as UserPropertyModel;
+use app\api\model\Task as TaskModel;
+use app\api\model\ActPlanUser as ActPlanUserModel;
 
 class Execution
 {
@@ -40,6 +42,33 @@ class Execution
 
         TaskUserModel::update(['finish' => 1, 'update_time' => time()],
             ['task_id' => $task_id, 'user_id' => $user_id]);
+        $this->checkActPlanUserFinish($task_id, $user_id);
 
+    }
+
+    /**
+     * 当用户完成的任务和行动计划发布任务数相同时，更新该计划为完成状态
+     *
+     * @param $task_id
+     * @param $user_id
+     */
+    public function checkActPlanUserFinish($task_id, $user_id)
+    {
+        $where['task_id'] = $task_id;
+        $where['user_id'] = $user_id;
+        $act_plan_id = TaskUserModel::where($where)->field('act_plan_id')->find();
+
+        $whereTaskNum['act_plan_id'] = $act_plan_id['act_plan_id'];
+        $whereTaskNum['release'] = 1;
+        $task_num = TaskModel::where($whereTaskNum)->count('id');
+
+        $whereTaskUserNum['act_plan_id'] = $act_plan_id['act_plan_id'];
+        $whereTaskUserNum['user_id']     = $user_id;
+        $task_user_num = TaskUserModel::where($whereTaskUserNum)->count();
+
+        if ($task_num == $task_user_num){
+            ActPlanUserModel::update(['finish' => 1,'update_time' => time()],
+                ['act_plan_id' => $act_plan_id['act_plan_id'],'user_id' => $user_id]);
+        }
     }
 }
