@@ -18,7 +18,6 @@ use app\lib\exception\ParameterException;
 class ActPlanUser extends BaseModel
 {
     protected $autoWriteTimestamp = true;
-    protected $updateTime = false;
 
     public function actPlan()
     {
