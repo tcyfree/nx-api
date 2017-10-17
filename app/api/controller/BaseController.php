@@ -15,6 +15,7 @@ use app\api\service\Token as TokenService;
 use think\Exception;
 use app\lib\exception\ParameterException;
 use app\lib\exception\TokenException;
+use app\lib\exception\ForbiddenException;
 
 class BaseController extends Controller
 {
@@ -84,6 +85,21 @@ class BaseController extends Controller
         }
 
         return $access_token;
+    }
+
+    /**
+     * 检查是否是允许访问IP
+     * @param $request_ip
+     * @throws ForbiddenException
+     */
+    public function checkIPWhiteList($request_ip)
+    {
+        $allow_ip_array = config('secure.allow_ip');
+        foreach ($allow_ip_array as $value){
+            if ($request_ip != $value){
+                throw new ForbiddenException();
+            }
+        }
     }
 
 }
