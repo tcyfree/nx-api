@@ -89,11 +89,11 @@ class BaseController extends Controller
 
     /**
      * 检查是否是允许访问IP
-     * @param $request_ip
      * @throws ForbiddenException
      */
-    public function checkIPWhiteList($request_ip)
+    public function checkIPWhiteList()
     {
+        $request_ip =  request()->ip();
         $allow_ip_array = config('secure.allow_ip');
         foreach ($allow_ip_array as $value){
             if ($request_ip != $value){
