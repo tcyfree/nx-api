@@ -13,10 +13,10 @@
 
 namespace app\api\service;
 
+use app\api\model\ActPlanUser as ActPlanUserModel;
+use app\api\model\Task as TaskModel;
 use app\api\model\TaskUser as TaskUserModel;
 use app\api\model\UserProperty as UserPropertyModel;
-use app\api\model\Task as TaskModel;
-use app\api\model\ActPlanUser as ActPlanUserModel;
 
 class Execution
 {
@@ -27,6 +27,7 @@ class Execution
      *
      * @param $task_id
      * @param $user_id
+     * @param $mode
      */
     public function addExecution($task_id, $user_id, $mode)
     {
