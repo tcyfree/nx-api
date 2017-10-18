@@ -23,6 +23,7 @@ class Execution
     /**
      * 根据参加行动计划的模式不同增加不同的行动力值
      * 1 挑战模式判断是否参考用时是否逾期，若逾期则不增加行动力值
+     * 2 若逾期未完成挑战任务，则更新tag = 1
      *
      * @param $task_id
      * @param $user_id
@@ -35,6 +36,8 @@ class Execution
             $res = TaskUserModel::whereTime('deadline','<=',time())->where($where)->find();
             if ($res){
                 UserPropertyModel::where(['user_id' => $user_id])->setInc('execution',2);
+            }else{
+                TaskUserModel::update(['tag' => 1, 'update_time' => time()],$where);
             }
         }else{
             UserPropertyModel::where(['user_id' => $user_id])->setInc('execution',1);
