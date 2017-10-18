@@ -18,7 +18,7 @@ class Callback extends BaseModel
 {
     protected $autoWriteTimestamp =true;
 
-    public function registerCallback()
+    public static function registerCallback()
     {
 
     }
@@ -28,7 +28,7 @@ class Callback extends BaseModel
      *
      * @param $id
      */
-    public function cancelCallback($id)
+    public static function cancelCallback($id)
     {
         self::update(['status' => 1, 'update_time' => time()],
             ['id' => $id]);
