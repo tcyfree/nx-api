@@ -14,9 +14,12 @@
 namespace app\api\model;
 
 use app\api\service\Task as TaskService;
+use app\lib\exception\ParameterException;
 use think\Db;
 use think\Exception;
 use app\api\model\TaskUser as TaskUserModel;
+use app\api\model\Callback as CallbackModel;
+use app\api\model\Task as TaskModel;
 
 class TaskAccelerate extends BaseModel
 {
@@ -25,12 +28,16 @@ class TaskAccelerate extends BaseModel
 
     /**
      * 用户的普通任务加速
+     * 1 注销回调
+     * 2 增加对应行动力
+     *
      * @param $uid
      * @param $data
      * @throws Exception
      */
     public static function accelerateTask($uid,$data){
         $ts_obj = new TaskService();
+        $log = $_SERVER['DOCUMENT_ROOT'].'/linux/callback.log';
 
         Db::startTrans();
         try{
@@ -39,7 +46,14 @@ class TaskAccelerate extends BaseModel
             $dataArray['user_id'] = $data['user_id'];
             $dataArray['task_id'] = $data['task_id'];
             self::create($dataArray);
-            TaskUserModel::newTaskUser($data['user_id'],  $data['task_id']);
+            $res = CallbackModel::get(['user_id' => $uid, 'key_id' => $data['task_id']])->toArray();
+            if (!$res){
+                throw new ParameterException([
+                    'msg' => '回调不存在！'
+                ]);
+            }
+            TaskModel::missionComplete($res,$log);
+//            TaskUserModel::newTaskUser($data['user_id'],  $data['task_id']);
             Db::commit();
         }catch (Exception $ex){
             Db::rollback();
