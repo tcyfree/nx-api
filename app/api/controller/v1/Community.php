@@ -50,9 +50,10 @@ class Community extends BaseController
      * 创建行动社
      * 1.名称不能重复
      * 2.判断是否和用户相关的行动是否达到上限5个
-     * @return \think\response\Json
+     *
+     * @return array
+     * @throws Exception
      * @throws ParameterException
-     * @throws \Exception
      */
     public function createCommunity()
     {
