@@ -17,4 +17,20 @@ namespace app\api\model;
 class Callback extends BaseModel
 {
     protected $autoWriteTimestamp =true;
+
+    public function registerCallback()
+    {
+
+    }
+
+    /**
+     * 注销回调
+     *
+     * @param $id
+     */
+    public function cancelCallback($id)
+    {
+        self::update(['status' => 1, 'update_time' => time()],
+            ['id' => $id]);
+    }
 }
