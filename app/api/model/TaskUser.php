@@ -21,6 +21,11 @@ class TaskUser extends BaseModel
 {
     protected $autoWriteTimestamp = true;
 
+    public function task()
+    {
+        return $this->hasOne('Task','id','task_id');
+    }
+
     /**
      * 检查用户任务是否已经结束
      * @param $uid

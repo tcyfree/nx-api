@@ -426,6 +426,12 @@ Ext.define('WebRoot.view.WestView', {
 									text: '我的行动力和排行榜',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/execution_rank.php',
 									leaf: true
+								},
+								{
+									id: 'execution_tracker',
+									text: '行动力记录',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/execution_tracker.php',
+									leaf: true
 								}
 							]
 						},

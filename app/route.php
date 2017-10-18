@@ -137,8 +137,18 @@ Route::group(':version/wx',function (){
     Route::get('/media_uri','api/:version.WeiXin/getDownloadMediaUri');
 });
 
+/**
+ * callback
+ */
 Route::group(':version/callback',function (){
     Route::get('','api/:version.Callback/doCallback');
+});
+
+/**
+ * execution
+ */
+Route::group(':version/execution',function (){
+    Route::get('','api/:version.Execution/executionTrackerList');
 });
 /**
  * MISS路由，当全部路由没有匹配到时
