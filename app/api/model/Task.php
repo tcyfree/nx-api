@@ -167,8 +167,7 @@ class Task extends BaseModel
     {
         Db::startTrans();
         try{
-            CallbackModel::update(['status' => 1, 'update_time' => time()],
-                ['id' => $v['id']]);
+            CallbackModel::cancelCallback($v['id']);
             $task = TaskModel::where('id', $v['key_id'])->field('act_plan_id')->find();
             $act_plan_user_mode = ActPlanUserModel::where('act_plan_id',$task['act_plan_id'])->field('mode')->find();
             if ($act_plan_user_mode['mode'] != 1){
