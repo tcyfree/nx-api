@@ -289,7 +289,7 @@ class Community
     public function checkPresident($community_id,$uid)
     {
         $res = CommunityUserModel::get(['community_id' => $community_id, 'user_id' => $uid]);
-        if ($res->type !=1){
+        if ($res->type !=0){
             throw new ForbiddenException([
                 'msg' => '你不是社长，没有此权限！'
             ]);
