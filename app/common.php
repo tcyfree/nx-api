@@ -125,8 +125,10 @@ function uuid(){
 
 /**
  * PHP 根据URL将图片下载到本地
+ * 1 判断URL是否有效
  * @param $url
  * @return string
+ * @throws \app\lib\exception\ParameterException
  */
 function downloadImage($url) {
     $header = array("Connection: Keep-Alive", "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Pragma: no-cache", "Accept-Language: zh-Hans-CN,zh-Hans;q=0.8,en-US;q=0.5,en;q=0.3", "User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:29.0) Gecko/20100101 Firefox/29.0");
@@ -154,31 +156,39 @@ function downloadImage($url) {
             $exf = '.gif';
         }
         //存放图片的路径及图片名称  *****这里注意 你的文件夹是否有创建文件的权限 chomd -R 777 mywenjian
-        $filename = date("YmdHis") . uniqid() . $exf;//这里默认是当前文件夹，可以加路径的 可以改为$filepath = '../'.$filename
-        $filepath = 'images/'.$filename;
+        $filename = 'download_'.date("YmdHis") . uniqid() . $exf;//这里默认是当前文件夹，可以加路径的 可以改为$filepath = '../'.$filename
+        $filepath = 'static/oss/images/'.$filename;
         $res = file_put_contents($filepath, $content);//同样这里就可以改为$res = file_put_contents($filepath, $content);
 
-        return $filepath;
+        return $filename;
+    }else{
+        throw new \app\lib\exception\ParameterException([
+            'msg' => 'Your required '."'".$url."'".' resource are not found!'
+        ]);
     }
 }
 /**
  * 社区二维码链接
  * @param string $url
+ * @param string $logo
  * @return string
  */
-function qr_code($url){
+function qr_code($url,$logo){
     //引入核心库文件
-    include APP_PATH.'../vendor/phpqrcode/phpqrcode.php';
+//    include 'phpqrcode/phpqrcode.php';
+    \think\Loader::import('phpqrcode/phpqrcode',EXTEND_PATH,'.php');
     //二维码内容
     $text = $url;
     //容错级别
     $errorCorrectionLevel = 'L';
     //生成图片大小
     $matrixPointSize = 6;
+    //路径前缀
+    $path_prefix = 'static/oss/images/';
     //生成二维码图片
-    $QR = QRcode::png($text, 'qrcode.png', $errorCorrectionLevel, $matrixPointSize, 2);
-    $logo = APP_PATH.'../public/images/nx-xds-logo.jpg';//准备好的logo图片
-    $QR = 'qrcode.png';//已经生成的原始二维码图
+    $QR = QRcode::png($text, $path_prefix.'qrcode.png', $errorCorrectionLevel, $matrixPointSize, 2);
+    $logo = APP_PATH.'../public/static/oss/images/'.$logo;//准备好的logo图片
+    $QR = $path_prefix.'qrcode.png';//已经生成的原始二维码图
 
     if ($logo !== FALSE) {
         $QR = imagecreatefromstring(file_get_contents($QR));
@@ -195,9 +205,9 @@ function qr_code($url){
         imagecopyresampled($QR, $logo, $from_width, $from_width, 0, 0, $logo_qr_width,
             $logo_qr_height, $logo_width, $logo_height);
     }
-    $filename = md5(microtime(true));
+    $filename = 'qr_code'.date("YmdHis") . uniqid();
     //输出图片
-    imagepng($QR, 'images/'.$filename.'.png');
+    imagepng($QR, $path_prefix.$filename.'.png');
 //    echo "<img src=".$filename.".png >";
     //返回生产图片的文件名
     return $filename.'.png';
