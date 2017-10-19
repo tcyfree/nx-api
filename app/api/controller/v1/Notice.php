@@ -18,6 +18,7 @@ use app\api\controller\BaseController;
 use app\api\service\Token as TokenService;
 use app\api\validate\PagingParameter;
 use app\api\model\Notice as NoticeModel;
+use app\lib\exception\SuccessMessage;
 
 class Notice extends BaseController
 {
@@ -69,5 +70,23 @@ class Notice extends BaseController
                 'look' => true
             ];
         }
+    }
+
+    /**
+     * 清空最近三天消息通知
+     *
+     * @return \think\response\Json
+     */
+    public function clearNotice()
+    {
+        $uid = TokenService::getCurrentUid();
+        $where['to_user_id'] = $uid;
+
+        $notice = new NoticeModel();
+        $notice->save(['delete_time' => time()],function ($query) use ($where){
+            $query->whereTime('create_time','-3 days')->where($where);
+        });
+
+        return json(new SuccessMessage(),201);
     }
 }
