@@ -39,12 +39,12 @@ class WeiXin extends BaseController
         $media_id = input('get.media_id');
         $prefix_filename = "wx_download_".date("YmdHis") . uniqid();
         $filename = $prefix_filename.".amr";
-        $filename_path = 'audio/'.$filename;
+        $path = 'audio/';
+        $filename_path = $path.$filename;
 
         $this->WXDownloadByUri($media_id, $filename_path);
-        $wx = new WeiXinService();
         $oss_manager = new OSSManager();
-        $res = $oss_manager->uploadOSSMtsInput($filename_path);
+        $res = $oss_manager->uploadOSSMtsInput($filename,$path);
         $url = $oss_manager->OSSAmrTransCodingMp3($prefix_filename);
         $oss_manager->deleteDownloadFile($filename_path);
         $process_time = sys_processTime();

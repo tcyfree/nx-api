@@ -65,11 +65,12 @@ class OSSManager extends BaseController
      * @param OssClient $ossClient OSSClient实例
      * @param string $bucket 存储空间名称
      * @param string $object 名字
+     * @param string $path
      * @return mixed
      */
-    function uploadFile($ossClient, $bucket, $object)
+    function uploadFile($ossClient, $bucket, $object, $path = '')
     {
-        $filePath = $_SERVER['DOCUMENT_ROOT'].'/static/oss/'.$object;
+        $filePath = $_SERVER['DOCUMENT_ROOT'].'/static/oss/'.$path.$object;
 
         try{
             $res = $ossClient->uploadFile($bucket, $object, $filePath);
@@ -124,13 +125,14 @@ class OSSManager extends BaseController
      * 上传文件到：输入媒体Bucket
      *
      * @param $object
+     * @param $path
      * @return mixed
      */
-    public function uploadOSSMtsInput($object)
+    public function uploadOSSMtsInput($object,$path)
     {
         $ossClient = $this->getOssClient();
         $bucket = config('oss.input_bucket');
-        $res = $this->uploadFile($ossClient,$bucket,$object);
+        $res = $this->uploadFile($ossClient,$bucket,$object,$path);
 
         return $res;
     }
