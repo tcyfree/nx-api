@@ -52,25 +52,4 @@ class WeiXin
         return $mp3;
     }
 
-    /**
-     * 删除本地音频文件
-     *
-     * @param $filename
-     * @return bool
-     * @throws ParameterException
-     */
-    public function deleteDownloadFile($filename)
-    {
-        $filename = $_SERVER['DOCUMENT_ROOT'].'/static/audio/'.$filename;
-        if (!unlink($filename))
-        {
-            throw new ParameterException([
-                'msg' => "Error deleting $filename"
-            ]);
-        }
-        else
-        {
-            return true;
-        }
-    }
 }
