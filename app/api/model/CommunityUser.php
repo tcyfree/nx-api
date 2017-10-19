@@ -118,7 +118,7 @@ class CommunityUser extends BaseModel
     {
         $where['user_id'] = $uid;
         $where['community_id'] = $community_id;
-        self::checkCommunityBelongsToUser($where);
+        self::checkCommunityBelongsToUser($uid,$community_id);
         $where['pay'] = 1;
         $res = self::get($where);
         if (!$res){
