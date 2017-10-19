@@ -17,10 +17,12 @@ class AuthUser extends BaseModel
 
     /**
      * 创建或更新用户权限
+     * @param $data
      */
     public static function createOrUpdate($data)
     {
-        $res = self::get(['to_user_id' => $data['to_user_id'],'community_id' => $data['community_id']])->toArray();
+        $res = self::get(['to_user_id' => $data['to_user_id'],'community_id' => $data['community_id']]);
+        $res = $res->toArray();
         if(!$res){
             self::create($data);
         }else{
