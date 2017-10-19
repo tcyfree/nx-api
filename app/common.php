@@ -180,9 +180,9 @@ function qr_code($url,$logo){
     //二维码内容
     $text = $url;
     //容错级别
-    $errorCorrectionLevel = 'L';
+    $errorCorrectionLevel = 'H';
     //生成图片大小
-    $matrixPointSize = 6;
+    $matrixPointSize = 12;
     //路径前缀
     $path_prefix = 'static/oss/images/';
     //生成二维码图片
@@ -197,7 +197,7 @@ function qr_code($url,$logo){
         $QR_height = imagesy($QR);//二维码图片高度
         $logo_width = imagesx($logo);//logo图片宽度
         $logo_height = imagesy($logo);//logo图片高度
-        $logo_qr_width = $QR_width / 5;
+        $logo_qr_width = $QR_width / 3;
         $scale = $logo_width/$logo_qr_width;
         $logo_qr_height = $logo_height/$scale;
         $from_width = ($QR_width - $logo_qr_width) / 2;
