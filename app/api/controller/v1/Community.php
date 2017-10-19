@@ -39,6 +39,7 @@ use app\lib\exception\UpdateNumException;
 use think\Db;
 use think\Exception;
 use app\api\model\CommunityUserRecord;
+use app\api\service\ImageProcessing as ImageProcessingService;
 
 class Community extends BaseController
 {
@@ -50,6 +51,7 @@ class Community extends BaseController
      * 创建行动社
      * 1.名称不能重复
      * 2.判断是否和用户相关的行动是否达到上限5个
+     * 3.生成二维码
      *
      * @return array
      * @throws Exception
@@ -74,6 +76,12 @@ class Community extends BaseController
 
         $dataArray['id'] = uuid();
         $dataArray['outside_id'] = number();
+
+        $image_process = new ImageProcessingService();
+        $url = $dataArray['qr_prefix_url'].'?id='.$dataArray['id'];
+        $logo = $dataArray['cover_image'];
+        $res = $image_process->getQRCodeByCoverImage($url,$logo);
+        $dataArray['qr_code'] = $res['oss-request-url'];
         //开启事物
         Db::startTrans();
         try
@@ -478,5 +486,18 @@ class Community extends BaseController
         CommunityUserModel::update(['status' => $data['status']],['user_id' => $data['user_id'], 'community_id' => $data['community_id']]);
 
         return json(new SuccessMessage(),201);
+    }
+
+    public function test()
+    {
+        $url = 'http://weixin.xingdongshe.com/template/groupPage.html?id=ec685e49-3456-6a37-8220-be6bb35868ae';
+        $image_process = new ImageProcessingService();
+        $cover_image = 'http://auth.xingdongshe.com/images/2017101713413059e5980a6d86b.jpg';
+        $res = $image_process->getQRCodeByCoverImage($url,$cover_image);
+        $process_time = sys_processTime();
+        return [
+            'url' => $res['oss-request-url'],
+            'process_time' => $process_time
+        ];
     }
 }

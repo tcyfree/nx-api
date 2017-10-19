@@ -40,6 +40,11 @@
      <td>封面图uri</td>
      <td>&nbsp;</td>
  </tr>
+    <tr>
+        <td>qr_prefix_url</td>
+        <td></td>
+        <td>&nbsp;二维码链接前缀地址</td>
+    </tr>
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>
 <table width="90%" border="1" class="dbTable">

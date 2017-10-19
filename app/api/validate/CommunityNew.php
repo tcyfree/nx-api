@@ -14,7 +14,8 @@ class CommunityNew extends BaseValidate
     protected $rule = [
         'name' => 'require|justChineseW',
         'description' => 'require|max:140',
-        'cover_image'=> 'require|url'
+        'cover_image'=> 'require|url',
+        'qr_prefix_url'     => 'require|url'
     ];
 
     protected $message = [

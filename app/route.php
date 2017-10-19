@@ -41,6 +41,7 @@ Route::group(':version/oss',function(){
  * Community
  */
 Route::group(':version/community',function(){
+    Route::get('test','api/:version.Community/test');
     Route::post('','api/:version.Community/createCommunity');
     Route::put('/join','api/:version.Community/freeJoin');
     Route::put('/allow','api/:version.Community/permitOrRefuse');

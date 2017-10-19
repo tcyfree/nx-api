@@ -182,7 +182,7 @@ function qr_code($url,$logo){
     //容错级别
     $errorCorrectionLevel = 'H';
     //生成图片大小
-    $matrixPointSize = 12;
+    $matrixPointSize = 9;
     //路径前缀
     $path_prefix = 'static/oss/images/';
     //生成二维码图片
