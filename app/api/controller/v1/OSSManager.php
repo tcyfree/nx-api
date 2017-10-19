@@ -15,6 +15,7 @@ use app\api\controller\BaseController;
 use OSS\Core\OssException;
 use OSS\OssClient;
 use think\Loader;
+use app\lib\exception\ParameterException;
 
 //Loader::import('OSS.sts-server.sts', EXTEND_PATH, '.php');
 Loader::import('OSS.oss-h5-upload-js-php.php.get', EXTEND_PATH, '.php');
@@ -68,7 +69,7 @@ class OSSManager extends BaseController
      */
     function uploadFile($ossClient, $bucket, $object)
     {
-        $filePath = $_SERVER['DOCUMENT_ROOT'].'/static/audio/'.$object;
+        $filePath = $_SERVER['DOCUMENT_ROOT'].'/static/oss/'.$object;
 
         try{
             $res = $ossClient->uploadFile($bucket, $object, $filePath);
@@ -92,7 +93,7 @@ class OSSManager extends BaseController
      */
     function multiUploadFile($ossClient, $bucket, $object)
     {
-        $file = $_SERVER['DOCUMENT_ROOT'].'/static/audio/'.$object;
+        $file = $_SERVER['DOCUMENT_ROOT'].'/static/oss/'.$object;
         try{
             $res = $ossClient->multiuploadFile($bucket, $object, $file);
             return $res;
@@ -144,5 +145,27 @@ class OSSManager extends BaseController
     {
         $url = submitJobAndWaitJobComplete($inputObjectName);
         return $url;
+    }
+
+    /**
+     * 删除本地文件
+     *
+     * @param $filename
+     * @return bool
+     * @throws ParameterException
+     */
+    public function deleteDownloadFile($filename)
+    {
+        $filename = $_SERVER['DOCUMENT_ROOT'].'/static/oss/'.$filename;
+        if (!unlink($filename))
+        {
+            throw new ParameterException([
+                'msg' => "Error deleting $filename"
+            ]);
+        }
+        else
+        {
+            return true;
+        }
     }
 }
