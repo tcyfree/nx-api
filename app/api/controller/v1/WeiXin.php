@@ -39,14 +39,14 @@ class WeiXin extends BaseController
         $media_id = input('get.media_id');
         $prefix_filename = "wx_download_".date("YmdHis") . uniqid();
         $filename = $prefix_filename.".amr";
+        $filename_path = 'audio/'.$filename;
 
-        $this->WXDownloadByUri($media_id, $filename);
+        $this->WXDownloadByUri($media_id, $filename_path);
         $wx = new WeiXinService();
-        $oss_upload = new OSSManager();
-        $res = $oss_upload->uploadOSSMtsInput($filename);
         $oss_manager = new OSSManager();
+        $res = $oss_manager->uploadOSSMtsInput($filename_path);
         $url = $oss_manager->OSSAmrTransCodingMp3($prefix_filename);
-        $wx->deleteDownloadFile($filename);
+        $oss_manager->deleteDownloadFile($filename_path);
         $process_time = sys_processTime();
 
         return [
@@ -66,7 +66,7 @@ class WeiXin extends BaseController
     {
         $access_token = $this->getAccessToken();
         //保存路径，相对站点路径public，非当前文件的路径
-        $path = "./static/audio";
+        $path = "./static/oss";
         if(!is_dir($path)){
             mkdir($path,0755,true);
         }
