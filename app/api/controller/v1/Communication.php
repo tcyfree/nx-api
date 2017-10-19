@@ -24,6 +24,7 @@ use app\api\validate\CommunicationList;
 use app\api\validate\CreateCommunication;
 use app\api\validate\UUID;
 use app\lib\exception\SuccessMessage;
+use app\api\model\CommunityUser as CommunityUserModel;
 
 class Communication extends BaseController
 {
@@ -34,14 +35,16 @@ class Communication extends BaseController
     /**
      * 发布内容
      * 1.被@的用户
+     * 2.判断该用户是否为付费用户,付费用户才能发条目
      * @return \think\response\Json
      */
     public function createCommunication()
     {
         (new CreateCommunication())->goCheck();
         $dataArray = input('post.');
-        CommunityModel::checkCommunityExists($dataArray['community_id']);
         $uid = TokenService::getCurrentUid();
+        CommunityModel::checkCommunityExists($dataArray['community_id']);
+        CommunityUserModel::checkPayingUsers($uid,$dataArray['community_id']);
         $dataArray['user_id'] = $uid;
         $id = uuid();
         $dataArray['id'] = $id;

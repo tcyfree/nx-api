@@ -83,7 +83,7 @@ class CommunityUser extends BaseModel
         $res = self::get(['user_id' => $uid, 'community_id' => $community_id]);
         if (!$res){
             throw new ParameterException([
-                'msg' => '此行动社不是你的！'
+                'msg' => '还未参加该行动社！'
             ]);
         }
 
@@ -105,5 +105,28 @@ class CommunityUser extends BaseModel
             ->field('user_id')
             ->select()->toArray();
         return $res;
+    }
+
+    /**
+     * 判断该用户是否为付费用户
+     * @param $uid
+     * @param $community_id
+     * @return null|static
+     * @throws ParameterException
+     */
+    public static function checkPayingUsers($uid, $community_id)
+    {
+        $where['user_id'] = $uid;
+        $where['community_id'] = $community_id;
+        self::checkCommunityBelongsToUser($where);
+        $where['pay'] = 1;
+        $res = self::get($where);
+        if (!$res){
+            throw new ParameterException([
+                'msg' => '该用户不是该行动社付费用户不能发条目'
+            ]);
+        }else{
+            return $res;
+        }
     }
 }
