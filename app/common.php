@@ -195,6 +195,10 @@ function qr_code($url,$logo){
     if ($logo !== FALSE) {
         $QR = imagecreatefromstring(file_get_contents($QR));
         $logo = imagecreatefromstring(file_get_contents($logo));
+        if (imageistruecolor($logo))
+        {
+            imagetruecolortopalette($logo, false, 65535);//添加这行代码来解决颜色失真问题
+        }
         $QR_width = imagesx($QR);//二维码图片宽度
         $QR_height = imagesy($QR);//二维码图片高度
         $logo_width = imagesx($logo);//logo图片宽度

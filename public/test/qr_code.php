@@ -48,6 +48,26 @@ function downloadImage($url) {
         return $filepath;
     }
 }
+
+/**
+ * 删除文件
+ * @param $filename
+ * @return bool
+ */
+function deleteDownloadFile($filename)
+{
+    $filename = $_SERVER['DOCUMENT_ROOT'].'/test/'.$filename;
+    if (!unlink($filename))
+    {
+
+         echo "Error deleting $filename";
+
+    }
+    else
+    {
+        return true;
+    }
+}
 /**
  * 社区二维码链接
  * @param string $url
@@ -60,23 +80,27 @@ function qr_code($url){
     //二维码内容
     $text = $url;
     //容错级别
-    $errorCorrectionLevel = 'L';
+    $errorCorrectionLevel = 'H';
     //生成图片大小
-    $matrixPointSize = 6;
+    $matrixPointSize = 20;
     //生成二维码图片
     $QR = QRcode::png($text, 'qrcode.png', $errorCorrectionLevel, $matrixPointSize, 2);
 
-    $logo = '2017101901222159e7fe4de77f0.jpg';//准备好的logo图片
+    $logo = 'download_2017102011571859e9741e022be.png';//准备好的logo图片
     $QR = 'qrcode.png';//已经生成的原始二维码图
 
     if ($logo !== FALSE) {
         $QR = imagecreatefromstring(file_get_contents($QR));
         $logo = imagecreatefromstring(file_get_contents($logo));
+        if (imageistruecolor($logo))
+        {
+            imagetruecolortopalette($logo, false, 65535);//添加这行代码来解决颜色失真问题
+        }
         $QR_width = imagesx($QR);//二维码图片宽度
         $QR_height = imagesy($QR);//二维码图片高度
         $logo_width = imagesx($logo);//logo图片宽度
         $logo_height = imagesy($logo);//logo图片高度
-        $logo_qr_width = $QR_width / 5;
+        $logo_qr_width = $QR_width / 3;
         $scale = $logo_width/$logo_qr_width;
         $logo_qr_height = $logo_height/$scale;
         $from_width = ($QR_width - $logo_qr_width) / 2;
@@ -92,5 +116,5 @@ function qr_code($url){
     return $filename.'.png';
 }
 $url = 'http://xds-test.oss-cn-beijing.aliyuncs.com/user-dir/n80dkGitBWXVb3sieQBKHRxxhdJTgLEX.png';
-echo downloadImage($url);
+//echo downloadImage($url);
 echo qr_code('http://www.nuan-x.com/');

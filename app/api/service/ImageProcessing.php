@@ -22,6 +22,7 @@ class ImageProcessing
      * 2 生成二维码
      * 3 将二维码和下载图片合成图片文件上传OSS
      * 4 删除下载与带有logo合成图片
+     * 5 !!!!再次生成qrcode.png时不会被覆盖，qrcode.png用完以后记得删除
      * @param $url
      * @param $cover_image
      * @return mixed
@@ -35,6 +36,7 @@ class ImageProcessing
         $res = $oss_manager->uploadOSS($filename_path);
         $oss_manager->deleteDownloadFile('images/'.$download_filename);
         $oss_manager->deleteDownloadFile($filename_path);
+        $oss_manager->deleteDownloadFile('images/'.'qrcode.png');
         return $res;
     }
 }
