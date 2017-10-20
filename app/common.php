@@ -179,13 +179,15 @@ function qr_code($url,$logo){
     \think\Loader::import('phpqrcode/phpqrcode',EXTEND_PATH,'.php');
     //二维码内容
     $text = $url;
+//    file_put_contents($_SERVER['DOCUMENT_ROOT'].'/static/oss/images/qr_cod.log',
+//        'url: '.$url.' '.'text: '.$text.' '.date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
     //容错级别
     $errorCorrectionLevel = 'H';
     //生成图片大小
     $matrixPointSize = 9;
     //路径前缀
     $path_prefix = 'static/oss/images/';
-    //生成二维码图片
+    //生成二维码图片，！！！！！！不会被覆盖，qrcode.png用完以后记得删除
     $QR = QRcode::png($text, $path_prefix.'qrcode.png', $errorCorrectionLevel, $matrixPointSize, 2);
     $logo = APP_PATH.'../public/static/oss/images/'.$logo;//准备好的logo图片
     $QR = $path_prefix.'qrcode.png';//已经生成的原始二维码图
