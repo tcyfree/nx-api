@@ -86,8 +86,8 @@
         <td>&nbsp;false 否  true 是</td>
     </tr>
     <tr>
-        <td>pay</td>
-        <td>是否为付费用户</td>
+        <td>send</td>
+        <td>是否可以发条目</td>
         <td>&nbsp;false 否  true 是</td>
     </tr>
   
