@@ -75,6 +75,7 @@ class Communication extends BaseController
     /**
      * 交流区列表
      * 1.判断当前用户是否点赞
+     * 2.当前用户是否为付费用户
      * @param int $page
      * @param int $size
      * @return array
@@ -101,7 +102,12 @@ class Communication extends BaseController
                 $v['own'] = false;
             }
         }
-
+        $res = CommunityUserModel::checkPayingUsers($uid,$community_id);
+        if (!$res){
+            $data['pay'] = false;
+        }else{
+            $data['pay'] = true;
+        }
         return [
             'data' => $data,
             'current_page' => $pageData->currentPage()

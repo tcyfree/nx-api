@@ -85,6 +85,11 @@
         <td>是否为自己发的条目</td>
         <td>&nbsp;false 否  true 是</td>
     </tr>
+    <tr>
+        <td>pay</td>
+        <td>是否为付费用户</td>
+        <td>&nbsp;false 否  true 是</td>
+    </tr>
   
 </table>
 <p>&nbsp;</p>
