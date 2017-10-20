@@ -290,7 +290,7 @@ class Community extends BaseController
             ->alias('c_u')
             ->join('__USER_INFO__ u','c_u.user_id = u.user_id')
             ->where('(c_u.pay = '."'".$pay."'".' OR c_u.type <> '."'".$type."'".') AND c_u.community_id = '."'".$id."'")
-            ->order('u.char_index ASC')
+            ->order('c_u.type ASC')
             ->field('c_u.type,c_u.pay,c_u.status,u.user_id,u.nickname,u.char_index,u.avatar,u.from')
             ->limit($page,$size)
             ->select()
