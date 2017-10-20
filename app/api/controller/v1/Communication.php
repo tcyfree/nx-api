@@ -37,7 +37,7 @@ class Communication extends BaseController
      * 发布内容
      * 1.被@的用户
      * 2.判断该用户是否为付费用户,付费用户才能发条目
-     * 3.管理员或社长放行
+     * 3.对管理员或社长放行
      * @return \think\response\Json
      * @throws ParameterException
      */
@@ -77,6 +77,7 @@ class Communication extends BaseController
      * 交流区列表
      * 1.判断当前用户是否点赞
      * 2.当前用户是否为付费用户
+     * 3.对管理员或社长放行，
      * @param int $page
      * @param int $size
      * @return array
@@ -103,12 +104,14 @@ class Communication extends BaseController
                 $v['own'] = false;
             }
         }
-        $res = CommunityUserModel::checkPayingUsers($uid,$community_id);
-        if (!$res){
-            $data['pay'] = false;
+
+        $result = CommunityUserModel::checkCommunityBelongsToUser($uid,$community_id);
+        if ($result['type'] == 2 && $result['pay'] ==1){
+            $data['send'] = false;
         }else{
-            $data['pay'] = true;
+            $data['send'] = true;
         }
+
         return [
             'data' => $data,
             'current_page' => $pageData->currentPage()
