@@ -79,7 +79,7 @@ class Community extends BaseController
         $dataArray['outside_id'] = number();
 
         $image_process = new ImageProcessingService();
-        $url = $dataArray['qr_prefix_url'].'?id='.$dataArray['id'];
+        $url = $dataArray['qr_prefix_url'].$dataArray['id'];
         $logo = $dataArray['cover_image'];
         $res = $image_process->getQRCodeByCoverImage($url,$logo);
         $dataArray['qr_code'] = $res['oss-request-url'];
@@ -490,16 +490,4 @@ class Community extends BaseController
         return json(new SuccessMessage(),201);
     }
 
-    public function test()
-    {
-        $url = 'http://weixin.xingdongshe.com/template/groupPage.html?id=ec685e49-3456-6a37-8220-be6bb35868ae';
-        $image_process = new ImageProcessingService();
-        $cover_image = 'http://auth.xingdongshe.com/images/2017101713413059e5980a6d86b.jpg';
-        $res = $image_process->getQRCodeByCoverImage($url,$cover_image);
-        $process_time = sys_processTime();
-        return [
-            'url' => $res['oss-request-url'],
-            'process_time' => $process_time
-        ];
-    }
 }
