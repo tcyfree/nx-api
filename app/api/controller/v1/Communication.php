@@ -37,6 +37,7 @@ class Communication extends BaseController
      * 发布内容
      * 1.被@的用户
      * 2.判断该用户是否为付费用户,付费用户才能发条目
+     * 3.管理员或社长放行
      * @return \think\response\Json
      * @throws ParameterException
      */
@@ -46,10 +47,10 @@ class Communication extends BaseController
         $dataArray = input('post.');
         $uid = TokenService::getCurrentUid();
         CommunityModel::checkCommunityExists($dataArray['community_id']);
-        $res = CommunityUserModel::checkPayingUsers($uid,$dataArray['community_id']);
-        if (!$res){
+        $result = CommunityUserModel::checkCommunityBelongsToUser($uid,$dataArray['community_id']);
+        if ($result['type'] == 2 && $result['pay'] ==1){
             throw new ParameterException([
-                'msg' => '该用户不是该行动社付费用户不能发条目'
+                'msg' => '你不是该行动社付费用户不能发条目哦'
             ]);
         }
         $dataArray['user_id'] = $uid;
