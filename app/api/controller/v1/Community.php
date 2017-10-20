@@ -52,6 +52,7 @@ class Community extends BaseController
      * 1.名称不能重复
      * 2.判断是否和用户相关的行动是否达到上限5个
      * 3.生成二维码
+     * 4.删除多余字段：qr_prefix_url
      *
      * @return array
      * @throws Exception
@@ -86,6 +87,7 @@ class Community extends BaseController
         Db::startTrans();
         try
         {
+            unset($dataArray['qr_prefix_url']);
             $community = CommunityModel::create($dataArray)->toArray();
             $data['community_id'] = $community['id'];
             $data['type'] = 0;
