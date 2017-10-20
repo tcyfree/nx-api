@@ -108,11 +108,10 @@ class CommunityUser extends BaseModel
     }
 
     /**
-     * 判断该用户是否为付费用户
+     * 判断用户是否为付费用户
      * @param $uid
      * @param $community_id
-     * @return null|static
-     * @throws ParameterException
+     * @return bool|null|static
      */
     public static function checkPayingUsers($uid, $community_id)
     {
@@ -122,9 +121,7 @@ class CommunityUser extends BaseModel
         $where['pay'] = 1;
         $res = self::get($where);
         if (!$res){
-            throw new ParameterException([
-                'msg' => '该用户不是该行动社付费用户不能发条目'
-            ]);
+            return false;
         }else{
             return $res;
         }

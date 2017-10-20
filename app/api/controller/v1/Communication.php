@@ -25,6 +25,7 @@ use app\api\validate\CreateCommunication;
 use app\api\validate\UUID;
 use app\lib\exception\SuccessMessage;
 use app\api\model\CommunityUser as CommunityUserModel;
+use app\lib\exception\ParameterException;
 
 class Communication extends BaseController
 {
@@ -37,6 +38,7 @@ class Communication extends BaseController
      * 1.被@的用户
      * 2.判断该用户是否为付费用户,付费用户才能发条目
      * @return \think\response\Json
+     * @throws ParameterException
      */
     public function createCommunication()
     {
@@ -44,7 +46,12 @@ class Communication extends BaseController
         $dataArray = input('post.');
         $uid = TokenService::getCurrentUid();
         CommunityModel::checkCommunityExists($dataArray['community_id']);
-        CommunityUserModel::checkPayingUsers($uid,$dataArray['community_id']);
+        $res = CommunityUserModel::checkPayingUsers($uid,$dataArray['community_id']);
+        if (!$res){
+            throw new ParameterException([
+                'msg' => '该用户不是该行动社付费用户不能发条目'
+            ]);
+        }
         $dataArray['user_id'] = $uid;
         $id = uuid();
         $dataArray['id'] = $id;
