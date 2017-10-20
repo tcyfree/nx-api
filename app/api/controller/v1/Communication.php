@@ -106,7 +106,7 @@ class Communication extends BaseController
         }
 
         $result = CommunityUserModel::checkCommunityBelongsToUser($uid,$community_id);
-        if ($result['type'] == 2 && $result['pay'] ==1){
+        if ($result['type'] == 2 && $result['pay'] != 1){
             $data['send'] = false;
         }else{
             $data['send'] = true;
