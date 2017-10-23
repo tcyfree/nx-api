@@ -95,7 +95,7 @@ class Task extends BaseModel
                 'msg' => '任务已执行或结束了！'
             ]);
         }
-        $task = TaskModel::where('id', $task_id)->field('act_plan_id')->find();
+        $task = TaskModel::where('id', $task_id)->field('act_plan_id,reference_time')->find();
         $act_plan_user_mode = ActPlanUserModel::where('act_plan_id',$task['act_plan_id'])->field('mode')->find();
         $id = uuid();
         Db::startTrans();
