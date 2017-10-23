@@ -103,7 +103,9 @@ class BaseController extends Controller
             }
         }
         if (!$allow){
-            throw new ForbiddenException();
+            throw new ForbiddenException([
+                'msg' => $request_ip.'不在白名单中'
+            ]);
         }
     }
 
