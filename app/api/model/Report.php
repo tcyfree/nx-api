@@ -31,17 +31,24 @@ class Report extends BaseModel
         $data['user_id'] = Token::getCurrentUid();
         $report = new Report();
         // 过滤数组中的非数据表字段数据
-        $report->allowField(true)->save($data);
-        $id = self::getLastInsID();
-
-        $cData['key_id'] = $id;
-        $cData['key_type'] = 0;
-        $cData['type'] = 0;
-        foreach ($data['images'] as $v)
-        {
-            $cData['uri'] = $v;
-            Asset::create($cData);
+        if (isset($data['images'])){
+            $data['images'] = json_encode($data['images']);
         }
+        $report->allowField(true)->save($data);
+//        $id = self::getLastInsID();
+//
+//        $cData['key_id'] = $id;
+//        $cData['key_type'] = 0;
+//        $cData['type'] = 0;
+//
+//        if (isset($data['images'])){
+//            foreach ($data['images'] as $v)
+//            {
+//                $cData['uri'] = $v;
+//                Asset::create($cData);
+//            }
+//        }
+
 
     }
 }
