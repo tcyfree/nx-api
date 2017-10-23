@@ -38,6 +38,7 @@ use think\Db;
 use think\Exception;
 use app\api\service\Execution as ExecutionService;
 use app\api\service\Execution as Es;
+use app\api\model\Callback as CallbackModel;
 
 class Task extends BaseController
 {
@@ -202,14 +203,6 @@ class Task extends BaseController
     }
 
     /**
-     * 正常结束普通任务回调接口
-     */
-    public function overTask()
-    {
-
-    }
-
-    /**
      * 获取挑战模式下的状态
      * @return array
      * @throws ParameterException
@@ -234,10 +227,12 @@ class Task extends BaseController
     }
 
     /**
-     * 任务反馈
+     * 用户提交任务反馈
      *
      * 1 如果to_user_id为空，则随机选择一个备选人审核
+     * 2 设置反馈有效时间为24小时内有效
      * @return \think\response\Json
+     * @throws Exception
      * @throws ParameterException
      */
     public function feedback()
@@ -259,14 +254,24 @@ class Task extends BaseController
         $mode = TaskModel::getTaskMode($dataRules['task_id'],$uid);
         if ($mode == 0){
             throw new ParameterException([
-                'msg' => '此任务为普通模式参加，不能反馈'
+                'msg' => '此任务为普通模式参加，不能反馈啦'
             ]);
         }
         $res = TaskFeedbackModel::checkTaskFeedback($uid, $dataRules['task_id']);
 
         if ($res == false){
-            $dataRules['id'] = uuid();
-            TaskFeedbackModel::create($dataRules);
+            $id = uuid();
+            $dataRules['id'] = $id;
+            Db::startTrans();
+            try{
+                $result = TaskFeedbackModel::create($dataRules);
+                $deadline = $result['create_time'] + 86400;
+                CallbackModel::create(['key_id' => $id, 'user_id' => $uid, 'deadline' => $deadline, 'key_type' => 1]);
+                Db::commit();
+            }catch (Exception $ex){
+                Db::rollback();
+                throw $ex;
+            }
             return json(new SuccessMessage(),201);
         }elseif ($res['status'] == 1){
             TaskFeedbackModel::update(['content' => $dataRules['content'],'location' => $dataRules['location'],'status' => 0, 'update_time' => time()],
