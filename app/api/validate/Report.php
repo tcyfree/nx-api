@@ -26,19 +26,22 @@ class Report extends BaseValidate
 
     /**
      * 验证不确定数组值是否符合规范，并确定到某个具体key
+     * 1 如果为空则返回true
      * @param $value
      * @return bool
      * @throws ParameterException
      */
     protected function checkUris($value)
     {
-        foreach ($value as $k => $v)
-        {
-            $res = preg_match('/^(https?:\/\/){1}(\w+\.)+[a-zA-Z]+$/',$v);
-            if ($res == 0){
-                throw new ParameterException([
-                    'msg' => $k.'不是有效的URI地址'
-                ]);
+        if ($value){
+            foreach ($value as $v)
+            {
+                $res = preg_match('/^(https?:\/\/){1}(\w+\.)+[a-zA-Z]+(\/(\w+\.?)+[a-zA-Z]+)*$/',$v);
+                if ($res == 0){
+                    throw new ParameterException([
+                        'msg' => $v.'不是有效的URI地址'
+                    ]);
+                }
             }
         }
 
