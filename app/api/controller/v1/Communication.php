@@ -48,7 +48,7 @@ class Communication extends BaseController
         $uid = TokenService::getCurrentUid();
         CommunityModel::checkCommunityExists($dataArray['community_id']);
         $result = CommunityUserModel::checkCommunityBelongsToUser($uid,$dataArray['community_id']);
-        if ($result['type'] == 2 && $result['pay'] ==1){
+        if ($result['type'] == 2 && $result['pay'] ==0){
             throw new ParameterException([
                 'msg' => '你不是该行动社付费用户不能发条目哦'
             ]);
