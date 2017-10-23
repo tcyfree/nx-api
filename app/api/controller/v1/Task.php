@@ -287,6 +287,8 @@ class Task extends BaseController
 
     /**
      * 其他用户给我的反馈
+     * 1 待反馈或反馈失效
+     *
      * @param int $page
      * @param int $size
      * @return array
@@ -295,9 +297,11 @@ class Task extends BaseController
     {
         $uid = TokenService::getCurrentUid();
         $where['to_user_id'] = $uid;
-        $where['status'] = '0';
         $pageData = TaskFeedbackModel::with('task,userInfo,task.actPlan,task.actPlan.community')
             ->where($where)
+            ->where(function($query){
+                $query->where('status',['=',0],['=',1],'or');
+            })
             ->paginate($size,true,['page' => $page]);
 
         $data = $pageData->visible(['id','content','status','create_time','task.name','task.requirement','user_info.nickname','user_info.avatar','task.act_plan'])->toArray();
