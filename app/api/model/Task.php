@@ -171,10 +171,8 @@ class Task extends BaseModel
         Db::startTrans();
         try{
             CallbackModel::cancelCallback($v['id']);
-
             $execution = new ExecutionService();
             $execution->addExecution($v['key_id'],$v['user_id'],0);
-
             Db::commit();
             file_put_contents($log, TaskUserModel::getLastSql().' && '.CallbackModel::getLastSql().' '.
                 date('Y-m-d H:i:s')."\r\n", FILE_APPEND);

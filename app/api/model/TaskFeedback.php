@@ -16,6 +16,10 @@ namespace app\api\model;
 
 use app\api\model\Task as TaskModel;
 use app\lib\exception\ParameterException;
+use app\api\service\Task as TaskService;
+use app\api\model\Callback as CallbackModel;
+use think\Db;
+use think\Exception;
 
 class TaskFeedback extends BaseModel
 {
@@ -57,6 +61,53 @@ class TaskFeedback extends BaseModel
         }
 
         return $res;
+    }
+
+    /**
+     * 反馈24小时后回调
+     * 1 随机选取审核人
+     * 1.1 如果和之前审核人相同则更新status = 0，同时延长deadline + 86400
+     * 1.2 否则(
+     *    1 注销回调
+     *    2 更新以前审核记录status = 3
+     *    3 生成新的反馈记录
+     *    4 生成新的回调记录
+     *   )
+     * @param $v
+     * @param $log
+     * @throws Exception
+     */
+    public static function withinTwentyFourHours($v,$log)
+    {
+        $res = self::get(['id' => $v['key_id']]);
+        Db::startTrans();
+        try{
+            $task_service = new TaskService();
+            $to_user_id = $task_service->getRandManagerID($res['task_id']);
+            if ($res['to_user_id'] == $to_user_id){
+                self::update(['status' => 0,'update_time' => time()],['id' => $res['id']]);
+                CallbackModel::update(['deadline' => $v['deadline']+86400],['id' => $v['id']]);
+            }else{
+                CallbackModel::cancelCallback($v['id']);
+                self::update(['status' => 3],['id' => $res['id']]);
+                $data['user_id'] = $res['user_id'];
+                $data['to_user_id'] = $to_user_id;
+                $data['task_id'] = $res['task_id'];
+                $data['content'] = $res['content'];
+                $data['location'] = $res['location'];
+                $id = uuid();
+                $data['id'] = $id;
+                $result = self::create($data);
+                $deadline = $result['create_time'] + 86400;
+                CallbackModel::create(['key_id' => $id, 'user_id' => $res['user_id'], 'deadline' => $deadline, 'key_type' => 1]);
+            }
+            Db::commit();
+            file_put_contents($log, ''.self::getLastSql().' && '.CallbackModel::getLastSql().' '.
+                date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
+        }catch (Exception $ex) {
+            Db::rollback();
+            throw $ex;
+        }
     }
 
 
