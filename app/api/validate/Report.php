@@ -36,7 +36,7 @@ class Report extends BaseValidate
         if ($value){
             foreach ($value as $v)
             {
-                $res = preg_match('/^(https?:\/\/){1}(\w+\.)+[a-zA-Z]+(\/(\w+\.?)+[a-zA-Z]+)*$/',$v);
+                $res = preg_match('/^(https?:\/\/){1}([0-9a-zA-Z_-]+\.)+[a-zA-Z]+(\/([0-9a-zA-Z_-]+\.?)+[a-zA-Z]+)*$/',$v);
                 if ($res == 0){
                     throw new ParameterException([
                         'msg' => $v.'不是有效的URI地址'
