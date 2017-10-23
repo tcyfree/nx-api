@@ -15,6 +15,7 @@ namespace app\api\model;
 
 
 use app\api\service\Token;
+use app\lib\exception\ParameterException;
 
 class Report extends BaseModel
 {
@@ -24,16 +25,24 @@ class Report extends BaseModel
 
     /**
      * 投诉
+     * 1 文字或图片不能同时为空
+     *
      * @param $data
+     * @throws ParameterException
      */
     public static function createReport($data)
     {
         $data['user_id'] = Token::getCurrentUid();
         $report = new Report();
-        // 过滤数组中的非数据表字段数据
+        if (!isset($data['content']) && !isset($data['images'])) {
+            throw new ParameterException([
+                'msg' => '投诉内容或图片不能同时为空！'
+            ]);
+        }
         if (isset($data['images'])){
             $data['images'] = json_encode($data['images']);
         }
+        // 过滤数组中的非数据表字段数据
         $report->allowField(true)->save($data);
 //        $id = self::getLastInsID();
 //

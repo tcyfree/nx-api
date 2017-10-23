@@ -20,7 +20,7 @@ class Report extends BaseValidate
 {
     protected $rule = [
         'community_id' => 'require|length:36',
-        'content' => 'require|max:255',
+        'content' => 'max:255',
         'images' => 'checkUris'
     ];
 

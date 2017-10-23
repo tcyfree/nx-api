@@ -20,26 +20,28 @@
 <p class="subtitlestyle">（二）POST参数列表：</p>
 <table width="90%" border="1" class="dbTable">
   <tr class="td_header">
-    <td>参数名称</td>
-    <td width="226">参数说明</td>
-    <td width="598">备注</td>
-    </tr>
- <?php require_once ("../include/token.inc.php"); ?>
+
+ <?php require_once ("../include/required_or_optional.php"); ?>
+ <?php require_once ("../include/token.required.php"); ?>
  <tr>
    <td>content</td>
-   <td width="226">投诉内容</td>
-   <td width="598">不超过255个字符</td>
+   <td >投诉内容</td>
+   <td >否</td>
+   <td >不超过255个字符</td>
  </tr>
   <tr>
    <td>community_id</td>
-   <td width="226">行动社ID</td>
-   <td width="598"></td>
+   <td>行动社ID</td>
+   <td>是</td>
+   <td></td>
  </tr>
  <tr>
      <td>images</td>
-     <td>图片uri集</td>
-     <td>&nbsp;json格式如："images":{"uri":"http://auth.xingdongshe.com/images/20170817164138599556c2e26bd.jpg","uri2":"http://auth.xingdongshe.com/images/20170817164138599556c2e26bd.jpg"}</td>
+     <td>json值类型：数组</td>
+     <td>否</td>
+     <td>如:"images":["http://auth.xingdongshe.com/images/20170817164138599556c2e26bd.jpg","http://auth.xingdongshe.com/images/20170817164138599556c2e26bd.jpg"]</td>
  </tr>
+
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>
 <table width="90%" border="1" class="dbTable">
@@ -50,5 +52,6 @@
   <?php require_once ("../include/success.inc.php"); ?>
 <?php require_once("../include/error.inc.php");?>
 </table>
+    <span class="titlestyle"><font color="red">注：投诉文字或图片不能同时为空</font> </span>
 </div>
 <?php require_once("../include/foot.inc.php");?>
