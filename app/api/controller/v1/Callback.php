@@ -24,11 +24,12 @@ class Callback extends BaseController
      * callback.sh每秒执行此接口
      * 1 挑战模式不通过此接口结束任务
      * 2 24小时反馈回调
+     * 3 去掉白名单检查
      *
      */
     public function doCallback()
     {
-        $this->checkIPWhiteList();
+//        $this->checkIPWhiteList();
         $where['status'] = ['neq',1];
         $callback_array = CallbackModel::whereTime('deadline','<=',time())->where($where)->select()->toArray();
         $log = $_SERVER['DOCUMENT_ROOT'].'/linux/callback.log';
