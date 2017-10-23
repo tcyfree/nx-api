@@ -328,6 +328,8 @@ class Task extends BaseController
 
     /**
      * 审核任务通过或不通过
+     * 1 注销24小时回调
+     *
      * @return \think\response\Json
      * @throws Exception
      */
@@ -351,6 +353,7 @@ class Task extends BaseController
                 (new FeedbackFailReason())->goCheck();
                 TaskFeedbackModel::update(['reason' => $data['reason'],'status' => 1,'update_time' => time()],['id' => $data['id'],'to_user_id' => $uid]);
             }
+            CallbackModel::update(['status' => 1,'update_time' => time()],['key_id' => $data['id']]);
             Db::commit();
             return json(new SuccessMessage(),201);
         }catch (Exception $ex)
