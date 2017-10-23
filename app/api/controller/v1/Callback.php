@@ -15,6 +15,7 @@ namespace app\api\controller\v1;
 use app\api\controller\BaseController;
 use app\api\model\Callback as CallbackModel;
 use app\api\model\Task as TaskModel;
+use app\api\model\TaskFeedback as TaskFeedbackModel;
 
 class Callback extends BaseController
 {
@@ -22,6 +23,7 @@ class Callback extends BaseController
     /**
      * callback.sh每秒执行此接口
      * 1 挑战模式不通过此接口结束任务
+     * 2 24小时反馈回调
      *
      */
     public function doCallback()
@@ -35,6 +37,9 @@ class Callback extends BaseController
                 switch ($v['key_type']){
                     case 0:
                         TaskModel::missionComplete($v,$log);
+                        break;
+                    case 1:
+                        TaskFeedbackModel::withinTwentyFourHours($v,$log);
                         break;
                     default:
                         continue;
