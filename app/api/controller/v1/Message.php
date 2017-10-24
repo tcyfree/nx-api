@@ -67,4 +67,19 @@ class Message extends BaseController
             'current_page' => $pageData->currentPage()
         ];
     }
+
+    /**
+     * 私信概要列表
+     * 1 显示最新一条私信
+     *
+     * @param int $page
+     * @param int $size
+     * @return mixed
+     */
+    public function getSummaryList($page = 1, $size = 15)
+    {
+        $uid = TokenService::getCurrentUid();
+         $data = MessageModel::getSummaryList($page,$size,$uid);
+        return $data;
+    }
 }

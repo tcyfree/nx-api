@@ -157,7 +157,8 @@ Route::group(':version/execution',function (){
  * Message
  */
 Route::group(':version/message',function (){
-    Route::get('','api/:version.Message/getMessageList');
+    Route::get('/dialogue','api/:version.Message/getMessageList');
+    Route::get('','api/:version.Message/getSummaryList');
     Route::post('','api/:version.Message/addMessage');
 });
 
