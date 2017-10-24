@@ -78,4 +78,5 @@ class Message extends BaseModel
             'current_page' => $pageData->currentPage()
         ];
     }
+
 }

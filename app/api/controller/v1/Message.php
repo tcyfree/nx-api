@@ -79,7 +79,22 @@ class Message extends BaseController
     public function getSummaryList($page = 1, $size = 15)
     {
         $uid = TokenService::getCurrentUid();
-         $data = MessageModel::getSummaryList($page,$size,$uid);
+        $data = MessageModel::getSummaryList($page,$size,$uid);
         return $data;
+    }
+
+    /**
+     * 清空私信详情列表
+     *
+     * @return \think\response\Json
+     */
+    public function deleteMessage()
+    {
+        (new UUID())->goCheck();
+        $where['user_id'] = TokenService::getCurrentUid();
+        $where['to_user_id'] = input('delete.id');
+        $where['delete_time'] = 0;
+        MessageModel::update(['delete_time' => time()],$where);
+        return json(new SuccessMessage(),201);
     }
 }

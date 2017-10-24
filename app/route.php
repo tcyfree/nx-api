@@ -160,6 +160,7 @@ Route::group(':version/message',function (){
     Route::get('/dialogue','api/:version.Message/getMessageList');
     Route::get('','api/:version.Message/getSummaryList');
     Route::post('','api/:version.Message/addMessage');
+    Route::delete('/dialogue','api/:version.Message/deleteMessage');
 });
 
 /**
