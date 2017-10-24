@@ -553,7 +553,13 @@ Ext.define('WebRoot.view.WestView', {
 									text: '发私信',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/msg_create.php',
 									leaf: true
-								}
+								},
+                                {
+                                    id: 'msg_details_list',
+                                    text: '私信详情列表',
+                                    hrefTarget: SYS_API_ROOT + 'phpfiles/msg_details_list.php',
+                                    leaf: true
+                                }
 							]
 						}
 					]

@@ -47,7 +47,7 @@ class Message extends BaseController
     }
 
     /**
-     * 获取私信列表
+     * 获取私信详情列表
      *
      * @param int $page
      * @param int $size
