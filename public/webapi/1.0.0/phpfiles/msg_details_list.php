@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
       <td>GET</td>
-    <td>v1/message</td>
+    <td>v1/message/dialogue</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>
