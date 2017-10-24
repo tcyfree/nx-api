@@ -26,6 +26,8 @@ use app\api\validate\UUID;
 use app\lib\exception\SuccessMessage;
 use app\api\model\CommunityUser as CommunityUserModel;
 use app\lib\exception\ParameterException;
+use think\Db;
+use think\Exception;
 
 class Communication extends BaseController
 {
@@ -151,7 +153,11 @@ class Communication extends BaseController
 
     /**
      * 顶赞/取消顶赞
+     * 1 自己给自己条目点赞不再收到通知
+     * 2 update：如果数据不存在不会报错，只是影响行数为0
+     *
      * @return \think\response\Json
+     * @throws Exception
      */
     public function operateCommunityByUser()
     {
@@ -164,22 +170,31 @@ class Communication extends BaseController
         $where['type'] = 1;
         $where['delete_time'] = 0;
         $res = CommunicationOperateModel::get($where);
-        if ($res){
-            CommunicationOperateModel::update(['delete_time' => time()],['communication_id' => $communication_id, 'user_id' => $uid]);
-            CommunicationModel::where('id',$communication_id)->setDec('likes');
-            NoticeModel::update(['delete_time' => time()],['from_user_id' => $uid,'communication_id' => $communication_id,'type' =>1]);
-        }else{
-            CommunicationOperateModel::create($where);
-            CommunicationModel::where('id',$communication_id)->setInc('likes');
-
-            $data['id'] = uuid();
-            $data['to_user_id'] = $communication['user_id'];
-            $data['from_user_id'] = $uid;
-            $data['communication_id'] = $communication_id;
-            $data['type'] = 1;
-            NoticeModel::create($data);
+        Db::startTrans();
+        try{
+            if ($res){
+                CommunicationOperateModel::update(['delete_time' => time()],['communication_id' => $communication_id, 'user_id' => $uid]);
+                CommunicationModel::where('id',$communication_id)->setDec('likes');
+                //update：如果数据不存在不会报错，只是影响行数为0
+                NoticeModel::update(['delete_time' => time()],['from_user_id' => $uid,'communication_id' => $communication_id,'type' =>1]);
+            }else{
+                CommunicationOperateModel::create($where);
+                CommunicationModel::where('id',$communication_id)->setInc('likes');
+                $data['id'] = uuid();
+                $data['to_user_id'] = $communication['user_id'];
+                $data['from_user_id'] = $uid;
+                $data['communication_id'] = $communication_id;
+                $data['type'] = 1;
+                if ($data['to_user_id'] != $data['from_user_id']){
+                    NoticeModel::create($data);
+                    print_r(NoticeModel::getLastSql());
+                }
+            }
+            Db::commit();
+        }catch (Exception $ex){
+            Db::rollback();
+            throw $ex;
         }
-
         return json(new SuccessMessage(),201);
     }
 
