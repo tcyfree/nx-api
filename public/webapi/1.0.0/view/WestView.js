@@ -542,6 +542,19 @@ Ext.define('WebRoot.view.WestView', {
 									leaf: true
 								}
 							]
+						},
+						{
+							id: 'message_menu',
+							text: '私信相关',
+							expanded: true,
+							children: [
+								{
+									id: 'msg_create',
+									text: '发私信',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/msg_create.php',
+									leaf: true
+								}
+							]
 						}
 					]
 			}

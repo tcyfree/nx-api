@@ -152,6 +152,15 @@ Route::group(':version/callback',function (){
 Route::group(':version/execution',function (){
     Route::get('','api/:version.Execution/executionTrackerList');
 });
+
+/**
+ * Message
+ */
+Route::group(':version/message',function (){
+    Route::get('','api/:version.Message/getMessageList');
+    Route::post('','api/:version.Message/addMessage');
+});
+
 /**
  * MISS路由，当全部路由没有匹配到时
  * 将返回资源未找到的信息
