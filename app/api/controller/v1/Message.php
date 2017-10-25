@@ -106,4 +106,30 @@ class Message extends BaseController
         return json(new SuccessMessage(),201);
     }
 
+    /**
+     * 是否有新私信
+     *
+     * @return array
+     */
+    public function getNotLook()
+    {
+        $uid = TokenService::getCurrentUid();
+        $where['user_id'] = $uid;
+        $where['look'] = 0;
+        $where['delete_time'] = 0;
+        $res = MessageModel::where($where)
+            ->field('look')
+            ->find();
+        if (!$res){
+            return [
+                'look' => false
+            ];
+        }else{
+            return [
+                'look' => true
+            ];
+        }
+
+    }
+
 }
