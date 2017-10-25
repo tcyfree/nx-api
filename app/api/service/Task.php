@@ -111,8 +111,10 @@ class Task
         }
         foreach ($data as &$v) {
             $v['finish'] = 0;
-            if (in_array($v['id'],$patternArray)){
-                $v['finish'] = 1;
+            if ((in_array($v['id'],$patternArray))){
+                $task_user = TaskUserModel::get(['user_id' => $uid,'task_id' => $v['id']]);
+                $v['finish'] = $task_user['finish'];
+//                $v['finish'] = 1;
             }
         }
         return $data;
