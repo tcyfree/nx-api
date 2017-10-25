@@ -66,6 +66,7 @@ class Message extends BaseController
     /**
      * 1 发私信
      * 同时生成两条私信记录：type 0 回复 1 被回复
+     * 发私信方：look = 1
      *
      * @return \think\response\Json
      */
@@ -75,6 +76,7 @@ class Message extends BaseController
         $uid = TokenService::getCurrentUid();
         $data = input('post.');
         $data['user_id'] = $uid;
+        $data['look'] = 1;
         MessageModel::create($data);
 
         $reply_data['to_user_id'] = $uid;
@@ -99,8 +101,5 @@ class Message extends BaseController
         MessageModel::update(['delete_time' => time()],$where);
         return json(new SuccessMessage(),201);
     }
-
-
-
 
 }
