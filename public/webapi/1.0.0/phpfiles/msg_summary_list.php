@@ -44,6 +44,11 @@
      <td>最新一条私信</td>
      <td>   </td>
   </tr>
+    <tr>
+        <td>look</td>
+        <td>是否查看</td>
+        <td> 0 否 1 是  </td>
+    </tr>
 
    <tr>
     <td>nickname</td>

@@ -27,6 +27,7 @@ class Message extends BaseController
     /**
      * 私信概要列表
      * 1 显示最新一条私信
+     * 2 同步最新时间
      *
      * @param int $page
      * @param int $size
@@ -41,6 +42,7 @@ class Message extends BaseController
 
     /**
      * 获取私信详情列表
+     * 1 look 是否查看
      *
      * @param int $page
      * @param int $size
@@ -52,7 +54,7 @@ class Message extends BaseController
         $to_uid = input('get.id');
         $uid = TokenService::getCurrentUid();
         $pageData = MessageModel::getMessageList($page,$size,$uid,$to_uid);
-        $data = $pageData->visible(['id','user_id','to_user_id','content','type','create_time',
+        $data = $pageData->visible(['id','user_id','to_user_id','content','type','look','create_time',
             'user_info.user_id','user_info.avatar','user_info.nickname',
             'to_user_info.user_id','to_user_info.avatar','to_user_info.nickname']);
         return [

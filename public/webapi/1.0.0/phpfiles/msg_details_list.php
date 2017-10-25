@@ -50,6 +50,11 @@
      <td>时间</td>
      <td>   </td>
   </tr>
+    <tr>
+        <td>look</td>
+        <td>是否查看</td>
+        <td> 0 否 1 是  </td>
+    </tr>
   <tr>
     <td>type</td>
     <td>回复类型</td>
