@@ -60,7 +60,10 @@ class Task extends BaseModel
 
     /**
      * 检查任务是否存在
+     * 1 若存在则返回结果
+     *
      * @param $id
+     * @return null|static
      * @throws ParameterException
      */
     public static function checkTaskExists($id)
@@ -71,6 +74,7 @@ class Task extends BaseModel
                 'msg' => '该任务不存在，请检查ID'
             ]);
         }
+        return $res;
     }
 
     /**
