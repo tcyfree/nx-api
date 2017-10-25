@@ -25,25 +25,18 @@ class Message extends BaseController
 {
 
     /**
-     * 1 发私信
-     * 同时生成两条私信记录：type 0 回复 1 被回复
+     * 私信概要列表
+     * 1 显示最新一条私信
      *
-     * @return \think\response\Json
+     * @param int $page
+     * @param int $size
+     * @return mixed
      */
-    public function addMessage()
+    public function getSummaryList($page = 1, $size = 15)
     {
-        (new MessageNew())->goCheck();
         $uid = TokenService::getCurrentUid();
-        $data = input('post.');
-        $data['user_id'] = $uid;
-        MessageModel::create($data);
-
-        $reply_data['to_user_id'] = $uid;
-        $reply_data['user_id'] = $data['to_user_id'];
-        $reply_data['content'] = $data['content'];
-        $reply_data['type'] = 1;
-        MessageModel::create($reply_data);
-        return json(new SuccessMessage(),201);
+        $data = MessageModel::getSummaryList($page,$size,$uid);
+        return $data;
     }
 
     /**
@@ -69,18 +62,25 @@ class Message extends BaseController
     }
 
     /**
-     * 私信概要列表
-     * 1 显示最新一条私信
+     * 1 发私信
+     * 同时生成两条私信记录：type 0 回复 1 被回复
      *
-     * @param int $page
-     * @param int $size
-     * @return mixed
+     * @return \think\response\Json
      */
-    public function getSummaryList($page = 1, $size = 15)
+    public function addMessage()
     {
+        (new MessageNew())->goCheck();
         $uid = TokenService::getCurrentUid();
-        $data = MessageModel::getSummaryList($page,$size,$uid);
-        return $data;
+        $data = input('post.');
+        $data['user_id'] = $uid;
+        MessageModel::create($data);
+
+        $reply_data['to_user_id'] = $uid;
+        $reply_data['user_id'] = $data['to_user_id'];
+        $reply_data['content'] = $data['content'];
+        $reply_data['type'] = 1;
+        MessageModel::create($reply_data);
+        return json(new SuccessMessage(),201);
     }
 
     /**
@@ -97,4 +97,8 @@ class Message extends BaseController
         MessageModel::update(['delete_time' => time()],$where);
         return json(new SuccessMessage(),201);
     }
+
+
+
+
 }
