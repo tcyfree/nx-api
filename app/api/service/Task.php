@@ -117,13 +117,13 @@ class Task
                 $task_user = TaskUserModel::get(['user_id' => $uid,'task_id' => $v['id']]);
                 $v['finish'] = $task_user['finish'];
             }
-            try{
-                $last_task_user = TaskUserModel::get(['user_id' => $uid,'task_id' => $data[$k-1]['id']]);
-                $v['last_task_finish'] = $last_task_user['finish'];
-            }catch (Exception $ex){
-                //当第一个任务
-                $v['last_task_finish'] = 1;
-            }
+//            try{
+//                $last_task_user = TaskUserModel::get(['user_id' => $uid,'task_id' => $data[$k-1]['id']]);
+//                $v['last_task_finish'] = $last_task_user['finish'];
+//            }catch (Exception $ex){
+//                //当第一个任务
+//                $v['last_task_finish'] = 1;
+//            }
         }
         return $data;
     }

@@ -64,11 +64,11 @@
         <td>null 未参加 0 普通 1 挑战模式</td>
         <td></td>
     </tr>
-    <tr>
-        <td>last_task_finish</td>
-        <td>判断上一个任务是否完成  </td>
-        <td>null 还未开始 0 正在执行 1 已完成</td>
-    </tr>
+<!--    <tr>-->
+<!--        <td>last_task_finish</td>-->
+<!--        <td>判断上一个任务是否完成  </td>-->
+<!--        <td>null 还未开始 0 正在执行 1 已完成</td>-->
+<!--    </tr>-->
 </table>
     <span class="titlestyle"><font color="red">注：若用户未参加该行动计划的行动社，则去行动计划详情橱窗</font> </span>
 </div>

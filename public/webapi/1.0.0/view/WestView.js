@@ -304,7 +304,7 @@ Ext.define('WebRoot.view.WestView', {
 								{
 									id: 'task_list',
 									text: '任务列表',
-                                    cls: 'redStyle',
+                                    // cls: 'redStyle',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/task_list.php',
 									leaf: true
 								},
