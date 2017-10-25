@@ -43,6 +43,7 @@ class Message extends BaseController
     /**
      * 获取私信详情列表
      * 1 look 是否查看
+     * 2 更新look = 1
      *
      * @param int $page
      * @param int $size
@@ -57,6 +58,8 @@ class Message extends BaseController
         $data = $pageData->visible(['id','user_id','to_user_id','content','type','look','create_time',
             'user_info.user_id','user_info.avatar','user_info.nickname',
             'to_user_info.user_id','to_user_info.avatar','to_user_info.nickname']);
+        MessageModel::update(['look' => 1,'update_time' => time()],
+            ['user_id' => $uid, 'to_user_id' => $to_uid, 'look' => 0, 'delete_time' => 0]);
         return [
             'data' => $data,
             'current_page' => $pageData->currentPage()
