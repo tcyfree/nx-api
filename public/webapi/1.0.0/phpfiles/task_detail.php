@@ -59,7 +59,7 @@
     <tr>
         <td>reference_time</td>
         <td>参考用时</td>
-        <td>&nbsp;时间戳（s）</td>
+        <td>&nbsp;时间（s）</td>
     </tr>
     <tr>
         <td>task_user</td>

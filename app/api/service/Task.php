@@ -23,6 +23,7 @@ use app\lib\exception\AcceleateTaskException;
 use app\lib\exception\ParameterException;
 use app\api\model\TaskFeedbackUsers as TaskFeedbackUsersModel;
 use think\Db;
+use think\Exception;
 
 class Task
 {
@@ -99,6 +100,7 @@ class Task
 
     /**
      * 判断用户是否完成该任务
+     * 判断上一个任务是否完成 last_task_finish null 还未开始 0 正在执行 1 已完成
      * @param $data
      * @param $uid
      * @return mixed
@@ -109,12 +111,18 @@ class Task
         foreach ($res as $v) {
             $patternArray[] = $v['task_id'];
         }
-        foreach ($data as &$v) {
+        foreach ($data as $k => &$v) {
             $v['finish'] = 0;
             if ((in_array($v['id'],$patternArray))){
                 $task_user = TaskUserModel::get(['user_id' => $uid,'task_id' => $v['id']]);
                 $v['finish'] = $task_user['finish'];
-//                $v['finish'] = 1;
+            }
+            try{
+                $last_task_user = TaskUserModel::get(['user_id' => $uid,'task_id' => $data[$k-1]['id']]);
+                $v['last_task_finish'] = $last_task_user['finish'];
+            }catch (Exception $ex){
+                //当第一个任务
+                $v['last_task_finish'] = 1;
             }
         }
         return $data;
@@ -227,5 +235,11 @@ class Task
         return $new_array;
     }
 
+    public function checkLastTaskFinish($task_id,$uid)
+    {
+        $task = TaskModel::checkTaskExists($task_id);
+        $act_plan_id = $task['act_plan_id'];
+
+    }
 
 }
