@@ -240,6 +240,7 @@ class Task extends BaseController
         $validate = new Feedback();
         $validate->goCheck();
         $dataRules = $validate->getDataByRules(input('post.'),'status');
+        $dataRules = input('post.');
         $uid = TokenService::getCurrentUid();
         if (!$dataRules['to_user_id']){
             $task_service = new TaskService();
@@ -288,6 +289,7 @@ class Task extends BaseController
     /**
      * 其他用户给我的反馈
      * 1 待反馈或反馈失效
+     * 2 更新to_look = 1
      *
      * @param int $page
      * @param int $size
@@ -304,7 +306,8 @@ class Task extends BaseController
             })
             ->paginate($size,true,['page' => $page]);
 
-        $data = $pageData->visible(['id','content','status','create_time','task.name','task.requirement','user_info.nickname','user_info.avatar','task.act_plan'])->toArray();
+        $data = $pageData->visible(['id','content','status','to_look','create_time','task.name','task.requirement','user_info.nickname','user_info.avatar','task.act_plan'])->toArray();
+        TaskFeedbackModel::update(['to_look' => 1,'update_time' => time()],['to_user_id' => $uid]);
         return[
             'data' => $data,
             'current_page' => $pageData->currentPage()
