@@ -49,6 +49,11 @@
         <td>是否查看</td>
         <td> 0 否 1 是  </td>
     </tr>
+    <tr>
+        <td>not_look_num</td>
+        <td>未查看私信数量</td>
+        <td> </td>
+    </tr>
 
    <tr>
     <td>nickname</td>

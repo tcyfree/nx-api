@@ -34,6 +34,7 @@ class Message extends BaseModel
      * 私信概要列表
      * 1 显示最新一条私信
      * 2 同步最新时间
+     * 3 获取未查看私信数量
      *
      * @param $page
      * @param $size
@@ -67,6 +68,8 @@ class Message extends BaseModel
             if ($v['from'] == 0){
                 $v['avatar'] = config('setting.img_prefix').$v['avatar'];
             }
+            $v['not_look_num'] = self::where(['user_id' => $v['user_id'],'to_user_id' => $v['to_user_id'],'look' => 0,'delete_time' => 0])
+                ->count();
         }
         return $queryData;
 

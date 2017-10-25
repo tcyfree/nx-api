@@ -28,6 +28,7 @@ class Message extends BaseController
      * 私信概要列表
      * 1 显示最新一条私信
      * 2 同步最新时间
+     * 3 获取未查看私信数量
      *
      * @param int $page
      * @param int $size
