@@ -62,9 +62,9 @@
         <td>&nbsp;时间（s）</td>
     </tr>
     <tr>
-        <td>task_user</td>
-        <td>若用户还未GO，则为null</td>
-        <td>&nbsp;</td>
+        <td lass="inforstyle">task_user</td>
+        <td></td>
+        <td>&nbsp;若用户还未GO，则为[]</td>
     </tr>
     <tr>
         <td>user_id</td>
@@ -82,9 +82,9 @@
         <td>&nbsp;若finish为0，则倒计时为:now-create_time</td>
     </tr>
     <tr>
-        <td class="inforstyle">feedback</td>
+        <td class="inforstyle">task_feedback</td>
         <td>反馈</td>
-        <td>&nbsp;null 未提交反馈/普通模式</td>
+        <td>&nbsp;[] 未提交反馈/普通模式</td>
     </tr>
     <tr>
         <td>content</td>

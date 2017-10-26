@@ -360,6 +360,7 @@ Ext.define('WebRoot.view.WestView', {
 										{
 											id: 'feedback_detail',
 											text: '反馈详情',
+											cls: 'redStyle',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/feedback_detail.php',
 											leaf: true
 										},

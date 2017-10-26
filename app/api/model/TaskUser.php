@@ -26,6 +26,15 @@ class TaskUser extends BaseModel
         return $this->hasOne('Task','id','task_id');
     }
 
+    public function taskUser(){
+        return $this->hasOne('TaskUser','task_id','id');
+    }
+
+    public function feedback()
+    {
+        return $this->hasMany('TaskFeedback','task_id','id');
+    }
+
     /**
      * 检查用户任务是否已经结束
      * @param $uid
