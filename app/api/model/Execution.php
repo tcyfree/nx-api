@@ -31,7 +31,7 @@ class Execution extends BaseModel
     {
         $where['user_id'] = $uid;
         $where['finish']  = 1;
-        $where['tag']     = 1;
+        $where['tag']     = 0;
         $pageData = TaskUserModel::with('task,task.actPlan,task.actPlan.community')
             ->where($where)
             ->order('update_time DESC')
