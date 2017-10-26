@@ -20,6 +20,7 @@ use app\api\service\Task as TaskService;
 use app\api\model\Callback as CallbackModel;
 use think\Db;
 use think\Exception;
+use app\api\model\TaskUser as TaskUserModel;
 
 class TaskFeedback extends BaseModel
 {
@@ -33,6 +34,33 @@ class TaskFeedback extends BaseModel
     public function userInfo()
     {
         return $this->hasOne('UserInfo','user_id','to_user_id');
+    }
+
+    /**
+     * 提交反馈条件判断
+     * 1 检查该任务是否GO
+     * 2 自己不能给自己反馈
+     * 3 普通模式不能参加反馈
+     *
+     * @param $dataRules
+     * @param $uid
+     * @throws ParameterException
+     */
+    public static function checkTaskFeedbackParams($dataRules,$uid)
+    {
+        TaskUserModel::checkExistGO($dataRules['task_id'],$uid);
+
+        if ($uid == $dataRules['to_user_id']){
+            throw new ParameterException([
+                'msg' => '自己不能给自己反馈哦'
+            ]);
+        }
+        $mode = TaskModel::getTaskMode($dataRules['task_id'],$uid);
+        if ($mode == 0){
+            throw new ParameterException([
+                'msg' => '此任务为普通模式参加，不能反馈啦'
+            ]);
+        }
     }
 
     /**
