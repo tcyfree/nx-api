@@ -20,6 +20,7 @@ use app\api\model\Task as TaskModel;
 use app\api\model\TaskAccelerate as TaskAccelerateModel;
 use app\api\model\TaskFeedback as TaskFeedbackModel;
 use app\api\model\TaskRecord as TaskRecordModel;
+use app\api\model\TaskUser;
 use app\api\service\Community as CommunityService;
 use app\api\service\Task as TaskService;
 use app\api\service\Token as TokenService;
@@ -39,6 +40,8 @@ use think\Exception;
 use app\api\service\Execution as ExecutionService;
 use app\api\service\Execution as Es;
 use app\api\model\Callback as CallbackModel;
+use app\api\model\TaskUser as TaskUserModel;
+use app\api\service\TaskFeedback as TaskFeedbackService;
 
 class Task extends BaseController
 {
@@ -239,50 +242,20 @@ class Task extends BaseController
     {
         $validate = new Feedback();
         $validate->goCheck();
-        $dataRules = $validate->getDataByRules(input('post.'),'status');
         $dataRules = input('post.');
         $uid = TokenService::getCurrentUid();
-        if (!$dataRules['to_user_id']){
+        if (isset($dataRules['status'])){
+            unset($dataRules['status']);
+        }
+        if (!isset($dataRules['to_user_id'])){
             $task_service = new TaskService();
             $dataRules['to_user_id'] = $task_service->getRandManagerID($dataRules['task_id']);
         }
         $dataRules['user_id'] = $uid;
-        if ($uid == $dataRules['to_user_id']){
-            throw new ParameterException([
-                'msg' => '自己不能给自己反馈哦'
-            ]);
-        }
-        $mode = TaskModel::getTaskMode($dataRules['task_id'],$uid);
-        if ($mode == 0){
-            throw new ParameterException([
-                'msg' => '此任务为普通模式参加，不能反馈啦'
-            ]);
-        }
-        $res = TaskFeedbackModel::checkTaskFeedback($uid, $dataRules['task_id']);
-
-        if ($res == false){
-            $id = uuid();
-            $dataRules['id'] = $id;
-            Db::startTrans();
-            try{
-                $result = TaskFeedbackModel::create($dataRules);
-                $deadline = $result['create_time'] + 86400;
-                CallbackModel::create(['key_id' => $id, 'user_id' => $uid, 'deadline' => $deadline, 'key_type' => 1]);
-                Db::commit();
-            }catch (Exception $ex){
-                Db::rollback();
-                throw $ex;
-            }
-            return json(new SuccessMessage(),201);
-        }elseif ($res['status'] == 1){
-            TaskFeedbackModel::update(['content' => $dataRules['content'],'location' => $dataRules['location'],'status' => 0, 'update_time' => time()],
-                ['user_id' => $uid,'task_id' => $dataRules['task_id']]);
-            return json(new SuccessMessage(),201);
-        }else{
-            throw new ParameterException([
-                'msg' => '任务待审核或审核通过了'
-            ]);
-        }
+        TaskFeedbackModel::checkTaskFeedbackParams($dataRules,$uid);
+        $feedback_service = new TaskFeedbackService();
+        $feedback_service->referTaskFeedback($dataRules,$uid);
+        return json(new SuccessMessage(),201);
 
     }
 
