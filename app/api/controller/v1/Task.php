@@ -315,7 +315,7 @@ class Task extends BaseController
         (new FeedbackPassOrFail())->goCheck();
         $data = input('put.');
         $uid = TokenService::getCurrentUid();
-        $res = TaskFeedbackModel::get(['to_user_id' => $uid,'id' => $data['id'],'status' => [['eq',0],['eq',1],'or']]);
+        $res = TaskFeedbackModel::get(['to_user_id' => $uid,'id' => $data['id'],'status' => ['in',[0,1]]]);
         if (!$res){
             throw new ParameterException();
         }
