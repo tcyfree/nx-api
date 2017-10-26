@@ -122,7 +122,10 @@ class TaskFeedback extends BaseModel
                 $data['to_user_id'] = $to_user_id;
                 $data['task_id'] = $res['task_id'];
                 $data['content'] = $res['content'];
-                $data['location'] = $res['location'];
+                if (isset($res['location'])){
+                    $data['location'] = $res['location'];
+                }
+
                 $id = uuid();
                 $data['id'] = $id;
                 $result = self::create($data);
