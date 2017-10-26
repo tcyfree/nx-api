@@ -64,7 +64,7 @@
     <tr>
         <td class="inforstyle">task_user</td>
         <td></td>
-        <td>&nbsp;若用户还未GO，则为<span ><font color="red">null</font> </span></td>
+        <td>&nbsp;若用户还未GO，则为<span class="titlestyle"><font color="red">null</font> </span></td>
     </tr>
     <tr>
         <td>user_id</td>
@@ -84,7 +84,7 @@
     <tr>
         <td class="inforstyle">task_feedback</td>
         <td>反馈</td>
-        <td>&nbsp;未提交反馈/普通模式，则为<span ><font color="red">[]</font> </span></td>
+        <td>&nbsp;未提交反馈/普通模式，则为<span class="titlestyle"><font color="red">[]</font> </span></td>
     </tr>
     <tr>
         <td>content</td>
