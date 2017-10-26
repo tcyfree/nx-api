@@ -51,4 +51,21 @@ class TaskUser extends BaseModel
     {
         self::update(['finish' => 1, 'update_time' => time()],['user_id' => $uid, 'task_id' => $task_id]);
     }
+
+    /**
+     * 判断用户是否GO了
+     *
+     * @param $task_id
+     * @param $uid
+     * @throws ParameterException
+     */
+    public static function checkExistGO($task_id, $uid)
+    {
+        $res = self::get(['task_id' => $task_id,'user_id' => $uid]);
+        if (!$res){
+            throw new ParameterException([
+                'msg' => '还未GO哦！'
+            ]);
+        }
+    }
 }
