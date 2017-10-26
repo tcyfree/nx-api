@@ -341,6 +341,31 @@ class Task extends BaseController
 
     }
 
+    /**
+     * 是否有新私信
+     *
+     * @return array
+     */
+    public function getNotLook()
+    {
+        $uid = TokenService::getCurrentUid();
+        $where['to_user_id'] = $uid;
+        $where['status'] = ['in','0,1'];
+        $where['to_look'] = 0;
+        $res = TaskFeedbackModel::where($where)
+            ->field('to_look')
+            ->find();
+        if (!$res){
+            return [
+                'look' => false
+            ];
+        }else{
+            return [
+                'look' => true
+            ];
+        }
+    }
+
     public function test()
     {
         $t = new Es();
