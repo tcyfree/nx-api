@@ -42,7 +42,7 @@ class TaskFeedback extends BaseModel
      */
     public static function checkTaskFeedback($user_id, $task_id){
         TaskModel::checkTaskExists($task_id);
-        $res = self::get(['user_id' => $user_id, 'task_id' => $task_id]);
+        $res = self::get(['user_id' => $user_id, 'task_id' => $task_id, 'status' => [['eq',0],['eq',1],'or']]);
         if (!$res){
            return false;
         }else{
