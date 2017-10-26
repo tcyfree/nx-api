@@ -305,6 +305,7 @@ class Task extends BaseController
     /**
      * 审核任务通过或不通过
      * 1 注销24小时回调
+     * 2 处理待审核或未通过审核反馈
      *
      * @return \think\response\Json
      * @throws Exception
@@ -314,7 +315,7 @@ class Task extends BaseController
         (new FeedbackPassOrFail())->goCheck();
         $data = input('put.');
         $uid = TokenService::getCurrentUid();
-        $res = TaskFeedbackModel::get(['to_user_id' => $uid,'id' => $data['id']]);
+        $res = TaskFeedbackModel::get(['to_user_id' => $uid,'id' => $data['id'],'status' => [['eq',0],['eq',1],'or']]);
         if (!$res){
             throw new ParameterException();
         }
