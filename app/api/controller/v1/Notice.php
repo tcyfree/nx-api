@@ -89,4 +89,43 @@ class Notice extends BaseController
 
         return json(new SuccessMessage(),201);
     }
+
+    /**
+     * 查看以下之一是否有新消息
+     * 1 提醒
+     * 2 私信
+     * 3 反馈
+     *
+     * @return array
+     */
+    public function getAllNotLook()
+    {
+        $notice = $this->getNoticeLook();
+        if ($notice['look']){
+            return [
+                'look' => true
+            ];
+        }
+
+        $message = new Message();
+        $res = $message->getNotLook();
+        if ($res['look']){
+            return [
+                'look' => true
+            ];
+        }
+
+        $feedback = new Task();
+        $res = $feedback->getNotLook();
+        if ($res['look']){
+            return [
+                'look' => true
+            ];
+        }
+
+        return [
+            'look' => false
+        ];
+    }
+
 }

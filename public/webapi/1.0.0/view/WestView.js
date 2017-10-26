@@ -534,6 +534,12 @@ Ext.define('WebRoot.view.WestView', {
 									text: '清空提醒',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/notice_delete.php',
 									leaf: true
+								},
+								{
+									id: 'all_look',
+									text:'所有未读',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/all_look.php',
+									leaf: true
 								}
 							]
 						},

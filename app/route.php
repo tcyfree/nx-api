@@ -131,6 +131,7 @@ Route::group(':version/notice',function (){
     Route::get('','api/:version.Notice/getNoticeList');
     Route::get('/look','api/:version.Notice/getNoticeLook');
     Route::delete('','api/:version.Notice/clearNotice');
+    Route::get('/all_look','api/:version.Notice/getAllNotLook');
 });
 
 /**
