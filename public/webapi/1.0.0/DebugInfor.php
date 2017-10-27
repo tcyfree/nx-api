@@ -23,13 +23,16 @@
 <!--<p>（4）验证记录：方法名必须命名为：模块名_verify，例如:client_verify 表示验证用户合法;</p>-->
 <!--<p>（5）查询单条：方法名必须命名为：模块名_get，例如:client_get 表示查询单用户详情;</p>-->
 <!--<p>（6）查询多条：方法名必须命名为：模块名_list，例如:client_list 表示查询用户列表;</p>-->
-<p class="subtitlestyle">2、所有服务接口，返回数据采用JSON格式
+        <p class="subtitlestyle">2、所有服务接口，返回数据采用JSON格式</p>
 <!--    其中都必包含3个关键字段：<span class="inforstyle">success 、msg 和 processTime</span></p>-->
 <!--<p>其中：<span class="inforstyle">success</span>取值为true或false，代表服务处理成功或失败，msg为服务器处理结果描述信息。processTime表示服务器处理时间</p>-->
 <!--<p>例如：用户登录服务，如果登录成功，服务器返回的数据为：<span class="inforstyle">{&quot;success&quot;:true,&quot;msg&quot;:&quot;登录成功&quot;}</span></p>-->
 <!--<p>(1)msg仅仅是为了方便您调试而提供的一般性描述性信息，可能会随着项目的进行而有所变化，故此字段不能成为您程序的判断依赖标准。</p>-->
 <!--<p>(2)如果<span class="inforstyle">success为false</span>，而失败情况又分不同情形时，服务器会提供一个error_code字段标识来加以区分，具体含义请查询 <a href="#" onclick="javascript:sysOpenTab('menu_errorcode','错误编码表','phpfiles/error_code.php')">错误编码表</a> 。</p>-->
 <!--<p class="subtitlestyle">6、为确保安全，所有声明的变量，不接受任何 GET 形式传递，请以 <span class="inforstyle">POST方式提交</span>。</p>-->
+        <p class="subtitlestyle">3、所有服务接口，若某个参数不是必须提交，则不要xxx = ''或""。
+            <span class="titlestyle"><font color="red">注：''或""中间没有空格</font> </span>
+        </p>
     </div>
     </form>
     
