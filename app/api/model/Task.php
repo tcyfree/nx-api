@@ -71,7 +71,7 @@ class Task extends BaseModel
         $res = self::get(['id' => $id]);
         if(!$res){
             throw new ParameterException([
-                'msg' => '该任务不存在，请检查ID'
+                'msg' => '该任务不存在，请检查ID'.$id
             ]);
         }
         return $res;

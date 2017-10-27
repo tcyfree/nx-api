@@ -78,7 +78,7 @@ class Task
         $task = TaskModel::get($data['task_id']);
         if (!$task){
             throw new ParameterException([
-                'msg' => '该任务不存在，请检查ID'
+                'msg' => '该任务不存在，请检查ID'.$data['task_id']
             ]);
         }
         TaskUserModel::checkTaskUserFinish($data['user_id'],$data['task_id']);

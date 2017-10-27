@@ -110,13 +110,17 @@ class TaskFeedback extends BaseModel
     public static function withinTwentyFourHours($v,$log)
     {
         $res = self::get(['id' => $v['key_id']]);
+        if (!$res){
+            return;
+        }
         Db::startTrans();
         try{
             $task_service = new TaskService();
             $to_user_id = $task_service->getRandManagerID($res['task_id']);
             if ($res['to_user_id'] == $to_user_id){
                 self::update(['status' => 0,'update_time' => time()],['id' => $res['id']]);
-                CallbackModel::update(['deadline' => $v['deadline']+86400],['id' => $v['id']]);
+                $deadline = $v['deadline'] + config('setting.feedback_expire_in');
+                CallbackModel::update(['deadline' => $deadline],['id' => $v['id']]);
             }else{
                 CallbackModel::cancelCallback($v['id']);
                 self::update(['status' => 3],['id' => $res['id']]);
@@ -131,7 +135,7 @@ class TaskFeedback extends BaseModel
                 $id = uuid();
                 $data['id'] = $id;
                 $result = self::create($data);
-                $deadline = $result['create_time'] + 86400;
+                $deadline = $result['create_time'] + config('setting.feedback_expire_in');
                 CallbackModel::create(['key_id' => $id, 'user_id' => $res['user_id'], 'deadline' => $deadline, 'key_type' => 1]);
             }
             Db::commit();
