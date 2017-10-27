@@ -30,7 +30,7 @@
 <!--<p>(1)msg仅仅是为了方便您调试而提供的一般性描述性信息，可能会随着项目的进行而有所变化，故此字段不能成为您程序的判断依赖标准。</p>-->
 <!--<p>(2)如果<span class="inforstyle">success为false</span>，而失败情况又分不同情形时，服务器会提供一个error_code字段标识来加以区分，具体含义请查询 <a href="#" onclick="javascript:sysOpenTab('menu_errorcode','错误编码表','phpfiles/error_code.php')">错误编码表</a> 。</p>-->
 <!--<p class="subtitlestyle">6、为确保安全，所有声明的变量，不接受任何 GET 形式传递，请以 <span class="inforstyle">POST方式提交</span>。</p>-->
-        <p class="subtitlestyle">3、所有服务接口，若某个参数不是必须提交，则不要xxx = ''或""。
+        <p class="subtitlestyle">3、所有服务接口，若某个参数不是必须提交，则不要xxx = null、''或""。
             <span class="titlestyle"><font color="red">注：''或""中间没有空格</font> </span>
         </p>
     </div>

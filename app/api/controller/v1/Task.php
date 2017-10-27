@@ -303,7 +303,7 @@ class Task extends BaseController
         $id = input('get.id');
         $res = TaskFeedbackModel::checkTaskFeedbackStatus($id);
 
-        return $res->visible(['id','content']);
+        return $res;
 
     }
 

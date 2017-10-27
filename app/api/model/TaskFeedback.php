@@ -79,7 +79,9 @@ class TaskFeedback extends BaseModel
     }
 
     public static function checkTaskFeedbackStatus($id){
-        $res = self::get(['id' => $id]);
+        $res = self::with('task')
+            ->where(['id' => $id])
+            ->find();
         if (!$res){
             throw new ParameterException();
         }elseif ($res['status'] == 2 || $res['status'] == 3){
