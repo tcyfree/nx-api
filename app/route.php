@@ -75,7 +75,7 @@ Route::group(':version/plan',function (){
  */
 Route::group(':version/task',function (){
     Route::get('/feedback/look','api/:version.Task/getNotLook');
-    Route::get('test','api/:version.Task/test');
+    Route::post('/test','api/:version.Task/test');
     Route::post('','api/:version.Task/createTask');
     Route::put('','api/:version.Task/updateTask');
     Route::put('/accelerate','api/:version.Task/accelerateTask');

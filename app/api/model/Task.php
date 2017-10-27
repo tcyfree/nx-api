@@ -129,7 +129,7 @@ class Task extends BaseModel
         $mode = ActPlanUserModel::get(['user_id' => $uid, 'act_plan_id' => $res['act_plan_id']]);
         if (!$mode){
             throw new ParameterException([
-                'msg' => '不存在！'
+                'msg' => '未参加该行动计划！'
             ]);
         }
 

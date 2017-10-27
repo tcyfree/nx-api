@@ -161,6 +161,7 @@ class Task extends BaseController
         $return_data['task'] = TaskModel::get(['id' => $id]);
         $return_data['task_user'] = TaskUserModel::get(['task_id' => $id,'user_id' => $uid]);
         $return_data['task_feedback'] = TaskFeedbackModel::all(['task_id' => $id,'user_id' => $uid,'status' => ['in','0,1,2']]);
+//        $return_data['task_feedback'] = TaskFeedbackModel::all(['task_id' => $id,'user_id' => $uid,'status' => [['eq',0],['eq',1],['eq',2],'or']]);
 //        $data = TaskUserModel::with('taskUser,feedback')->where(['task_id' => $id,'user_id' => $uid])->find();
 //        $return_data = $data->visible(['id','name','requirement','content','reference_time','task_user.user_id',
 //                                        'task_user.finish','task_user.create_time',
@@ -250,13 +251,14 @@ class Task extends BaseController
         if (isset($dataRules['status'])){
             unset($dataRules['status']);
         }
-        if (!isset($dataRules['to_user_id'])){
+        if (!isset($dataRules['to_user_id']) || empty($dataRules['to_user_id'])){
+            unset($dataRules['to_user_id']);
             $task_service = new TaskService();
             $dataRules['to_user_id'] = $task_service->getRandManagerID($dataRules['task_id']);
         }
         $dataRules['user_id'] = $uid;
-        TaskFeedbackModel::checkTaskFeedbackParams($dataRules,$uid);
         $feedback_service = new TaskFeedbackService();
+        TaskFeedbackModel::checkTaskFeedbackParams($dataRules,$uid);
         $feedback_service->referTaskFeedback($dataRules,$uid);
         return json(new SuccessMessage(),201);
 
@@ -282,7 +284,7 @@ class Task extends BaseController
             })
             ->paginate($size,true,['page' => $page]);
 
-        $data = $pageData->visible(['id','content','status','to_look','create_time','task.name','task.requirement','user_info.nickname','user_info.avatar','task.act_plan'])->toArray();
+        $data = $pageData->visible(['id','content','status','to_look','create_time','task.id','task.name','task.requirement','user_info.nickname','user_info.avatar','task.act_plan'])->toArray();
         TaskFeedbackModel::update(['to_look' => 1,'update_time' => time()],['to_user_id' => $uid]);
         return[
             'data' => $data,
@@ -371,8 +373,27 @@ class Task extends BaseController
 
     public function test()
     {
-        $t = new Es();
-        $t->checkActPlanUserFinish('8b47815b-0f9c-0811-3a6a-accc9e4acdbd','b9d25df4-8e9e-f917-f559-4872db0b9ea6');
+//        $t = new Es();
+//        $t->checkActPlanUserFinish('8b47815b-0f9c-0811-3a6a-accc9e4acdbd','b9d25df4-8e9e-f917-f559-4872db0b9ea6');
+        $dataRules = input('post.');
+        $dataRules['id'] = uuid();
+        $dataRules['user_id'] = '0a9064ba-711f-5049-9300-c0cc88e1edf7';
+        print_r($dataRules);
+        $result = TaskFeedbackModel::create($dataRules);
+        $uid = TokenService::getCurrentUid();
+        $id = uuid();
+        $dataRules['id'] = $id;
+        Db::startTrans();
+        try{
+            $result = TaskFeedbackModel::create($dataRules);
+            $deadline = $result['create_time'] + 86400;
+            CallbackModel::create(['key_id' => $id, 'user_id' => $uid, 'deadline' => $deadline, 'key_type' => 1]);
+            Db::commit();
+        }catch (Exception $ex){
+            Db::rollback();
+            throw $ex;
+        }
+
     }
 
 }
