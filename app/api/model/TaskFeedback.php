@@ -33,7 +33,7 @@ class TaskFeedback extends BaseModel
 
     public function userInfo()
     {
-        return $this->hasOne('UserInfo','user_id','to_user_id');
+        return $this->hasOne('UserInfo','user_id','user_id');
     }
 
     /**
