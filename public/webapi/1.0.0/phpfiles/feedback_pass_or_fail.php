@@ -32,7 +32,7 @@
    <td>pass</td>
    <td >通过与否</td>
    <td>是</td>
-   <td>true 通过  false 不通过</td>
+   <td>1 通过  0 不通过</td>
  </tr>
     <tr>
         <td>reason</td>

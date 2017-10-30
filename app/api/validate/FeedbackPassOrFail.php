@@ -18,6 +18,6 @@ class FeedbackPassOrFail extends BaseValidate
 {
     protected $rule = [
         'id' => 'require|length:36',
-        'pass' => 'require|boolean'
+        'pass' => 'require|in:0,1'
     ];
 }
