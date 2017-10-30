@@ -268,6 +268,8 @@ class Community extends BaseController
     /**
      * 成员列表
      * 权限：社长、管理员、付费用户
+     * 将自己user_id 加入列表中
+     *
      * @param $id
      * @param $page
      * @param $size
@@ -280,7 +282,8 @@ class Community extends BaseController
 
         $cs = new CommunityService();
         $params['community_id'] = $id;
-        $params['user_id'] = TokenService::getCurrentUid();
+        $uid = TokenService::getCurrentUid();
+        $params['user_id'] = $uid;
         $cs->checkAuthority($params);
         $page = $page - 1;
 
@@ -305,6 +308,9 @@ class Community extends BaseController
         foreach ($data as &$v) {
             $newData[$v['char_index']][] = $v;
         }
+
+        $data['user_id'] = $uid;
+        $newData['user_id'] = $uid;
 
         return [
             'origin_data' => $data,
