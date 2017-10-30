@@ -100,7 +100,7 @@ class Task extends BaseModel
             ]);
         }
         $task = TaskModel::where('id', $task_id)->field('act_plan_id,reference_time')->find();
-        $act_plan_user_mode = ActPlanUserModel::where('act_plan_id',$task['act_plan_id'])->field('mode')->find();
+        $act_plan_user_mode = ActPlanUserModel::where(['act_plan_id'=>$task['act_plan_id'],'user_id' => $uid])->field('mode')->find();
         $id = uuid();
         Db::startTrans();
         try{
@@ -110,6 +110,7 @@ class Task extends BaseModel
             if ($act_plan_user_mode['mode'] == 0){
                 CallbackModel::create(['key_id' => $task_id, 'user_id' => $uid, 'deadline' => $deadline]);
             }
+
             Db::commit();
         }catch (Exception $ex)
         {
