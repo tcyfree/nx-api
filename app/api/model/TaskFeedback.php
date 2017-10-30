@@ -50,11 +50,11 @@ class TaskFeedback extends BaseModel
     {
         TaskUserModel::checkExistGO($dataRules['task_id'],$uid);
 
-        if ($uid == $dataRules['to_user_id']){
-            throw new ParameterException([
-                'msg' => '自己不能给自己反馈哦'
-            ]);
-        }
+//        if ($uid == $dataRules['to_user_id']){
+//            throw new ParameterException([
+//                'msg' => '自己不能给自己反馈哦'
+//            ]);
+//        }
         $mode = TaskModel::getTaskMode($dataRules['task_id'],$uid);
         if ($mode == 0){
             throw new ParameterException([
