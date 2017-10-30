@@ -59,7 +59,7 @@ class IncomeExpenses extends BaseModel
             $dataArray['user_id'] = $community_user->user_id;
             $dataArray['type'] = 1;
             IncomeExpensesUser::create($dataArray);
-            self::updateWallet($dataArray['user_id'],$data['fee']*(1-config('fee.withdrawal fee')),true);
+            self::updateWallet($dataArray['user_id'],$data['fee']*(1-config('fee.withdrawal_fee')),true);
 
             //记录行动计划参加用户
             $actData['user_id'] = $uid;

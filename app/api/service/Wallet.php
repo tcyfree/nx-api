@@ -57,7 +57,7 @@ class Wallet
     {
         foreach ($data as &$v){
             if ($v['type'] == 1){
-                $v['income_expenses']['fee'] = strval(($v['income_expenses']['fee'])*(1-config('fee.withdrawal fee')));
+                $v['income_expenses']['fee'] = strval(($v['income_expenses']['fee'])*(1-config('fee.withdrawal_fee')));
             }
         }
 
