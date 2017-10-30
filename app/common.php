@@ -319,3 +319,34 @@ function sys_processTime(){
     $processTime = number_format($totalTime, 7);
     return $processTime.'s';
 }
+
+/**
+ * 1 数组 ==> 对象
+ * 2 对象 ==> 数组
+ * 3 return $params
+ *
+ * @param $params
+ * @return StdClass
+ * @throws \app\lib\exception\ParameterException
+ */
+function interConvertArrayObject($params)
+{
+    if (is_object($params)) {
+        foreach ($params as $key => $value) {
+            $array[$key] = $value;
+        }
+        return $array;
+    }
+    else if (is_array($params)) {
+        $obj = new StdClass();
+        foreach ($params as $key => $val){
+            $obj->$key = $val;
+        }
+        return $obj;
+    }
+    else{
+        throw new \app\lib\exception\ParameterException([
+            'msg' => '参数 '.$params.' 非数组或对象'
+        ]);
+    }
+}
