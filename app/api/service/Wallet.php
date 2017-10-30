@@ -20,13 +20,23 @@ class Wallet
 {
     /**
      * 获取行动计划费用
+     * 1 判断是否挑战模式参加普通行动计划
+     *
      * @param $id
+     * @param $mode
      * @return mixed
+     * @throws ParameterException
      */
-    public static function getActPlanFee($id)
+    public static function getActPlanFee($id,$mode)
     {
-        ActPlanModel::checkActPlanExists($id);
-        $res = ActPlanModel::get(['id' => $id,]);
+        $res = ActPlanModel::checkActPlanExists($id);
+        if ($res['mode'] == 0){
+            if ($mode == 1){
+                throw new ParameterException([
+                    'msg' => '不能以挑战模式参加该行动计划'
+                ]);
+            }
+        }
 
         return $res->fee;
     }

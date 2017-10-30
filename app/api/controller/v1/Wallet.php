@@ -11,15 +11,15 @@ namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
 use app\api\model\IncomeExpenses as IncomeExpensesModel;
+use app\api\model\IncomeExpensesUser as IncomeExpensesUserModel;
+use app\api\model\Recharge as RechargeModel;
+use app\api\model\UserProperty as UserPropertyModel;
 use app\api\service\Token;
 use app\api\service\Token as TokenService;
+use app\api\service\Wallet as WalletService;
 use app\api\validate\Expenses;
 use app\api\validate\PagingParameter;
 use app\lib\exception\SuccessMessage;
-use app\api\service\Wallet as WalletService;
-use app\api\model\IncomeExpensesUser as IncomeExpensesUserModel;
-use app\api\model\UserProperty as UserPropertyModel;
-use app\api\model\Recharge as RechargeModel;
 
 class Wallet extends BaseController
 {
@@ -30,7 +30,8 @@ class Wallet extends BaseController
 
     /**
      * 购买行动计划
-     * 1 检查参加费用是否和创建行动计划任务费用相同
+     * 1 检查参加模式是否包含在行动计划模式内
+     *
      * @return \think\response\Json
      */
     public function expensesActPlan()
@@ -38,7 +39,7 @@ class Wallet extends BaseController
         (new Expenses())->goCheck();
         $data = input('delete.');
         $uid = TokenService::getCurrentUid();
-        $data['fee'] = WalletService::getActPlanFee($data['act_plan_id']);
+        $data['fee'] = WalletService::getActPlanFee($data['act_plan_id'],$data['mode']);
         IncomeExpensesModel::place($uid,$data);
 
         return json(new SuccessMessage(),201);
