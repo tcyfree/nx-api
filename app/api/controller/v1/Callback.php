@@ -16,6 +16,8 @@ use app\api\controller\BaseController;
 use app\api\model\Callback as CallbackModel;
 use app\api\model\Task as TaskModel;
 use app\api\model\TaskFeedback as TaskFeedbackModel;
+use think\Exception;
+use think\Log;
 
 class Callback extends BaseController
 {
@@ -25,6 +27,8 @@ class Callback extends BaseController
      * 1 挑战模式不通过此接口结束任务
      * 2 24小时反馈回调
      * 3 去掉白名单检查
+     * 4 记录错误信息
+     * 5 统一日志记录位置
      *
      */
     public function doCallback()
@@ -32,22 +36,34 @@ class Callback extends BaseController
 //        $this->checkIPWhiteList();
         $where['status'] = ['neq',1];
         $callback_array = CallbackModel::whereTime('deadline','<=',time())->where($where)->select()->toArray();
-        $log = $_SERVER['DOCUMENT_ROOT'].'/linux/callback.log';
-        if ($callback_array){
-            foreach ($callback_array as $v){
-                switch ($v['key_type']){
-                    case 0:
-                        TaskModel::missionComplete($v,$log);
-                        break;
-                    case 1:
-                        TaskFeedbackModel::withinTwentyFourHours($v,$log);
-                        break;
-                    default:
-                        continue;
+//        $log = $_SERVER['DOCUMENT_ROOT'].'/linux/callback.log';
+        $log = LOG_PATH.'callback.log';
+        $error_log = LOG_PATH.'callback_error.log';
+        try{
+            if ($callback_array){
+                foreach ($callback_array as $v){
+                    switch ($v['key_type']){
+                        case 0:
+                            TaskModel::missionComplete($v,$log);
+                            break;
+                        case 1:
+                            TaskFeedbackModel::withinTwentyFourHours($v,$log);
+                            break;
+                        default:
+                            continue;
+                    }
                 }
+                return;
             }
-            return;
+        }catch (Exception $ex){
+            $res = interConvertArrayObject($ex);
+            if (is_array($res)){
+                unset($res['xdebug_message']);
+            }
+            file_put_contents($error_log, json_encode($res,JSON_UNESCAPED_UNICODE).' '.date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
+            return $res;
         }
-//        file_put_contents($log, 'callback_'.date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
+
     }
+
 }
