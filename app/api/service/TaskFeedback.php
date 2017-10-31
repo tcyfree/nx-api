@@ -55,10 +55,10 @@ class TaskFeedback
         }elseif ($res['status'] == 1){
             if (isset($dataRules['location'])){
                 TaskFeedbackModel::update(['content' => $dataRules['content'],'location' => $dataRules['location'],'status' => 0, 'update_time' => time()],
-                    ['user_id' => $uid,'task_id' => $dataRules['task_id']]);
+                    ['user_id' => $uid,'task_id' => $dataRules['task_id'],'status' => 1]);
             }else{
                 TaskFeedbackModel::update(['content' => $dataRules['content'],'status' => 0, 'update_time' => time()],
-                    ['user_id' => $uid,'task_id' => $dataRules['task_id']]);
+                    ['user_id' => $uid,'task_id' => $dataRules['task_id'],'status' => 1]);
             }
 
             return json(new SuccessMessage(),201);
