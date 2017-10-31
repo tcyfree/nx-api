@@ -201,7 +201,7 @@ class Task extends BaseController
     public function accelerateTask(){
         (new AccelerateTask())->goCheck();
         $uid = TokenService::getCurrentUid();
-        $data = input('post.');
+        $data = input('put.');
         if ($uid == $data['user_id']){
             throw new ParameterException([
                 'msg' => '小样儿，自己不能给自己加速哦'

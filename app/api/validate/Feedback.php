@@ -17,7 +17,7 @@ namespace app\api\validate;
 class Feedback extends BaseValidate
 {
     protected $rule = [
-        'content' => 'require|max:512',
+        'content' => 'require|max:2048',
         'task_id' => 'require|length:36',
         'to_user_id' => 'length:36',
         'location' => 'max:255'
