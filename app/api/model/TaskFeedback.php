@@ -36,6 +36,11 @@ class TaskFeedback extends BaseModel
         return $this->hasOne('UserInfo','user_id','user_id');
     }
 
+    public function toUserInfo()
+    {
+        return $this->hasOne('UserInfo','user_id','to_user_id');
+    }
+
     /**
      * 提交反馈条件判断
      * 1 检查该任务是否GO
