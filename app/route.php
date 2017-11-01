@@ -33,7 +33,9 @@ Route::group(':version/user', function(){
 Route::group(':version/oss',function(){
     Route::get('/sts','api/:version.OSSManager/getSecurityToken');
     Route::get('/policy','api/:version.OSSManager/getPolicySignature');
+    Route::get('/policy_callback','api/:version.OSSManager/getPolicySignatureCallback');
     Route::post('/upload','api/:version.OSSManager/uploadOSS');
+    Route::get('/callback','api/:version.OSSManager/callbackResponse');
     Route::get('/test','api/:version.OSSManager/test');
 });
 
