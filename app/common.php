@@ -234,6 +234,7 @@ function qr_code_add_circular_corner($qrcode_width,$qrcode)
  *
  * @param $logo
  * @param $path_prefix
+ * @param $QR
  * @return string
  */
 function qr_code_add_logo($logo,$path_prefix,$QR)
