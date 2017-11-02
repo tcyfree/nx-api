@@ -500,7 +500,7 @@ class Community extends BaseController
     {
         $url = 'http://weixin.xingdongshe.com/template/groupPage.html?id=ec685e49-3456-6a37-8220-be6bb35868ae';
         $image_process = new ImageProcessingService();
-        $cover_image = 'http://xds-test.oss-cn-beijing.aliyuncs.com/user-dir/undefinedWF3TUGcxPzpezREs9x7yuUnp1nDpmBU.png';
+        $cover_image = 'http://xds-test.oss-cn-beijing.aliyuncs.com/user-dir/LChyEXjTEJzVY6WSUPETRSqBQqW5VH3v.png';
         $res = $image_process->getQRCodeByCoverImage($url,$cover_image);
         $process_time = sys_processTime();
         return [
