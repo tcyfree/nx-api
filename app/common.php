@@ -168,32 +168,78 @@ function downloadImage($url) {
     }
 }
 /**
- * 社区二维码链接
+ *  社区二维码链接
+ * 1. 生成二维码图片，！！！！！！不会被覆盖，qrcode.png用完以后记得删除
+ * 2. 将圆角图片拷贝到二维码中央
+ * 3.将logo拷贝到二维码中央
+ *
  * @param string $url
  * @param string $logo
  * @return string
  */
-function qr_code($url,$logo){
+function qr_code($url,$logo)
+{
     //引入核心库文件
-//    include 'phpqrcode/phpqrcode.php';
-    \think\Loader::import('phpqrcode/phpqrcode',EXTEND_PATH,'.php');
+    \think\Loader::import('phpqrcode/phpqrcode', EXTEND_PATH, '.php');
     //二维码内容
     $text = $url;
 //    file_put_contents($_SERVER['DOCUMENT_ROOT'].'/static/oss/images/qr_cod.log',
 //        'url: '.$url.' '.'text: '.$text.' '.date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
     //容错级别
-    $errorCorrectionLevel = 'H';
+    $errorCorrectionLevel = 'Q';
     //生成图片大小
-    $matrixPointSize = 9;
+    $matrixPointSize = 6;
     //路径前缀
     $path_prefix = 'static/oss/images/';
     //生成二维码图片，！！！！！！不会被覆盖，qrcode.png用完以后记得删除
-    $QR = QRcode::png($text, $path_prefix.'qrcode.png', $errorCorrectionLevel, $matrixPointSize, 2);
-    $logo = APP_PATH.'../public/static/oss/images/'.$logo;//准备好的logo图片
-    $QR = $path_prefix.'qrcode.png';//已经生成的原始二维码图
+    $QR = QRcode::png($text, $path_prefix . 'qrcode.png', $errorCorrectionLevel, $matrixPointSize, 2);
+    $filename = $path_prefix . 'qrcode.png';
+    //获取二维码
+    $qrcode = file_get_contents($filename);
+    $qrcode = imagecreatefromstring($qrcode);
+    $qrcode_width = imagesx($qrcode);
+    $qrcode_height = imagesy($qrcode);
 
+    qr_code_add_circular_corner($qrcode_width,$qrcode);
+    $final_filename = qr_code_add_logo($logo,$path_prefix,$qrcode);
+    imagedestroy($qrcode);
+    return $final_filename;
+}
+
+/**
+ * 计算圆角图片的宽高及相对于二维码的摆放位置,将圆角图片拷贝到二维码中央
+ *
+ * @param $qrcode_width
+ * @param $qrcode
+ */
+function qr_code_add_circular_corner($qrcode_width,$qrcode)
+{
+    //圆角图片
+    $corner_path = APP_PATH.'../public/static/images/corner_1.png';
+    $corner = file_get_contents($corner_path);
+    $corner = imagecreatefromstring($corner);
+    $corner_width = imagesx($corner);
+    $corner_height = imagesy($corner);
+
+    //计算圆角图片的宽高及相对于二维码的摆放位置,将圆角图片拷贝到二维码中央
+    $corner_qr_height = $corner_qr_width = $qrcode_width/4;
+    $from_width = ($qrcode_width-$corner_qr_width)/2;
+    imagecopyresampled($qrcode, $corner, $from_width, $from_width, 0, 0, $corner_qr_width, $corner_qr_height, $corner_width, $corner_height);
+    imagedestroy($corner);
+}
+
+/**
+ * 计算logo图片的宽高及相对于二维码的摆放位置,将logo拷贝到二维码中央
+ * 1 注意logo颜色失真
+ *
+ * @param $logo
+ * @param $path_prefix
+ * @return string
+ */
+function qr_code_add_logo($logo,$path_prefix,$QR)
+{
+    $logo = APP_PATH.'../public/static/oss/images/'.$logo;//准备好的logo图片
     if ($logo !== FALSE) {
-        $QR = imagecreatefromstring(file_get_contents($QR));
         $logo = imagecreatefromstring(file_get_contents($logo));
         if (imageistruecolor($logo))
         {
@@ -203,7 +249,7 @@ function qr_code($url,$logo){
         $QR_height = imagesy($QR);//二维码图片高度
         $logo_width = imagesx($logo);//logo图片宽度
         $logo_height = imagesy($logo);//logo图片高度
-        $logo_qr_width = $QR_width / 4;
+        $logo_qr_width = $QR_width / 4 - 6;
         $scale = $logo_width/$logo_qr_width;
         $logo_qr_height = $logo_height/$scale;
         $from_width = ($QR_width - $logo_qr_width) / 2;
@@ -214,6 +260,7 @@ function qr_code($url,$logo){
     $filename = 'qr_code'.date("YmdHis") . uniqid();
     //输出图片
     imagepng($QR, $path_prefix.$filename.'.png');
+    imagedestroy($logo);
 //    echo "<img src=".$filename.".png >";
     //返回生产图片的文件名
     return $filename.'.png';
