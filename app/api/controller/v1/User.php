@@ -18,6 +18,7 @@ use app\api\controller\BaseController;
 use app\api\validate\Advice;
 use app\api\validate\Number;
 use app\api\validate\PagingParameter;
+use app\api\validate\UserID;
 use app\api\validate\UUID;
 use app\lib\exception\UserException;
 use app\api\validate\UerInfo as UserInfoValidate;
@@ -35,6 +36,8 @@ class User extends BaseController
 
     /**
      * 获取用户信息
+     * 1 校验user_id
+     *
      * @return array|false|\PDOStatement|string|\think\Model
      */
     public function getUserInfo(){
