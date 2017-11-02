@@ -51,7 +51,8 @@ class TaskFeedback
                 Db::rollback();
                 throw $ex;
             }
-            return json(new SuccessMessage(),201);
+            return true;
+//            return json(new SuccessMessage(),201);
         }elseif ($res['status'] == 1){
             if (isset($dataRules['location'])){
                 TaskFeedbackModel::update(['content' => $dataRules['content'],'location' => $dataRules['location'],'status' => 0, 'update_time' => time()],
@@ -61,7 +62,8 @@ class TaskFeedback
                     ['user_id' => $uid,'task_id' => $dataRules['task_id'],'status' => 1]);
             }
 
-            return json(new SuccessMessage(),201);
+//            return json(new SuccessMessage(),201);
+            return true;
         }else{
             throw new ParameterException([
                 'msg' => '任务待审核或审核通过了'
