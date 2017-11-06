@@ -129,7 +129,6 @@ class Message extends BaseController
                 'look' => true
             ];
         }
-
     }
 
 }

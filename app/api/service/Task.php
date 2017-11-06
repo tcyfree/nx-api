@@ -75,10 +75,11 @@ class Task
      */
     public function checkAccelerateTask($data){
 
-        $task = TaskModel::get($data['task_id']);
+        $task = TaskModel::get(['id' => $data['task_id']]);
+
         if (!$task){
             throw new ParameterException([
-                'msg' => '该任务不存在，请检查ID'.$data['task_id']
+                'msg' => '该任务不存在，请检查ID:'.$data['task_id']
             ]);
         }
         TaskUserModel::checkTaskUserFinish($data['user_id'],$data['task_id']);
