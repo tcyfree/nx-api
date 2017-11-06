@@ -47,12 +47,12 @@ class TaskAccelerate extends BaseModel
             $dataArray['task_id'] = $data['task_id'];
             self::create($dataArray);
             $res = CallbackModel::get(['user_id' => $uid, 'key_id' => $data['task_id']]);
-            $res = $res->toArray();
             if (!$res){
                 throw new ParameterException([
                     'msg' => '回调不存在！'
                 ]);
             }
+            $res = $res->toArray();
             TaskModel::missionComplete($res,$log);
 //            TaskUserModel::newTaskUser($data['user_id'],  $data['task_id']);
             Db::commit();
