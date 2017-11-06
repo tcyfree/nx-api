@@ -46,7 +46,8 @@ class TaskAccelerate extends BaseModel
             $dataArray['user_id'] = $data['user_id'];
             $dataArray['task_id'] = $data['task_id'];
             self::create($dataArray);
-            $res = CallbackModel::get(['user_id' => $uid, 'key_id' => $data['task_id']])->toArray();
+            $res = CallbackModel::get(['user_id' => $uid, 'key_id' => $data['task_id']]);
+            $res = $res->toArray();
             if (!$res){
                 throw new ParameterException([
                     'msg' => '回调不存在！'
