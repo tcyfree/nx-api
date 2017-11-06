@@ -53,6 +53,7 @@ class Community extends BaseController
      * 2.判断是否和用户相关的行动是否达到上限5个
      * 3.生成二维码
      * 4.删除多余字段：qr_prefix_url
+     * 5.logo圆角矩形，圆角图片拷贝到二维码中央后合成二维码
      *
      * @return array
      * @throws Exception
@@ -80,7 +81,7 @@ class Community extends BaseController
 
         $image_process = new ImageProcessingService();
         $url = $dataArray['qr_prefix_url'].$dataArray['id'];
-        $logo = $dataArray['cover_image'];
+        $logo = $dataArray['cover_image'].config('oss.rounded-corners');
         $res = $image_process->getQRCodeByCoverImage($url,$logo);
         $dataArray['qr_code'] = $res['oss-request-url'];
         //开启事物
@@ -500,7 +501,7 @@ class Community extends BaseController
     {
         $url = 'http://weixin.xingdongshe.com/template/groupPage.html?id=ec685e49-3456-6a37-8220-be6bb35868ae';
         $image_process = new ImageProcessingService();
-        $cover_image = 'http://xds-test.oss-cn-beijing.aliyuncs.com/user-dir/LChyEXjTEJzVY6WSUPETRSqBQqW5VH3v.png';
+        $cover_image = 'http://xds-test.oss-cn-beijing.aliyuncs.com/user-dir/yrk71qh8iHW1zbyqsLuYqDzTGrDJRLeH.png'.config('oss.rounded-corners');
         $res = $image_process->getQRCodeByCoverImage($url,$cover_image);
         $process_time = sys_processTime();
         return [
