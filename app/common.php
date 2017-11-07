@@ -32,6 +32,29 @@ function curl_get($url, &$httpCode = 0)
 }
 
 /**
+ * @param string $url get请求地址
+ * @param array $header 自定义的header数据,注意格式如：array('token:c3d34690477d21952ef67162ff1e726e')
+ * @param int $httpCode 返回状态码
+ * @return mixed
+ */
+function curl_get_header($url,$header = [], &$httpCode = 0)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+    //不做证书校验,部署在linux环境下请改为true
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+    $file_contents = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return $file_contents;
+}
+
+/**
  * @param string $url post请求地址
  * @param array $params
  * @return mixed
@@ -56,6 +79,32 @@ function curl_post($url, array $params = array())
     $data = curl_exec($ch);
     curl_close($ch);
     return ($data);
+}
+
+/**
+ * 发送数据
+ * @param String $url     请求的地址
+ * @param Array  $header  自定义的header数据
+ * @param Array  $content POST的数据
+ * @return String
+ */
+function curl_post_header($url, $header, $content){
+    $ch = curl_init();
+    if(substr($url,0,5)=='https'){
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 跳过证书检查
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, true);  // 从证书中检查SSL加密算法是否存在
+    }
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($content));
+    $response = curl_exec($ch);
+    if($error=curl_error($ch)){
+        die($error);
+    }
+    curl_close($ch);
+    return $response;
 }
 
 function curl_post_raw($url, $rawData)
