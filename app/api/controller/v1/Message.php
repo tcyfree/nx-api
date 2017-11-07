@@ -15,11 +15,12 @@ namespace app\api\controller\v1;
 
 
 use app\api\controller\BaseController;
-use app\api\service\Token as TokenService;
 use app\api\model\Message as MessageModel;
+use app\api\service\Token as TokenService;
 use app\api\validate\MessageNew;
 use app\api\validate\UUID;
 use app\lib\exception\SuccessMessage;
+
 
 class Message extends BaseController
 {
@@ -38,6 +39,7 @@ class Message extends BaseController
     {
         $uid = TokenService::getCurrentUid();
         $data = MessageModel::getSummaryList($page,$size,$uid);
+        $data['process_time'] = sys_processTime();
         return $data;
     }
 
@@ -129,6 +131,42 @@ class Message extends BaseController
                 'look' => true
             ];
         }
+    }
+
+    public function test()
+    {
+//        $uri = 'http://api.xingdongshe.com/v1/message';
+//        $res = curl_get($uri);
+//        var_dump($res);
+
+        $url = 'http://api.xingdongshe.com/v1/message';
+
+        $header = array('token:c3d34690477d21952ef67162ff1e726e');
+        $header = array('token:31230bb228aa9072cbe61823217191b0');
+        $i = 0;
+        while ($i < 1){
+//            for ($j = 0; $j < 1000; $j ++){
+//                $response = curl_get_header($url,$header);
+//                usleep(1000000);
+//            }
+            $j = 0;
+            while ($j < 5000){
+                $response = curl_get_header($url,$header);
+                $j++;
+//                usleep(10000);
+            }
+            //延迟 1秒,一微秒等于百万分之一秒。
+            usleep(1000000);
+            echo $i;
+            $i++;
+        }
+        $process_time = sys_processTime();
+        $response = json_decode($response);
+        return[
+            'response' => $response,
+            'process_time' => $process_time
+        ];
+        return json_decode($response);
     }
 
 }
