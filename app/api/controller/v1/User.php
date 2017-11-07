@@ -26,6 +26,7 @@ use app\api\model\User as UserModel;
 use app\api\model\UserProperty as UserPropertyModel;
 use app\api\model\Advice as AdviceModel;
 use app\api\model\BlockedList as BlockListModel;
+use app\api\service\UserInfo as UserInfoService;
 
 class User extends BaseController
 {
@@ -45,22 +46,20 @@ class User extends BaseController
 
     /**
      * 编辑用户信息
+     * 1 编辑用户信息时，昵称不可重复
+     *
      * @return \think\response\Json
      * @throws UserException
      */
     public function editUserInfo(){
         $validate = new UserInfoValidate();
         $validate->goCheck();
-
         $uid = TokenService::getCurrentUid();
-        $user = UserModel::get($uid);
-
-        if (!$user)
-        {
-            throw new UserException();
-        }
+        UserModel::checkUserExists($uid);
 
         $dataArray = $validate->getDataByRule(input('put.'));
+        $user_info_service = new UserInfoService();
+        $user_info_service->checkNicknameUpdate($uid,$dataArray['nickname']);
         $dataArray['from'] = 1;
         $dataArray['char_index'] = getCharIndex($dataArray['nickname']);
 

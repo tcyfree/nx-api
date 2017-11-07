@@ -166,6 +166,7 @@ Route::group(':version/message',function (){
     Route::post('','api/:version.Message/addMessage');
     Route::delete('/dialogue','api/:version.Message/deleteMessage');
     Route::get('/look','api/:version.Message/getNotLook');
+    Route::get('test','api/:version.Message/test');
 });
 
 /**
