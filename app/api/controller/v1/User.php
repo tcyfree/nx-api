@@ -57,14 +57,14 @@ class User extends BaseController
         $uid = TokenService::getCurrentUid();
         UserModel::checkUserExists($uid);
 
-        $dataArray = $validate->getDataByRule(input('put.'));
+        $dataArray = input('put.');
         $user_info_service = new UserInfoService();
         $user_info_service->checkNicknameUpdate($uid,$dataArray['nickname']);
         $dataArray['from'] = 1;
         $dataArray['char_index'] = getCharIndex($dataArray['nickname']);
 
         $userInfo = new UserInfoModel();
-        $userInfo->save($dataArray,['user_id' => $uid]);
+        $userInfo->allowField(true)->save($dataArray,['user_id' => $uid]);
 
 //        return $userInfo;
         return json(new SuccessMessage(), 201);

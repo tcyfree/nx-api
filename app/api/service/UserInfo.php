@@ -27,7 +27,7 @@ class UserInfo
      */
     public function checkNicknameUpdate($uid,$nickname)
     {
-        $res = UserInfoModel::get(['user_id' => $uid,'name' => $nickname]);
+        $res = UserInfoModel::get(['user_id' => $uid,'nickname' => $nickname]);
         if($res){
             return true;
         }
@@ -48,10 +48,10 @@ class UserInfo
      */
     public function checkUnionNickname($nickname)
     {
-        $result = UserInfoModel::get(['name' => $nickname]);
+        $result = UserInfoModel::get(['nickname' => $nickname]);
         if($result) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 }
