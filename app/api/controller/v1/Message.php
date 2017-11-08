@@ -38,7 +38,7 @@ class Message extends BaseController
     public function getSummaryList($page = 1, $size = 15)
     {
         $uid = TokenService::getCurrentUid();
-        $data = MessageModel::getSummaryList($page,$size,$uid);
+        $data = MessageModel::getSummaryList($page, $size, $uid);
         $data['process_time'] = sys_processTime();
         return $data;
     }
@@ -57,11 +57,11 @@ class Message extends BaseController
         (new UUID())->goCheck();
         $to_uid = input('get.id');
         $uid = TokenService::getCurrentUid();
-        $pageData = MessageModel::getMessageList($page,$size,$uid,$to_uid);
-        $data = $pageData->visible(['id','user_id','to_user_id','content','type','look','create_time',
-            'user_info.user_id','user_info.avatar','user_info.nickname',
-            'to_user_info.user_id','to_user_info.avatar','to_user_info.nickname']);
-        MessageModel::update(['look' => 1,'update_time' => time()],
+        $pageData = MessageModel::getMessageList($page, $size, $uid, $to_uid);
+        $data = $pageData->visible(['id', 'user_id', 'to_user_id', 'content', 'type', 'look', 'create_time',
+            'user_info.user_id', 'user_info.avatar', 'user_info.nickname',
+            'to_user_info.user_id', 'to_user_info.avatar', 'to_user_info.nickname']);
+        MessageModel::update(['look' => 1, 'update_time' => time()],
             ['user_id' => $uid, 'to_user_id' => $to_uid, 'look' => 0, 'delete_time' => 0]);
         return [
             'data' => $data,
@@ -90,7 +90,7 @@ class Message extends BaseController
         $reply_data['content'] = $data['content'];
         $reply_data['type'] = 1;
         MessageModel::create($reply_data);
-        return json(new SuccessMessage(),201);
+        return json(new SuccessMessage(), 201);
     }
 
     /**
@@ -104,8 +104,8 @@ class Message extends BaseController
         $where['user_id'] = TokenService::getCurrentUid();
         $where['to_user_id'] = input('delete.id');
         $where['delete_time'] = 0;
-        MessageModel::update(['delete_time' => time()],$where);
-        return json(new SuccessMessage(),201);
+        MessageModel::update(['delete_time' => time()], $where);
+        return json(new SuccessMessage(), 201);
     }
 
     /**
@@ -122,11 +122,11 @@ class Message extends BaseController
         $res = MessageModel::where($where)
             ->field('look')
             ->find();
-        if (!$res){
+        if (!$res) {
             return [
                 'look' => false
             ];
-        }else{
+        } else {
             return [
                 'look' => true
             ];
@@ -144,14 +144,14 @@ class Message extends BaseController
         $header = array('token:c3d34690477d21952ef67162ff1e726e');
         $header = array('token:31230bb228aa9072cbe61823217191b0');
         $i = 0;
-        while ($i < 1){
+        while ($i < 1) {
 //            for ($j = 0; $j < 1000; $j ++){
 //                $response = curl_get_header($url,$header);
 //                usleep(1000000);
 //            }
             $j = 0;
-            while ($j < 5000){
-                $response = curl_get_header($url,$header);
+            while ($j < 5000) {
+                $response = curl_get_header($url, $header);
                 $j++;
 //                usleep(10000);
             }
@@ -162,7 +162,7 @@ class Message extends BaseController
         }
         $process_time = sys_processTime();
         $response = json_decode($response);
-        return[
+        return [
             'response' => $response,
             'process_time' => $process_time
         ];
