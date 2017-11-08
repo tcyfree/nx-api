@@ -183,7 +183,7 @@ class Community
         $community = CommunityModel::get(['id' => $community_id]);
         if($count == $community->scale_num){
             throw new CommunityException([
-                'msg' => '该行动上人数上限已满',
+                'msg' => '该行动社总人数'.$community->scale_num.'上限已满',
                 'code' => 400
             ]);
         }
@@ -193,7 +193,7 @@ class Community
 
         if($count == $community->pay_num){
             throw new CommunityException([
-                'msg' => '该行动上付费人数上限已满',
+                'msg' => '该行动社付费总人数'.$community->pay_num.'上限已满',
                 'code' => 400
             ]);
         }

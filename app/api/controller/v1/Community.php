@@ -137,7 +137,8 @@ class Community extends BaseController
         {
 
             CommunityModel::update($dataArray,['id'=>$id]);
-            $result = CommunityModel::get($id)->toArray();
+            $result = CommunityModel::get($id);
+            $result = $result->toArray();
             if($result['update_num'] == 0){
                 throw new UpdateNumException();
             }
