@@ -151,6 +151,13 @@ Route::group(':version/callback',function (){
 });
 
 /**
+ * Swoole
+ */
+Route::group(':version/swoole',function (){
+    Route::get('test','api/:version.Swoole/test');
+});
+
+/**
  * execution
  */
 Route::group(':version/execution',function (){
