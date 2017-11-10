@@ -163,7 +163,7 @@ class Communication extends BaseController
     {
         (new UUID())->goCheck();
         $communication_id = input('put.id');
-        $communication = CommunicationModel::checkCommunicationExists($communication_id);
+        CommunicationModel::checkCommunicationExists($communication_id);
         $uid = TokenService::getCurrentUid();
         $where['user_id'] = $uid;
         $where['communication_id'] = $communication_id;
@@ -180,18 +180,14 @@ class Communication extends BaseController
             }else{
                 CommunicationOperateModel::create($where);
                 CommunicationModel::where('id',$communication_id)->setInc('likes');
-                $data['id'] = uuid();
-                $data['to_user_id'] = $communication['user_id'];
                 $data['from_user_id'] = $uid;
                 $data['communication_id'] = $communication_id;
                 $data['type'] = 1;
-                if ($data['to_user_id'] != $data['from_user_id']){
-                    NoticeModel::create($data);
-                    print_r(NoticeModel::getLastSql());
-                }
+                NoticeModel::createNotice($data);
             }
             Db::commit();
-        }catch (Exception $ex){
+        }catch (Exception $ex)
+        {
             Db::rollback();
             throw $ex;
         }

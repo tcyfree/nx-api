@@ -12,7 +12,7 @@
 // +----------------------------------------------------------------------
 
 namespace app\api\model;
-
+use app\api\model\Communication as CommunicationModel;
 
 class Notice extends BaseModel
 {
@@ -26,6 +26,16 @@ class Notice extends BaseModel
     public function communication()
     {
         return $this->hasOne('Communication','id','communication_id');
+    }
+
+    public static function createNotice($data)
+    {
+        $communication = CommunicationModel::get(['id' => $data['communication_id']]);
+        $data['to_user_id'] = $communication->user_id;
+        if ($data['to_user_id'] != $data['from_user_id']){
+            $data['id'] = uuid();
+            self::create($data);
+        }
     }
 
 }
