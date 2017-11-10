@@ -14,16 +14,16 @@
 namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
+use app\api\model\Comment as CommentModel;
+use app\api\model\CommentOperate as CommentOperateModel;
+use app\api\model\Communication as CommunicationModel;
+use app\api\model\Notice as NoticeModel;
 use app\api\service\Token as TokenService;
 use app\api\validate\CommentNew;
-use app\api\model\Comment as CommentModel;
 use app\api\validate\UUID;
 use app\lib\exception\SuccessMessage;
-use app\api\model\Communication as CommunicationModel;
-use app\api\model\CommentOperate as CommentOperateModel;
 use think\Db;
 use think\Exception;
-use app\api\model\CommentNotice as CommentNoticeModel;
 
 class Comment extends  BaseController
 {
@@ -45,15 +45,14 @@ class Comment extends  BaseController
         try{
             CommentModel::create(['id' => $id, 'user_id' => $uid, 'comment' => $data['comment'], 'communication_id' => $data['communication_id']]);
             CommunicationModel::where('id',$data['communication_id'])->setInc('comments');
-            $data['comment_id'] = $id;
             $data['from_user_id'] = $uid;
-            CommentNoticeModel::createNotice($data);
+            $data['type'] = 2;
+            NoticeModel::createNotice($data);
             Db::commit();
         }catch (Exception $ex){
             Db::rollback();
             throw $ex;
         }
-
 
         return json(new SuccessMessage(),201);
     }
