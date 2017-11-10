@@ -23,11 +23,14 @@ use app\api\model\Communication as CommunicationModel;
 use app\api\model\CommentOperate as CommentOperateModel;
 use think\Db;
 use think\Exception;
+use app\api\model\CommentNotice as CommentNoticeModel;
 
 class Comment extends  BaseController
 {
     /**
      * 评论
+     * 1. 评论条目提醒
+     *
      * @return \think\response\Json
      * @throws Exception
      */
@@ -42,6 +45,9 @@ class Comment extends  BaseController
         try{
             CommentModel::create(['id' => $id, 'user_id' => $uid, 'comment' => $data['comment'], 'communication_id' => $data['communication_id']]);
             CommunicationModel::where('id',$data['communication_id'])->setInc('comments');
+            $data['comment_id'] = $id;
+            $data['from_user_id'] = $uid;
+            CommentNoticeModel::createNotice($data);
             Db::commit();
         }catch (Exception $ex){
             Db::rollback();
