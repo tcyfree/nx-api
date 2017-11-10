@@ -18,6 +18,22 @@ class CommentNotice extends BaseModel
 {
     protected $autoWriteTimestamp = true;
 
+    public function userInfo()
+    {
+        return $this->hasOne('UserInfo','user_id','from_user_id');
+    }
+
+    public function communication()
+    {
+        return $this->hasOne('Communication','id','communication_id');
+    }
+
+    /**
+     * 记录评论提醒
+     * 1.自己给自己评论不再记录
+     *
+     * @param $data
+     */
     public static function createNotice($data)
     {
         $communication = CommunicationModel::get(['id' => $data['communication_id']]);

@@ -137,6 +137,16 @@ Route::group(':version/notice',function (){
 });
 
 /**
+ * CommentNotice
+ */
+Route::group(':version/comment/notice',function (){
+    Route::get('','api/:version.CommentNotice/getNoticeList');
+    Route::get('/look','api/:version.CommentNotice/getNoticeLook');
+    Route::delete('','api/:version.CommentNotice/clearNotice');
+    Route::get('/all_look','api/:version.CommentNotice/getAllNotLook');
+});
+
+/**
  * WeiXin
  */
 Route::group(':version/wx',function (){
