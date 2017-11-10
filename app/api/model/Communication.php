@@ -30,8 +30,16 @@ class Communication extends BaseModel
         return $this->hasOne('Community','id','community_id');
     }
 
+    /**
+     * 判断条目是否存在
+     * 1. delete_time = 0
+     *
+     * @param $id
+     * @return null|static
+     * @throws ParameterException
+     */
     public static function checkCommunicationExists($id){
-        $res = self::get(['id' => $id]);
+        $res = self::get(['id' => $id, 'delete_time' => 0]);
         if (!$res){
             throw new ParameterException([
                 'msg' => '交流内容不存在，请检查ID'
