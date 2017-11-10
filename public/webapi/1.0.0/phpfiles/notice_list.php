@@ -44,8 +44,18 @@
             <tr>
                 <td>type</td>
                 <td>分类</td>
-                <td>0 被@ 1 点赞
+                <td>0 被@ 1 点赞 2 条目被评论
                 </td>
+            </tr>
+            <tr>
+                <td>comment</td>
+                <td>评论内容</td>
+                <td>&nbsp;type为2时有值，否则为空</td>
+            </tr>
+            <tr>
+                <td>look</td>
+                <td></td>
+                <td>&nbsp;0 未读 1 已读</td>
             </tr>
             <tr>
                 <td>nickname</td>

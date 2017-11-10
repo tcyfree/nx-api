@@ -15,9 +15,9 @@ namespace app\api\controller\v1;
 
 
 use app\api\controller\BaseController;
+use app\api\model\Notice as NoticeModel;
 use app\api\service\Token as TokenService;
 use app\api\validate\PagingParameter;
-use app\api\model\Notice as NoticeModel;
 use app\lib\exception\SuccessMessage;
 
 class Notice extends BaseController
@@ -40,7 +40,7 @@ class Notice extends BaseController
             ->whereTime('create_time','-3 days')
             ->order('create_time DESC')
             ->paginate($size,true,['page' => $page]);
-        $data = $pageData->visible(['id','type','create_time','communication.id','communication.content','user_info.avatar','user_info.nickname','communication.community.name']);
+        $data = $pageData->visible(['id','type','look','comment','create_time','communication.id','communication.content','user_info.avatar','user_info.nickname','communication.community.name']);
         NoticeModel::update(['look' => 1,'update_time' => time()],['to_user_id' => $uid]);
         return [
             'data' => $data,
@@ -95,7 +95,6 @@ class Notice extends BaseController
      * 1 提醒
      * 2 私信
      * 3 反馈
-     * 4 评论
      *
      * @return array
      */
@@ -118,14 +117,6 @@ class Notice extends BaseController
 
         $feedback = new Task();
         $res = $feedback->getNotLook();
-        if ($res['look']){
-            return [
-                'look' => true
-            ];
-        }
-
-        $comment_notice = new CommentNotice();
-        $res = $comment_notice->getNoticeLook();
         if ($res['look']){
             return [
                 'look' => true

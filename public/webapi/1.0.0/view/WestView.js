@@ -543,31 +543,6 @@ Ext.define('WebRoot.view.WestView', {
 									leaf: true
 								},
 								{
-									id: 'menu_notice_comment',
-									text: '评论相关',
-									expanded: true,
-									children: [
-                                        {
-                                            id: 'comment_notice_look',
-                                            text: '是否提醒',
-                                            hrefTarget: SYS_API_ROOT + 'phpfiles/notice_comment_look.php',
-                                            leaf: true
-                                        },
-                                        {
-                                            id: 'comment_notice_list',
-                                            text: '提醒列表',
-                                            hrefTarget: SYS_API_ROOT + 'phpfiles/notice_comment_list.php',
-                                            leaf: true
-                                        },
-                                        {
-                                            id: 'comment_notice_delete',
-                                            text: '清空提醒',
-                                            hrefTarget: SYS_API_ROOT + 'phpfiles/notice_comment_delete.php',
-                                            leaf: true
-                                        },
-									]
-								},
-								{
 									id: 'all_look',
 									text:'所有未读',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/all_look.php',
