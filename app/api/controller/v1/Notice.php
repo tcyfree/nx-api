@@ -95,6 +95,7 @@ class Notice extends BaseController
      * 1 提醒
      * 2 私信
      * 3 反馈
+     * 4 评论
      *
      * @return array
      */
@@ -117,6 +118,14 @@ class Notice extends BaseController
 
         $feedback = new Task();
         $res = $feedback->getNotLook();
+        if ($res['look']){
+            return [
+                'look' => true
+            ];
+        }
+
+        $comment_notice = new CommentNotice();
+        $res = $comment_notice->getNoticeLook();
         if ($res['look']){
             return [
                 'look' => true

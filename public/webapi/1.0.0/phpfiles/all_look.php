@@ -37,6 +37,7 @@
         <p>1 提醒</p>
         <p>2 私信</p>
         <p>3 反馈</p>
+        <p>4 评论</p>
         </td>
         <td>&nbsp;true 是 false 否</td>
     </tr>
