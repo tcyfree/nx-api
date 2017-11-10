@@ -60,6 +60,8 @@ class Recharge extends BaseController
     public function receiveNotify()
     {
         $notify = new WxNotify();
-        $notify->Handle();
+        $msg = $notify->Handle();
+        $error_log = LOG_PATH.'wx_notify_error.log';
+        file_put_contents($error_log, $msg.' '.date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
     }
 }
