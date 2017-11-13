@@ -47,6 +47,7 @@ class User extends BaseController
     /**
      * 编辑用户信息
      * 1 编辑用户信息时，昵称不可重复
+     * 2 去掉1，昵称长度不超过20
      *
      * @return \think\response\Json
      * @throws UserException
@@ -58,8 +59,8 @@ class User extends BaseController
         UserModel::checkUserExists($uid);
 
         $dataArray = input('put.');
-        $user_info_service = new UserInfoService();
-        $user_info_service->checkNicknameUpdate($uid,$dataArray['nickname']);
+//        $user_info_service = new UserInfoService();
+//        $user_info_service->checkNicknameUpdate($uid,$dataArray['nickname']);
         $dataArray['from'] = 1;
         $dataArray['char_index'] = getCharIndex($dataArray['nickname']);
 
