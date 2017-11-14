@@ -147,7 +147,7 @@ class Community
     }
 
     /**
-     * 判断用户相关的行动是否达到上限5个
+     * 判断用户相关的行动是否达到上限ALLOW_JOIN_OUT
      * 不包含已退的行动社
      * @param $uid
      * @throws CommunityException

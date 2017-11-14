@@ -27,6 +27,9 @@ use app\api\model\UserProperty as UserPropertyModel;
 use app\api\model\Advice as AdviceModel;
 use app\api\model\BlockedList as BlockListModel;
 use app\api\service\UserInfo as UserInfoService;
+use think\Loader;
+use app\api\service\Pinyin as PinyinService;
+
 
 class User extends BaseController
 {
@@ -56,18 +59,14 @@ class User extends BaseController
         $validate = new UserInfoValidate();
         $validate->goCheck();
         $uid = TokenService::getCurrentUid();
-        UserModel::checkUserExists($uid);
-
         $dataArray = input('put.');
-//        $user_info_service = new UserInfoService();
-//        $user_info_service->checkNicknameUpdate($uid,$dataArray['nickname']);
-        $dataArray['from'] = 1;
-        $dataArray['char_index'] = getCharIndex($dataArray['nickname']);
 
+        $dataArray['from'] = 1;
+        $Pinyin = new PinyinService();
+        $dataArray['char_index'] = $Pinyin->getCharIndexPinyin($dataArray['nickname']);
         $userInfo = new UserInfoModel();
         $userInfo->allowField(true)->save($dataArray,['user_id' => $uid]);
 
-//        return $userInfo;
         return json(new SuccessMessage(), 201);
     }
 
@@ -162,6 +161,12 @@ class User extends BaseController
         $user_info = UserInfoModel::get(['user_id' => $user['id']]);
 
         return $user_info;
+    }
+
+    public function test()
+    {
+        $Pinyin = new PinyinService();
+        $Pinyin->getPinyin();
     }
 
 }

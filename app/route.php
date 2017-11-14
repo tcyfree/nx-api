@@ -25,6 +25,7 @@ Route::group(':version/user', function(){
     Route::delete('/block','api/:version.User/deleteBlockUser');
     Route::get('/block','api/:version.User/blockedList');
     Route::get('/number','api/:version.User/getUserByNumber');
+    Route::get('/test','api/:version.User/test');
 });
 
 /**
