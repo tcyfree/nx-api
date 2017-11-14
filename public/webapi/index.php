@@ -6,7 +6,7 @@
 //加载系统顶层核心配置文件
 require_once "../../include/config.inc.php";
 ?>
-    <link href="../images/nx-xds-logo.jpg" rel="shortcut icon" />
+    <link href="../images/nx-qxd-logo.jpg" rel="shortcut icon" />
 <title><?php echo SYS_ZH_NAME?>__API在线手册</title>
 <!--引入自定义CSS，注意加载顺序和路径写法-->
 <link rel="stylesheet" type="text/css" href="<?php echo SYS_EXTJS_URL?>whbstyle.css" />

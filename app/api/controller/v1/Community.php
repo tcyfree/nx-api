@@ -292,7 +292,7 @@ class Community extends BaseController
 
         $pay = '1';
         $type = '2';
-        $data = Db::table('xds_community_user')
+        $data = Db::table('qxd_community_user')
             ->alias('c_u')
             ->join('__USER_INFO__ u','c_u.user_id = u.user_id')
             ->where('(c_u.pay = '."'".$pay."'".' OR c_u.type <> '."'".$type."'".') AND c_u.community_id = '."'".$id."'")
@@ -503,7 +503,7 @@ class Community extends BaseController
     {
 //        $url = 'http://weixin.xingdongshe.com/template/groupPage.html?id=ec685e49-3456-6a37-8220-be6bb35868ae';
 //        $image_process = new ImageProcessingService();
-//        $cover_image = 'http://xds-test.oss-cn-beijing.aliyuncs.com/user-dir/yrk71qh8iHW1zbyqsLuYqDzTGrDJRLeH.png'.config('oss.rounded-corners');
+//        $cover_image = 'http://qxd-test.oss-cn-beijing.aliyuncs.com/user-dir/yrk71qh8iHW1zbyqsLuYqDzTGrDJRLeH.png'.config('oss.rounded-corners');
 //        $res = $image_process->getQRCodeByCoverImage($url,$cover_image);
 //        $process_time = sys_processTime();
 //        return [

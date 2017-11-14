@@ -60,8 +60,8 @@ class Message extends BaseModel
 //            'current_page' => $pageData->currentPage()
 //        ];
         $sqlStr = "SELECT msg_temp.*,u.avatar,u.nickname,u.from FROM 
-                  (SELECT * FROM xds_message WHERE  user_id = '$uid' AND delete_time = 0 ORDER BY create_time DESC LIMIT $page,$size) AS msg_temp 
-                  JOIN xds_user_info u ON msg_temp.to_user_id = u.user_id
+                  (SELECT * FROM qxd_message WHERE  user_id = '$uid' AND delete_time = 0 ORDER BY create_time DESC LIMIT $page,$size) AS msg_temp 
+                  JOIN qxd_user_info u ON msg_temp.to_user_id = u.user_id
                   GROUP BY msg_temp.to_user_id;";
         $queryData = Db::query($sqlStr);
         foreach ($queryData as &$v){

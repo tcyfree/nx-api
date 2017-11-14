@@ -35,7 +35,7 @@ class UserProperty extends BaseModel
     {
         $sqlstr = "SELECT * FROM (
                    SELECT a.user_id,a.execution,(@rowno:=@rowno+1) as rowno 
-                   FROM xds_user_property a,(select (@rowno:=0)) b ORDER BY a.execution DESC) c 
+                   FROM qxd_user_property a,(select (@rowno:=0)) b ORDER BY a.execution DESC) c 
                    WHERE c.user_id = '$uid'";
         $res = Db::query($sqlstr);
         $data['mine'] = $res;

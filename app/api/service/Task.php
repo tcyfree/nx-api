@@ -38,7 +38,7 @@ class Task
     {
         $act_plan_user = new ActPlanUserModel();
         $res = $act_plan_user->where('act_plan_id','eq',function ($query) use ($id){
-            $query->table('xds_task')->where('id',$id)->field('act_plan_id');
+            $query->table('qxd_task')->where('id',$id)->field('act_plan_id');
         })
             ->where('user_id',$uid)
             ->find();
@@ -196,7 +196,7 @@ class Task
         }
 
         $where['user_id'] = $user_id;
-        Db::table('xds_task_feedback_users')->where($where)->setInc('tag');
+        Db::table('qxd_task_feedback_users')->where($where)->setInc('tag');
 
         return $user_id;
     }

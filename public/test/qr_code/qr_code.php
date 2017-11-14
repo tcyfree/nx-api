@@ -115,6 +115,6 @@ function qr_code($url){
     //返回生产图片的文件名
     return $filename.'.png';
 }
-$url = 'http://xds-test.oss-cn-beijing.aliyuncs.com/user-dir/n80dkGitBWXVb3sieQBKHRxxhdJTgLEX.png';
+$url = 'http://qxd-test.oss-cn-beijing.aliyuncs.com/user-dir/n80dkGitBWXVb3sieQBKHRxxhdJTgLEX.png';
 //echo downloadImage($url);
 echo qr_code('http://www.nuan-x.com/');

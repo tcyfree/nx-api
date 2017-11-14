@@ -63,7 +63,7 @@ class Community
             $v['count'] = $act_plan_user
                 ->where('finish','0')
                 ->where('act_plan_id','in',function ($query) use ($v){
-                    $query->table('xds_act_plan')->where('community_id',$v['id'])->field('id');
+                    $query->table('qxd_act_plan')->where('community_id',$v['id'])->field('id');
                 })
                 ->count('user_id');
         }
