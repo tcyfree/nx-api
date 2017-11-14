@@ -32,7 +32,7 @@ function curl_get($url, &$httpCode = 0)
 
 
 //每隔2000ms触发一次
-swoole_timer_tick(864000000, function ($timer_id) {
+swoole_timer_tick(864000, function ($timer_id) {
     echo "tick-2000ms\n";
     $uri = 'http://api.xingdongshe.com/v2/swoole/test?params=';
     $params['p1'] = 1;
@@ -46,4 +46,16 @@ $timer_id = swoole_timer_after(3000, function () {
     echo "after 3000ms.\n";
 });
 echo $timer_id;
+
+swoole_process::signal(SIGALRM, function () {
+    static $i = 0;
+    echo "#{$i}\talarm\n";
+    $i++;
+    if ($i > 20) {
+        swoole_process::alarm(-1);
+    }
+});
+
+//100ms
+swoole_process::alarm(100 * 1000);
 

@@ -20,7 +20,7 @@ class AllowJoinStatusEnum
     const ALLOW_JOIN =0;
 
     // 加入数量已满
-    const ALLOW_JOIN_OUT = 50;
+    const ALLOW_JOIN_OUT = 10;
 
     //普通身份
     const ALLOW_JOIN_NORMAL = 5;

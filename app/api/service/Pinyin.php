@@ -26,11 +26,12 @@ class Pinyin
      */
     public function getCharIndexPinyin($words = '')
     {
-//        $log = LOG_PATH.'pinyin.log';
-//        file_put_contents($log, $words.' '.date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
+        $log = LOG_PATH.'pinyin.log';
+        file_put_contents($log, $words.' '.date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
         $Pinyin = new \ChinesePinyin();
-        $result = $Pinyin->TransformWithTone($words);
+        $result = $Pinyin->TransformWithoutTone($words);
         $char_index = strtoupper(substr($result,0,1));
+
         return $char_index;
     }
 

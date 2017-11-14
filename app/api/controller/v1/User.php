@@ -166,7 +166,7 @@ class User extends BaseController
     public function test()
     {
         $Pinyin = new PinyinService();
-        $Pinyin->getPinyin();
+        echo $Pinyin->getCharIndexPinyin('啊行动力');
     }
 
 }
