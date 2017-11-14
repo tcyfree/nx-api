@@ -50,7 +50,7 @@ class ChinesePinyin{
 	* param $delimiter  String   转换之后拼音之间分隔符
 	* param $outside_ignore  Boolean     是否忽略非汉字内容
 	*/	
-	public function TransformWithoutTone($input_char,$delimiter='',$outside_ignore=true){
+	public function TransformWithoutTone($input_char,$delimiter='',$outside_ignore=false){
 		
 		$char_with_tone = $this->TransformWithTone($input_char,$delimiter,$outside_ignore);
 		
