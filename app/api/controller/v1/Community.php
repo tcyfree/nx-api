@@ -126,6 +126,7 @@ class Community extends BaseController
         $data['user_id'] = $uid;
         $dataArray = $validate->getDataByRule(input('put.'));
         $id = $dataArray['id'];
+        CommunityModel::checkCommunityExists($id);
         CommunityUserModel::checkCommunityBelongsToUser($uid, $id);
 
         CommunityModel::checkNameUpdate($id,$dataArray['name']);
@@ -137,7 +138,7 @@ class Community extends BaseController
         {
 
             CommunityModel::update($dataArray,['id'=>$id]);
-            $result = CommunityModel::get($id);
+            $result = CommunityModel::get(['id' =>$id]);
             $result = $result->toArray();
             if($result['update_num'] == 0){
                 throw new UpdateNumException();
@@ -500,15 +501,16 @@ class Community extends BaseController
 
     public function test()
     {
-        $url = 'http://weixin.xingdongshe.com/template/groupPage.html?id=ec685e49-3456-6a37-8220-be6bb35868ae';
-        $image_process = new ImageProcessingService();
-        $cover_image = 'http://xds-test.oss-cn-beijing.aliyuncs.com/user-dir/yrk71qh8iHW1zbyqsLuYqDzTGrDJRLeH.png'.config('oss.rounded-corners');
-        $res = $image_process->getQRCodeByCoverImage($url,$cover_image);
-        $process_time = sys_processTime();
-        return [
-            'url' => $res['oss-request-url'],
-            'process_time' => $process_time
-        ];
+//        $url = 'http://weixin.xingdongshe.com/template/groupPage.html?id=ec685e49-3456-6a37-8220-be6bb35868ae';
+//        $image_process = new ImageProcessingService();
+//        $cover_image = 'http://xds-test.oss-cn-beijing.aliyuncs.com/user-dir/yrk71qh8iHW1zbyqsLuYqDzTGrDJRLeH.png'.config('oss.rounded-corners');
+//        $res = $image_process->getQRCodeByCoverImage($url,$cover_image);
+//        $process_time = sys_processTime();
+//        return [
+//            'url' => $res['oss-request-url'],
+//            'process_time' => $process_time
+//        ];
+//        echo getCharIndex('测试');
     }
 
 }
