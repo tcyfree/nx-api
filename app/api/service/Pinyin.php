@@ -31,8 +31,27 @@ class Pinyin
         $Pinyin = new \ChinesePinyin();
         $result = $Pinyin->TransformWithoutTone($words);
         $char_index = strtoupper(substr($result,0,1));
-
+        $char_index = $this->getUndefinedChar($words,$char_index);
         return $char_index;
+    }
+
+    /**
+     * 判断获取的是否有不识别字符如：�
+     * 1 如有则直接获取第一个字符
+     *
+     * @param $words
+     * @param $char_index
+     * @return string
+     */
+    private function getUndefinedChar($words,$char_index)
+    {
+        $undefined = json_encode($char_index);
+        if (!$undefined)
+        {
+            return mb_substr($words,0,1,'utf-8');
+        }else{
+            return $char_index;
+        }
     }
 
     /**

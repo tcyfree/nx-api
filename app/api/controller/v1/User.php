@@ -165,8 +165,12 @@ class User extends BaseController
 
     public function test()
     {
+        $str0 = '、K i d 。';
         $Pinyin = new PinyinService();
-        echo $Pinyin->getCharIndexPinyin('啊行动力');
+        $str = $Pinyin->getCharIndexPinyin($str0);
+        echo substr($str0,0,1);
+
+        echo $str;
     }
 
 }
