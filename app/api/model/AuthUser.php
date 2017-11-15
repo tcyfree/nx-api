@@ -27,21 +27,28 @@ class AuthUser extends BaseModel
      */
     public static function createOrUpdate($data)
     {
-        $res = self::get(['to_user_id' => $data['to_user_id'],'community_id' => $data['community_id']]);
-
-        if(!$res){
-            Db::startTrans();
-            try{
+        $res = self::get(['to_user_id' => $data['to_user_id'],'community_id' => $data['community_id'],'delete_time' => 0]);
+        Db::startTrans();
+        try{
+            if(!$res){
                 self::create($data);
                 CommunityUserModel::update(['type' => 1],
                     ['user_id' => $data['to_user_id'],'community_id'=> $data['community_id']]);
-            }catch (Exception $ex){
-                throw $ex;
-            }
 
-        }else{
-            self::update($data,['to_user_id' => $data['to_user_id'],'community_id' => $data['community_id']]);
+            }else{
+                self::update($data,['to_user_id' => $data['to_user_id'],'community_id' => $data['community_id']]);
+                if (!$data['auth']){
+                    CommunityUserModel::update(['type' => 2],
+                        ['user_id' => $data['to_user_id'],'community_id'=> $data['community_id']]);
+                    self::update(['delete_time' => time()],['id' => $res->id]);
+                }
+            }
+            Db::commit();
+        }catch (Exception $ex) {
+            Db::rollback();
+            throw $ex;
         }
+
     }
 
 }
