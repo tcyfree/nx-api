@@ -34,11 +34,12 @@ class Execution
         if ($mode == 1){
             $where['task_id'] = $task_id;
             $where['user_id'] = $user_id;
-            $res = TaskUserModel::whereTime('deadline','<=',time())->where($where)->find();
+            $where['deadline'] = ['>=',time()];
+            $res = TaskUserModel::where($where)->find();
 //            $log = LOG_PATH.'callback.log';
 //            file_put_contents($log,'sql: '.TaskUserModel::getLastSql().' '.'res: '.
 //                date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
-            if (!$res){
+            if ($res){
                 UserPropertyModel::where(['user_id' => $user_id])->setInc('execution',2);
             }else{
                 TaskUserModel::update(['tag' => 1, 'update_time' => time()],$where);
