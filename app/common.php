@@ -429,6 +429,7 @@ function sys_processTime(){
 function interConvertArrayObject($params)
 {
     if (is_object($params)) {
+        $array = [];
         foreach ($params as $key => $value) {
             $array[$key] = $value;
         }
