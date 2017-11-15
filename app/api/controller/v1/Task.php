@@ -117,6 +117,7 @@ class Task extends BaseController
 
     /**
      * 任务列表
+     *
      * @param $id
      * @param int $page
      * @param int $size
@@ -129,7 +130,7 @@ class Task extends BaseController
         $uid = TokenService::getCurrentUid();
         CommunityService::checkJoinCommunityByUser($uid,$id);
         $pagingData = TaskModel::getSummaryList($id, $page, $size);
-        $pagingArray = $pagingData->visible(['id','name','requirement','content','reference_time'])
+        $pagingArray = $pagingData->visible(['id','name','requirement','content','reference_time', 'release'])
             ->toArray();
         $task_obj = new TaskService();
         $data['task'] = $task_obj->checkTaskFinish($pagingArray,$uid);

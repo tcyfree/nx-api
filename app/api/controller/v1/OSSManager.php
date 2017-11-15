@@ -222,7 +222,7 @@ class OSSManager extends BaseController
      * @param $path
      * @return mixed
      */
-    public function uploadOSSMtsInput($object,$path)
+    public function uploadOSSMtsInput($object,$path = '')
     {
         $ossClient = $this->getOssClient();
         $bucket = config('oss.input_bucket');
