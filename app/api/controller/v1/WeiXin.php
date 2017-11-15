@@ -17,6 +17,7 @@ namespace app\api\controller\v1;
 use app\api\controller\BaseController;
 use app\api\service\WeiXin as WeiXinService;
 use app\api\validate\Media_ID;
+use app\api\service\Token as TokenService;
 
 class WeiXin extends BaseController
 {
@@ -75,6 +76,21 @@ class WeiXin extends BaseController
         $url = sprintf(config('wx.temporary_material'),$access_token,$media_id);
         $wx_download = new WeiXinService();
         $wx_download->downAndSaveFile($url,$path."/".$filename);
+    }
+
+    /**
+     * 获取用户基本信息(UnionID机制),判断用户是否关注公众号
+     *
+     * @return mixed
+     */
+    public function getSubscribe()
+    {
+        $openid = TokenService::getCurrentTokenVar('openid');;
+        $access_token = $this->getAccessToken();
+        $uri = sprintf(config('wx.user_info_unionid'), $access_token,$openid);
+        $res = curl_get($uri);
+
+        return json_decode($res);
     }
 
 }

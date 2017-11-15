@@ -36,13 +36,13 @@ Ext.define('WebRoot.view.WestView', {
                                 //     hrefTarget: SYS_API_ROOT + 'phpfiles/client_login.php',
                                 //     leaf: true
                                 // },
-                                // {
-									// id: 'user_token',
-									// text: '获取token',
-									// hrefTarget: SYS_API_ROOT + 'phpfiles/user_token.php',
-									// leaf: true
-                                // },
-								{
+                                {
+									id: 'wx_unionid',
+									text: '否关注公众号',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/wx_unionid.php',
+									leaf: true
+                                },
+                                {
 									id: 'user_info',
 									text: '用户信息',
                                     cls: 'redStyle',
