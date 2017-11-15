@@ -20,7 +20,8 @@ class AuthUser extends BaseModel
 
     /**
      * 创建或更新用户权限
-     * 1.更新用户身份
+     * 1.第一次设置即创建管理权限auth若未空，则直接返回
+     * 2.更新用户如果auth为空,则将auth_user == time(),同时更新用户身份未2
      *
      * @param $data
      * @throws Exception
@@ -31,6 +32,9 @@ class AuthUser extends BaseModel
         Db::startTrans();
         try{
             if(!$res){
+                if (!$data['auth']){
+                    return;
+                }
                 self::create($data);
                 CommunityUserModel::update(['type' => 1],
                     ['user_id' => $data['to_user_id'],'community_id'=> $data['community_id']]);
