@@ -56,12 +56,7 @@ class Callback extends BaseController
                 return;
             }
         }catch (Exception $ex){
-            $res = interConvertArrayObject($ex);
-            if (is_array($res)){
-                unset($res['xdebug_message']);
-            }
-            file_put_contents($error_log, json_encode($res,JSON_UNESCAPED_UNICODE).' '.date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
-            return $res;
+            throw $ex;
         }
 
     }
