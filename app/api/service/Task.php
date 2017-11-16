@@ -236,11 +236,21 @@ class Task
         return $new_array;
     }
 
-    public function checkLastTaskFinish($task_id,$uid)
+    /**
+     * 判断是否有审核反馈权限
+     *
+     * @param $uid
+     * @param $task_id
+     * @return bool
+     * @throws ParameterException
+     */
+    public function checkFeedbackAuthority($uid,$task_id)
     {
-        $task = TaskModel::checkTaskExists($task_id);
-        $act_plan_id = $task['act_plan_id'];
-
+        $community_id = TaskModel::getCommunityIDByTaskID($task_id);
+        $auth_array[0] = 4;
+        $c_obj = new CommunityService();
+        $res = $c_obj->checkNewManagerAuthority($uid,$community_id,$auth_array);
+        return $res;
     }
 
 }

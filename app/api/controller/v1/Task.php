@@ -242,6 +242,8 @@ class Task extends BaseController
      *
      * 1 如果to_user_id为空，则随机选择一个备选人审核
      * 2 设置反馈有效时间为24小时内有效
+     * 3 在随机选管理员时，判断是否有审核权限
+     *
      * @return \think\response\Json
      * @throws Exception
      * @throws ParameterException
@@ -258,7 +260,12 @@ class Task extends BaseController
         if (!isset($dataRules['to_user_id']) || empty($dataRules['to_user_id'])){
             unset($dataRules['to_user_id']);
             $task_service = new TaskService();
-            $dataRules['to_user_id'] = $task_service->getRandManagerID($dataRules['task_id']);
+            $res = false;
+            while (!$res){
+                $feedback_user_id = $task_service->getRandManagerID($dataRules['task_id']);
+                $res = $task_service->checkFeedbackAuthority($feedback_user_id,$dataRules['task_id']);
+            }
+            $dataRules['to_user_id'] = $feedback_user_id;
         }
         $dataRules['user_id'] = $uid;
         $feedback_service = new TaskFeedbackService();
