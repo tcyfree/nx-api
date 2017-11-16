@@ -19,7 +19,10 @@ use app\api\model\ActPlan as ActPlanModel;
 use app\api\model\ActPlanRecord as ActPlanRecordModel;
 use app\api\model\ActPlanUser as ActPlanUserModel;
 use app\api\model\AuthUser;
+use app\api\model\AuthUser as AuthUserModel;
 use app\api\model\Community as CommunityModel;
+use app\api\service\ActPlan as ActPlanService;
+use app\api\service\Community as CommunityService;
 use app\api\service\Token as TokenService;
 use app\api\validate\ActPlanNew;
 use app\api\validate\ActPlanSummaryList;
@@ -28,9 +31,6 @@ use app\api\validate\PagingParameter;
 use app\api\validate\SearchName;
 use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
-use app\api\service\Community as CommunityService;
-use app\api\service\ActPlan as ActPlanService;
-use app\api\model\AuthUser as AuthUserModel;
 
 class ActPlan extends BaseController
 {
