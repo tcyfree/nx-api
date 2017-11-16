@@ -77,6 +77,9 @@ class AuthUser extends BaseModel
 
         if (is_array($auth) && is_array($community_user)){
             return  array_merge($auth,$community_user);
+        }elseif (is_array($community_user)){
+            $community_user['auth'] = null;
+            return  $community_user;
         }
     }
 

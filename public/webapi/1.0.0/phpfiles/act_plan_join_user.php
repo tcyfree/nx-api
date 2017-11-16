@@ -68,6 +68,11 @@
         <td>行动社名称</td>
         <td>&nbsp;</td>
     </tr>
+    <tr>
+        <td>auth</td>
+        <td>管理权限值</td>
+        <td>&nbsp;type为1时，不为null。如："1,2,4"来判断管理员是否有对应操作管理权限</td>
+    </tr>
 </table>
 <p>&nbsp;</p>
 </div>

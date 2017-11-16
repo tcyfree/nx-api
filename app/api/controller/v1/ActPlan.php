@@ -18,6 +18,7 @@ use app\api\controller\BaseController;
 use app\api\model\ActPlan as ActPlanModel;
 use app\api\model\ActPlanRecord as ActPlanRecordModel;
 use app\api\model\ActPlanUser as ActPlanUserModel;
+use app\api\model\AuthUser;
 use app\api\model\Community as CommunityModel;
 use app\api\service\Token as TokenService;
 use app\api\validate\ActPlanNew;
@@ -29,6 +30,7 @@ use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
 use app\api\service\Community as CommunityService;
 use app\api\service\ActPlan as ActPlanService;
+use app\api\model\AuthUser as AuthUserModel;
 
 class ActPlan extends BaseController
 {
@@ -136,7 +138,9 @@ class ActPlan extends BaseController
         foreach ($data as &$v){
             $community_name = CommunityModel::where(['id' => $v['act_plan']['community_id']])->field('name')->find();
             $v['act_plan']['community_name'] = $community_name['name'];
+            $v['act_plan']['auth'] = AuthUserModel::getAuthUserWithCommunity($uid,$v['act_plan']['community_id']);
         }
+
 
         return [
             'data' => $data,
