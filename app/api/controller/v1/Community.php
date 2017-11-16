@@ -204,6 +204,8 @@ class Community extends BaseController
 
     /**
      * 行动社详情
+     * 1. 获取用户管理权限
+     *
      * @param $id
      * @return array|false|\PDOStatement|string|\think\Model
      * @throws CommunityException

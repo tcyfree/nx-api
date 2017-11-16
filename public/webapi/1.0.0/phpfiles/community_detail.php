@@ -86,7 +86,12 @@
     <tr>
         <td>user.count</td>
         <td>用户已加入有效行动社数量</td>
-        <td>&nbsp;判断用户是否可免费加入，最多可以参加5个</td>
+        <td>&nbsp;判断用户是否可免费加入，最多可以参加XXXX个</td>
+    </tr>
+    <tr>
+        <td>user.auth</td>
+        <td>管理权限值</td>
+        <td>&nbsp;user.type为1时，不为null。如："1,2,4"来判断管理员是否有对应操作管理权限</td>
     </tr>
 
 

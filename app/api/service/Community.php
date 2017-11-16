@@ -82,6 +82,7 @@ class Community
         foreach ($data as &$v){
             $where['community_id'] = $v['id'];
             $where['user_id'] = $uid;
+            $where['delete_time'] = 0;
             $arr = CommunityUserModel::get($where);
             $v['type'] = $arr['type'];
 
@@ -93,6 +94,8 @@ class Community
      * 获取用户和行动社的关联关系
      * 用户已经参加的行动社数量
      * 用户是否加入该行动社
+     * 权限值
+     *
      * @param $data
      * @return mixed
      * @throws ParameterException
@@ -111,10 +114,9 @@ class Community
             $data['user']['status'] = $community_user['status'];
             $data['user']['type'] = $community_user['type'];
         }
-
-
         $obj = new CommunityUserModel();
         $data['user']['count'] = $obj->where(['user_id' => $uid, 'status' =>['neq',1]])->count('user_id');
+        $data['user']['auth'] = AuthUserModel::getAuthUserWithCommunity($uid,$data['id']);
         return $data;
     }
 
@@ -260,6 +262,7 @@ class Community
     {
         $where['to_user_id'] = $uid;
         $where['community_id'] = $community_id;
+        $where['delete_time'] = 0;
 
         $cu_obj = CommunityUserModel::get(['community_id' => $community_id, 'user_id' => $uid]);
         if ($cu_obj->type ==0){

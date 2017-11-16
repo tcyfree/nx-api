@@ -69,10 +69,14 @@ class AuthUser extends BaseModel
     public static function getAuthUserWithCommunity($uid,$community_id)
     {
         $auth = self::where(['to_user_id' => $uid, 'community_id' => $community_id, 'delete_time' => 0])
-            ->field('auth')->find()->toArray();
+            ->field('auth')->find();
+        if ($auth) $auth->toArray();
         $community_user = CommunityUserModel::where(['user_id' => $uid, 'community_id' => $community_id, 'delete_time' => 0])
-            ->field('type')->find()->toArray();
-        return  array_merge($auth,$community_user);
+            ->field('type')->find();
+        if ($community_user) $community_user->toArray();
+        if (is_array($auth) && is_array($community_user)){
+            return  array_merge($auth,$community_user);
+        }
     }
 
 }
