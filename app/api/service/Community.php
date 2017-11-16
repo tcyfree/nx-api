@@ -284,6 +284,41 @@ class Community
     }
 
     /**
+     * 检查此行动社管理员权限
+     * 1.如果是社长直接放行
+     * 2.将不在权限内结果false返回
+     *
+     * @param $uid
+     * @param $community_id
+     * @param $subject
+     * @return bool
+     */
+    public function checkNewManagerAuthority($uid,$community_id,$subject)
+    {
+        $where['to_user_id'] = $uid;
+        $where['community_id'] = $community_id;
+        $where['delete_time'] = 0;
+
+        $cu_obj = CommunityUserModel::get(['community_id' => $community_id, 'user_id' => $uid]);
+        if ($cu_obj->type ==0){
+            return true;
+        }
+        $res = AuthUserModel::get($where);
+        if(!$res){
+            return false;
+        }else{
+            $pattern = explode(',', $res->auth);
+            foreach ($subject as $v){
+                if (!in_array($v, $pattern))
+                {
+                    return false;
+                }
+            }
+        }
+
+    }
+
+    /**
      * 检查是否是社长
      * @param $community_id
      * @param $uid
