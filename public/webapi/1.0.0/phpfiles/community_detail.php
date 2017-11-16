@@ -91,7 +91,7 @@
     <tr>
         <td>user.auth</td>
         <td>管理权限值</td>
-        <td>&nbsp;user.type为1时，不为null。如："1,2,4"来判断管理员是否有对应操作管理权限</td>
+        <td>&nbsp;type为1时，不为null。如："1,2,4"来判断管理员是否有对应操作管理权限</td>
     </tr>
 
 
