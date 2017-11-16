@@ -15,11 +15,14 @@ namespace app\api\controller\v1;
 
 
 use app\api\controller\BaseController;
+use app\api\model\BlockedList;
 use app\api\model\Message as MessageModel;
 use app\api\service\Token as TokenService;
 use app\api\validate\MessageNew;
 use app\api\validate\UUID;
+use app\lib\exception\ForbiddenException;
 use app\lib\exception\SuccessMessage;
+use app\api\model\BlockedList as BlockedListModel;
 
 
 class Message extends BaseController
@@ -73,18 +76,23 @@ class Message extends BaseController
      * 1 发私信
      * 同时生成两条私信记录：type 0 回复 1 被回复
      * 发私信方：look = 1
+     * 1.是否在对方黑名单
      *
      * @return \think\response\Json
+     * @throws ForbiddenException
      */
     public function addMessage()
     {
         (new MessageNew())->goCheck();
         $uid = TokenService::getCurrentUid();
         $data = input('post.');
+        $res = BlockedListModel::judgeBlockedListUser($data['to_user_id'],$uid);
+        if ($res) throw new ForbiddenException([
+            'msg' => '你被对方拉入黑名单啦！'
+        ]);
         $data['user_id'] = $uid;
         $data['look'] = 1;
         MessageModel::create($data);
-
         $reply_data['to_user_id'] = $uid;
         $reply_data['user_id'] = $data['to_user_id'];
         $reply_data['content'] = $data['content'];
