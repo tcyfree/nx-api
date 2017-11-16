@@ -169,6 +169,7 @@ class Task
 
     /**
      * 排除获取反馈表不在备选人中的用户
+     * 为了不让tag最小的一直到和其它同样时才能随机，所以每次有新的备选人就更新所有tag为1
      *
      * 从新的备选中里tag最小中获取第一个人，更新被选中者的tag + 1
      *
@@ -179,13 +180,17 @@ class Task
     {
         $where['community_id'] = $community_id;
 
-        TaskFeedbackUsersModel::update(['tag' => 1],['community_id' => $community_id]);
+//        TaskFeedbackUsersModel::update(['tag' => 1],['community_id' => $community_id]);
 
         $data = TaskFeedbackUsersModel::where($where)
             ->field('user_id,tag')
             ->order('tag ASC')
             ->select()
             ->toArray();
+//        $sqlStr = "SELECT * FROM qxd_task_feedback_users WHERE tag =
+//                  (SELECT min(tag) FROM qxd_task_feedback_users  WHERE
+//                  community_id = '$community_id'";
+//        $data = Db::query($sqlStr);
 
         foreach ($data as $v)
         {

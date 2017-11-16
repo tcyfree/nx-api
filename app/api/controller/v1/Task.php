@@ -42,6 +42,7 @@ use app\api\service\Execution as Es;
 use app\api\model\Callback as CallbackModel;
 use app\api\model\TaskUser as TaskUserModel;
 use app\api\service\TaskFeedback as TaskFeedbackService;
+use app\api\model\TaskFeedbackUsers;
 
 class Task extends BaseController
 {
@@ -261,8 +262,11 @@ class Task extends BaseController
             unset($dataRules['to_user_id']);
             $task_service = new TaskService();
             $res = false;
+            $feedback_user_id = '';
             while (!$res){
                 $feedback_user_id = $task_service->getRandManagerID($dataRules['task_id']);
+                $log = LOG_PATH.'feedback.log';
+                file_put_contents($log, $feedback_user_id.' '.date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
                 $res = $task_service->checkFeedbackAuthority($feedback_user_id,$dataRules['task_id']);
             }
             $dataRules['to_user_id'] = $feedback_user_id;
@@ -387,24 +391,38 @@ class Task extends BaseController
     {
 //        $t = new Es();
 //        $t->checkActPlanUserFinish('8b47815b-0f9c-0811-3a6a-accc9e4acdbd','b9d25df4-8e9e-f917-f559-4872db0b9ea6');
-        $dataRules = input('post.');
-        $dataRules['id'] = uuid();
-        $dataRules['user_id'] = '0a9064ba-711f-5049-9300-c0cc88e1edf7';
-        print_r($dataRules);
-        $result = TaskFeedbackModel::create($dataRules);
-        $uid = TokenService::getCurrentUid();
-        $id = uuid();
-        $dataRules['id'] = $id;
-        Db::startTrans();
-        try{
-            $result = TaskFeedbackModel::create($dataRules);
-            $deadline = $result['create_time'] + 86400;
-            CallbackModel::create(['key_id' => $id, 'user_id' => $uid, 'deadline' => $deadline, 'key_type' => 1]);
-            Db::commit();
-        }catch (Exception $ex){
-            Db::rollback();
-            throw $ex;
-        }
+//        $dataRules = input('post.');
+//        $dataRules['id'] = uuid();
+//        $dataRules['user_id'] = '0a9064ba-711f-5049-9300-c0cc88e1edf7';
+//        print_r($dataRules);
+//        $result = TaskFeedbackModel::create($dataRules);
+//        $uid = TokenService::getCurrentUid();
+//        $id = uuid();
+//        $dataRules['id'] = $id;
+//        Db::startTrans();
+//        try{
+//            $result = TaskFeedbackModel::create($dataRules);
+//            $deadline = $result['create_time'] + 86400;
+//            CallbackModel::create(['key_id' => $id, 'user_id' => $uid, 'deadline' => $deadline, 'key_type' => 1]);
+//            Db::commit();
+//        }catch (Exception $ex){
+//            Db::rollback();
+//            throw $ex;
+//        }
+        $where['community_id'] = '3f18ccf9-11bd-7484-549e-6b0396329e61';
+
+
+        $data = TaskFeedbackUsers::where($where)
+            ->field('user_id,tag')
+            ->order('tag ASC')
+            ->select()
+            ->toArray();
+        var_dump($data);
+        $sqlStr = "SELECT * FROM qxd_task_feedback_users WHERE tag = 
+                  (SELECT min(tag) FROM qxd_task_feedback_users  WHERE 
+                  community_id = '3f18ccf9-11bd-7484-549e-6b0396329e61')";
+        $data = Db::query($sqlStr);
+        var_dump($data);
 
     }
 
