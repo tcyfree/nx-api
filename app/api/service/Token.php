@@ -30,12 +30,21 @@ class Token
         return md5($randChars . $timestamp . $salt);
     }
 
+    /**
+     * 根据key获取token里的数据
+     * 1. || !is_array($vars) 可能会取到其它数值
+     *
+     * @param $key
+     * @return mixed
+     * @throws Exception
+     * @throws TokenException
+     */
     public static function getCurrentTokenVar($key)
     {
         $token = Request::instance()
             ->header('token');
         $vars = Cache::store('redis')->get($token);
-        if (!$vars)
+        if (!$vars || !is_array($vars))
         {
             throw new TokenException();
         }
