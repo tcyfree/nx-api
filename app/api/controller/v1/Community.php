@@ -327,6 +327,8 @@ class Community extends BaseController
     /**
      * 设置管理员
      * 1.被设置者必须先加入此行动社
+     * 2.被设置者必须是付费用户
+     *
      * @return \think\response\Json
      */
     public function setManager()

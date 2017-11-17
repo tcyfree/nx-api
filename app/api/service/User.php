@@ -50,6 +50,10 @@ class User
             throw new  ParameterException([
                 'msg' => '自己不能将自己设置为管理员'
             ]);
+        }elseif (!$res['pay']){
+            throw new ParameterException([
+                'msg' => '该用户不是付费用户'
+            ]);
         }
 
         return $user_id;
