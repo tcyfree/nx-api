@@ -413,7 +413,7 @@ class Community extends BaseController
         try{
             if($community['type'] == 1){
                 CommunityUserModel::update(['type' => '2','update_time' => time()],['user_id' => $uid, 'community_id' => $id]);
-                AuthUserModel::update(['auth' => '', 'update_time' => time()],['to_user_id' => $uid,'community_id' => $id]);
+                AuthUserModel::update(['delete_time' => time()],['to_user_id' => $uid,'community_id' => $id]);
             }else{
                 CommunityUserRecord::create(['user_id' => $uid, 'community_id' => $id, 'type' => $community['type'],
                     'join_time' => strtotime($community['create_time']), 'pay' => $community['pay']]);
