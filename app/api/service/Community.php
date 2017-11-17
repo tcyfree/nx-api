@@ -182,14 +182,6 @@ class Community
     {
         $obj = new CommunityUserModel();
         $where['user_id'] = $uid;
-        $where['status'] = 0;
-        $count = $obj->where($where)->count('user_id');
-        if($count > AllowJoinStatusEnum::ALLOW_JOIN_MANAGER){
-            throw new CommunityException([
-                'msg' => '拥有社长身份行动社数量超过'.AllowJoinStatusEnum::ALLOW_JOIN_MANAGER.'个',
-                'code' => 400
-            ]);
-        }
         $where['status'] = 2;
         $count = $obj->where($where)->count('user_id');
         if($count > AllowJoinStatusEnum::ALLOW_JOIN_NORMAL){

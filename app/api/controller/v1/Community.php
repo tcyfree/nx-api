@@ -442,7 +442,7 @@ class Community extends BaseController
         Db::startTrans();
         try{
 
-            CommunityService::checkNormalAllowJoinStatus($uid);
+            CommunityService::checkAllowJoinStatus($uid);
             CommunityService::checkCommunityUserExists($id,$uid);
             CommunityService::checkCommunityUserLimit($id);
             $pay = CommunityService::getPayLastJoinCommunity($id,$uid);
