@@ -52,7 +52,7 @@ class Task extends BaseModel
     public static function getSummaryList($id, $page, $size)
     {
         $where['act_plan_id'] = $id;
-        $where['release'] = 0;
+        $where['release'] = ['in','0,1'];
         $where['delete_time'] = 0;
         $pagingData = self::where($where)
             ->order('create_time asc')
