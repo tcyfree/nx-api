@@ -255,6 +255,8 @@ class Task extends BaseController
         $validate = new Feedback();
         $validate->goCheck();
         $dataRules = input('post.');
+        $log = LOG_PATH.'feedback_user_id.log';
+        file_put_contents($log,json_encode($dataRules).date('Y-m-d H:i:s')."\r\n",FILE_APPEND);
         $uid = TokenService::getCurrentUid();
         if (isset($dataRules['status'])){
             unset($dataRules['status']);
