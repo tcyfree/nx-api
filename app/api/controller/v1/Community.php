@@ -429,6 +429,8 @@ class Community extends BaseController
 
     /**
      * 免费加入行动社
+     * 1.如果是之前退出行动社再加入，保留在最近加入的那次属性：是否是付费用户
+     *
      * @param $id
      * @return \think\response\Json
      * @throws Exception
@@ -444,8 +446,10 @@ class Community extends BaseController
             CommunityService::checkAllowJoinStatus($uid);
             CommunityService::checkCommunityUserExists($id,$uid);
             CommunityService::checkCommunityUserLimit($id);
-            CommunityUserModel::create(['community_id' => $id, 'user_id' => $uid]);
-
+            $pay = CommunityService::getPayLastJoinCommunity($id,$uid);
+            CommunityUserModel::create(['community_id' => $id, 'user_id' => $uid, 'pay' => $pay]);
+            $error_log = LOG_PATH.'wx_notify_error.log';
+            file_put_contents($error_log, CommunityUserModel::getLastSql().' '.date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
             Db::commit();
         }catch (Exception $ex)
         {
@@ -503,16 +507,9 @@ class Community extends BaseController
 
     public function test()
     {
-//        $url = 'http://weixin.xingdongshe.com/template/groupPage.html?id=ec685e49-3456-6a37-8220-be6bb35868ae';
-//        $image_process = new ImageProcessingService();
-//        $cover_image = 'http://qxd-test.oss-cn-beijing.aliyuncs.com/user-dir/yrk71qh8iHW1zbyqsLuYqDzTGrDJRLeH.png'.config('oss.rounded-corners');
-//        $res = $image_process->getQRCodeByCoverImage($url,$cover_image);
-//        $process_time = sys_processTime();
-//        return [
-//            'url' => $res['oss-request-url'],
-//            'process_time' => $process_time
-//        ];
-//        echo getCharIndex('测试');
+        $res =  CommunityService::getPayLastJoinCommunity('2dab05cf-311a-ebac-5076-058f3a2d678a',
+            '1d64bd0d-6628-464a-92df-07cb4145a58c');
+        var_dump($res);
     }
 
 }

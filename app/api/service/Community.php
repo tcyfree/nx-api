@@ -9,7 +9,9 @@
 namespace app\api\service;
 use app\api\model\ActPlanUser as ActPlanUserModel;
 use app\api\model\AuthUser;
+use app\api\model\CommunityUserRecord as CommunityUserRecordModel;
 use app\api\model\CommunityUser as CommunityUserModel;
+use app\api\model\CommunityUserRecord;
 use app\api\service\Token as TokenService;
 use app\lib\enum\AllowJoinStatusEnum;
 use app\lib\exception\CommunityException;
@@ -331,6 +333,29 @@ class Community
             throw new ForbiddenException([
                 'msg' => '你不是社长，没有此权限！'
             ]);
+        }
+    }
+
+    /**
+     *判断用户最近一次退出行动社是否为付费用户
+     * 1 需要去用户加入行动社备份里面去查找
+     *
+     * @param $community_id
+     * @param $uid
+     * @return int
+     */
+    public static function getPayLastJoinCommunity($community_id,$uid)
+    {
+        $where['community_id'] = $community_id;
+        $where['user_id'] = $uid;
+        $pay = CommunityUserRecordModel::where($where)
+            ->field('pay')
+            ->order('create_time DESC')
+            ->select()->toArray();
+        if ($pay){
+            return $pay[0]['pay'];
+        }else{
+            return 0;
         }
     }
 }
