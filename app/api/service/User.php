@@ -30,21 +30,20 @@ class User
         $user = UserModel::get(['number' => $number]);
         if(!$user){
             throw new UserException([
-                'msg' => '用户不存在',
-                'errorCode' => 60001
+                'msg' => '用户不存在'
             ]);
         }
         $user = $user->toArray();
         $user_id = $user['id'];
 
-        $res = CommunityUserModel::get(['user_id' => $user_id, 'community_id' => $community_id])->toArray();
+        $res = CommunityUserModel::get(['user_id' => $user_id, 'community_id' => $community_id]);
         if(!$res)
         {
             throw new ParameterException([
-                'msg' => '该用户还未加入本行动社',
-                'errorCode' => 60002
+                'msg' => '该用户还未加入本行动社'
             ]);
         }
+        $res = $res->toArray();
         if($res['type'] == 0)
         {
             throw new  ParameterException([
