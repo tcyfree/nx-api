@@ -65,7 +65,7 @@ class Community extends BaseController
         $validate->goCheck();
 
         $data['user_id'] = TokenService::getCurrentUid();
-        CommunityService::checkAllowJoinStatus($data['user_id']);
+        CommunityService::checkManagerAllowJoinStatus($data['user_id']);
         $dataArray = $validate->getDataByRule(input('post.'));
 
         $res = CommunityModel::get(['name' => $dataArray['name']]);
@@ -328,6 +328,7 @@ class Community extends BaseController
      * 设置管理员
      * 1.被设置者必须先加入此行动社
      * 2.被设置者必须是付费用户
+     * 3.判断被设置管理员是否到达上限
      *
      * @return \think\response\Json
      */
@@ -339,6 +340,7 @@ class Community extends BaseController
 
         $cs = new CommunityService();
         $cs->checkPresident($dataArray['community_id'],$uid);
+        CommunityService::checkManagerAllowJoinStatus($uid);
 
         $data['to_user_id'] = UserService::getManagerUser($dataArray['number'],$dataArray['community_id']);
         $data['from_user_id'] = $uid;
@@ -445,7 +447,7 @@ class Community extends BaseController
         Db::startTrans();
         try{
 
-            CommunityService::checkAllowJoinStatus($uid);
+            CommunityService::checkNormalAllowJoinStatus($uid);
             CommunityService::checkCommunityUserExists($id,$uid);
             CommunityService::checkCommunityUserLimit($id);
             $pay = CommunityService::getPayLastJoinCommunity($id,$uid);

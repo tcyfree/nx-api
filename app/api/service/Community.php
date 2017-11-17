@@ -171,6 +171,58 @@ class Community
     }
 
     /**
+     * 判断用户相关的行动是否达到上限
+     * 普通成员上限： ALLOW_JOIN_NORMAL
+     * 不包含已退的行动社
+     *
+     * @param $uid
+     * @throws CommunityException
+     */
+    public static function checkNormalAllowJoinStatus($uid)
+    {
+        $obj = new CommunityUserModel();
+        $where['user_id'] = $uid;
+        $where['status'] = 0;
+        $count = $obj->where($where)->count('user_id');
+        if($count > AllowJoinStatusEnum::ALLOW_JOIN_MANAGER){
+            throw new CommunityException([
+                'msg' => '拥有社长身份行动社数量超过'.AllowJoinStatusEnum::ALLOW_JOIN_MANAGER.'个',
+                'code' => 400
+            ]);
+        }
+        $where['status'] = 2;
+        $count = $obj->where($where)->count('user_id');
+        if($count > AllowJoinStatusEnum::ALLOW_JOIN_NORMAL){
+            throw new CommunityException([
+                'msg' => '加入普通身份行动社数量超过'.AllowJoinStatusEnum::ALLOW_JOIN_NORMAL.'个',
+                'code' => 400
+            ]);
+        }
+    }
+
+    /**
+     * 判断用户相关的行动是否达到上限
+     * 管理+社长：ALLOW_JOIN_MANAGER
+     * 不包含已退的行动社
+     *
+     * @param $uid
+     * @throws CommunityException
+     */
+    public static function checkManagerAllowJoinStatus($uid)
+    {
+        $obj = new CommunityUserModel();
+        $where['user_id'] = $uid;
+        $where['status'] = 0;
+        $count = $obj->where($where)->count('user_id');
+        if($count > AllowJoinStatusEnum::ALLOW_JOIN_MANAGER){
+            throw new CommunityException([
+                'msg' => '拥有社长+管理员身份行动社数量超过'.AllowJoinStatusEnum::ALLOW_JOIN_MANAGER.'个',
+                'code' => 400
+            ]);
+        }
+    }
+
+    /**
      * 1. 检查该行动社人数是否已达上限
      * 2. 检查付费用户是否达上限
      * 二者满足其一即不然再加入行动社了

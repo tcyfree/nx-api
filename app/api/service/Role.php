@@ -43,7 +43,7 @@ class Role
                 $cData['user_id'] = $data['to_user_id'];
                 $cData['community_id'] = $data['community_id'];
                 $cData['type'] = 0;
-                CommunityService::checkAllowJoinStatus($data['to_user_id']);
+                CommunityService::checkManagerAllowJoinStatus($data['to_user_id']);
                 CommunityService::checkCommunityUserLimit($data['community_id']);
                 CommunityUser::create($cData);
             }else{
