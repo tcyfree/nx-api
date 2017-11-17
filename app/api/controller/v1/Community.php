@@ -122,27 +122,22 @@ class Community extends BaseController
         $validate = new CommunityValidate();
         $validate->goCheck();
         $uid = TokenService::getCurrentUid();
-
         $data['user_id'] = $uid;
         $dataArray = $validate->getDataByRule(input('put.'));
         $id = $dataArray['id'];
         CommunityModel::checkCommunityExists($id);
         CommunityUserModel::checkCommunityBelongsToUser($uid, $id);
-
         CommunityModel::checkNameUpdate($id,$dataArray['name']);
-
-
         //开启事物
         Db::startTrans();
         try
         {
-
-            CommunityModel::update($dataArray,['id'=>$id]);
             $result = CommunityModel::get(['id' =>$id]);
             $result = $result->toArray();
             if($result['update_num'] == 0){
                 throw new UpdateNumException();
             }
+            CommunityModel::update($dataArray,['id'=>$id]);
             //自减修改次数
             CommunityModel::where('id',$id)->setDec('update_num');
             Db::commit();
