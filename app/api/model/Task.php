@@ -42,6 +42,8 @@ class Task extends BaseModel
         return $this->hasMany('TaskFeedback','task_id','id');
     }
     /**
+     * 草稿
+     *
      * @param $id
      * @param $page
      * @param $size
@@ -50,7 +52,8 @@ class Task extends BaseModel
     public static function getSummaryList($id, $page, $size)
     {
         $where['act_plan_id'] = $id;
-        $where['release'] = 1;
+        $where['release'] = 0;
+        $where['delete_time'] = 0;
         $pagingData = self::where($where)
             ->order('create_time asc')
             ->paginate($size, true, ['page' => $page]);
