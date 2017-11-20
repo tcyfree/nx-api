@@ -41,7 +41,7 @@ class TaskAccelerate extends BaseModel
 
         Db::startTrans();
         try{
-            $ts_obj->checkAccelerateTask($data);
+            $ts_obj->checkAccelerateTask($uid,$data);
             $dataArray['from_user_id'] = $uid;
             $dataArray['user_id'] = $data['user_id'];
             $dataArray['task_id'] = $data['task_id'];

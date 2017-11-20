@@ -69,11 +69,12 @@ class Task
 
     /**
      * 检查加速任务
+     * @param $uid
      * @param $data
      * @throws AcceleateTaskException
      * @throws ParameterException
      */
-    public function checkAccelerateTask($data){
+    public function checkAccelerateTask($uid,$data){
 
         $task = TaskModel::get(['id' => $data['task_id']]);
 
@@ -82,7 +83,7 @@ class Task
                 'msg' => '该任务不存在，请检查ID:'.$data['task_id']
             ]);
         }
-        TaskUserModel::checkTaskUserFinish($data['user_id'],$data['task_id']);
+        TaskUserModel::checkTaskUserFinish($uid,$data['user_id'],$data['task_id']);
 
         $where['user_id'] = $data['user_id'];
         $where['act_plan_id'] = $task['act_plan_id'];

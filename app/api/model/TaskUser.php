@@ -15,7 +15,7 @@ namespace app\api\model;
 
 
 use app\lib\exception\ParameterException;
-use app\api\model\Task as TaskModel;
+use app\api\model\TaskAccelerate as TaskAccelerateModel;
 
 class TaskUser extends BaseModel
 {
@@ -36,17 +36,28 @@ class TaskUser extends BaseModel
     }
 
     /**
-     * 检查用户任务是否已经结束
+     * 1.是否被自己点击加速的
+     * 2.检查用户任务是否已经结束
+     *
+     * @param $from_user_id
      * @param $uid
      * @param $task_id
      * @throws ParameterException
      */
-    public static function checkTaskUserFinish($uid,$task_id)
+    public static function checkTaskUserFinish($from_user_id,$uid,$task_id)
     {
+        $result = TaskAccelerateModel::get(['user_id' => $uid, 'from_user_id' => $from_user_id, 'task_id' => $task_id]);
+        $log = LOG_PATH.'task_accelerate.log';
+        file_put_contents($log,TaskAccelerateModel::getLastSql().date('Y-m-d H:i:s')."\r\n",FILE_APPEND);
+        if ($result){
+            throw new ParameterException([
+                'msg' => '您已经加速过！'
+            ]);
+        }
         $res = self::get(['user_id' => $uid, 'task_id' => $task_id, 'finish' => 1]);
         if($res){
             throw new ParameterException([
-                'msg' => '任务已经结束了！'
+                'msg' => '您的好友已完成该任务'
             ]);
         }
     }

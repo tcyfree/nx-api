@@ -205,6 +205,8 @@ class Task extends BaseController
         (new AccelerateTask())->goCheck();
         $uid = TokenService::getCurrentUid();
         $data = input('put.');
+        $log = LOG_PATH.'task_accelerate.log';
+        file_put_contents($log,$uid."\r\n".$data['user_id']."\r\n".date('Y-m-d H:i:s')."\r\n",FILE_APPEND);
         if ($uid == $data['user_id']){
             throw new ParameterException([
                 'msg' => '小样儿，自己不能给自己加速哦'
