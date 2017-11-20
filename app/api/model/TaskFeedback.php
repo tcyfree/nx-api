@@ -140,7 +140,7 @@ class TaskFeedback extends BaseModel
                 $id = uuid();
                 $data['id'] = $id;
                 $result = self::create($data);
-                $deadline = $result['create_time'] + config('setting.feedback_expire_in');
+                $deadline = (int)$result['create_time'] + (int)config('setting.feedback_expire_in');
                 CallbackModel::create(['key_id' => $id, 'user_id' => $res['user_id'], 'deadline' => $deadline, 'key_type' => 1]);
             }
             Db::commit();
