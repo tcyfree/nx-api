@@ -204,7 +204,8 @@ class Community
     {
         $obj = new CommunityUserModel();
         $where['user_id'] = $uid;
-        $where['status'] = 0;
+        $where['status'] = ['in','0,2'];
+        $where['type'] = ['in','0,1'];
         $count = $obj->where($where)->count('user_id');
         if($count > AllowJoinStatusEnum::ALLOW_JOIN_MANAGER){
             throw new CommunityException([
