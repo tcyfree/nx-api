@@ -40,7 +40,7 @@ class Execution extends BaseController
             $uid = TokenService::getCurrentUid();
         }
         $pageData = ExecutionModel::executionTrackerList($page,$size,$uid);
-        $data = $pageData->visible(['mode','update_time','task.id','task.name','task.act_plan.id','task.act_plan.name',
+        $data = $pageData->visible(['mode','update_time','finish','tag','task.id','task.name','task.act_plan.id','task.act_plan.name',
             'task.act_plan.community.id','task.act_plan.community.name']);
 
         return [
