@@ -102,7 +102,9 @@ class Task extends BaseController
         $dataArray = $validate->getDataByRule(input('put.'));
         $t_obj = TaskModel::get(['id' => $dataArray['id']]);
         if (!$t_obj){
-           throw new ParameterException();
+           throw new ParameterException([
+               'msg' => '任务不存在，ID错误！'
+           ]);
         }else{
             $ts = new TaskService();
             $ts->checkAuthority($uid,$t_obj->act_plan_id);
