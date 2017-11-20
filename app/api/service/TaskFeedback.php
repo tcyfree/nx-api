@@ -27,7 +27,8 @@ class TaskFeedback
      * 1 未给当前反馈人提交过反馈
      * 2 未通过审核提交反馈
      * 3 设置反馈有效时间为24小时内有效
-     * 4 坑：需要将TP自带时间戳转换功能再转换成时间戳格式
+     * 4 坑：需要将TP自带时间戳转换功能再转换成时间戳格式\
+     * 5.再次反馈更新审核者to_look = 0
      *
      * @param $dataRules
      * @param $uid
@@ -56,10 +57,10 @@ class TaskFeedback
         }elseif ($res['status'] == 1){
             if (isset($dataRules['location'])){
                 TaskFeedbackModel::update(['content' => $dataRules['content'],'location' => $dataRules['location'],'status' => 0, 'update_time' => time()],
-                    ['user_id' => $uid,'task_id' => $dataRules['task_id'],'status' => 1]);
+                    ['user_id' => $uid,'task_id' => $dataRules['task_id'],'status' => 1, 'to_look' => 0]);
             }else{
                 TaskFeedbackModel::update(['content' => $dataRules['content'],'status' => 0, 'update_time' => time()],
-                    ['user_id' => $uid,'task_id' => $dataRules['task_id'],'status' => 1]);
+                    ['user_id' => $uid,'task_id' => $dataRules['task_id'],'status' => 1, 'to_look' => 0]);
             }
 
 //            return json(new SuccessMessage(),201);
