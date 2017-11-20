@@ -196,6 +196,7 @@ class Community
      * 判断用户相关的行动是否达到上限
      * 管理+社长：ALLOW_JOIN_MANAGER
      * 不包含已退的行动社
+     * 允许加入数是否超过10个
      *
      * @param $uid
      * @throws CommunityException
@@ -213,6 +214,7 @@ class Community
                 'code' => 400
             ]);
         }
+        self::checkAllowJoinStatus($uid);
     }
 
     /**
