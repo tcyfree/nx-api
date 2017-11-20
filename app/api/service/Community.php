@@ -208,7 +208,7 @@ class Community
         $where['status'] = ['in','0,2'];
         $where['type'] = ['in','0,1'];
         $count = $obj->where($where)->count('user_id');
-        if($count > AllowJoinStatusEnum::ALLOW_JOIN_MANAGER){
+        if($count >= AllowJoinStatusEnum::ALLOW_JOIN_MANAGER){
             throw new CommunityException([
                 'msg' => '拥有社长+管理员身份行动社数量超过'.AllowJoinStatusEnum::ALLOW_JOIN_MANAGER.'个',
                 'code' => 400
