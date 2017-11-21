@@ -278,6 +278,7 @@ class Community extends BaseController
      * 成员列表
      * 权限：社长、管理员、付费用户
      * 将自己user_id 加入列表中
+     * 按拼音分组，A-Z和#
      *
      * @param $id
      * @param $page
@@ -302,7 +303,7 @@ class Community extends BaseController
             ->alias('c_u')
             ->join('__USER_INFO__ u','c_u.user_id = u.user_id')
             ->where('(c_u.pay = '."'".$pay."'".' OR c_u.type <> '."'".$type."'".') AND c_u.community_id = '."'".$id."'")
-            ->order('c_u.type ASC')
+            ->order('u.char_index ASC')
             ->field('c_u.type,c_u.pay,c_u.status,u.user_id,u.nickname,u.char_index,u.avatar,u.from')
             ->limit($page,$size)
             ->select()
@@ -315,12 +316,24 @@ class Community extends BaseController
         $newData = [];
         //按照拼音首字母分组
         foreach ($data as &$v) {
-            $newData[$v['char_index']][] = $v;
+            $pattern = '/[A-Z]/';
+            $subject = $v['char_index'];
+            $res = preg_match($pattern,$subject);
+            if (!$res){
+                $newData['#'][] = $v;
+            }else{
+                $newData[$v['char_index']][] = $v;
+            }
         }
-
+        foreach ($data as $key =>$value){
+            if ($value['type'] == 0){
+                $temp = $data[0];
+                $data[0] = $value;
+                $data[$key] = $temp;
+            }
+        }
         $data['user_id'] = $uid;
         $newData['user_id'] = $uid;
-
         return [
             'origin_data' => $data,
             'data' => $newData,
