@@ -77,6 +77,7 @@ class Message extends BaseController
      * 同时生成两条私信记录：type 0 回复 1 被回复
      * 发私信方：look = 1
      * 1.是否在对方黑名单
+     * 2.是否将对方拉黑了
      *
      * @return \think\response\Json
      * @throws ForbiddenException
@@ -89,6 +90,10 @@ class Message extends BaseController
         $res = BlockedListModel::judgeBlockedListUser($data['to_user_id'],$uid);
         if ($res) throw new ForbiddenException([
             'msg' => '你被对方拉入黑名单啦！'
+        ]);
+        $res = BlockedListModel::judgeBlockedListUser($uid,$data['to_user_id']);
+        if ($res) throw new ForbiddenException([
+            'msg' => '你将对方拉入黑名单啦！'
         ]);
         $data['user_id'] = $uid;
         $data['look'] = 1;
