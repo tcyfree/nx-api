@@ -89,11 +89,11 @@ class Message extends BaseController
         $data = input('post.');
         $res = BlockedListModel::judgeBlockedListUser($data['to_user_id'],$uid);
         if ($res) throw new ForbiddenException([
-            'msg' => '你被对方拉入黑名单啦！'
+            'msg' => '你被对方拉入黑名单啦，不能发私信！'
         ]);
         $res = BlockedListModel::judgeBlockedListUser($uid,$data['to_user_id']);
         if ($res) throw new ForbiddenException([
-            'msg' => '你将对方拉入黑名单啦！'
+            'msg' => '你将对方拉入黑名单啦，不能发私信！'
         ]);
         $data['user_id'] = $uid;
         $data['look'] = 1;
