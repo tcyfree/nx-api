@@ -84,6 +84,11 @@
         <td>&nbsp;</td>
     </tr>
     <tr>
+        <td>user.pay</td>
+        <td>是否为付费成员</td>
+        <td>&nbsp;0 否 1 是  null 未加入</td>
+    </tr>
+    <tr>
         <td>user.count</td>
         <td>用户已加入有效行动社数量</td>
         <td>&nbsp;判断用户是否可免费加入，最多可以参加XXXX个</td>
