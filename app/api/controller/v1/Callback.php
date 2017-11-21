@@ -37,9 +37,9 @@ class Callback extends BaseController
         $where['status'] = ['neq',1];
         $callback_array = CallbackModel::whereTime('deadline','<=',time())->where($where)->select()->toArray();
         $log_time = LOG_PATH.'callback_time.log';
-        file_put_contents($log_time,CallbackModel::getLastSql(). ' '.date('Y-m-d H:i:s')."\r\n",FILE_APPEND);
+//        file_put_contents($log_time,CallbackModel::getLastSql(). ' '.date('Y-m-d H:i:s')."\r\n",FILE_APPEND);
         $log = LOG_PATH.'callback.log';
-        file_put_contents($log,date('Y-m-d H:i:s')."\r\n",FILE_APPEND);
+//        file_put_contents($log,date('Y-m-d H:i:s')."\r\n",FILE_APPEND);
         try{
             if ($callback_array){
                 foreach ($callback_array as $v){

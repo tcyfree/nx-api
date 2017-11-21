@@ -111,6 +111,8 @@ class Community extends BaseController
 
     /**
      * 编辑行动社
+     * 1.更新二维码
+     *
      * @return \think\response\Json
      * @throws ParameterException
      * @throws UpdateNumException
@@ -137,6 +139,13 @@ class Community extends BaseController
             if($result['update_num'] == 0){
                 throw new UpdateNumException();
             }
+            $logo = $dataArray['cover_image'].config('oss.rounded-corners');
+            $image_process = new ImageProcessingService();
+            $dataArray['qr_prefix_url'] = 'http://weixin.xingdongshe.com/template/groupPage.html?id=';
+            $url = $dataArray['qr_prefix_url'].$dataArray['id'];
+            $res = $image_process->getQRCodeByCoverImage($url,$logo);
+            $dataArray['qr_code'] = $res['oss-request-url'];
+            unset($dataArray['qr_prefix_url']);
             CommunityModel::update($dataArray,['id'=>$id]);
             //自减修改次数
             CommunityModel::where('id',$id)->setDec('update_num');

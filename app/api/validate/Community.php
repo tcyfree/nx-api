@@ -15,7 +15,8 @@ class Community extends BaseValidate
         'id' => 'require|length:36',
         'name' => 'require|justChineseW',
         'description' => 'require|max:140',
-        'cover_image'=> 'require|url'
+        'cover_image'=> 'require|url',
+        'qr_prefix_url'     => 'require|url'
     ];
 
     protected $message = [
