@@ -27,7 +27,7 @@ class TaskFeedback
      * 1 未给当前反馈人提交过反馈
      * 2 未通过审核提交反馈
      * 3 设置反馈有效时间为24小时内有效
-     * 4 坑：需要将TP自带时间戳转换功能再转换成时间戳格式\
+     * 4 坑：需要将TP自带时间戳转换功能再转换成时间戳格式
      * 5.再次反馈更新审核者to_look = 0
      *
      * @param $dataRules
@@ -45,7 +45,7 @@ class TaskFeedback
             Db::startTrans();
             try{
                 $result = TaskFeedbackModel::create($dataRules);
-                $deadline = strtotime($result['create_time']) + 86400;
+                $deadline = (int)strtotime($result['create_time']) + 86400;
                 CallbackModel::create(['key_id' => $id, 'user_id' => $uid, 'deadline' => $deadline, 'key_type' => 1]);
                 Db::commit();
             }catch (Exception $ex){

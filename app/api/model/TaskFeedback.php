@@ -108,6 +108,8 @@ class TaskFeedback extends BaseModel
      *    3 生成新的反馈记录
      *    4 生成新的回调记录
      *   )
+     * 2. 坑：需要将TP自带时间戳转换功能再转换成时间戳格式再加86400
+     *
      * @param $v
      * @param $log
      * @throws Exception
@@ -132,15 +134,15 @@ class TaskFeedback extends BaseModel
                 $data['user_id'] = $res['user_id'];
                 $data['to_user_id'] = $to_user_id;
                 $data['task_id'] = $res['task_id'];
-                $data['content'] = $res['content'];
                 if (isset($res['location'])){
+                $data['content'] = $res['content'];
                     $data['location'] = $res['location'];
                 }
 
                 $id = uuid();
                 $data['id'] = $id;
                 $result = self::create($data);
-                $deadline = (int)$result['create_time'] + (int)config('setting.feedback_expire_in');
+                $deadline = (int)strtotime($result['create_time']) + (int)config('setting.feedback_expire_in');
                 CallbackModel::create(['key_id' => $id, 'user_id' => $res['user_id'], 'deadline' => $deadline, 'key_type' => 1]);
             }
             Db::commit();
