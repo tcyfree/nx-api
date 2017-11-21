@@ -97,6 +97,7 @@ class Community
      * 用户已经参加的行动社数量
      * 用户是否加入该行动社
      * 权限值
+     * 是否付费
      *
      * @param $data
      * @return mixed
@@ -111,10 +112,12 @@ class Community
             $data['user']['join'] = false;
             $data['user']['status'] = null;
             $data['user']['type'] = null;
+            $data['user']['pay'] = null;
         }else{
             $data['user']['join'] = true;
             $data['user']['status'] = $community_user['status'];
             $data['user']['type'] = $community_user['type'];
+            $data['user']['pay'] = $community_user['pay'];
         }
         $obj = new CommunityUserModel();
         $data['user']['count'] = $obj->where(['user_id' => $uid, 'status' =>['neq',1]])->count('user_id');
