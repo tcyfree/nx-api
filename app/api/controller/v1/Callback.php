@@ -34,7 +34,7 @@ class Callback extends BaseController
     public function doCallback()
     {
 //        $this->checkIPWhiteList();
-        $where['status'] = ['neq',1];
+        $where['status'] = 0;
         $callback_array = CallbackModel::whereTime('deadline','<=',time())->where($where)->select()->toArray();
         $log_time = LOG_PATH.'callback_time.log';
 //        file_put_contents($log_time,CallbackModel::getLastSql(). ' '.date('Y-m-d H:i:s')."\r\n",FILE_APPEND);
