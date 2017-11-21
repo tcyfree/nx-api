@@ -215,7 +215,7 @@ class Community
         file_put_contents($log,$obj->getLastSql().' '.$count.' '.date('Y-m-d H:i:s')."\r\n",FILE_APPEND);
         if($count >= AllowJoinStatusEnum::ALLOW_JOIN_MANAGER){
             throw new CommunityException([
-                'msg' => '拥有社长+管理员身份行动社数量超过'.AllowJoinStatusEnum::ALLOW_JOIN_MANAGER.'个',
+                'msg' => '该用户拥有社长+管理员身份行动社数量超过'.AllowJoinStatusEnum::ALLOW_JOIN_MANAGER.'个',
                 'code' => 400
             ]);
         }
