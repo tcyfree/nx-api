@@ -162,14 +162,14 @@ class Community
      * @param $count_manager
      * @throws CommunityException
      */
-    public static function checkAllowJoinStatus($uid,$check,$count_manager)
+    public static function checkAllowJoinStatus($uid, $check = false, $count_manager = 0)
     {
         $obj = new CommunityUserModel();
         $where['user_id'] = $uid;
         $where['status'] = ['in',[0,2]];
         $count = $obj->where($where)->count('user_id');
         if ($check){
-            if ($count_manager == 4 && $count == 10){
+            if ($count_manager < AllowJoinStatusEnum::ALLOW_JOIN_MANAGER && $count == AllowJoinStatusEnum::ALLOW_JOIN_OUT){
                 return;
             }
         }
@@ -191,7 +191,7 @@ class Community
      * 管理+社长：ALLOW_JOIN_MANAGER
      * 不包含已退的行动社
      * 允许加入数是否超过10个
-     * 1.check = true 设置管理员和转让时，当管理+社长=4，普通成员=6时，放行
+     * 1.check = true 被设置管理员和转让行动社的用户，拥有管理+社长 < ALLOW_JOIN_MANAGER，加入/拥有/管理行动社总数上限 = ALLOW_JOIN_OUT时，对其放行。
      *
      * @param $uid
      * @param $check
