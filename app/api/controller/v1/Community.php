@@ -358,7 +358,7 @@ class Community extends BaseController
         $cs = new CommunityService();
         $cs->checkPresident($dataArray['community_id'],$uid);
         $data['to_user_id'] = UserService::getManagerUser($dataArray['number'],$dataArray['community_id']);
-        CommunityService::checkManagerAllowJoinStatus($data['to_user_id']);
+        CommunityService::checkManagerAllowJoinStatus($data['to_user_id'],true);
         $data['from_user_id'] = $uid;
         $auth = CommunityService::authFilter($dataArray['auth']);
         $data['auth'] = $auth;

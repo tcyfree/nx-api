@@ -156,15 +156,23 @@ class Community
     /**
      * 判断用户相关的行动是否达到上限ALLOW_JOIN_OUT
      * 不包含已退的行动社
+     *
      * @param $uid
+     * @param $check
+     * @param $count_manager
      * @throws CommunityException
      */
-    public static function checkAllowJoinStatus($uid)
+    public static function checkAllowJoinStatus($uid,$check,$count_manager)
     {
         $obj = new CommunityUserModel();
         $where['user_id'] = $uid;
         $where['status'] = ['in',[0,2]];
         $count = $obj->where($where)->count('user_id');
+        if ($check){
+            if ($count_manager == 4 && $count == 10){
+                return;
+            }
+        }
         if($count >= AllowJoinStatusEnum::ALLOW_JOIN_OUT){
             throw new CommunityException([
                 'msg' => '加入行动社数量超过'.AllowJoinStatusEnum::ALLOW_JOIN_OUT.'个',
@@ -173,26 +181,9 @@ class Community
         }
     }
 
-    /**
-     * 判断用户相关的行动是否达到上限
-     * 普通成员上限： ALLOW_JOIN_NORMAL
-     * 不包含已退的行动社
-     *
-     * @param $uid
-     * @throws CommunityException
-     */
-    public static function checkNormalAllowJoinStatus($uid)
+    public static function getCheckManagerAndNormal()
     {
-        $obj = new CommunityUserModel();
-        $where['user_id'] = $uid;
-        $where['status'] = 2;
-        $count = $obj->where($where)->count('user_id');
-        if($count > AllowJoinStatusEnum::ALLOW_JOIN_NORMAL){
-            throw new CommunityException([
-                'msg' => '加入普通身份行动社数量超过'.AllowJoinStatusEnum::ALLOW_JOIN_NORMAL.'个',
-                'code' => 400
-            ]);
-        }
+
     }
 
     /**
@@ -200,11 +191,13 @@ class Community
      * 管理+社长：ALLOW_JOIN_MANAGER
      * 不包含已退的行动社
      * 允许加入数是否超过10个
+     * 1.check = true 设置管理员和转让时，当管理+社长=4，普通成员=6时，放行
      *
      * @param $uid
+     * @param $check
      * @throws CommunityException
      */
-    public static function checkManagerAllowJoinStatus($uid)
+    public static function checkManagerAllowJoinStatus($uid,$check = false)
     {
         $obj = new CommunityUserModel();
         $where['user_id'] = $uid;
@@ -219,8 +212,10 @@ class Community
                 'code' => 400
             ]);
         }
-        self::checkAllowJoinStatus($uid);
+        self::checkAllowJoinStatus($uid,$check,$count);
     }
+
+
 
     /**
      * 1. 检查该行动社人数是否已达上限

@@ -22,9 +22,6 @@ class AllowJoinStatusEnum
     // 加入数量已满
     const ALLOW_JOIN_OUT = 10;
 
-    //普通身份
-    const ALLOW_JOIN_NORMAL = 5;
-
     //管理员 + 社长
     const ALLOW_JOIN_MANAGER = 5;
 }

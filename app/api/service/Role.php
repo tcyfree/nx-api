@@ -41,7 +41,7 @@ class Role
         {
             CommunityTransfer::create($data);
             $to_user = CommunityUser::get(['user_id' => $data['to_user_id'], 'community_id' => $data['community_id']]);
-            CommunityService::checkManagerAllowJoinStatus($data['to_user_id']);
+            CommunityService::checkManagerAllowJoinStatus($data['to_user_id'],true);
             CommunityService::checkCommunityUserLimit($data['community_id']);
             if(!$to_user){
                 $cData['user_id'] = $data['to_user_id'];
