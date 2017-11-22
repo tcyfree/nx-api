@@ -18,8 +18,8 @@ class TaskNew extends BaseValidate
 {
     protected $rule = [
         'act_plan_id' => 'require|length:36',
-        'name' => 'require|max:50',
-        'requirement'=> 'require|max:300',
+        'name' => 'require|length:4,50',
+        'requirement'=> 'require|length:20,280',
         'reference_time' => 'require|isPositiveInteger',
         'content' => 'require',
         'release' => 'require|in:0,1'

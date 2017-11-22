@@ -303,7 +303,8 @@ class Task extends BaseController
         $pageData = TaskFeedbackModel::with('task,userInfo,task.actPlan,task.actPlan.community')
             ->where($where)
             ->where(function($query){
-                $query->where('status',['=',0],['=',1],'or');
+//                $query->where('status',['=',0],['=',1],'or');
+                $query->where('status',0);
             })
             ->paginate($size,true,['page' => $page]);
 

@@ -13,8 +13,8 @@ class UerInfo extends BaseValidate
 {
     protected $rule = [
         'avatar'    => 'require|isNotEmpty|url',
-        'nickname'  => 'require|isNotEmpty|chsAlphaNum|max:20',
-        'signature' => 'max:30'
+        'nickname'  => 'require|isNotEmpty|chsAlphaNum|length:4,20',
+        'signature' => 'length:20,280'
     ];
 
     protected $message = [
