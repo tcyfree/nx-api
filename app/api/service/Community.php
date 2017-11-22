@@ -181,11 +181,6 @@ class Community
         }
     }
 
-    public static function getCheckManagerAndNormal()
-    {
-
-    }
-
     /**
      * 判断用户相关的行动是否达到上限
      * 管理+社长：ALLOW_JOIN_MANAGER
