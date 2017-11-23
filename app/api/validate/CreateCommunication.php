@@ -19,7 +19,7 @@ use app\lib\exception\ParameterException;
 class CreateCommunication extends BaseValidate
 {
     protected $rule = [
-        'content' => 'require',
+        'content' => 'require|max:6000',
         'community_id' => 'require|length:36',
         'location' => 'max:255',
         '@user_ids' => 'user_ids'

@@ -18,8 +18,8 @@ class ActPlanNew extends BaseValidate
 {
     protected $rule = [
         'community_id' => 'require|length:36',
-        'name'         => 'require|length:10,50',
-        'description'  => 'require|length:20,280',
+        'name'         => 'require|length:5,25',
+        'description'  => 'require|length:10,140',
         'cover_image'  => 'require|url',
         'fee'          => 'require|between:1,99|isPositiveInteger',
         'mode'         => 'require|in:0,1'

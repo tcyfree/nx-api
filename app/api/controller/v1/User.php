@@ -92,6 +92,8 @@ class User extends BaseController
         (new Advice())->goCheck();
         $uid = TokenService::getCurrentUid();
         $user = UserInfoModel::get(['user_id' => $uid]);
+        $log = LOG_PATH.'advice.log';
+        file_put_contents($log,$content.' '.date('Y-m-d H:i:s')."\r\n");
         AdviceModel::create([
             'user_id' => $uid,
             'content' => $content,

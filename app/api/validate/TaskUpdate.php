@@ -21,7 +21,7 @@ class TaskUpdate extends BaseValidate
         'name' => 'require|max:50',
         'requirement'=> 'require|max:300',
         'reference_time' => 'require|isPositiveInteger',
-        'content' => 'require',
+        'content' => 'require|max:10000',
         'release' => 'require|in:0,1'
     ];
 }

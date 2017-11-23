@@ -303,6 +303,7 @@ class Community extends BaseController
             ->alias('c_u')
             ->join('__USER_INFO__ u','c_u.user_id = u.user_id')
             ->where('(c_u.pay = '."'".$pay."'".' OR c_u.type <> '."'".$type."'".') AND c_u.community_id = '."'".$id."'")
+//            ->order('c_u.type ASC')
             ->order('u.char_index ASC')
             ->field('c_u.type,c_u.pay,c_u.status,u.user_id,u.nickname,u.char_index,u.avatar,u.from')
             ->limit($page,$size)
@@ -325,13 +326,13 @@ class Community extends BaseController
                 $newData[$v['char_index']][] = $v;
             }
         }
-        foreach ($data as $key =>$value){
-            if ($value['type'] == 0){
-                $temp = $data[0];
-                $data[0] = $value;
-                $data[$key] = $temp;
-            }
-        }
+//        foreach ($data as $key =>$value){
+//            if ($value['type'] == 0){
+//                $temp = $data[0];
+//                $data[0] = $value;
+//                $data[$key] = $temp;
+//            }
+//        }
         $data['user_id'] = $uid;
         $newData['user_id'] = $uid;
         return [

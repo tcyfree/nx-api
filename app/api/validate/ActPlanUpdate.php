@@ -18,8 +18,8 @@ class ActPlanUpdate extends BaseValidate
 {
     protected $rule = [
         'id' => 'require|length:36',
-        'name'         => 'require|length:10,50',
-        'description'  => 'require|length:20,280',
+        'name'         => 'require|length:5,25',
+        'description'  => 'require|length:10,140',
         'cover_image'  => 'require|url',
         'fee'          => 'require|between:1,99',
 //        'mode'         => 'require|in:0,1'
