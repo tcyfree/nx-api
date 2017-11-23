@@ -87,7 +87,7 @@ class User extends BaseController
      * @param $content
      * @return \think\response\Json
      */
-    public function addAdvice($content)
+    public function addAdvice($content = '')
     {
         (new Advice())->goCheck();
         $uid = TokenService::getCurrentUid();
