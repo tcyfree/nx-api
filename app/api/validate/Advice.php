@@ -17,6 +17,6 @@ namespace app\api\validate;
 class Advice extends BaseValidate
 {
     protected $rule = [
-        'content' => 'require|length:20,2000'
+        'content' => 'require|length:10,1000'
     ];
 }

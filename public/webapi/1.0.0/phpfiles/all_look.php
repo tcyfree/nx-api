@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
     <td>GET</td>
-    <td>v1/task/feedback/look</td>
+    <td>v1/notice/all_look</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>

@@ -364,7 +364,9 @@ class Community extends BaseController
         $res = AuthUserModel::get(['community_id' => $dataArray['community_id'],
             'to_user_id' => $data['to_user_id'],'delete_time' => 0]);
         $auth = CommunityService::authFilter($dataArray['auth']);
-        if ($auth || !$res){
+        if ($auth){
+            CommunityService::checkManagerAllowJoinStatus($data['to_user_id'],true);
+        }elseif (!$res){
             CommunityService::checkManagerAllowJoinStatus($data['to_user_id'],true);
         }
         $data['from_user_id'] = $uid;
