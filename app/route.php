@@ -77,7 +77,7 @@ Route::group(':version/plan',function (){
  * Task
  */
 Route::group(':version/task',function (){
-    Route::get('/feedback/look','api/:version.Task/getNotLook');
+    Route::get('/feedback/look_','api/:version.Task/getNotLook');
     Route::get('/test','api/:version.Task/test');
     Route::post('','api/:version.Task/createTask');
     Route::put('','api/:version.Task/updateTask');
@@ -132,7 +132,7 @@ Route::group(':version/comment',function (){
  */
 Route::group(':version/notice',function (){
     Route::get('','api/:version.Notice/getNoticeList');
-    Route::get('/look','api/:version.Notice/getNoticeLook');
+    Route::get('/look_','api/:version.Notice/getNoticeLook');
     Route::delete('','api/:version.Notice/clearNotice');
     Route::get('/all_look','api/:version.Notice/getAllNotLook');
 });
@@ -142,7 +142,7 @@ Route::group(':version/notice',function (){
  */
 Route::group(':version/comment/notice',function (){
     Route::get('','api/:version.CommentNotice/getNoticeList');
-    Route::get('/look','api/:version.CommentNotice/getNoticeLook');
+    Route::get('/look_','api/:version.CommentNotice/getNoticeLook');
     Route::delete('','api/:version.CommentNotice/clearNotice');
     Route::get('/all_look','api/:version.CommentNotice/getAllNotLook');
 });
@@ -184,7 +184,7 @@ Route::group(':version/message',function (){
     Route::get('','api/:version.Message/getSummaryList');
     Route::post('','api/:version.Message/addMessage');
     Route::delete('/dialogue','api/:version.Message/deleteMessage');
-    Route::get('/look','api/:version.Message/getNotLook');
+    Route::get('/look_','api/:version.Message/getNotLook');
     Route::get('test','api/:version.Message/test');
 });
 

@@ -379,12 +379,12 @@ Ext.define('WebRoot.view.WestView', {
 											hrefTarget: SYS_API_ROOT + 'phpfiles/feedback_pass_or_fail.php',
 											leaf: true
 										},
-										{
-											id: 'feedback_look',
-											text: '是否有反馈',
-											hrefTarget: SYS_API_ROOT + 'phpfiles/feedback_look.php',
-											leaf: true
-										}
+										// {
+										// 	id: 'feedback_look',
+										// 	text: '是否有反馈',
+										// 	hrefTarget: SYS_API_ROOT + 'phpfiles/feedback_look.php',
+										// 	leaf: true
+										// }
 									]
 								}
 							]
@@ -527,12 +527,12 @@ Ext.define('WebRoot.view.WestView', {
 							text: '提醒相关',
 							expanded: true,
 							children: [
-                                {
-                                	id: 'notice_look',
-									text: '是否提醒',
-									hrefTarget: SYS_API_ROOT + 'phpfiles/notice_look.php',
-									leaf: true
-								},
+                                // {
+                                	// id: 'notice_look',
+								// 	text: '是否提醒',
+								// 	hrefTarget: SYS_API_ROOT + 'phpfiles/notice_look.php',
+								// 	leaf: true
+								// },
 								{
 									id: 'notice_list',
 									text: '提醒列表',
@@ -595,12 +595,12 @@ Ext.define('WebRoot.view.WestView', {
                                     hrefTarget: SYS_API_ROOT + 'phpfiles/msg_delete.php',
                                     leaf: true
                                 },
-                                {
-                                    id: 'msg_look',
-                                    text: '是否有新私信',
-                                    hrefTarget: SYS_API_ROOT + 'phpfiles/msg_look.php',
-                                    leaf: true
-                                }
+                                // {
+                                //     id: 'msg_look',
+                                //     text: '是否有新私信',
+                                //     hrefTarget: SYS_API_ROOT + 'phpfiles/msg_look.php',
+                                //     leaf: true
+                                // }
 							]
 						}
 					]
