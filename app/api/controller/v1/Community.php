@@ -347,6 +347,8 @@ class Community extends BaseController
      * 1.被设置者必须先加入此行动社
      * 2.被设置者必须是付费用户
      * 3.判断被设置管理员是否到达上限
+     * 4.如果auth为空则不检测 3
+     * 5.修改管理员权限不检测 3
      *
      * @return \think\response\Json
      */
@@ -359,7 +361,12 @@ class Community extends BaseController
         $cs = new CommunityService();
         $cs->checkPresident($dataArray['community_id'],$uid);
         $data['to_user_id'] = UserService::getManagerUser($dataArray['number'],$dataArray['community_id']);
-        CommunityService::checkManagerAllowJoinStatus($data['to_user_id'],true);
+        $res = AuthUserModel::get(['community_id' => $dataArray['community_id'],
+            'to_user_id' => $data['to_user_id'],'delete_time' => 0]);
+        $auth = CommunityService::authFilter($dataArray['auth']);
+        if ($auth || !$res){
+            CommunityService::checkManagerAllowJoinStatus($data['to_user_id'],true);
+        }
         $data['from_user_id'] = $uid;
         $auth = CommunityService::authFilter($dataArray['auth']);
         $data['auth'] = $auth;
