@@ -100,31 +100,24 @@ class Notice extends BaseController
      */
     public function getAllNotLook()
     {
+        $notice_look = false;
         $notice = $this->getNoticeLook();
-        if ($notice['look']){
-            return [
-                'look' => true
-            ];
-        }
+        if ($notice['look']) $notice_look = true;
 
+        $message_look = false;
         $message = new Message();
         $res = $message->getNotLook();
-        if ($res['look']){
-            return [
-                'look' => true
-            ];
-        }
+        if ($res['look']) $notice_look = true;
 
+        $feedback_look = false;
         $feedback = new Task();
         $res = $feedback->getNotLook();
-        if ($res['look']){
-            return [
-                'look' => true
-            ];
-        }
+        if ($res['look']) $feedback_look = true;
 
         return [
-            'look' => false
+            'notice' => $notice_look,
+            'message' => $message_look,
+            'feedback' => $feedback_look
         ];
     }
 
