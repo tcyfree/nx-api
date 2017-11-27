@@ -52,6 +52,8 @@ class Task extends BaseController
     /**
      * 创建任务
      * 1.鉴权
+     * 2.更新任务数：当release为1时
+     *
      * @return \think\response\Json
      * @throws Exception
      */
@@ -71,10 +73,13 @@ class Task extends BaseController
 
         Db::startTrans();
         try {
-            TaskModel::create($dataArray);
             //更新任务数
             $where['id'] = $dataArray['act_plan_id'];
-            ActPlanModel::where($where)->setInc('task_num');
+            if ($dataArray['release'] == 1){
+                ActPlanModel::where($where)->setInc('task_num');
+                $dataArray['first'] = '1';
+            }
+            TaskModel::create($dataArray);
 
             $data['task_id'] = $id;
             $data['type'] = 0;
@@ -91,6 +96,7 @@ class Task extends BaseController
     /**
      * 编辑任务
      * 1.鉴权
+     * 2.若第一次发布，则更新任务数
      */
     public function updateTask()
     {
@@ -109,7 +115,11 @@ class Task extends BaseController
             $ts = new TaskService();
             $ts->checkAuthority($uid,$t_obj->act_plan_id);
         }
-
+        //更新任务数
+        if ($dataArray['release'] == 1 && !$t_obj->first){
+            ActPlanModel::where(['id' => $t_obj->act_plan_id])->setInc('task_num');
+            $dataArray['first'] = 1;
+        }
         TaskModel::update($dataArray,['id' => $dataArray['id']]);
         $data['task_id'] = $dataArray['id'];
         $data['type'] = 1;
@@ -265,22 +275,8 @@ class Task extends BaseController
         if (isset($dataRules['status'])){
             unset($dataRules['status']);
         }
-        if (!isset($dataRules['to_user_id']) || empty($dataRules['to_user_id'])){
-            unset($dataRules['to_user_id']);
-            $task_service = new TaskService();
-            $res = false;
-            $feedback_user_id = '';
-            while (!$res){
-                $feedback_user_id = $task_service->getRandManagerID($dataRules['task_id']);
-                $log = LOG_PATH.'feedback.log';
-                file_put_contents($log, $feedback_user_id.' '.date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
-                $res = $task_service->checkFeedbackAuthority($feedback_user_id,$dataRules['task_id']);
-            }
-            $dataRules['to_user_id'] = $feedback_user_id;
-        }
         $dataRules['user_id'] = $uid;
         $feedback_service = new TaskFeedbackService();
-        TaskFeedbackModel::checkTaskFeedbackParams($dataRules,$uid);
         $feedback_service->referTaskFeedback($dataRules,$uid);
 
         return json(new SuccessMessage(),201);

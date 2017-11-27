@@ -19,6 +19,7 @@ use app\lib\exception\SuccessMessage;
 use think\Db;
 use think\Exception;
 use app\lib\exception\ParameterException;
+use app\api\service\Task as TaskService;
 
 class TaskFeedback
 {
@@ -42,6 +43,10 @@ class TaskFeedback
         if ($res == false){
             $id = uuid();
             $dataRules['id'] = $id;
+            if (!isset($dataRules['to_user_id']) || empty($dataRules['to_user_id'])){
+                $dataRules['to_user_id'] = $this->getToUserId($dataRules);
+            }
+            TaskFeedbackModel::checkTaskFeedbackParams($dataRules,$dataRules['user_id']);
             Db::startTrans();
             try{
                 $result = TaskFeedbackModel::create($dataRules);
@@ -53,22 +58,41 @@ class TaskFeedback
                 throw $ex;
             }
             return true;
-//            return json(new SuccessMessage(),201);
         }elseif ($res['status'] == 1){
             if (isset($dataRules['location'])){
-                TaskFeedbackModel::update(['content' => $dataRules['content'],'location' => $dataRules['location'],'status' => 0, 'update_time' => time()],
-                    ['user_id' => $uid,'task_id' => $dataRules['task_id'],'status' => 1, 'to_look' => 0]);
+                TaskFeedbackModel::update(['content' => $dataRules['content'],'location' => $dataRules['location'],'status' => 0,
+                    'update_time' => time(),'to_look' => 0],
+                    ['user_id' => $uid,'task_id' => $dataRules['task_id']]);
             }else{
-                TaskFeedbackModel::update(['content' => $dataRules['content'],'status' => 0, 'update_time' => time()],
-                    ['user_id' => $uid,'task_id' => $dataRules['task_id'],'status' => 1, 'to_look' => 0]);
+                TaskFeedbackModel::update(['content' => $dataRules['content'],'status' => 0, 'update_time' => time(), 'to_look' => 0],
+                    ['user_id' => $uid,'task_id' => $dataRules['task_id']]);
             }
-
-//            return json(new SuccessMessage(),201);
             return true;
         }else{
             throw new ParameterException([
                 'msg' => '任务待审核或审核通过了'
             ]);
         }
+    }
+
+    /**
+     * 当用户未选择被反馈者则获取被反馈者user_id
+     *
+     * @param $dataRules
+     * @return mixed|string
+     */
+    private function getToUserId($dataRules)
+    {
+        unset($dataRules['to_user_id']);
+        $feedback_user_id = '';
+        $task_service = new TaskService();
+        $res = false;
+        while (!$res){
+            $feedback_user_id = $task_service->getRandManagerID($dataRules['task_id']);
+            $log = LOG_PATH.'feedback.log';
+            file_put_contents($log, $feedback_user_id.' '.date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
+            $res = $task_service->checkFeedbackAuthority($feedback_user_id,$dataRules['task_id']);
+        }
+        return $feedback_user_id;
     }
 }
