@@ -107,7 +107,7 @@ class Notice extends BaseController
         $message_look = false;
         $message = new Message();
         $res = $message->getNotLook();
-        if ($res['look']) $notice_look = true;
+        if ($res['look']) $message_look = true;
 
         $feedback_look = false;
         $feedback = new Task();
