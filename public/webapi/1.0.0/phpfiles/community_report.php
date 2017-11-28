@@ -39,7 +39,7 @@
      <td>images</td>
      <td>json值类型：数组</td>
      <td>否</td>
-     <td>如:"images":["http://auth.xingdongshe.com/images/20170817164138599556c2e26bd.jpg","http://auth.xingdongshe.com/images/20170817164138599556c2e26bd.jpg"]</td>
+     <td>如:"images":["http://auth.go-qxd.com/images/20170817164138599556c2e26bd.jpg","http://auth.go-qxd.com/images/20170817164138599556c2e26bd.jpg"]</td>
  </tr>
 
 </table>

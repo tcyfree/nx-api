@@ -51,7 +51,7 @@
     <tr>
         <td>qr_prefix_url</td>
         <td>二维码链接前缀地址</td>
-        <td>&nbsp;如：http://weixin.xingdongshe.com/template/groupPage.html?id=</td>
+        <td>&nbsp;如：http://weixin.go-qxd.com/template/groupPage.html?id=</td>
     </tr>
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>

@@ -148,11 +148,11 @@ class Message extends BaseController
 
     public function test()
     {
-//        $uri = 'http://api.xingdongshe.com/v1/message';
+//        $uri = 'http://api.go-qxd.com/v1/message';
 //        $res = curl_get($uri);
 //        var_dump($res);
 
-        $url = 'http://api.xingdongshe.com/v1/message';
+        $url = 'http://api.go-qxd.com/v1/message';
 
         $header = array('token:c3d34690477d21952ef67162ff1e726e');
         $header = array('token:31230bb228aa9072cbe61823217191b0');

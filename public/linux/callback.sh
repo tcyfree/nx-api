@@ -8,7 +8,7 @@ step=1
 
 for (( i = 0; i < 60; i=(i+step) )); do
 
-$(php '/home/wwwroot/api.xingdongshe.com/public/linux/callback.php')
+$(php '/home/wwwroot/api.go-qxd.com/public/linux/callback.php')
 sleep $step
 done
 

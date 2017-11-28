@@ -113,7 +113,7 @@ class Recharge
         $wxOrderData->SetBody('暖象');
         $wxOrderData->SetOpenid($openid);
         $wxOrderData->SetNotify_url(config('secure.pay_back_url'));
-//        $wxOrderData->SetNotify_url('auth.xingdongshe.com');
+//        $wxOrderData->SetNotify_url('auth.go-qxd.com');
         return $this->getPaySignature($wxOrderData);
     }
 

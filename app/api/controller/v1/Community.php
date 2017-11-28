@@ -17,6 +17,7 @@ use app\api\model\AuthUser as AuthUserModel;
 use app\api\model\Community as CommunityModel;
 use app\api\model\CommunityTransfer;
 use app\api\model\CommunityUser as CommunityUserModel;
+use app\api\model\CommunityUser;
 use app\api\model\Report as ReportModel;
 use app\api\service\Community as CommunityService;
 use app\api\service\Token as TokenService;
@@ -141,7 +142,7 @@ class Community extends BaseController
             }
             $logo = $dataArray['cover_image'].config('oss.rounded-corners');
             $image_process = new ImageProcessingService();
-            $dataArray['qr_prefix_url'] = 'http://weixin.xingdongshe.com/template/groupPage.html?id=';
+            $dataArray['qr_prefix_url'] = 'http://weixin.go-qxd.com/template/groupPage.html?id=';
             $url = $dataArray['qr_prefix_url'].$dataArray['id'];
             $res = $image_process->getQRCodeByCoverImage($url,$logo);
             $dataArray['qr_code'] = $res['oss-request-url'];
@@ -347,8 +348,7 @@ class Community extends BaseController
      * 1.被设置者必须先加入此行动社
      * 2.被设置者必须是付费用户
      * 3.判断被设置管理员是否到达上限
-     * 4.如果auth为空则不检测 3
-     * 5.修改管理员权限不检测 3
+     * 4.修改管理员权限不检测 3
      *
      * @return \think\response\Json
      */
@@ -363,10 +363,8 @@ class Community extends BaseController
         $data['to_user_id'] = UserService::getManagerUser($dataArray['number'],$dataArray['community_id']);
         $res = AuthUserModel::get(['community_id' => $dataArray['community_id'],
             'to_user_id' => $data['to_user_id'],'delete_time' => 0]);
-        $auth = CommunityService::authFilter($dataArray['auth']);
-        if ($auth){
-            CommunityService::checkManagerAllowJoinStatus($data['to_user_id'],true);
-        }elseif (!$res){
+        //设置
+        if (!$res){
             CommunityService::checkManagerAllowJoinStatus($data['to_user_id'],true);
         }
         $data['from_user_id'] = $uid;
@@ -537,9 +535,20 @@ class Community extends BaseController
 
     public function test()
     {
-        $res =  CommunityService::getPayLastJoinCommunity('2dab05cf-311a-ebac-5076-058f3a2d678a',
-            '1d64bd0d-6628-464a-92df-07cb4145a58c');
-        var_dump($res);
+
+        $pagingData = CommunityModel::getSummaryList($page = 1, $size = 15);
+
+        $data = $pagingData->visible(['id','name', 'description', 'cover_image'])
+            ->toArray();
+
+        $data = CommunityService::getSumActing($data);
+        $data = CommunityService::getType($data);
+
+        return [
+            'total' => $pagingData->total(),
+            'data' => $data,
+            'current_page' => $pagingData->currentPage()
+        ];
     }
 
 }

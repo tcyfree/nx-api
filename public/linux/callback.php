@@ -1,6 +1,6 @@
 <?php
 
-//file_put_contents('/home/wwwroot/api.xingdongshe.com/public/linux/callback.log', date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
+//file_put_contents('/home/wwwroot/api.go-qxd.com/public/linux/callback.log', date('Y-m-d H:i:s')."\r\n", FILE_APPEND);
 
 /**
  * @param string $url get请求地址
@@ -22,6 +22,6 @@ function curl_get($url, &$httpCode = 0)
     return $file_contents;
 }
 
-$uri = 'http://api.xingdongshe.com/v1/callback';
+$uri = 'http://api.go-qxd.com/v1/callback';
 curl_get($uri);
 ?>

@@ -359,7 +359,7 @@ class Community
                 }
             }
         }
-
+        return true;
     }
 
     /**

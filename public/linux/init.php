@@ -31,5 +31,5 @@ function curl_get($url, &$httpCode = 0)
     return $file_contents;
 }
 
-$uri = 'http://api.xingdongshe.com/v1/community/init';
+$uri = 'http://api.go-qxd.com/v1/community/init';
 curl_get($uri);
