@@ -24,6 +24,7 @@ use app\api\service\Token as TokenService;
 use app\api\service\User as UserService;
 use app\api\validate\Community as CommunityValidate;
 use app\api\validate\CommunityNew as CommunityNewValidate;
+use app\api\validate\NicknameAndAuth;
 use app\api\validate\PagingParameter;
 use app\api\validate\Report;
 use app\api\validate\SearchName;
@@ -41,6 +42,8 @@ use think\Db;
 use think\Exception;
 use app\api\model\CommunityUserRecord;
 use app\api\service\ImageProcessing as ImageProcessingService;
+use app\api\model\User as UserModel;
+use app\api\model\UserInfo as UserInfoModel;
 
 class Community extends BaseController
 {
@@ -344,6 +347,24 @@ class Community extends BaseController
     }
 
     /**
+     *根据number获取用户信息和对应权限
+     *
+     */
+    public function getNicknameAndAuth()
+    {
+        (new NicknameAndAuth())->goCheck();
+        $data = input('get.');
+        $user = UserModel::userInfo($data['number']);
+        $user_info = UserInfoModel::get(['user_id' => $user['id']]);
+        $user_auth = AuthUserModel::get(['community_id' => $data['community_id'],
+            'to_user_id' => $user['id'], 'delete_time' => 0]);
+        return [
+            'user_info' => $user_info,
+            'user_auth' => $user_auth
+        ];
+    }
+
+    /**
      * 设置管理员
      * 1.被设置者必须先加入此行动社
      * 2.被设置者必须是付费用户
@@ -514,13 +535,13 @@ class Community extends BaseController
 
     /**
      * 暂停/恢复成员资格
+     *
      */
     public function suspendMember()
     {
         (new SuspendMember())->goCheck();
         $uid = TokenService::getCurrentUid();
         $data = input('put.');
-        if ($data)
 
         $cs_obj = new CommunityService();
         $auth_array[0] = 3;

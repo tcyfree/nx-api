@@ -188,6 +188,13 @@ Ext.define('WebRoot.view.WestView', {
 											hrefTarget: SYS_API_ROOT + 'phpfiles/community_manager.php',
 											leaf: true
 										},
+                                        {
+                                            id: 'user_info_number_auth',
+                                            text: '根据number用户信息和权限',
+											cls: 'redStyle',
+                                            hrefTarget: SYS_API_ROOT + 'phpfiles/user_info_number_auth.php',
+                                            leaf: true
+                                        },
 										{
 											id: 'transfer',
 											text: '转让行动社',
@@ -196,7 +203,7 @@ Ext.define('WebRoot.view.WestView', {
 										},
 										{
 											id: 'user_info_number',
-											text: '获取number用户信息',
+											text: '根据number获取用户信息',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/user_info_number.php',
 											leaf: true
 										},
