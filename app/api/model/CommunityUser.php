@@ -137,6 +137,27 @@ class CommunityUser extends BaseModel
     public static function registerCallback($uid,$community_id)
     {
         $deadline = time() + config('setting.user_time_out');
-        CallbackModel::registerCallback($community_id,$uid,$key_type = 3 ,$deadline);
+        CallbackModel::registerCallback($community_id,$uid,$key_type = 2 ,$deadline);
+    }
+
+    /**
+     * 恢复/暂停成员资格
+     * 1.判断是否退群
+     *
+     * @param $community_id
+     * @param $user_id
+     * @param $status
+     * @throws ParameterException
+     */
+    public static function resumeCommunityUser($community_id,$user_id,$status)
+    {
+        $res = self::get(['community_id' => $community_id, 'user_id' => $user_id]);
+        if (!$res && $res->status == 1){
+            throw new ParameterException([
+                'msg' => '该用户已退群'
+            ]);
+        }
+        self::update(['status' => $status, 'update_time' => time()],
+            ['user_id' => $user_id, 'community_id' => $community_id, 'delete_time' => 0]);
     }
 }

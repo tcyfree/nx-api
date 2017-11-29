@@ -18,6 +18,7 @@ use app\api\model\Task as TaskModel;
 use app\api\model\TaskFeedback as TaskFeedbackModel;
 use think\Exception;
 use think\Log;
+use app\api\model\CommunityUser as CommunityUserModel;
 
 class Callback extends BaseController
 {
@@ -49,6 +50,9 @@ class Callback extends BaseController
                             break;
                         case 1:
                             TaskFeedbackModel::withinTwentyFourHours($v,$log);
+                            break;
+                        case 2:
+                            CommunityUserModel::resumeCommunityUser($v['key_id'],$v['user_id'],0);
                             break;
                         default:
                             continue;

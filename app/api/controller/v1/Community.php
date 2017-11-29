@@ -565,8 +565,8 @@ class Community extends BaseController
         }
         CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
         CommunityUserModel::checkCommunityBelongsToUser($data['user_id'],$data['community_id']);
-        CommunityUserModel::update(['status' => $data['status']],['user_id' => $data['user_id'], 'community_id' => $data['community_id']]);
-
+        CommunityUserModel::resumeCommunityUser($data['community_id'],$data['user_id'],$data['status']);
+//        CommunityUserModel::update(['status' => $data['status']],['user_id' => $data['user_id'], 'community_id' => $data['community_id']]);
         return json(new SuccessMessage(),201);
     }
 
