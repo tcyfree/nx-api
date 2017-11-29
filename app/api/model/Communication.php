@@ -42,7 +42,7 @@ class Communication extends BaseModel
         $res = self::get(['id' => $id, 'delete_time' => 0]);
         if (!$res){
             throw new ParameterException([
-                'msg' => '交流内容不存在，请检查ID'
+                'msg' => '该条目已不存在，请检查ID'
             ]);
         }else{
             return $res;

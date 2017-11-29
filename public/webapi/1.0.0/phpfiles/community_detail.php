@@ -19,16 +19,15 @@
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>
 <table width="90%" border="1" class="dbTable">
-  <tr class="td_header">
-    <td width="16%">参数名称</td>
-    <td width="35%">参数说明</td>
-    <td width="49%">备注</td>
-  </tr>
-  <tr>
-    <td>id</td>
-    <td>行动社主键ID</td>
-    <td>从 <a href="#" onclick="javascript:sysOpenTab('community_list','行动社列表','phpfiles/community_list.php')">行动社列表等相关</a> 获取</td>
-  </tr>
+    <?php require_once ("../include/required_or_optional.php"); ?>
+    <?php require_once ("../include/token.optional.php"); ?>
+    <tr>
+        <td>id</td>
+        <td>行动社主键ID</td>
+        <td >是</td>
+        <td >从 <a href="#" onclick="javascript:sysOpenTab('community_list','行动社列表','phpfiles/community_list.php')">行动社列表等相关</td>
+    </tr>
+
 </table>
 <?php require_once ("../include/json_info.php"); ?>
 <p><span class="subtitlestyle">（四）特别备注</span>（infor字段说明，仅列出部分关键字段）</p>

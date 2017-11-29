@@ -23,5 +23,5 @@ class AllowJoinStatusEnum
     const ALLOW_JOIN_OUT = 10;
 
     //管理员 + 社长
-    const ALLOW_JOIN_MANAGER = 5;
+    const ALLOW_JOIN_MANAGER = 2;
 }
