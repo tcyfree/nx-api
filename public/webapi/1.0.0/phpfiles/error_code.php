@@ -10,13 +10,17 @@
     <td width="37%">error_code标识</td>
     <td width="63%">描述说明</td>
   </tr>
+    <tr>
+        <td>999</td>
+        <td><?php echo $msg["999"]?></td>
+    </tr>
   <tr>
     <td>10000</td>
     <td><?php echo $msg["10000"]?></td>
   </tr>
 
-    <td>10007</td>
-    <td><?php echo $msg["10007"]?></td>
+    <td>20001</td>
+    <td><?php echo $msg["20001"]?></td>
   </tr>
 
   

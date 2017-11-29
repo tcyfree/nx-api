@@ -11,7 +11,7 @@ namespace app\lib\exception;
 
 class CommunityException extends BaseException
 {
-    public $code = 404;
+    public $code = 403;
     public $msg = '行动社不存在，请检查ID';
-    public $errorCode = 80000;
+    public $errorCode = 80001;
 }
