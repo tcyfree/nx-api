@@ -122,15 +122,17 @@ class Communication extends BaseController
 
     /**
      * 条目详情
-     * @param $id
+     * 1. 判断是否存在
+     *
      * @return array|false|\PDOStatement|string|\think\Model
      */
-    public function getCommunicationDetail($id){
+    public function getCommunicationDetail(){
         (new UUID())->goCheck();
         $uid = TokenService::getCurrentUid();
         $id = input('get.id');
         $where['id'] = $id;
         $where['delete_time'] = 0;
+        CommunicationModel::checkCommunicationExists($id);
         $data = CommunicationModel::with('userInfo')
             ->where($where)
             ->find();
