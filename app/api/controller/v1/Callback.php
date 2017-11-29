@@ -53,6 +53,7 @@ class Callback extends BaseController
                             break;
                         case 2:
                             CommunityUserModel::resumeCommunityUser($v['key_id'],$v['user_id'],0);
+                            CallbackModel::cancelCallback($v['id']);
                             break;
                         default:
                             continue;

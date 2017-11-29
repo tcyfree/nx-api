@@ -41,7 +41,7 @@ class Callback extends BaseModel
     public static function unRegisterCallback($key_id, $user_id, $key_type)
     {
         self::update(['status' => 1, 'update_time' => time()],
-            ['key_id' => $key_id,'user_id' => $user_id, 'key_type' => $key_type]);
+            ['key_id' => $key_id,'user_id' => $user_id, 'key_type' => $key_type, 'status' => 0]);
     }
 
     /**

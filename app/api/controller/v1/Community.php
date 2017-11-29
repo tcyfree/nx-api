@@ -556,17 +556,29 @@ class Community extends BaseController
     
         $cs_obj = new CommunityService();
         $auth_array[0] = 3;
-        CommunityModel::checkCommunityExists($data['community_id']);
-        $cs_obj->checkManagerAuthority($uid,$data['community_id'],$auth_array);
-        if ($data['status'] == 2){
-            CommunityUserModel::registerCallback($uid,$data['community_id']);
-        }elseif ($data['status'] == 0){
-            CallbackModel::unRegisterCallback($data['community_id'],$uid,3);
+        Db::startTrans();
+        try{
+            CommunityModel::checkCommunityExists($data['community_id']);
+            $cs_obj->checkManagerAuthority($uid,$data['community_id'],$auth_array);
+            CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
+            CommunityUserModel::checkCommunityBelongsToUser($data['user_id'],$data['community_id']);
+            $res = CommunityUserModel::resumeCommunityUser($data['community_id'],$data['user_id'],$data['status']);
+            if (!$res){
+                throw new ParameterException([
+                    'msg' => '该用户已退群'
+                ]);
+            }
+            if ($data['status'] == 2){
+                CommunityUserModel::registerCallback($data['user_id'],$data['community_id']);
+            }elseif ($data['status'] == 0){
+                CallbackModel::unRegisterCallback($data['community_id'],$data['user_id'],2);
+            }
+            Db::commit();
+        }catch (Exception $ex){
+            Db::rollback();
+            throw $ex;
         }
-        CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
-        CommunityUserModel::checkCommunityBelongsToUser($data['user_id'],$data['community_id']);
-        CommunityUserModel::resumeCommunityUser($data['community_id'],$data['user_id'],$data['status']);
-//        CommunityUserModel::update(['status' => $data['status']],['user_id' => $data['user_id'], 'community_id' => $data['community_id']]);
+
         return json(new SuccessMessage(),201);
     }
 

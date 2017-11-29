@@ -147,17 +147,16 @@ class CommunityUser extends BaseModel
      * @param $community_id
      * @param $user_id
      * @param $status
-     * @throws ParameterException
+     * @return bool
      */
     public static function resumeCommunityUser($community_id,$user_id,$status)
     {
         $res = self::get(['community_id' => $community_id, 'user_id' => $user_id]);
-        if (!$res && $res->status == 1){
-            throw new ParameterException([
-                'msg' => '该用户已退群'
-            ]);
+        if (!$res || $res->status == 1){
+            return false;
         }
         self::update(['status' => $status, 'update_time' => time()],
             ['user_id' => $user_id, 'community_id' => $community_id, 'delete_time' => 0]);
+        return true;
     }
 }
