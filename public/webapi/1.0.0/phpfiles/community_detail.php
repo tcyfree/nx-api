@@ -63,6 +63,11 @@
         <td>本月剩余编辑次数</td>
         <td>一个月只能修改3次</td>
     </tr>
+    <tr>
+        <td>search</td>
+        <td>允许被搜索和推荐</td>
+        <td> 0 允许 1 不允许</td>
+    </tr>
   <tr>
     <td>qr_code</td>
     <td>二维码</td>

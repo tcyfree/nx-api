@@ -226,7 +226,7 @@ class Community extends BaseController
         {
             throw new CommunityException();
         }
-        $data = $communityDetail->hidden(['recommended','scale_num','pay_num','search'])->toArray();
+        $data = $communityDetail->hidden([''])->toArray();
         $data = CommunityService::getUserStatus($data);
 
         return $data;
@@ -557,19 +557,7 @@ class Community extends BaseController
     public function test()
     {
 
-        $pagingData = CommunityModel::getSummaryList($page = 1, $size = 15);
-
-        $data = $pagingData->visible(['id','name', 'description', 'cover_image'])
-            ->toArray();
-
-        $data = CommunityService::getSumActing($data);
-        $data = CommunityService::getType($data);
-
-        return [
-            'total' => $pagingData->total(),
-            'data' => $data,
-            'current_page' => $pagingData->currentPage()
-        ];
+        echo config('setting.user_time_out');
     }
 
 }
