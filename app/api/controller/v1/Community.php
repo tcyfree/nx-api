@@ -371,8 +371,10 @@ class Community extends BaseController
      * 2.被设置者必须是付费用户
      * 3.判断被设置管理员是否到达上限
      * 4.修改管理员权限不检测 3
+     * 5.被暂停成员资格或退群
      *
      * @return \think\response\Json
+     * @throws ParameterException
      */
     public function setManager()
     {
@@ -383,6 +385,12 @@ class Community extends BaseController
         $cs = new CommunityService();
         $cs->checkPresident($dataArray['community_id'],$uid);
         $data['to_user_id'] = UserService::getManagerUser($dataArray['number'],$dataArray['community_id']);
+        $community_user = CommunityUserModel::checkCommunityBelongsToUser($data['to_user_id'],$dataArray['community_id']);
+        if ($community_user->status != 0){
+            throw new ParameterException([
+                'msg' => '该用户已退群或被暂停成员资格'
+            ]);
+        }
         $res = AuthUserModel::get(['community_id' => $dataArray['community_id'],
             'to_user_id' => $data['to_user_id'],'delete_time' => 0]);
         //设置
@@ -552,7 +560,7 @@ class Community extends BaseController
         $cs_obj->checkManagerAuthority($uid,$data['community_id'],$auth_array);
         if ($data['status'] == 2){
             CommunityUserModel::registerCallback($uid,$data['community_id']);
-        }elseif ($data['status' == 0]){
+        }elseif ($data['status'] == 0){
             CallbackModel::unRegisterCallback($data['community_id'],$uid,3);
         }
         CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
