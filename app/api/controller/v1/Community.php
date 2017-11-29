@@ -44,6 +44,7 @@ use app\api\model\CommunityUserRecord;
 use app\api\service\ImageProcessing as ImageProcessingService;
 use app\api\model\User as UserModel;
 use app\api\model\UserInfo as UserInfoModel;
+use app\api\model\Callback as CallbackModel;
 
 class Community extends BaseController
 {
@@ -535,6 +536,8 @@ class Community extends BaseController
 
     /**
      * 暂停/恢复成员资格
+     * 1. 自动恢复成员资格
+     * 2. 注销回调
      *
      */
     public function suspendMember()
@@ -542,11 +545,16 @@ class Community extends BaseController
         (new SuspendMember())->goCheck();
         $uid = TokenService::getCurrentUid();
         $data = input('put.');
-
+    
         $cs_obj = new CommunityService();
         $auth_array[0] = 3;
+        CommunityModel::checkCommunityExists($data['community_id']);
         $cs_obj->checkManagerAuthority($uid,$data['community_id'],$auth_array);
-
+        if ($data['status'] == 2){
+            CommunityUserModel::registerCallback($uid,$data['community_id']);
+        }elseif ($data['status' == 0]){
+            CallbackModel::unRegisterCallback($data['community_id'],$uid,3);
+        }
         CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
         CommunityUserModel::checkCommunityBelongsToUser($data['user_id'],$data['community_id']);
         CommunityUserModel::update(['status' => $data['status']],['user_id' => $data['user_id'], 'community_id' => $data['community_id']]);

@@ -18,9 +18,30 @@ class Callback extends BaseModel
 {
     protected $autoWriteTimestamp =true;
 
-    public static function registerCallback()
+    /**
+     * 注册定时器
+     *
+     * @param $key_id
+     * @param $user_id
+     * @param $key_type
+     * @param $deadline
+     */
+    public static function registerCallback($key_id,$user_id,$key_type,$deadline)
     {
+        self::create(['key_id' => $key_id,'user_id' => $user_id, 'key_type' => $key_type, 'deadline' => $deadline]);
+    }
 
+    /**
+     * 注销回调
+     *
+     * @param $key_id
+     * @param $user_id
+     * @param $key_type
+     */
+    public static function unRegisterCallback($key_id, $user_id, $key_type)
+    {
+        self::update(['status' => 1, 'update_time' => time()],
+            ['key_id' => $key_id,'user_id' => $user_id, 'key_type' => $key_type]);
     }
 
     /**
@@ -28,9 +49,10 @@ class Callback extends BaseModel
      *
      * @param $id
      */
-    public static function cancelCallback($id)
+    public static function cancelCallback($id = '')
     {
         self::update(['status' => 1, 'update_time' => time()],
             ['id' => $id]);
     }
+
 }

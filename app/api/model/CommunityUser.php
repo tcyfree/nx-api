@@ -13,6 +13,7 @@ namespace app\api\model;
 
 
 use app\lib\exception\ParameterException;
+use app\api\model\Callback as CallbackModel;
 
 class CommunityUser extends BaseModel
 {
@@ -125,5 +126,17 @@ class CommunityUser extends BaseModel
         }else{
             return $res;
         }
+    }
+
+    /**
+     * 注册恢复成员资格定时任务
+     *
+     * @param $uid
+     * @param $community_id
+     */
+    public static function registerCallback($uid,$community_id)
+    {
+        $deadline = time() + config('setting.user_time_out');
+        CallbackModel::registerCallback($community_id,$uid,$key_type = 3 ,$deadline);
     }
 }
