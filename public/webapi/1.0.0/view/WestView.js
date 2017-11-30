@@ -38,7 +38,7 @@ Ext.define('WebRoot.view.WestView', {
                                 // },
                                 {
 									id: 'wx_unionid',
-									text: '否关注公众号',
+									text: '是否关注公众号',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/wx_unionid.php',
 									leaf: true
                                 },
@@ -555,6 +555,7 @@ Ext.define('WebRoot.view.WestView', {
 								{
 									id: 'all_look',
 									text:'所有未读',
+									cls: 'redStyle',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/all_look.php',
 									leaf: true
 								}

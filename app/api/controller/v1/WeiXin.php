@@ -80,17 +80,21 @@ class WeiXin extends BaseController
 
     /**
      * 获取用户基本信息(UnionID机制),判断用户是否关注公众号
-     *
+     * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140839
+     * 未关注：
+     * {"subscribe":0,"openid":"o994OwhhbcqwYN7b9O4ER_AMKn1Q","unionid":"o2d00xFpaFdhyl0Itf29kmvK78Jg","tagid_list":[]}
+     * 已关注：
+     * {"subscribe":1,"openid":"o994OwhhbcqwYN7b9O4ER_AMKn1Q","nickname":"唐😘","sex":1,"language":"zh_CN","city":"荣昌","province":"重庆",
+     * "country":"中国","headimgurl":"http:\/\/wx.qlogo.cn\/mmopen\/eFL0FqAs12icVxQmibNS6UOcRPTGerHLm7GSGJqu51OD9HWlibDyGV0ezAyfeH1WOsbRyqZ6PapyjvCXHNJrqPOjGtIkU9tyibq8\/0","subscribe_time":1512008316,"unionid":"o2d00xFpaFdhyl0Itf29kmvK78Jg","remark":"","groupid":0,"tagid_list":[]}
      * @return mixed
      */
     public function getSubscribe()
     {
-        $openid = TokenService::getCurrentTokenVar('openid');;
+        $openid = TokenService::getCurrentTokenVar('openid');
         $access_token = $this->getAccessToken();
         $uri = sprintf(config('wx.user_info_unionid'), $access_token,$openid);
         $res = curl_get($uri);
-
-        return json_decode($res);
+        return json_decode($res,true);
     }
 
 }

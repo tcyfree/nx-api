@@ -34,9 +34,10 @@
     <tr>
         <td>look</td>
         <td>以下之一是否有未读消息
-        <p>1 提醒</p>
-        <p>2 私信</p>
-        <p>3 反馈</p>
+        <p>notice 提醒</p>
+        <p>message 私信</p>
+        <p>feedback 反馈</p>
+        <p><font color="#FF0000">subscribe 是否订阅</font></p>
 <!--        <p>4 评论</p>-->
         </td>
         <td>&nbsp;true 是 false 否</td>

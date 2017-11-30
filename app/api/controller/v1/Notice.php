@@ -95,6 +95,7 @@ class Notice extends BaseController
      * 1 提醒
      * 2 私信
      * 3 反馈
+     * 4 是否订阅该公众号
      *
      * @return array
      */
@@ -114,10 +115,16 @@ class Notice extends BaseController
         $res = $feedback->getNotLook();
         if ($res['look']) $feedback_look = true;
 
+        $subscribe = false;
+        $wei_xin = new WeiXin();
+        $res = $wei_xin->getSubscribe();
+        if ($res['subscribe']) $subscribe = true;
+
         return [
             'notice' => $notice_look,
             'message' => $message_look,
-            'feedback' => $feedback_look
+            'feedback' => $feedback_look,
+            'subscribe' => $subscribe
         ];
     }
 
