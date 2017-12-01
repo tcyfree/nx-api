@@ -37,7 +37,7 @@ Route::group(':version/oss',function(){
     Route::get('/policy_callback','api/:version.OSSManager/getPolicySignatureCallback');
     Route::post('/upload','api/:version.OSSManager/uploadOSS');
     Route::get('/callback','api/:version.OSSManager/callbackResponse');
-    Route::get('/test','api/:version.OSSManager/test');
+    Route::get('/mp4','api/:version.OSSManager/OSSTransCodingMp4');
 });
 
 /**

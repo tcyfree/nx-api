@@ -12,6 +12,7 @@
 namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
+use app\api\validate\OSSFilename;
 use OSS\Core\OssException;
 use OSS\OssClient;
 use think\Loader;
@@ -24,7 +25,7 @@ Loader::import('OSS.Mts.main',EXTEND_PATH,'.php');
 class OSSManager extends BaseController
 {
     protected $beforeActionList = [
-      'checkPrimaryScope' => ['only' => 'getSecurityToken,getPolicySignature']
+      'checkPrimaryScope' => ['only' => 'getSecurityToken,getPolicySignature,OSSTransCodingMp4']
     ];
 
 //    /**
@@ -263,5 +264,25 @@ class OSSManager extends BaseController
         {
             return true;
         }
+    }
+
+    /**
+     * 视频转码
+     *
+     * @return array
+     */
+    public function OSSTransCodingMp4()
+    {
+        (new OSSFilename())->goCheck();
+        $filename = input('get.filename');
+        $filename = config('oss.user_dir').$filename;
+        $url = submitJobAndWaitJobCompleteVideo($filename);
+        $process_time = sys_processTime();
+
+        return [
+            'msg' => 'OK!',
+            'info' => $url,
+            'process_time' => $process_time
+        ];
     }
 }

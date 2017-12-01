@@ -116,7 +116,13 @@ Ext.define('WebRoot.view.WestView', {
 									text: '获取Policy及Callback',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/oss_policy_callback.php',
 									leaf: true
-								}
+								},
+                                {
+                                    id: 'oss_trans__mp4',
+                                    text: '将视频文件转码为mp4',
+                                    hrefTarget: SYS_API_ROOT + 'phpfiles/oss_trans_mp4.php',
+                                    leaf: true
+                                }
 							]
 						},
 						{
