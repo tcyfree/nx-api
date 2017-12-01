@@ -279,6 +279,7 @@ class Task extends BaseController
         }
         if (isset($dataRules['type']) && $dataRules['type'] == 1){
             (new TaskFeedback())->autoFeedback($uid,$dataRules);
+            return json(new SuccessMessage(),201);
         }
         $dataRules['user_id'] = $uid;
         $feedback_service = new TaskFeedbackService();

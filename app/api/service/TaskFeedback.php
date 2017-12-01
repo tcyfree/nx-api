@@ -132,6 +132,8 @@ class TaskFeedback
 
     private function createCommunication($data)
     {
+        $id = uuid();
+        $data['id'] = $id;
         $data['community_id'] = TaskModel::getCommunityIDByTaskID($data['task_id']);
         $data['type'] = 1;
         $c_obj = new CommunicationModel();
