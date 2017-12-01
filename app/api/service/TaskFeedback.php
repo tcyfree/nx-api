@@ -15,11 +15,17 @@ namespace app\api\service;
 
 use app\api\model\TaskFeedback as TaskFeedbackModel;
 use app\api\model\Callback as CallbackModel;
+use app\api\model\TaskUser;
 use app\lib\exception\SuccessMessage;
 use think\Db;
 use think\Exception;
 use app\lib\exception\ParameterException;
 use app\api\service\Task as TaskService;
+use app\api\model\UserProperty as UserPropertyModel;
+use app\api\model\Task as TaskModel;
+use app\api\model\TaskUser as TaskUserModel;
+use app\api\service\Execution as ExecutionService;
+use app\api\model\Communication as CommunicationModel;
 
 class TaskFeedback
 {
@@ -94,5 +100,42 @@ class TaskFeedback
             $res = $task_service->checkFeedbackAuthority($feedback_user_id,$dataRules['task_id']);
         }
         return $feedback_user_id;
+    }
+
+    /**
+     * 自动审核：自动完成反馈
+     * 1.将任务更新为完成
+     * 2.增加用户行动力
+     * 3.判断是否完成该计划
+     * 4.同步反馈内容到对应交流区
+     *
+     * @param $user_id
+     * @param $data
+     * @throws Exception
+     */
+    public function autoFeedback($user_id,$data)
+    {
+        Db::startTrans();
+        try{
+            TaskUserModel::update(['finish' => 1,'update_time' => time()],['task_id' => $data['task_id'],'user_id' => $user_id]);
+            UserPropertyModel::where(['user_id' => $user_id])->setInc('execution',2);
+            (new ExecutionService())->checkActPlanUserFinish($data['task_id'],$user_id);
+            $data['user_id'] = $user_id;
+            $this->createCommunication($data);
+            Db::commit();
+        }catch (Exception $ex)
+        {
+            Db::rollback();
+            throw $ex;
+        }
+    }
+
+    private function createCommunication($data)
+    {
+        $data['community_id'] = TaskModel::getCommunityIDByTaskID($data['task_id']);
+        $data['type'] = 1;
+        $c_obj = new CommunicationModel();
+        // 过滤数组中的非数据表字段数据
+        $c_obj->allowField(true)->save($data);
     }
 }

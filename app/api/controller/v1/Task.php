@@ -23,6 +23,7 @@ use app\api\model\TaskRecord as TaskRecordModel;
 use app\api\model\TaskUser;
 use app\api\service\Community as CommunityService;
 use app\api\service\Task as TaskService;
+use app\api\service\TaskFeedback;
 use app\api\service\Token as TokenService;
 use app\api\validate\AccelerateTask;
 use app\api\validate\Feedback;
@@ -259,6 +260,7 @@ class Task extends BaseController
      * 1 如果to_user_id为空，则随机选择一个备选人审核
      * 2 设置反馈有效时间为24小时内有效
      * 3 在随机选管理员时，判断是否有审核权限
+     * 4.自动审核
      *
      * @return \think\response\Json
      * @throws Exception
@@ -274,6 +276,9 @@ class Task extends BaseController
         $uid = TokenService::getCurrentUid();
         if (isset($dataRules['status'])){
             unset($dataRules['status']);
+        }
+        if (isset($dataRules['type']) && $dataRules['type'] == 1){
+            (new TaskFeedback())->autoFeedback($uid,$dataRules);
         }
         $dataRules['user_id'] = $uid;
         $feedback_service = new TaskFeedbackService();

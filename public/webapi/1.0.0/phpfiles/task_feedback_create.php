@@ -46,6 +46,12 @@
      <td width="226">否</td>
      <td>&nbsp;</td>
  </tr>
+    <tr>
+        <td>type</td>
+        <td>自动审核</td>
+        <td width="226">否</td>
+        <td>&nbsp;自动审核：type = 1 </td>
+    </tr>
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>
 <table width="90%" border="1" class="dbTable">

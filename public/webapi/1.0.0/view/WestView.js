@@ -357,6 +357,7 @@ Ext.define('WebRoot.view.WestView', {
 										{
 											id: 'task_feedback_create',
 											text: '提交反馈',
+											cls: 'redStyle',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/task_feedback_create.php',
 											leaf: true
 										}
