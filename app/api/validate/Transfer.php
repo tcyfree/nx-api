@@ -17,7 +17,11 @@ namespace app\api\validate;
 class Transfer extends BaseValidate
 {
     protected $rule = [
-        'number' => 'require|length:8|isPositiveInteger',
+        'number' => 'require|length:8',
         'community_id' => 'require|length:36'
+    ];
+
+    protected $message = [
+        'number' => '参数错误！'
     ];
 }

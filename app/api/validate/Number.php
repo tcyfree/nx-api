@@ -17,6 +17,6 @@ namespace app\api\validate;
 class Number extends BaseValidate
 {
     protected $rule = [
-        'number' => 'require|length:8|isPositiveInteger',
+        'number' => 'require|length:8',
     ];
 }
