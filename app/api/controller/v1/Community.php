@@ -181,7 +181,7 @@ class Community extends BaseController
         $pagingData = CommunityUserModel::getSummaryByUser($uid, $type, $page, $size);
 
         $data = $pagingData->visible(['community_id','type', 'community.name',
-            'community.description', 'community.cover_image'])
+            'community.description', 'community.cover_image', 'community.level'])
             ->toArray();
         foreach ($data as &$v){
             $v['chief_user'] = (new CommunityUserService())->getChiefUserInfoByCommunityID($v['community_id']);
@@ -191,6 +191,59 @@ class Community extends BaseController
             'current_page' => $pagingData->currentPage()
         ];
     }
+
+    /**
+     * 根据数组中的某个键值大小进行排序，仅支持二维数组
+     *
+     * @param array $array 排序数组
+     * @param string $key 键值
+     * @param bool $asc 默认正序
+     * @return array 排序后数组
+     */
+    function arraySortByKey(array $array, $key, $asc = true)
+    {
+        $result = array();
+        // 整理出准备排序的数组
+        foreach ( $array as $k => &$v ) {
+            $values[$k] = isset($v[$key]) ? $v[$key] : '';
+        }
+        unset($v);
+        // 对需要排序键值进行排序
+        $asc ? asort($values) : arsort($values);
+        // 重新排列原有数组
+        foreach ( $values as $k => $v ) {
+            $result[$k] = $array[$k];
+        }
+
+        return $result;
+    }
+
+    /**
+     * 二维数组排序
+     * @param array $arr 需要排序的二维数组
+     * @param string $keys 所根据排序的key
+     * @param string $type 排序类型，desc、asc
+     * @return array $new_array 排好序的结果
+     */
+    function array_sort($arr, $keys, $type = 'desc')
+    {
+        $key_value = $new_array = array();
+        foreach ($arr as $k => $v) {
+            $key_value[$k] = $v[$keys];
+        }
+        if ($type == 'asc') {
+            asort($key_value);
+        } else {
+            arsort($key_value);
+        }
+        reset($key_value);
+        foreach ($key_value as $k => $v) {
+            $new_array[$k] = $arr[$k];
+        }
+        return $new_array;
+    }
+
+
 
     /**
      * 分页获取推荐行动社
@@ -207,7 +260,7 @@ class Community extends BaseController
 
         $pagingData = CommunityModel::getSummaryList($page, $size);
 
-        $data = $pagingData->visible(['id','name', 'description', 'cover_image'])
+        $data = $pagingData->visible(['id','name', 'description', 'cover_image', 'level'])
             ->toArray();
 
         $data = CommunityService::getSumActing($data);
@@ -275,8 +328,6 @@ class Community extends BaseController
         }else{
             throw new ForbiddenException();
         }
-
-
     }
 
     /**

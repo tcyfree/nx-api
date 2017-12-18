@@ -40,6 +40,8 @@ class Community extends BaseModel
 
     /**
      * 获取推荐行动社分页
+     * 1. level DESC
+     *
      * @param int $page
      * @param int $size
      * @return \think\Paginator
@@ -51,7 +53,7 @@ class Community extends BaseModel
         $where['search'] = 0;
 
         $pagingData = self::where($where)
-            ->order('create_time desc')
+            ->order('level DESC, create_time DESC')
             ->paginate($size, true, ['page' => $page]);
 
         return $pagingData;

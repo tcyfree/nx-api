@@ -25,6 +25,7 @@ class CommunityUser extends BaseModel
 
     /**
      * 根据用户获取行动社分页
+     *
      * @param $uid
      * @param $type
      * @param int $page
