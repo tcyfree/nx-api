@@ -108,6 +108,8 @@ class TaskFeedback
      * 2.增加用户行动力
      * 3.判断是否完成该计划
      * 4.同步反馈内容到对应交流区
+     * 5.反馈表
+     * 6.判断用户是否已经提交反馈了
      *
      * @param $user_id
      * @param $data
@@ -115,6 +117,13 @@ class TaskFeedback
      */
     public function autoFeedback($user_id,$data)
     {
+        TaskModel::checkTaskExists($data['task_id']);
+        $res = TaskFeedbackModel::get(['user_id' => $user_id,'task_id' => $data['task_id']]);
+        if ($res){
+            throw new ParameterException([
+                'msg' => '该任务已经提交反馈了'
+            ]);
+        }
         Db::startTrans();
         try{
             TaskUserModel::update(['finish' => 1,'update_time' => time()],['task_id' => $data['task_id'],'user_id' => $user_id]);
@@ -122,6 +131,7 @@ class TaskFeedback
             (new ExecutionService())->checkActPlanUserFinish($data['task_id'],$user_id);
             $data['user_id'] = $user_id;
             $this->createCommunication($data);
+            $this->feedback($data,$user_id);
             Db::commit();
         }catch (Exception $ex)
         {
@@ -139,5 +149,15 @@ class TaskFeedback
         $c_obj = new CommunicationModel();
         // 过滤数组中的非数据表字段数据
         $c_obj->allowField(true)->save($data);
+    }
+
+    private function feedback($data,$user_id)
+    {
+        $id = uuid();
+        $data['id'] = $id;
+        $data['status'] = 4;
+        $data['to_user_id'] = $user_id;
+        $t_f = new TaskFeedbackModel();
+        $t_f->allowField(true)->save($data);
     }
 }

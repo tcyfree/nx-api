@@ -45,6 +45,7 @@ use app\api\service\ImageProcessing as ImageProcessingService;
 use app\api\model\User as UserModel;
 use app\api\model\UserInfo as UserInfoModel;
 use app\api\model\Callback as CallbackModel;
+use app\api\service\CommunityUser as CommunityUserService;
 
 class Community extends BaseController
 {
@@ -179,8 +180,12 @@ class Community extends BaseController
         $uid = TokenService::getCurrentUid();
         $pagingData = CommunityUserModel::getSummaryByUser($uid, $type, $page, $size);
 
-        $data = $pagingData->visible(['community_id','type', 'community.name', 'community.description', 'community.cover_image'])
+        $data = $pagingData->visible(['community_id','type', 'community.name',
+            'community.description', 'community.cover_image'])
             ->toArray();
+        foreach ($data as &$v){
+            $v['chief_user'] = (new CommunityUserService())->getChiefUserInfoByCommunityID($v['community_id']);
+        }
         return [
             'data' => $data,
             'current_page' => $pagingData->currentPage()
@@ -214,6 +219,8 @@ class Community extends BaseController
     /**
      * 行动社详情
      * 1. 获取用户管理权限
+     * 2. 社长信息
+     * 3.
      *
      * @param $id
      * @return array|false|\PDOStatement|string|\think\Model
@@ -229,6 +236,7 @@ class Community extends BaseController
         }
         $data = $communityDetail->hidden([''])->toArray();
         $data = CommunityService::getUserStatus($data);
+        $data['chief_user'] = (new CommunityUserService())->getChiefUserInfoByCommunityID($id);
 
         return $data;
     }

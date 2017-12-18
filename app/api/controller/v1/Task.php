@@ -165,6 +165,8 @@ class Task extends BaseController
 
     /**
      * 任务详情
+     * 1.自动审核
+     *
      * @param $id
      * @return mixed
      */
@@ -177,7 +179,7 @@ class Task extends BaseController
         $return_data['task'] = TaskModel::get(['id' => $id]);
         $return_data['task_user'] = TaskUserModel::get(['task_id' => $id,'user_id' => $uid]);
         $return_data['task_feedback'] = TaskFeedbackModel::with('toUserInfo')
-            ->where(['task_id' => $id,'user_id' => $uid,'status' => ['in','0,1,2']])
+            ->where(['task_id' => $id,'user_id' => $uid,'status' => ['in','0,1,2,4']])
             ->order('create_time ASC')
             ->select();
 //        $return_data['task_feedback'] = TaskFeedbackModel::all(['task_id' => $id,'user_id' => $uid,'status' => [['eq',0],['eq',1],['eq',2],'or']]);

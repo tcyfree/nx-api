@@ -159,4 +159,23 @@ class CommunityUser extends BaseModel
             ['user_id' => $user_id, 'community_id' => $community_id, 'delete_time' => 0]);
         return true;
     }
+
+    /**
+     * 查找行动社社长ID
+     *
+     * @param $community_id
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public static function getChiefID($community_id)
+    {
+        $where['community_id'] = $community_id;
+        $where['type'] = 0;
+
+        $res = self::where($where)
+            ->field('user_id')
+            ->find();
+        return $res->user_id;
+    }
+
+
 }
