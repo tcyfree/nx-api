@@ -220,7 +220,8 @@ class Community extends BaseController
      * 行动社详情
      * 1. 获取用户管理权限
      * 2. 社长信息
-     * 3.
+     * 3. 所有参加人数
+     * 4. 所有行动计划
      *
      * @param $id
      * @return array|false|\PDOStatement|string|\think\Model
@@ -236,7 +237,10 @@ class Community extends BaseController
         }
         $data = $communityDetail->hidden([''])->toArray();
         $data = CommunityService::getUserStatus($data);
-        $data['chief_user'] = (new CommunityUserService())->getChiefUserInfoByCommunityID($id);
+        $c_u = new CommunityUserService();
+        $data['chief_user'] = $c_u->getChiefUserInfoByCommunityID($id);
+        $data['all_join_user'] = $c_u->getSumAllUserCommunity($id);
+        $data['all_act_plan'] = $c_u->getSumAllActPlanCommunity($id);
 
         return $data;
     }
@@ -508,7 +512,6 @@ class Community extends BaseController
 
         Db::startTrans();
         try{
-
             CommunityService::checkAllowJoinStatus($uid);
             CommunityService::checkCommunityUserExists($id,$uid);
             CommunityService::checkCommunityUserLimit($id);
