@@ -194,6 +194,9 @@ class Community extends BaseController
 
     /**
      * 分页获取推荐行动社
+     * 1. 参加人数
+     * 2. 行动计划
+     *
      * @param int $page
      * @param int $size
      * @return array
@@ -209,6 +212,11 @@ class Community extends BaseController
 
         $data = CommunityService::getSumActing($data);
         $data = CommunityService::getType($data);
+        foreach ($data as $k => $v){
+            $c_u = new CommunityUserService();
+            $data[$k]['all_join_user'] = $c_u->getSumAllUserCommunity($v['id']);
+            $data[$k]['all_act_plan'] = $c_u->getSumAllActPlanCommunity($v['id']);
+        }
 
         return [
             'data' => $data,
