@@ -91,7 +91,7 @@ class TaskFeedback extends BaseModel
             throw new ParameterException();
         }elseif ($res['status'] == 2 || $res['status'] == 3){
             throw new ParameterException([
-                'msg' => '该反馈已审核通过或失效'
+                'msg' => '该反馈已点评通过或失效'
             ]);
         }
 
@@ -100,11 +100,11 @@ class TaskFeedback extends BaseModel
 
     /**
      * 反馈24小时后回调
-     * 1 随机选取审核人
-     * 1.1 如果和之前审核人相同则更新status = 0，同时延长deadline + 86400
+     * 1 随机选取点评人
+     * 1.1 如果和之前点评人相同则更新status = 0，同时延长deadline + 86400
      * 1.2 否则(
      *    1 注销回调
-     *    2 更新以前审核记录status = 3
+     *    2 更新以前点评记录status = 3
      *    3 生成新的反馈记录
      *    4 生成新的回调记录
      *   )

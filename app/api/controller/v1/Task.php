@@ -165,7 +165,7 @@ class Task extends BaseController
 
     /**
      * 任务详情
-     * 1.自动审核
+     * 1.自动点评
      *
      * @param $id
      * @return mixed
@@ -259,10 +259,10 @@ class Task extends BaseController
     /**
      * 用户提交任务反馈
      *
-     * 1 如果to_user_id为空，则随机选择一个备选人审核
+     * 1 如果to_user_id为空，则随机选择一个备选人点评
      * 2 设置反馈有效时间为24小时内有效
-     * 3 在随机选管理员时，判断是否有审核权限
-     * 4.自动审核
+     * 3 在随机选管理员时，判断是否有点评权限
+     * 4.自动点评
      *
      * @return \think\response\Json
      * @throws Exception
@@ -336,9 +336,9 @@ class Task extends BaseController
     }
 
     /**
-     * 审核任务通过或不通过
+     * 点评任务通过或不通过
      * 1 注销24小时回调
-     * 2 处理待审核或未通过审核反馈
+     * 2 处理待点评或未通过点评反馈
      *
      * @return \think\response\Json
      * @throws Exception

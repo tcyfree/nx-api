@@ -39,7 +39,7 @@
     <tr>
         <td>status</td>
         <td>反馈状态</td>
-        <td>&nbsp;null 未反馈 0 待审核 1 未通过审核 2 审核通过</td>
+        <td>&nbsp;null 未反馈 0 待点评 1 未通过点评 2 点评通过</td>
     </tr>
 
 </table>

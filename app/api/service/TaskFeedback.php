@@ -32,10 +32,10 @@ class TaskFeedback
     /**
      * 提交反馈
      * 1 未给当前反馈人提交过反馈
-     * 2 未通过审核提交反馈
+     * 2 未通过点评提交反馈
      * 3 设置反馈有效时间为24小时内有效
      * 4 坑：需要将TP自带时间戳转换功能再转换成时间戳格式
-     * 5.再次反馈更新审核者to_look = 0
+     * 5.再次反馈更新点评者to_look = 0
      *
      * @param $dataRules
      * @param $uid
@@ -76,7 +76,7 @@ class TaskFeedback
             return true;
         }else{
             throw new ParameterException([
-                'msg' => '任务待审核或审核通过了'
+                'msg' => '任务待点评或点评通过了'
             ]);
         }
     }
@@ -103,7 +103,7 @@ class TaskFeedback
     }
 
     /**
-     * 自动审核：自动完成反馈
+     * 自动点评：自动完成反馈
      * 1.将任务更新为完成
      * 2.增加用户行动力
      * 3.判断是否完成该计划

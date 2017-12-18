@@ -42,15 +42,15 @@
  </tr>
  <tr>
      <td>to_user_id</td>
-     <td>审核人ID</td>
+     <td>点评人ID</td>
      <td width="226">否</td>
      <td>&nbsp;</td>
  </tr>
     <tr>
         <td>type</td>
-        <td>自动审核</td>
+        <td>自动点评</td>
         <td width="226">否</td>
-        <td>&nbsp;自动审核：type = 1 </td>
+        <td>&nbsp;自动点评：type = 1 </td>
     </tr>
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>

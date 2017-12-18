@@ -565,7 +565,7 @@ CREATE TABLE `qxd_task_check` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `feedback_id` char(36) NOT NULL DEFAULT '',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='反馈审核表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='反馈点评表';
 
 #
 # Structure for table "qxd_task_feedback"
@@ -577,13 +577,13 @@ CREATE TABLE `qxd_task_feedback` (
   `id` char(36) NOT NULL DEFAULT '',
   `task_id` char(36) NOT NULL DEFAULT '0' COMMENT '所属任务ID',
   `user_id` char(36) NOT NULL DEFAULT '0' COMMENT '发起反馈的用户ID',
-  `to_user_id` char(36) NOT NULL DEFAULT '0' COMMENT '审核反馈的用户ID',
+  `to_user_id` char(36) NOT NULL DEFAULT '0' COMMENT '点评反馈的用户ID',
   `content` varchar(2048) NOT NULL DEFAULT '' COMMENT '反馈内容',
   `location` varchar(255) NOT NULL DEFAULT '' COMMENT '地理位置',
-  `status` enum('0','1','2','3') NOT NULL DEFAULT '0' COMMENT '0 待审核 1 未通过审核 2 审核通过 3 失效',
-  `reason` varchar(255) NOT NULL DEFAULT '' COMMENT '未通过审核原因',
+  `status` enum('0','1','2','3') NOT NULL DEFAULT '0' COMMENT '0 待点评 1 未通过点评 2 点评通过 3 失效',
+  `reason` varchar(255) NOT NULL DEFAULT '' COMMENT '未通过点评原因',
   `look` enum('0','1') NOT NULL DEFAULT '1' COMMENT '反馈者已查看 0 否 1是',
-  `to_look` enum('0','1') NOT NULL DEFAULT '0' COMMENT '审核者已查看 0 否 1 是',
+  `to_look` enum('0','1') NOT NULL DEFAULT '0' COMMENT '点评者已查看 0 否 1 是',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `delete_time` int(11) unsigned NOT NULL DEFAULT '0',

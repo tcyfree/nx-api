@@ -243,7 +243,7 @@ class Task
     }
 
     /**
-     * 判断是否有审核反馈权限
+     * 判断是否有点评反馈权限
      *
      * @param $uid
      * @param $task_id
