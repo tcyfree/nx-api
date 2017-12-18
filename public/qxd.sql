@@ -1,5 +1,5 @@
 ﻿# Host: rm-2ze125ne5236itso9o.mysql.rds.aliyuncs.com  (Version: 5.6.34)
-# Date: 2017-11-30 11:12:46
+# Date: 2017-12-18 10:14:57
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES utf8 */;
@@ -26,7 +26,7 @@ CREATE TABLE `qxd_act_plan` (
   PRIMARY KEY (`p_id`),
   UNIQUE KEY `id` (`id`),
   KEY `community_id` (`community_id`,`mode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行动计划表';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='行动计划表';
 
 #
 # Structure for table "qxd_act_plan_record"
@@ -41,7 +41,7 @@ CREATE TABLE `qxd_act_plan_record` (
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '操作时间',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`,`act_plan_id`,`type`,`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作记录';
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8 COMMENT='操作记录';
 
 #
 # Structure for table "qxd_act_plan_user"
@@ -59,7 +59,7 @@ CREATE TABLE `qxd_act_plan_user` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`,`act_plan_id`),
   KEY `act_plan_id` (`act_plan_id`,`user_id`,`mode`,`finish`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行动计划 用户对应表';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='行动计划 用户对应表';
 
 #
 # Structure for table "qxd_advice"
@@ -125,7 +125,7 @@ CREATE TABLE `qxd_auth_user` (
   PRIMARY KEY (`id`),
   KEY `联合主键` (`to_user_id`,`community_id`),
   KEY `from_user_id` (`from_user_id`,`auth`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户权限对应表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户权限对应表';
 
 #
 # Structure for table "qxd_blocked_list"
@@ -158,7 +158,7 @@ CREATE TABLE `qxd_callback` (
   `update_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `key_id` (`key_id`,`user_id`,`key_type`,`deadline`,`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='定时-回调任务表';
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COMMENT='定时-回调任务表';
 
 #
 # Structure for table "qxd_comment"
@@ -181,7 +181,7 @@ CREATE TABLE `qxd_comment` (
   KEY `comment_approved_date_gmt` (`status`),
   KEY `table_id_status` (`communication_id`,`status`),
   KEY `createtime` (`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='评论表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='评论表';
 
 #
 # Structure for table "qxd_comment_notice"
@@ -234,6 +234,7 @@ CREATE TABLE `qxd_communication` (
   `comments` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '评论数',
   `shares` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '转发数',
   `hits` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '查看数',
+  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '1 反馈',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
@@ -242,7 +243,7 @@ CREATE TABLE `qxd_communication` (
   KEY `type_status_date` (`create_time`,`id`),
   KEY `user_id` (`user_id`),
   KEY `community_id` (`community_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='交流区表';
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='交流区表';
 
 #
 # Structure for table "qxd_communication_operate"
@@ -258,7 +259,7 @@ CREATE TABLE `qxd_communication_operate` (
   `delete_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`,`communication_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='文章操作表';
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='文章操作表';
 
 #
 # Structure for table "qxd_community"
@@ -287,7 +288,7 @@ CREATE TABLE `qxd_community` (
   UNIQUE KEY `id` (`id`),
   KEY `name` (`name`) COMMENT '搜索',
   KEY `outside_id` (`outside_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行动社表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='行动社表';
 
 #
 # Structure for table "qxd_community_recommend"
@@ -314,7 +315,7 @@ CREATE TABLE `qxd_community_transfer` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '转让时间',
   PRIMARY KEY (`Id`),
   KEY `user_id` (`user_id`,`to_user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行动社转让记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='行动社转让记录表';
 
 #
 # Structure for table "qxd_community_user"
@@ -336,7 +337,7 @@ CREATE TABLE `qxd_community_user` (
   KEY `community_id` (`community_id`,`user_id`) COMMENT '复合主键',
   KEY `type` (`type`) COMMENT 'type',
   KEY `pay` (`pay`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='社群用户对应表';
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='社群用户对应表';
 
 #
 # Structure for table "qxd_community_user_record"
@@ -352,7 +353,7 @@ CREATE TABLE `qxd_community_user_record` (
   `join_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '加入时间',
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '退出时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户退出行动记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COMMENT='用户退出行动记录表';
 
 #
 # Structure for table "qxd_execution"
@@ -397,7 +398,7 @@ CREATE TABLE `qxd_income_expenses` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `order_no` (`order_no`),
   KEY `act_plan_id` (`act_plan_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='收支明细交易表';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='收支明细交易表';
 
 #
 # Structure for table "qxd_income_expenses_user"
@@ -412,7 +413,7 @@ CREATE TABLE `qxd_income_expenses_user` (
   `create_time` int(10) NOT NULL DEFAULT '0' COMMENT '交易时间',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`,`type`,`ie_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='收支对应用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COMMENT='收支对应用户表';
 
 #
 # Structure for table "qxd_login_history"
@@ -426,7 +427,7 @@ CREATE TABLE `qxd_login_history` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录时间',
   PRIMARY KEY (`Id`),
   KEY `user_id` (`user_id`,`device_type`,`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户登录记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=227 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户登录记录表';
 
 #
 # Structure for table "qxd_message"
@@ -445,7 +446,7 @@ CREATE TABLE `qxd_message` (
   `delete_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`,`to_user_id`,`type`,`look`,`create_time`,`delete_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='私信列表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='私信列表';
 
 #
 # Structure for table "qxd_notice"
@@ -467,7 +468,7 @@ CREATE TABLE `qxd_notice` (
   PRIMARY KEY (`p_id`),
   UNIQUE KEY `id` (`id`),
   KEY `to_user_id` (`to_user_id`,`from_user_id`,`type`,`communication_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='消息表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='消息表';
 
 #
 # Structure for table "qxd_recharge"
@@ -485,7 +486,7 @@ CREATE TABLE `qxd_recharge` (
   `update_time` int(10) NOT NULL DEFAULT '0' COMMENT '更新订单状态时间',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`,`out_trade_no`,`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='充值表';
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COMMENT='充值表';
 
 #
 # Structure for table "qxd_report"
@@ -539,7 +540,7 @@ CREATE TABLE `qxd_task` (
   KEY `post_date` (`create_time`) USING BTREE,
   KEY `type_status_date` (`create_time`,`id`),
   KEY `act_plan_id` (`act_plan_id`,`release`,`order`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='任务表';
+) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='任务表';
 
 #
 # Structure for table "qxd_task_accelerate"
@@ -554,7 +555,7 @@ CREATE TABLE `qxd_task_accelerate` (
   `create_time` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `task_id` (`task_id`,`user_id`,`from_user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务加速表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='任务加速表';
 
 #
 # Structure for table "qxd_task_check"
@@ -578,9 +579,9 @@ CREATE TABLE `qxd_task_feedback` (
   `task_id` char(36) NOT NULL DEFAULT '0' COMMENT '所属任务ID',
   `user_id` char(36) NOT NULL DEFAULT '0' COMMENT '发起反馈的用户ID',
   `to_user_id` char(36) NOT NULL DEFAULT '0' COMMENT '点评反馈的用户ID',
-  `content` varchar(2048) NOT NULL DEFAULT '' COMMENT '反馈内容',
+  `content` varchar(2048) NOT NULL DEFAULT '' COMMENT '点评内容',
   `location` varchar(255) NOT NULL DEFAULT '' COMMENT '地理位置',
-  `status` enum('0','1','2','3') NOT NULL DEFAULT '0' COMMENT '0 待点评 1 未通过点评 2 点评通过 3 失效',
+  `status` enum('0','1','2','3','4') NOT NULL DEFAULT '0' COMMENT '0 待点评 1 未通过点评 2 点评通过 3 失效 4 自动审核',
   `reason` varchar(255) NOT NULL DEFAULT '' COMMENT '未通过点评原因',
   `look` enum('0','1') NOT NULL DEFAULT '1' COMMENT '反馈者已查看 0 否 1是',
   `to_look` enum('0','1') NOT NULL DEFAULT '0' COMMENT '点评者已查看 0 否 1 是',
@@ -590,7 +591,7 @@ CREATE TABLE `qxd_task_feedback` (
   PRIMARY KEY (`p_id`),
   UNIQUE KEY `id` (`id`),
   KEY `task_id` (`task_id`,`user_id`,`to_user_id`,`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务反馈表';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='任务反馈表';
 
 #
 # Structure for table "qxd_task_feedback_users"
@@ -606,7 +607,7 @@ CREATE TABLE `qxd_task_feedback_users` (
   `update_time` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `community_id` (`community_id`,`user_id`,`tag`,`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='随机反馈用户ID记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='随机反馈用户ID记录表';
 
 #
 # Structure for table "qxd_task_record"
@@ -621,7 +622,7 @@ CREATE TABLE `qxd_task_record` (
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '操作时间',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`,`task_id`,`type`,`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='操作记录';
+) ENGINE=InnoDB AUTO_INCREMENT=301 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='操作记录';
 
 #
 # Structure for table "qxd_task_user"
@@ -643,7 +644,7 @@ CREATE TABLE `qxd_task_user` (
   PRIMARY KEY (`p_id`),
   UNIQUE KEY `id` (`id`),
   KEY `task_id` (`task_id`,`user_id`,`mode`,`act_plan_id`,`finish`,`tag`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8 COMMENT='任务用户表';
 
 #
 # Structure for table "qxd_transactions"
@@ -682,7 +683,7 @@ CREATE TABLE `qxd_user` (
   PRIMARY KEY (`p_id`),
   UNIQUE KEY `id` (`id`),
   KEY `number` (`number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 #
 # Structure for table "qxd_user_info"
@@ -705,7 +706,7 @@ CREATE TABLE `qxd_user_info` (
   `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`,`nickname`,`unionid`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户信息表';
 
 #
 # Structure for table "qxd_user_property"
@@ -722,7 +723,7 @@ CREATE TABLE `qxd_user_property` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`),
   KEY `wallet` (`wallet`,`execution`,`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户财产资源';
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='用户财产资源';
 
 #
 # Structure for table "qxd_user_wx"
@@ -745,4 +746,4 @@ CREATE TABLE `qxd_user_wx` (
   `create_time` int(11) NOT NULL DEFAULT '0',
   `update_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户微信信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='用户微信信息表';
