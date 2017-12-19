@@ -15,8 +15,12 @@ namespace app\api\controller\v2;
 
 
 use app\api\controller\BaseController;
+use app\api\validate\UUID;
 
 class CommunityUser extends BaseController
 {
-
+    public function getManagerUser()
+    {
+        (new UUID())->goCheck();
+    }
 }

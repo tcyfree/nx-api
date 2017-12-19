@@ -22,6 +22,13 @@ class CommunityUser extends BaseModel
     public function community(){
         return $this->hasMany('Community','id','community_id');
     }
+    /**
+     * 行动社成员
+     */
+    public function member()
+    {
+        return $this->belongsTo('UserInfo','user_id','user_id')->order('user_id asc');
+    }
 
     /**
      * 根据用户获取行动社分页
@@ -52,13 +59,6 @@ class CommunityUser extends BaseModel
         }
 
         return $pagingData;
-    }
-    /**
-     * 行动社成员
-     */
-    public function member()
-    {
-        return $this->belongsTo('UserInfo','user_id','user_id')->order('user_id asc');
     }
 
     /**
