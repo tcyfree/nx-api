@@ -54,6 +54,7 @@ Route::group(':version/community',function(){
     Route::get('/recommend/:page/:size','api/:version.Community/getRecommendSummary');
     Route::get('/:type/:page/:size','api/:version.Community/getSummaryByUser');
     Route::get('/member','api/:version.Community/getMemberList');
+    Route::get('/manager','api/:version.CommunityUser/getManagerUser');
     Route::put('/member','api/:version.Community/suspendMember');
     Route::get('/:id','api/:version.Community/getDetail');
     Route::post('/manager','api/:version.Community/setManager');

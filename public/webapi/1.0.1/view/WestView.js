@@ -23,6 +23,19 @@ Ext.define('WebRoot.view.WestView', {
 							text: '错误编码表',
 							hrefTarget: SYS_API_ROOT + 'phpfiles/error_code.php',
 							leaf: true
+						},
+						{
+							id: 'community_user',
+							text: '行动社用户相关',
+							expanded: true,
+							children: [
+								{
+									id: 'community_user_manager',
+									text: '管理员列表',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/community_user_manager.php',
+									leaf:true
+								}
+							]
 						}
 					]
 			}
