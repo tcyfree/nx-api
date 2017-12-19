@@ -44,6 +44,7 @@ use app\api\model\Callback as CallbackModel;
 use app\api\model\TaskUser as TaskUserModel;
 use app\api\service\TaskFeedback as TaskFeedbackService;
 use app\api\model\TaskFeedbackUsers;
+use app\api\model\UserProperty as UserProPertyModel;
 
 class Task extends BaseController
 {
@@ -263,6 +264,7 @@ class Task extends BaseController
      * 2 设置反馈有效时间为24小时内有效
      * 3 在随机选管理员时，判断是否有点评权限
      * 4.自动点评
+     * 5.用行动力未超过50不能自动点评
      *
      * @return \think\response\Json
      * @throws Exception
@@ -280,6 +282,12 @@ class Task extends BaseController
             unset($dataRules['status']);
         }
         if (isset($dataRules['type']) && $dataRules['type'] == 1){
+            $res = UserPropertyModel::get(['user_id' => $uid]);
+            if($res->execution < 50){
+                throw new ParameterException([
+                    'msg' => '行动力'.$res->execution.'未超过50，不能自动点评'
+                ]);
+            }
             (new TaskFeedback())->autoFeedback($uid,$dataRules);
             return json(new SuccessMessage(),201);
         }
