@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
       <td>GET</td>
-    <td>community/manager</td>
+    <td>v2/community/manager</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>

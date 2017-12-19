@@ -29,6 +29,13 @@ Route::group(':version/user', function(){
 });
 
 /**
+ * UserInfo
+ */
+Route::group(':version/user',function (){
+    Route::put('profile','api/:version.UserInfo/putUserInfoProfile');
+});
+
+/**
  * OSS
  */
 Route::group(':version/oss',function(){

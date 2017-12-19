@@ -25,6 +25,19 @@ Ext.define('WebRoot.view.WestView', {
 							leaf: true
 						},
 						{
+							id: 'user',
+							text: '用户相关',
+							expanded: true,
+							children: [
+								{
+									id: 'user_info_profile',
+									text: '编辑简介',
+                                    hrefTarget: SYS_API_ROOT + 'phpfiles/user_info_profile.php',
+									leaf: true
+								}
+							]
+						},
+						{
 							id: 'community_user',
 							text: '行动社用户相关',
 							expanded: true,

@@ -24,7 +24,7 @@ class CommunityUser
     {
         $chief_id = CommunityUserModel::getChiefID($community_id);
         $user_info = UserInfoModel::where(['user_id' => $chief_id])
-            ->field(['user_id','nickname','avatar','from'])
+//            ->field(['user_id','nickname','avatar','from'])
             ->find();
         return $user_info;
     }
