@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: probe <1946644259@qq.com>
 // +----------------------------------------------------------------------
-// | DateTime: 2017/11/10/10:38
+// | DateTime: 2017/12/19/10:45
 // +----------------------------------------------------------------------
 
 namespace app\api\controller\v2;
@@ -16,11 +16,7 @@ namespace app\api\controller\v2;
 
 use app\api\controller\BaseController;
 
-class Swoole extends BaseController
+class CommunityUser extends BaseController
 {
-    public function test()
-    {
-        $params = json_decode(input('get.params'),true);
-        return $params;
-    }
+
 }
