@@ -45,6 +45,7 @@ Route::group(':version/oss',function(){
     Route::post('/upload','api/:version.OSSManager/uploadOSS');
     Route::get('/callback','api/:version.OSSManager/callbackResponse');
     Route::get('/mp4','api/:version.OSSManager/OSSTransCodingMp4');
+    Route::get('/mp3','api/:version.OSSManager/OSSTransCodingMp3');
 });
 
 /**

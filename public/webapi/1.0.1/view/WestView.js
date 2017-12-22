@@ -49,7 +49,20 @@ Ext.define('WebRoot.view.WestView', {
 									leaf:true
 								}
 							]
-						}
+						},
+                        {
+                            id: 'menu_oss',
+                            text: 'OSS相关',
+                            expanded: true,
+                            children: [
+                                {
+                                    id: 'oss_trans__mp3',
+                                    text: '将音频文件转码为mp3',
+                                    hrefTarget: SYS_API_ROOT + 'phpfiles/oss_trans_mp3.php',
+                                    leaf: true
+                                }
+                            ]
+                        }
 					]
 			}
 		});
