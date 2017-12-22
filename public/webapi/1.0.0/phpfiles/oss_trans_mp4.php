@@ -19,12 +19,8 @@
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>
 <table width="90%" border="1" class="dbTable">
-  <tr class="td_header">
-    <td width="23%">参数名称</td>
-    <td width="25%">参数说明</td>
-    <td width="52%">备注</td>
-    </tr>
-    <?php require_once("../include/token.inc.php");?>
+    <?php require_once("../include/required_or_optional.php");?>
+    <?php require_once("../include/token.required.php");?>
     <tr>
         <td>filename</td>
         <td>转码文件名</td>
