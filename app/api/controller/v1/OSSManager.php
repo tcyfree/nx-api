@@ -245,7 +245,7 @@ class OSSManager extends BaseController
     }
 
     /**
-     * 删除本地文件
+     * 删除本地文
      *
      * @param $filename
      * @return bool
