@@ -14,6 +14,7 @@ namespace app\api\model;
 
 use app\lib\exception\ParameterException;
 use app\api\model\Callback as CallbackModel;
+use think\Db;
 
 class CommunityUser extends BaseModel
 {
@@ -59,6 +60,45 @@ class CommunityUser extends BaseModel
         }
 
         return $pagingData;
+    }
+
+    /**
+     * 根据用户获取行动社分页,根据level降序排序
+     *
+     * @param $uid
+     * @param $type
+     * @param int $page
+     * @param int $size
+     * @return \think\Paginator
+     */
+    public static function getSummaryByUserOrderByLevel($uid, $type, $page = 1, $size = 15)
+    {
+        $where['c_u.user_id'] = $uid;
+        $where['c_u.status']  = ['in','0,2'];
+        $page = $page - 1;
+        if($type == 2){
+            $data = Db::table('qxd_community_user')
+                ->alias('c_u')
+                ->join('__COMMUNITY__ c','c_u.community_id = c.id')
+                ->where($where)
+                ->where(function ($query){
+                    $query->where('c_u.type',0)->whereOr('c_u.type',1);
+                })
+                ->order('c.level DESC, c_u.create_time DESC')
+                ->limit($page,$size)
+                ->select()
+                ->toArray();
+        }else{
+            $data = Db::table('qxd_community_user')
+                ->alias('c_u')
+                ->join('__COMMUNITY__ c','c_u.community_id = c.id')
+                ->where($where)
+                ->order('c.level DESC, c_u.create_time DESC')
+                ->limit($page,$size)
+                ->select()
+                ->toArray();
+        }
+        return $data;
     }
 
     /**
