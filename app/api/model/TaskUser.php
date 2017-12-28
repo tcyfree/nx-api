@@ -35,6 +35,11 @@ class TaskUser extends BaseModel
         return $this->hasMany('TaskFeedback','task_id','id');
     }
 
+    public function userProperty()
+    {
+        return $this->hasOne('UserProperty','user_id','user_id');
+    }
+
     /**
      * 1.是否被自己点击加速的
      * 2.检查用户任务是否已经结束
