@@ -230,6 +230,7 @@ class Community extends BaseController
      * 2. 社长信息
      * 3. 所有参加人数
      * 4. 所有行动计划
+     * 5.行动社_社长简介
      *
      * @param $id
      * @return array|false|\PDOStatement|string|\think\Model
@@ -249,6 +250,7 @@ class Community extends BaseController
         $data['chief_user'] = $c_u->getChiefUserInfoByCommunityID($id);
         $data['all_join_user'] = $c_u->getSumAllUserCommunity($id);
         $data['all_act_plan'] = $c_u->getSumAllActPlanCommunity($id);
+        $data['community_chief_user'] = CommunityUser::get(['community_id' => $id,'type' => 0]);
 
         return $data;
     }

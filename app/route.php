@@ -70,6 +70,7 @@ Route::group(':version/community',function(){
     Route::post('/report','api/:version.Community/reportCommunity');
     Route::post('/search','api/:version.Community/searchCommunity');
     Route::delete('','api/:version.Community/leaveCommunity');
+    Route::put('/chief_profile','api/:version.CommunityUser/putCommunityUserChiefProfile');
 });
 
 /**

@@ -11,6 +11,7 @@ namespace app\api\service;
 use app\api\model\CommunityUser as CommunityUserModel;
 use app\api\model\UserInfo as UserInfoModel;
 use app\api\model\ActPlan as ActPlanModel;
+use app\lib\exception\ParameterException;
 
 class CommunityUser
 {
@@ -57,5 +58,21 @@ class CommunityUser
         $where['community_id'] = $community_id;
         $num = ActPlanModel::where($where)->count();
         return $num;
+    }
+
+    /**
+     * 只有社长才拥有的权限
+     * @param $uid
+     * @param $community_id
+     * @throws ParameterException
+     */
+    public function checkChiefAuth($uid,$community_id)
+    {
+        $chief_id = CommunityUserModel::getChiefID($community_id);
+        if ($uid != $chief_id){
+            throw new ParameterException([
+                'msg' => '不是社长，没有该权限'
+            ]);
+        }
     }
 }

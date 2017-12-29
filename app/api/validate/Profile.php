@@ -18,5 +18,6 @@ class Profile extends BaseValidate
 {
     protected $rule = [
         'profile' => 'require',
+        'community_id' => 'require|length:36'
     ];
 }
