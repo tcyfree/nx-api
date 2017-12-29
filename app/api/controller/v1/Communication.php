@@ -40,6 +40,8 @@ class Communication extends BaseController
      * 1.被@的用户
      * 2.判断该用户是否为付费用户,付费用户才能发条目
      * 3.对管理员或社长放行
+     * 4.暂停成员资格不能发条目
+     *
      * @return \think\response\Json
      * @throws ParameterException
      */
@@ -50,9 +52,9 @@ class Communication extends BaseController
         $uid = TokenService::getCurrentUid();
         CommunityModel::checkCommunityExists($dataArray['community_id']);
         $result = CommunityUserModel::checkCommunityBelongsToUser($uid,$dataArray['community_id']);
-        if ($result['type'] == 2 && $result['pay'] ==0){
+        if ($result['type'] == 2 && $result['pay'] ==0 || $result['status'] ==2){
             throw new ParameterException([
-                'msg' => '你不是该行动社付费用户不能发条目哦'
+                'msg' => '你不是该行动社付费用户或被暂停成员资格不能发条目哦'
             ]);
         }
         $dataArray['user_id'] = $uid;
@@ -80,6 +82,8 @@ class Communication extends BaseController
      * 1.判断当前用户是否点赞
      * 2.当前用户是否为付费用户
      * 3.对管理员或社长放行，
+     * 4.暂停成员资格不能发条目
+     *
      * @param int $page
      * @param int $size
      * @return array
@@ -108,7 +112,7 @@ class Communication extends BaseController
         }
 
         $result = CommunityUserModel::checkCommunityBelongsToUser($uid,$community_id);
-        if ($result['type'] == 2 && $result['pay'] != 1){
+        if ($result['type'] == 2 && $result['pay'] == 0 || $result['status'] ==2){
             $data['send'] = false;
         }else{
             $data['send'] = true;
