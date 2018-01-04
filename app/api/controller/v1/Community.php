@@ -326,11 +326,11 @@ class Community extends BaseController
         $type = '2';
         $data = Db::table('qxd_community_user')
             ->alias('c_u')
-            ->join('__USER_INFO__ u','c_u.user_id = u.user_id')
+            ->join('__USER_INFO__ u_i','c_u.user_id = u_i.user_id')
+            ->join('__USER__ u','u_i.user_id = u.id')
             ->where('(c_u.pay = '."'".$pay."'".' OR c_u.type <> '."'".$type."'".') AND c_u.community_id = '."'".$id."'")
-//            ->order('c_u.type ASC')
-            ->order('u.char_index ASC')
-            ->field('c_u.type,c_u.pay,c_u.status,u.user_id,u.nickname,u.char_index,u.avatar,u.from')
+            ->order('u_i.char_index ASC')
+            ->field('c_u.type,c_u.pay,c_u.status,u_i.user_id,u_i.nickname,u_i.char_index,u_i.avatar,u_i.from,u.number')
             ->limit($page,$size)
             ->select()
             ->toArray();
@@ -351,13 +351,7 @@ class Community extends BaseController
                 $newData[$v['char_index']][] = $v;
             }
         }
-//        foreach ($data as $key =>$value){
-//            if ($value['type'] == 0){
-//                $temp = $data[0];
-//                $data[0] = $value;
-//                $data[$key] = $temp;
-//            }
-//        }
+
         $data['user_id'] = $uid;
         $newData['user_id'] = $uid;
         return [
@@ -418,7 +412,11 @@ class Community extends BaseController
             CommunityService::checkManagerAllowJoinStatus($data['to_user_id'],true);
         }
         $data['from_user_id'] = $uid;
-        $auth = CommunityService::authFilter($dataArray['auth']);
+        if (isset($dataArray['auth']) && is_string($dataArray['auth'])){
+            $auth = CommunityService::authFilter($dataArray['auth']);
+        }else{
+            $auth = '';
+        }
         $data['auth'] = $auth;
         $data['community_id'] = $dataArray['community_id'];
 
@@ -565,6 +563,7 @@ class Community extends BaseController
      * 暂停/恢复成员资格
      * 1. 自动恢复成员资格
      * 2. 注销回调
+     * 3. 自己不能暂停自己
      *
      */
     public function suspendMember()
@@ -572,6 +571,11 @@ class Community extends BaseController
         (new SuspendMember())->goCheck();
         $uid = TokenService::getCurrentUid();
         $data = input('put.');
+        if ($uid == $data['user_id']){
+            throw new ParameterException([
+                'msg' => '自己不能暂停自己......'
+            ]);
+        }
     
         $cs_obj = new CommunityService();
         $auth_array[0] = 3;

@@ -285,7 +285,7 @@ class Task extends BaseController
             $res = UserPropertyModel::get(['user_id' => $uid]);
             if($res->execution < config('setting.execution')){
                 throw new ParameterException([
-                    'msg' => '行动力'.$res->execution.'未超过'.config('setting.execution').'，不能自动点评'
+                    'msg' => '行动力'.$res->execution.'未达到'.config('setting.execution').'，不能自动点评'
                 ]);
             }
             (new TaskFeedback())->autoFeedback($uid,$dataRules);

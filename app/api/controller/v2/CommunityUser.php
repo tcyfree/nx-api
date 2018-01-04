@@ -15,16 +15,15 @@ namespace app\api\controller\v2;
 
 
 use app\api\controller\BaseController;
+use app\api\model\Community as CommunityModel;
 use app\api\model\CommunityUser as CommunityUserModel;
 use app\api\service\Community as CommunityService;
+use app\api\service\CommunityUser as CommuntiyUserService;
 use app\api\service\Token as TokenService;
 use app\api\validate\PagingParameter;
 use app\api\validate\Profile;
-use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
 use think\Db;
-use app\api\model\Community as CommunityModel;
-use app\api\service\CommunityUser as CommuntiyUserService;
 
 class CommunityUser extends BaseController
 {

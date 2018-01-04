@@ -20,6 +20,9 @@ use app\api\validate\Type;
 use app\api\service\Token as TokenService;
 use app\api\model\CommunityUser as CommunityUserModel;
 use app\api\service\CommunityUser as CommunityUserService;
+use think\Db;
+use app\api\validate\UUID;
+use app\api\service\Community as CommunityService;
 
 class Community extends BaseController
 {
