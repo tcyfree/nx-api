@@ -49,9 +49,10 @@ Ext.define('WebRoot.view.WestView', {
                                     leaf:true
                                 },
 								{
-									id: 'community_user_profile',
-									text: '行动社_社长简介',
-									hrefTarget: SYS_API_ROOT + 'phpfiles/community_user_profile.php',
+									id: 'community_profile',
+									text: '行动社简介',
+									cls: 'redStyle',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/community_profile.php',
 									leaf:true
 								}
                             ]

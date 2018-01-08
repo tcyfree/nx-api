@@ -17,7 +17,7 @@ namespace app\api\validate;
 class Profile extends BaseValidate
 {
     protected $rule = [
-        'profile' => 'require',
+        'profile' => '',
         'community_id' => 'require|length:36'
     ];
 }

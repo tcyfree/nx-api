@@ -175,7 +175,7 @@ class Community
         }
         if($count >= AllowJoinStatusEnum::ALLOW_JOIN_OUT){
             throw new CommunityException([
-                'msg' => '加入行动社数量超过'.AllowJoinStatusEnum::ALLOW_JOIN_OUT.'个',
+                'msg' => '站住！您加入的行动社数量已超过'.AllowJoinStatusEnum::ALLOW_JOIN_OUT.'个了，不可贪多啊！',
                 'code' => 400
             ]);
         }
@@ -185,7 +185,7 @@ class Community
      * 判断用户相关的行动是否达到上限
      * 管理+社长：ALLOW_JOIN_MANAGER
      * 不包含已退的行动社
-     * 允许加入数是否超过10个
+     * 允许加入数是否超过3个
      * 1.check = true 被设置管理员和转让行动社的用户，拥有管理+社长 < ALLOW_JOIN_MANAGER，加入/拥有/管理行动社总数上限 = ALLOW_JOIN_OUT时，对其放行。
      *
      * @param $uid

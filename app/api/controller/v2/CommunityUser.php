@@ -15,14 +15,9 @@ namespace app\api\controller\v2;
 
 
 use app\api\controller\BaseController;
-use app\api\model\Community as CommunityModel;
-use app\api\model\CommunityUser as CommunityUserModel;
 use app\api\service\Community as CommunityService;
-use app\api\service\CommunityUser as CommuntiyUserService;
 use app\api\service\Token as TokenService;
 use app\api\validate\PagingParameter;
-use app\api\validate\Profile;
-use app\lib\exception\SuccessMessage;
 use think\Db;
 
 class CommunityUser extends BaseController
@@ -86,24 +81,5 @@ class CommunityUser extends BaseController
             'data' => $newData,
             'current_page' => $page + 1
         ];
-    }
-
-    /**
-     * 编辑简介
-     * 1. 只有社长有此功能
-     *
-     * @return \think\response\Json
-     */
-    public function putCommunityUserChiefProfile()
-    {
-        (new Profile())->goCheck();
-        $data = input('put.');
-        $community_id = $data['community_id'];
-        $uid  = TokenService::getCurrentUid();
-        CommunityModel::checkCommunityExists($community_id);
-        (new CommuntiyUserService())->checkChiefAuth($uid,$community_id);
-        CommunityUserModel::update(['profile' => $data['profile']],
-            ['user_id' => $uid,'community_id' => $community_id,'type' => 0]);
-        return json(new SuccessMessage(), 201);
     }
 }

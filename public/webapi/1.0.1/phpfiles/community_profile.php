@@ -3,7 +3,7 @@
 <script>whbRemoveMask();</script>
 
 <div class="contentDIV">
-<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：行动社_社长简介接口</span></p>
+<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：行动社简介接口</span></p>
 <p class="subtitlestyle">（一）服务接口请求地址：</p>
 <table width="90%" border="1" class="dbTable">
   <tr class="td_header">
@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
       <td>PUT</td>
-    <td>v2/community/chief_profile</td>
+    <td>v2/community/profile</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>

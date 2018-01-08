@@ -15,14 +15,14 @@ namespace app\api\controller\v2;
 
 
 use app\api\controller\BaseController;
-use app\api\validate\PagingParameter;
-use app\api\validate\Type;
-use app\api\service\Token as TokenService;
 use app\api\model\CommunityUser as CommunityUserModel;
 use app\api\service\CommunityUser as CommunityUserService;
-use think\Db;
-use app\api\validate\UUID;
-use app\api\service\Community as CommunityService;
+use app\api\service\Token as TokenService;
+use app\api\validate\PagingParameter;
+use app\api\validate\Profile;
+use app\api\validate\Type;
+use app\api\model\Community as CommunityModel;
+use app\lib\exception\SuccessMessage;
 
 class Community extends BaseController
 {
@@ -46,5 +46,27 @@ class Community extends BaseController
             'data' => $data,
             'current_page' => $page
         ];
+    }
+
+    /**
+     * 编辑行动社简介
+     * 1. 只有社长有此功能
+     *
+     * @return \think\response\Json
+     */
+    public function putCommunityProfile()
+    {
+        (new Profile())->goCheck();
+        $data = input('put.');
+        if (!isset($data['profile'])){
+            $data['profile'] = '';
+        }
+        $community_id = $data['community_id'];
+        $uid  = TokenService::getCurrentUid();
+        CommunityModel::checkCommunityExists($community_id);
+        (new CommunityUserService())->checkChiefAuth($uid,$community_id);
+        CommunityModel::update(['profile' => $data['profile'], 'update_time' => time()],
+            ['id' => $community_id]);
+        return json(new SuccessMessage(), 201);
     }
 }
