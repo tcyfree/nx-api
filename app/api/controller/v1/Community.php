@@ -564,6 +564,7 @@ class Community extends BaseController
      * 1. 自动恢复成员资格
      * 2. 注销回调
      * 3. 自己不能暂停自己
+     * 4. 管理员不能暂停社长资格
      *
      */
     public function suspendMember()
@@ -573,7 +574,14 @@ class Community extends BaseController
         $data = input('put.');
         if ($uid == $data['user_id']){
             throw new ParameterException([
-                'msg' => '自己不能暂停自己......'
+                'msg' => '自己不能暂停自己。。。'
+            ]);
+        }
+        CommunityModel::checkCommunityExists($data['community_id']);
+        $chief_info = (new CommunityUserService())->getChiefUserInfoByCommunityID($data['community_id']);
+        if ($data['user_id'] == $chief_info['user_id']){
+            throw new ParameterException([
+                'msg' => '不能暂停社长。。。'
             ]);
         }
     
@@ -581,7 +589,6 @@ class Community extends BaseController
         $auth_array[0] = 3;
         Db::startTrans();
         try{
-            CommunityModel::checkCommunityExists($data['community_id']);
             $cs_obj->checkManagerAuthority($uid,$data['community_id'],$auth_array);
             CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
             CommunityUserModel::checkCommunityBelongsToUser($data['user_id'],$data['community_id']);
