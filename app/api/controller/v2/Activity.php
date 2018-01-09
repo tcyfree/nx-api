@@ -57,15 +57,9 @@ class Activity extends BaseController
         (new PutActivityValidate())->goCheck();
         $uid = TokenService::getCurrentUid();
         $data = input('put.');
-        $res = ActivityModel::get(['uuid' => $data['uuid']]);
-        if(!$res){
-            throw new ParameterException([
-                'msg' => '活动不存在，请检查活动ID:'.$data['uuid']
-            ]);
-        }else{
-            $auth_array[0] = 1;
-            (new CommunityService())->checkManagerAuthority($uid,$data['community_id'],$auth_array);
-        }
+        $res = ActivityModel::checkActivityExists($data['uuid']);
+        $auth_array[0] = 1;
+        (new CommunityService())->checkManagerAuthority($uid,$res['community_id'],$auth_array);
         (new ActivityModel())->allowField(true)->save($data,['uuid' => $data['uuid']]);
 
         return json(new SuccessMessage(), 201);

@@ -8,25 +8,20 @@
 // +----------------------------------------------------------------------
 // | Author: probe <1946644259@qq.com>
 // +----------------------------------------------------------------------
-// | DateTime: 2018/1/9/10:27
+// | DateTime: 2017/8/29/13:51
 // +----------------------------------------------------------------------
 
-namespace app\api\model;
+namespace app\api\validate;
 
-use app\lib\exception\ParameterException;
 
-class Activity extends BaseModel
+class SyllabusPut extends BaseValidate
 {
-    protected $autoWriteTimestamp = true;
-
-    public static function checkActivityExists($activity_id)
-    {
-        $res = self::get(['uuid' => $activity_id]);
-        if(!$res){
-            throw new ParameterException([
-                'msg' => '课程不存在，请检查ID: '.$activity_id
-            ]);
-        }
-        return $res;
-    }
+    protected $rule = [
+        'uuid' => 'require|length:36',
+        'name' => 'require|length:1,50',
+        'requirement'=> 'require|length:1,1000',
+        'file_uri' => 'url',
+        'profile' => 'require|length:1,1000',
+        'cover_image' => 'require|url'
+    ];
 }

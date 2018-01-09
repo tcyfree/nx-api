@@ -13,8 +13,20 @@
 
 namespace app\api\model;
 
+use app\lib\exception\ParameterException;
 
 class Course extends BaseModel
 {
     protected $autoWriteTimestamp = true;
+
+    public static function checkCourseExists($course_id)
+    {
+        $res = self::get(['uuid' => $course_id]);
+        if(!$res){
+            throw new ParameterException([
+                'msg' => '课程不存在，请检查ID: '.$course_id
+            ]);
+        }
+        return $res;
+    }
 }

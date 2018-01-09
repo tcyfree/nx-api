@@ -8,25 +8,23 @@
 // +----------------------------------------------------------------------
 // | Author: probe <1946644259@qq.com>
 // +----------------------------------------------------------------------
-// | DateTime: 2018/1/9/10:27
+// | DateTime: 2018/1/9/15:00
 // +----------------------------------------------------------------------
 
 namespace app\api\model;
 
-use app\lib\exception\ParameterException;
 
-class Activity extends BaseModel
+class Syllabus extends BaseModel
 {
     protected $autoWriteTimestamp = true;
-
-    public static function checkActivityExists($activity_id)
+    protected $hidden = ['delete_time'];
+    public static function getList($course_id,$page,$size)
     {
-        $res = self::get(['uuid' => $activity_id]);
-        if(!$res){
-            throw new ParameterException([
-                'msg' => '课程不存在，请检查ID: '.$activity_id
-            ]);
-        }
+        $where['course_id'] = $course_id;
+        $where['delete_time'] = 0;
+        $res = self::where($where)
+            ->order('create_time DESC')
+            ->paginate($size,false,['page' => $page]);
         return $res;
     }
 }

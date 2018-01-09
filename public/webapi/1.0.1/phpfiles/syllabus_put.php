@@ -3,7 +3,7 @@
 <script>whbRemoveMask();</script>
 
 <div class="contentDIV">
-<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：编辑活动接口</span></p>
+<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：编辑课时接口</span></p>
 <p class="subtitlestyle">（一）服务接口请求地址：</p>
 <table width="90%" border="1" class="dbTable">
   <tr class="td_header">
@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
       <td>PUT</td>
-    <td>v2/activity</td>
+    <td>v2/course/syllabus</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）PUT参数列表：</p>
@@ -24,19 +24,13 @@
  <?php require_once ("../include/token.required.php"); ?>
     <tr>
         <td>uuid</td>
-        <td >活动ID</td>
+        <td >课时ID</td>
         <td >是</td>
         <td ></td>
     </tr>
  <tr>
    <td>name</td>
    <td>名称</td>
-   <td>是</td>
-   <td></td>
- </tr>
-  <tr>
-   <td>tel</td>
-   <td>联系方式</td>
    <td>是</td>
    <td></td>
  </tr>
@@ -47,22 +41,22 @@
      <td>&nbsp;</td>
  </tr>
     <tr>
-        <td>fee</td>
-        <td>费用（元）</td>
+        <td>file_uri</td>
+        <td>文件uri</td>
+        <td>&nbsp;否</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>profile</td>
+        <td>介绍</td>
         <td>&nbsp;是</td>
         <td>&nbsp;</td>
     </tr>
     <tr>
-        <td>content</td>
-        <td>内容</td>
+        <td>requirement</td>
+        <td>要求</td>
         <td>&nbsp;是</td>
-        <td>&nbsp;</td>
-    </tr>
-    <tr>
-        <td>end_time</td>
-        <td>截止日期</td>
-        <td>&nbsp;是</td>
-        <td>&nbsp;时间戳(s)</td>
+        <td></td>
     </tr>
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>

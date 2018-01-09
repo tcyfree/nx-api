@@ -118,7 +118,32 @@ Ext.define('WebRoot.view.WestView', {
                                     text: '编辑',
                                     hrefTarget: SYS_API_ROOT + 'phpfiles/course_put.php',
                                     leaf: true
-                                }
+                                },
+								{
+									id: 'menu_syllabus',
+									text: '课时相关',
+									expanded: true,
+									children: [
+										{
+											id: 'syllabus_post',
+											text: '创建',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/syllabus_post.php',
+											leaf: true
+										},
+										{
+                                            id: 'syllabus_put',
+                                            text: '编辑',
+                                            hrefTarget: SYS_API_ROOT + 'phpfiles/syllabus_put.php',
+                                            leaf: true
+										},
+										{
+											id: 'syllabus_list',
+											text: '列表',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/syllabus_list.php',
+											leaf: true
+										}
+									]
+								}
                             ]
                         }
 					]
