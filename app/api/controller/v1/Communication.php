@@ -83,6 +83,7 @@ class Communication extends BaseController
      * 2.当前用户是否为付费用户
      * 3.对管理员或社长放行，
      * 4.暂停成员资格不能发条目
+     * 5.成员状态
      *
      * @param int $page
      * @param int $size
@@ -94,7 +95,7 @@ class Communication extends BaseController
         $community_id = input('get.community_id');
         $uid = TokenService::getCurrentUid();
         $pageData = CommunicationModel::getList($page,$size,$community_id);
-        $data = $pageData->visible(['id','content','user_id','location','likes','comments','user_info.user_id','create_time','user_info.nickname','user_info.avatar'])->toArray();
+        $data = $pageData->visible(['id','community_id','content','user_id','location','likes','comments','user_info.user_id','create_time','user_info.nickname','user_info.avatar'])->toArray();
         foreach ($data as &$v){
             CommunicationModel::where('id',$v['id'])->setInc('hits');
             $res = CommunicationOperateModel::get(['user_id' => $uid, 'communication_id' => $v['id'],'type' => 1,'delete_time' => 0]);
@@ -103,12 +104,12 @@ class Communication extends BaseController
             }else{
                 $v['do_like'] = false;
             }
-
             if ($uid == $v['user_id']){
                 $v['own'] = true;
             }else{
                 $v['own'] = false;
             }
+            $v['community_user'] = CommunityUserModel::get(['user_id' => $v['user_id'],'community_id' => $v['community_id'],'delete_time' => 0]);
         }
 
         $result = CommunityUserModel::checkCommunityBelongsToUser($uid,$community_id);

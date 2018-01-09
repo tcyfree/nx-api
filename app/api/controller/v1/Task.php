@@ -179,6 +179,7 @@ class Task extends BaseController
         TaskService::checkTaskByUser($uid,$id);
         $return_data['task'] = TaskModel::get(['id' => $id]);
         $return_data['task_user'] = TaskUserModel::get(['task_id' => $id,'user_id' => $uid]);
+        $return_data['task_user']['deadline'] = date('Y-m-d H:i:s',$return_data['task_user']['deadline']);
         $return_data['task_feedback'] = TaskFeedbackModel::with('toUserInfo')
             ->where(['task_id' => $id,'user_id' => $uid,'status' => ['in','0,1,2,4']])
             ->order('create_time ASC')

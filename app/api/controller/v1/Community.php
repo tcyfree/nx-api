@@ -615,7 +615,11 @@ class Community extends BaseController
     public function test()
     {
 
-        echo config('setting.user_time_out');
+        echo config('setting.execution');
+        var_dump(config('setting.execution',7200));
+        var_dump(config('setting.execution2',7200));
+        echo config('setting.execution');
+
     }
 
 }

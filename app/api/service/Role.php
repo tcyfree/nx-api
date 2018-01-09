@@ -30,6 +30,7 @@ class Role
      * 2.2 将社长变成普通成员
      * 2.3 判断被转让用户是否是被社长被暂停成员资格
      * 2.4 是否管理+社长达到上限
+     * 2.5 checkManagerAllowJoinStatus ==> $check = false
      * @param $data
      * @return \think\response\Json
      * @throws \Exception
@@ -41,7 +42,7 @@ class Role
         {
             CommunityTransfer::create($data);
             $to_user = CommunityUser::get(['user_id' => $data['to_user_id'], 'community_id' => $data['community_id']]);
-            CommunityService::checkManagerAllowJoinStatus($data['to_user_id'],true);
+            CommunityService::checkManagerAllowJoinStatus($data['to_user_id']);
             CommunityService::checkCommunityUserLimit($data['community_id']);
             if(!$to_user){
                 $cData['user_id'] = $data['to_user_id'];
