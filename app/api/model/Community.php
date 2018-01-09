@@ -89,7 +89,7 @@ class Community extends BaseModel
         $res = self::get(['id' => $id]);
         if(!$res){
             throw new ParameterException([
-                'msg' => '行动社不存在，请检查ID'
+                'msg' => '行动社不存在，请检查ID: '.$id
             ]);
         }
     }

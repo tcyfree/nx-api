@@ -62,8 +62,29 @@ class BaseValidate extends Validate
         }
         else
         {
-            return false;
-            //            return $field.'必须是正整数';
+//            return false;
+            return $field.'必须是正整数';
+        }
+    }
+
+    /**
+     * 必须是自然数
+     * @param $value
+     * @param string $rule
+     * @param string $data
+     * @param string $field
+     * @return bool|string
+     */
+    protected function isNaturalNumber($value, $rule = '', $data = '', $field = '')
+    {
+        if (is_numeric($value) && is_int($value + 0))
+        {
+            return true;
+        }
+        else
+        {
+//            return false;
+            return $field.'必须是自然数';
         }
     }
 

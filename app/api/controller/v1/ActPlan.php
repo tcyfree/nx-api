@@ -46,12 +46,10 @@ class ActPlan extends BaseController
         $id = uuid();
         $dataArray = input('post.');
         $dataArray['id'] = $id;
-
+        CommunityModel::checkCommunityExists($dataArray['community_id']);
         $c_obj = new CommunityService();
         $auth_array[0] = 1;
         $c_obj->checkManagerAuthority($uid,$dataArray['community_id'],$auth_array);
-
-        CommunityModel::checkCommunityExists($dataArray['community_id']);
         ActPlanModel::create($dataArray);
 
         $data['act_plan_id'] = $id;

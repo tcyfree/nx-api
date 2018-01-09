@@ -82,6 +82,44 @@ Ext.define('WebRoot.view.WestView', {
                                     leaf: true
                                 }
                             ]
+                        },
+						{
+							id: 'menu_activity',
+							text: '活动相关',
+							expanded: true,
+							children: [
+								{
+									id: 'activity_post',
+									text: '创建',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/activity_post.php',
+									leaf: true
+								},
+								{
+									id: 'activity_put',
+									text: '编辑',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/activity_put.php',
+									leaf: true
+								}
+							]
+						},
+                        {
+                            id: 'menu_course',
+                            text: '课程相关',
+                            expanded: true,
+                            children: [
+                                {
+                                    id: 'course_post',
+                                    text: '创建',
+                                    hrefTarget: SYS_API_ROOT + 'phpfiles/course_post.php',
+                                    leaf: true
+                                },
+                                {
+                                    id: 'course_put',
+                                    text: '编辑',
+                                    hrefTarget: SYS_API_ROOT + 'phpfiles/course_put.php',
+                                    leaf: true
+                                }
+                            ]
                         }
 					]
 			}
