@@ -67,7 +67,7 @@ class Syllabus extends BaseController
      *
      * @param int $page
      * @param int $size
-     * @return \think\Paginator
+     * @return array
      */
     public function getSyllabusList($page =1 ,$size = 15)
     {

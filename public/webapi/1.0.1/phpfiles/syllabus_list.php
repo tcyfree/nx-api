@@ -69,6 +69,11 @@
             <td>时间</td>
             <td>&nbsp;</td>
         </tr>
+        <tr>
+            <td>total</td>
+            <td>总数</td>
+            <td>&nbsp;</td>
+        </tr>
 
     </table>
     <p>&nbsp;</p>
