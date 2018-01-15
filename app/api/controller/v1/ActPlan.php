@@ -154,13 +154,15 @@ class ActPlan extends BaseController
     {
         (new ActPlanSummaryList())->goCheck();
         $data = input('get.');
+        $community_id = $data['community_id'];
         $pagingData = ActPlanModel::actPlanByList($data);
-
-        $data = $pagingData->hidden(['fee','create_time','update_time','delete_time','community_id','mode'])
+        $data = $pagingData->hidden(['update_time','delete_time'])
             ->toArray();
-
+        $uid = TokenService::getAnyhowUid();
+        $auth = AuthUserModel::getAuthUserWithCommunity($uid,$community_id);
         return [
             'data' => $data,
+            'auth' => $auth,
             'current_page' => $pagingData->currentPage()
         ];
     }

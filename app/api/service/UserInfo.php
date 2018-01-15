@@ -35,7 +35,7 @@ class UserInfo
         if($result){
             throw new ParameterException(
                 [
-                    'msg' => "'".$nickname."'已经存在了,换一个修改名称吧"
+                    'msg' => "'".$nickname."'名称已被占用，请重新取个名字吧"
                 ]);
         }
     }

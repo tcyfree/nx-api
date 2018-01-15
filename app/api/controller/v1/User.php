@@ -60,7 +60,7 @@ class User extends BaseController
         $validate->goCheck();
         $uid = TokenService::getCurrentUid();
         $dataArray = input('put.');
-
+        (new UserInfoService())->checkNicknameUpdate($uid,$dataArray['nickname']);
         $dataArray['from'] = 1;
         $Pinyin = new PinyinService();
         $dataArray['char_index'] = $Pinyin->getCharIndexPinyin($dataArray['nickname']);

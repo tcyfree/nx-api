@@ -37,7 +37,6 @@ class Task extends BaseController
         (new UUID())->goCheck();
         $uid = TokenService::getCurrentUid();
         TaskModel::checkTaskExists($id);
-        TaskService::checkTaskByUser($uid,$id);
         $return_data['task'] = TaskModel::get(['id' => $id]);
         $return_data['task_user'] = TaskUserModel::with('userProperty')
             ->where(['task_id' => $id,'user_id' => $uid])

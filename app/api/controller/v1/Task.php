@@ -45,6 +45,7 @@ use app\api\model\TaskUser as TaskUserModel;
 use app\api\service\TaskFeedback as TaskFeedbackService;
 use app\api\model\TaskFeedbackUsers;
 use app\api\model\UserProperty as UserProPertyModel;
+use app\api\model\AuthUser as AuthUserModel;
 
 class Task extends BaseController
 {
@@ -158,6 +159,7 @@ class Task extends BaseController
         $res_data = ActPlanModel::checkActPlanExists($id);
         $data['mode'] = $res_data['mode'];
         $data['fee']  = $res_data['fee'];
+        $data['auth'] = AuthUserModel::getAuthUserWithCommunity($uid,$res_data['community_id']);
          return [
             'data' => $data,
             'current_page' => $pagingData->currentPage()
@@ -176,7 +178,6 @@ class Task extends BaseController
         (new UUID())->goCheck();
         $uid = TokenService::getCurrentUid();
         TaskModel::checkTaskExists($id);
-        TaskService::checkTaskByUser($uid,$id);
         $return_data['task'] = TaskModel::get(['id' => $id]);
         $return_data['task_user'] = TaskUserModel::get(['task_id' => $id,'user_id' => $uid]);
         $return_data['task_user']['deadline'] = date('Y-m-d H:i:s',$return_data['task_user']['deadline']);

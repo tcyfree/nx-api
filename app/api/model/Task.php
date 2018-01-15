@@ -95,7 +95,7 @@ class Task extends BaseModel
      */
     public static function goTask($uid, $task_id)
     {
-        self::checkTaskExists($task_id);
+        self::getTaskMode($task_id,$uid);
         $res = TaskUserModel::get(['user_id' => $uid, 'task_id' => $task_id]);
         if($res){
             throw new ParameterException([

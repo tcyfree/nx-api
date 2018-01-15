@@ -20,26 +20,32 @@ use app\api\model\Task as TaskModel;
 use app\api\model\TaskUser as TaskUserModel;
 use app\api\service\Community as CommunityService;
 use app\lib\exception\AcceleateTaskException;
+use app\lib\exception\ForbiddenException;
 use app\lib\exception\ParameterException;
 use app\api\model\TaskFeedbackUsers as TaskFeedbackUsersModel;
 use think\Db;
 use think\Exception;
+use app\api\service\Task as TaskService;
 
 class Task
 {
 
     /**
      * 判断该任务是否为此用户的
+     * 1.对社长和有权限的管理员放行
      * @param $uid
-     * @param $id
+     * @param $act_plan_id
+     * @return bool
      * @throws ParameterException
      */
-    public static function checkTaskByUser($uid,$id)
+    public static function checkTaskByUser($uid,$act_plan_id)
     {
+        $auth = (new TaskService())->checkAuthority($uid,$act_plan_id);
+        if ($auth){
+            return true;
+        }
         $act_plan_user = new ActPlanUserModel();
-        $res = $act_plan_user->where('act_plan_id','eq',function ($query) use ($id){
-            $query->table('qxd_task')->where('id',$id)->field('act_plan_id');
-        })
+        $res = $act_plan_user->where('act_plan_id','eq', $act_plan_id)
             ->where('user_id',$uid)
             ->find();
         if(!$res){
@@ -53,6 +59,7 @@ class Task
      * 判断是否有操作任务权限
      * @param $uid
      * @param $act_plan_id
+     * @return bool
      * @throws ParameterException
      */
     public function checkAuthority($uid,$act_plan_id)
@@ -64,6 +71,7 @@ class Task
             $auth_array[0] = 2;
             $c_obj = new CommunityService();
             $c_obj->checkManagerAuthority($uid,$ap_obj->community_id,$auth_array);
+            return true;
         }
     }
 
@@ -257,6 +265,23 @@ class Task
         $c_obj = new CommunityService();
         $res = $c_obj->checkNewManagerAuthority($uid,$community_id,$auth_array);
         return $res;
+    }
+
+    /**
+     * 是否为社长和管理员
+     *
+     * @param $uid
+     * @param $act_plan_id
+     * @return bool
+     * @throws ForbiddenException
+     */
+    public function checkManager($uid,$act_plan_id)
+    {
+        $res = ActPlanModel::checkActPlanExists($act_plan_id);
+        $community_user = CommunityUserModel::get(['user_id' => $uid, 'community_id' => $res['community_id']]);
+        if ($community_user['type'] == 2){
+            throw new ForbiddenException();
+        }else return true;
     }
 
 }
