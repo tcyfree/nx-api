@@ -15,14 +15,17 @@ namespace app\api\controller\v2;
 
 
 use app\api\controller\BaseController;
+use app\api\validate\PagingParameter;
 use app\api\validate\PostActivityValidate;
 use app\api\service\Token as TokenService;
 use app\api\model\Activity as ActivityModel;
 use app\api\model\Community as CommunityModel;
 use app\api\service\Community as CommunityService;
 use app\api\validate\PutActivityValidate;
+use app\api\validate\UUIDValidate;
 use app\lib\exception\SuccessMessage;
 use app\lib\exception\ParameterException;
+use app\api\model\AuthUser as AuthUserModel;
 
 class Activity extends BaseController
 {
@@ -44,6 +47,48 @@ class Activity extends BaseController
         (new ActivityModel())->allowField(true)->save($data);
 
         return json(new SuccessMessage(), 201);
+    }
+
+    /**
+     * 活动列表
+     *
+     * @param int $page
+     * @param int $size
+     * @return array
+     */
+    public function getActivityList($page = 1, $size = 15)
+    {
+        (new PagingParameter())->goCheck();
+        (new UUIDValidate())->goCheck();
+        $community_id = input('get.uuid');
+        $pageData = ActivityModel::getList($community_id,$page,$size);
+        $uid = TokenService::getAnyhowUid();
+        $auth = AuthUserModel::getAuthUserWithCommunity($uid,$community_id);
+        $data = $pageData->hidden();
+        return [
+            'data' => $data,
+            'current_page' => $pageData->currentPage(),
+            'user_auth' => $auth
+        ];
+    }
+
+    /**
+     * 活动详情
+     *
+     * @return array
+     */
+    public function getActivity()
+    {
+        (new UUIDValidate())->goCheck();
+        $activity_id = input('get.uuid');
+        $res = ActivityModel::checkActivityExists($activity_id);
+        $uid = TokenService::getAnyhowUid();
+        $auth = AuthUserModel::getAuthUserWithCommunity($uid,$res['community_id']);
+        $detail = ActivityModel::get(['uuid' => $activity_id]);
+        return [
+            'detail' => $detail,
+            'auth' => $auth
+        ];
     }
 
     /**

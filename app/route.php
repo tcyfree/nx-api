@@ -205,6 +205,8 @@ Route::group(':version/message',function (){
 Route::group(':version/activity',function (){
     Route::post('','api/:version.Activity/postActivity');
     Route::put('','api/:version.Activity/putActivity');
+    Route::get('/list','api/:version.Activity/getActivityList');
+    Route::get('','api/:version.Activity/getActivity');
 });
 
 /**
@@ -213,6 +215,7 @@ Route::group(':version/activity',function (){
 Route::group(':version/course',function (){
     Route::post('','api/:version.Course/postCourse');
     Route::put('','api/:version.Course/putCourse');
+    Route::get('/list','api/:version.Course/getCourseList');
     Route::post('/syllabus','api/:version.Syllabus/postSyllabus');
     Route::put('/syllabus','api/:version.Syllabus/putSyllabus');
     Route::get('/syllabus/list','api/:version.Syllabus/getSyllabusList');

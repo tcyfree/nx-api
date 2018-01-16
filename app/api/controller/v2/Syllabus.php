@@ -24,13 +24,17 @@ use app\api\validate\UUIDValidate;
 use app\lib\exception\SuccessMessage;
 use app\api\service\Community as CommunityService;
 use app\api\model\Syllabus as SyllabusModel;
+use think\Db;
+use think\Exception;
 
 class Syllabus extends BaseController
 {
     /**
      * 创建课时
+     * 更新课时总数
      *
      * @return \think\response\Json
+     * @throws Exception
      */
     public function postSyllabus()
     {
@@ -41,7 +45,16 @@ class Syllabus extends BaseController
         $auth_array[0] = 1;
         (new CommunityService())->checkManagerAuthority($uid,$res['community_id'],$auth_array);
         $data['uuid'] = uuid();
-        (new SyllabusModel())->allowField(true)->save($data);
+        Db::startTrans();
+        try{
+            (new SyllabusModel())->allowField(true)->save($data);
+            CourseModel::where(['uuid' => $data['course_id']])->setInc('syllabus_count');
+            Db::commit();
+        }catch(Exception $ex)
+        {
+            Db::rollback();
+            throw $ex;
+        }
         return json(new SuccessMessage(),201);
     }
 

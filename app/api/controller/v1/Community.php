@@ -87,7 +87,8 @@ class Community extends BaseController
 
         $image_process = new ImageProcessingService();
         $url = $dataArray['qr_prefix_url'].$dataArray['id'];
-        $logo = $dataArray['cover_image'].config('oss.rounded-corners');
+//        $logo = $dataArray['cover_image'].config('oss.rounded-corners');
+        $logo = $dataArray['cover_image'];
         $res = $image_process->getQRCodeByCoverImage($url,$logo);
         $dataArray['qr_code'] = $res['oss-request-url'];
         //开启事物
@@ -145,7 +146,8 @@ class Community extends BaseController
             if($result['update_num'] == 0){
                 throw new UpdateNumException();
             }
-            $logo = $dataArray['cover_image'].config('oss.rounded-corners');
+//            $logo = $dataArray['cover_image'].config('oss.rounded-corners');
+            $logo = $dataArray['cover_image'];
             $image_process = new ImageProcessingService();
             $dataArray['qr_prefix_url'] = 'http://weixin.go-qxd.com/template/groupPage.html?id=';
             $url = $dataArray['qr_prefix_url'].$dataArray['id'];

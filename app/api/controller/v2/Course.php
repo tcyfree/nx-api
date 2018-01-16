@@ -19,10 +19,13 @@ use app\api\model\Community as CommunityModel;
 use app\api\model\Course as CourseModel;
 use app\api\service\Community as CommunityService;
 use app\api\service\Token as TokenService;
+use app\api\validate\PagingParameter;
 use app\api\validate\PostCourseValidate;
 use app\api\validate\PutCourseValidate;
+use app\api\validate\UUIDValidate;
 use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
+use app\api\model\AuthUser as AuthUserModel;
 
 class Course extends BaseController
 {
@@ -44,6 +47,34 @@ class Course extends BaseController
         (new CourseModel())->allowField(true)->save($data);
 
         return json(new SuccessMessage(), 201);
+    }
+
+    /**
+     * 获取课程列表
+     *
+     * @param int $page
+     * @param int $size
+     * @return array
+     */
+    public function getCourseList($page = 1, $size = 15)
+    {
+        (new PagingParameter())->goCheck();
+        (new UUIDValidate())->goCheck();
+        $community_id = input('get.uuid');
+        $pageData = CourseModel::getList($community_id,$page,$size);
+        $uid = TokenService::getAnyhowUid();
+        $auth = AuthUserModel::getAuthUserWithCommunity($uid,$community_id);
+        $data = $pageData->hidden();
+        return [
+            'data' => $data,
+            'current_page' => $pageData->currentPage(),
+            'user_auth' => $auth
+        ];
+    }
+
+    public function getCourse()
+    {
+        (new UUIDValidate())->goCheck();
     }
 
     /**

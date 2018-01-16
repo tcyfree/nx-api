@@ -14,10 +14,12 @@
 namespace app\api\model;
 
 use app\lib\exception\ParameterException;
+use app\api\model\Community as CommunityModel;
 
 class Course extends BaseModel
 {
     protected $autoWriteTimestamp = true;
+    protected $hidden = ['delete_time'];
 
     public static function checkCourseExists($course_id)
     {
@@ -27,6 +29,17 @@ class Course extends BaseModel
                 'msg' => '课程不存在，请检查ID: '.$course_id
             ]);
         }
+        return $res;
+    }
+
+    public static function getList($community_id,$page,$size)
+    {
+        CommunityModel::checkCommunityExists($community_id);
+        $where['community_id'] = $community_id;
+        $where['delete_time'] = 0;
+        $res = self::where($where)
+            ->order('create_time DESC')
+            ->paginate($size,true,['page' => $page]);
         return $res;
     }
 }
