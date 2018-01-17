@@ -8,21 +8,13 @@
 // +----------------------------------------------------------------------
 // | Author: probe <1946644259@qq.com>
 // +----------------------------------------------------------------------
-// | DateTime: 2017/8/29/13:51
+// | DateTime: 2018/1/17/11:47
 // +----------------------------------------------------------------------
 
-namespace app\api\validate;
+namespace app\api\controller\admin;
 
 
-class SyllabusPut extends BaseValidate
+class User
 {
-    protected $rule = [
-        'uuid' => 'require|length:36',
-        'name' => 'require|length:1,50',
-        'requirement'=> 'require|length:1,1000',
-        'file_uri' => 'url',
-        'profile' => 'require|length:1,1000',
-        'cover_image' => 'require|url',
-        'type' => 'require'
-    ];
+
 }

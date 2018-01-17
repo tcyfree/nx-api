@@ -218,5 +218,4 @@ class CommunityUser extends BaseModel
         return $res->user_id;
     }
 
-
 }

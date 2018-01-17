@@ -13,7 +13,6 @@
 
 namespace app\api\controller\v2;
 
-
 use app\api\controller\BaseController;
 use app\api\validate\PagingParameter;
 use app\api\validate\SyllabusPost;

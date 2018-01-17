@@ -60,4 +60,9 @@ class User extends BaseModel
         return $user;
     }
 
+    public static function getSum()
+    {
+        return self::count();
+    }
+
 }

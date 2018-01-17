@@ -58,6 +58,12 @@
         <td>&nbsp;是</td>
         <td></td>
     </tr>
+    <tr>
+        <td>type</td>
+        <td>类型</td>
+        <td>&nbsp;是</td>
+        <td>0 图文 1 视频 2 音频</td>
+    </tr>
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>
 <table width="90%" border="1" class="dbTable">

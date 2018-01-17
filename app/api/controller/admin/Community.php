@@ -8,21 +8,19 @@
 // +----------------------------------------------------------------------
 // | Author: probe <1946644259@qq.com>
 // +----------------------------------------------------------------------
-// | DateTime: 2017/8/29/13:51
+// | DateTime: 2018/1/17/11:47
 // +----------------------------------------------------------------------
 
-namespace app\api\validate;
+namespace app\api\controller\admin;
 
+use app\api\controller\BaseController;
+use app\api\model\Community as CommunityModel;
 
-class SyllabusPut extends BaseValidate
+class Community extends BaseController
 {
-    protected $rule = [
-        'uuid' => 'require|length:36',
-        'name' => 'require|length:1,50',
-        'requirement'=> 'require|length:1,1000',
-        'file_uri' => 'url',
-        'profile' => 'require|length:1,1000',
-        'cover_image' => 'require|url',
-        'type' => 'require'
-    ];
+    public function getCommunityList($page = 1, $size = 15)
+    {
+        $pageData = CommunityModel::getList($page,$size);
+        return $pageData;
+    }
 }

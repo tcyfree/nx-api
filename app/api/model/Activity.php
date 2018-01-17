@@ -42,4 +42,9 @@ class Activity extends BaseModel
             ->paginate($size,true,['page' => $page]);
         return $res;
     }
+
+    public static function getSum()
+    {
+        return self::count();
+    }
 }

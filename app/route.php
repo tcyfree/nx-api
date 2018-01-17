@@ -222,6 +222,14 @@ Route::group(':version/course',function (){
 });
 
 /**
+ * Admin
+ */
+Route::group(':admin',function (){
+    Route::get('/report','api/:admin.Report/getReport');
+    Route::get('/community_list','api/:admin.Community/getCommunityList');
+});
+
+/**
  * MISS路由，当全部路由没有匹配到时
  * 将返回资源未找到的信息
  */

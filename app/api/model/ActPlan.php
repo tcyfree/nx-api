@@ -74,4 +74,8 @@ class ActPlan extends BaseModel
         return $pagingData;
     }
 
+    public static function getSum()
+    {
+        return self::count();
+    }
 }

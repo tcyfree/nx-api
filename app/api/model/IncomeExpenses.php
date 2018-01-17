@@ -155,4 +155,16 @@ class IncomeExpenses extends BaseModel
         }
 
     }
+
+    /**
+     * 平台净收入
+     *
+     * @return float|int
+     */
+    public static function getNetIncome()
+    {
+        $total_fee = self::sum('fee');
+
+        return $total_fee*0.1;
+    }
 }

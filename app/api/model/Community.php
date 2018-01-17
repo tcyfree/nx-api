@@ -117,5 +117,18 @@ class Community extends BaseModel
         }
     }
 
+    public static function getSum()
+    {
+        return self::count();
+    }
+
+    public static function getList($page,$size)
+    {
+        $pageData = self::order('create_time desc')
+            ->paginate($size, false, ['page' => $page]);
+        return $pageData;
+    }
+
+
 
 }

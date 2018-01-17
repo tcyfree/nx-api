@@ -22,6 +22,7 @@ class SyllabusPost extends BaseValidate
         'requirement'=> 'require|length:1,1000',
         'file_uri' => 'url',
         'profile' => 'require|length:1,1000',
-        'cover_image' => 'require|url'
+        'cover_image' => 'require|url',
+        'type' => 'require'
     ];
 }
