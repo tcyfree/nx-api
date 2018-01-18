@@ -165,6 +165,6 @@ class IncomeExpenses extends BaseModel
     {
         $total_fee = self::sum('fee');
 
-        return $total_fee*0.1;
+        return round($total_fee*config('fee.withdrawal_fee'),2);
     }
 }

@@ -13,6 +13,8 @@
 
 namespace app\api\model;
 
+use think\Db;
+
 class IncomeExpensesUser extends BaseModel
 {
     protected $autoWriteTimestamp = true;
@@ -33,5 +35,26 @@ class IncomeExpensesUser extends BaseModel
             ->paginate($size, true, ['page' => $page]);
 
         return $pagingData;
+    }
+
+    /**
+     * 获取用户总的收入或支出
+     *
+     * @param $uid
+     * @param $type
+     * @return float|int
+     */
+    public static function getSumIncomeOrExpenses($uid,$type)
+    {
+        $where['i_e_u.type'] = (string)$type;
+        $where['i_e_u.user_id'] = $uid;
+        $total = Db::name('income_expenses_user')
+            ->alias('i_e_u')
+            ->join('__INCOME_EXPENSES__ i_e','i_e_u.ie_id = i_e.id')
+            ->where($where)
+            ->sum('i_e.fee');
+
+        return $total;
+
     }
 }

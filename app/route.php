@@ -227,6 +227,7 @@ Route::group(':version/course',function (){
 Route::group(':admin',function (){
     Route::get('/report','api/:admin.Report/getReport');
     Route::get('/community_list','api/:admin.Community/getCommunityList');
+    Route::get('/user_list','api/:admin.User/getUserList');
 });
 
 /**

@@ -8,7 +8,9 @@
 
 namespace app\api\service;
 
+use app\api\model\Activity as ActivityModel;
 use app\api\model\CommunityUser as CommunityUserModel;
+use app\api\model\Course as CourseModel;
 use app\api\model\UserInfo as UserInfoModel;
 use app\api\model\ActPlan as ActPlanModel;
 use app\lib\exception\ParameterException;
@@ -47,6 +49,23 @@ class CommunityUser
     }
 
     /**
+     * 获取参加该行动社总付费人数
+     * 1. 不包含已退群人数
+     *
+     * @param $community_id
+     * @return int|string
+     */
+    public function getSumAllPayUserCommunity($community_id)
+    {
+        $where['delete_time'] = 0;
+        $where['status'] = ['in','0,2'];
+        $where['pay'] = 1;
+        $where['community_id'] = $community_id;
+        $num = CommunityUserModel::where($where)->count();
+        return $num;
+    }
+
+    /**
      * 获取该行动社下所有行动计划
      * 1. 不包含已删除的
      * @param $community_id
@@ -57,6 +76,33 @@ class CommunityUser
         $where['delete_time'] = 0;
         $where['community_id'] = $community_id;
         $num = ActPlanModel::where($where)->count();
+        return $num;
+    }
+
+    /**
+     * 获取该行动社下所有互动课程
+     * 1. 不包含已删除的
+     * @param $community_id
+     * @return int|string
+     */
+    public function getSumAllCourseCommunity($community_id)
+    {
+        $where['delete_time'] = 0;
+        $where['community_id'] = $community_id;
+        $num = CourseModel::where($where)->count();
+        return $num;
+    }
+    /**
+     * 获取该行动社下所有社群活动
+     * 1. 不包含已删除的
+     * @param $community_id
+     * @return int|string
+     */
+    public function getSumAllActivityCommunity($community_id)
+    {
+        $where['delete_time'] = 0;
+        $where['community_id'] = $community_id;
+        $num = ActivityModel::where($where)->count();
         return $num;
     }
 

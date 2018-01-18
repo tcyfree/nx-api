@@ -14,6 +14,10 @@ class User extends BaseModel
     protected $autoWriteTimestamp = true;
     protected $hidden = ['username','password','update_time'];
 
+    public function info()
+    {
+        return $this->hasOne('UserInfo','user_id','id');
+    }
     public static function last_login_time($uid)
     {
         $arr = (self::where('id',$uid)->field('last_login_time')->find()->toArray());
@@ -63,6 +67,23 @@ class User extends BaseModel
     public static function getSum()
     {
         return self::count();
+    }
+
+    /**
+     * 用户列表
+     *
+     * @param $page
+     * @param $size
+     * @return \think\Paginator
+     */
+    public static function getList($page,$size)
+    {
+        $pageData = self::with('info')
+            ->order('create_time ASC')
+            ->field('id,number,status,reg_ip,create_time')
+            ->paginate($size, false, ['page' => $page]);
+
+        return $pageData;
     }
 
 }

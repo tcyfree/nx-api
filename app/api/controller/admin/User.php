@@ -14,7 +14,29 @@
 namespace app\api\controller\admin;
 
 
-class User
-{
+use app\api\controller\BaseController;
+use app\api\model\User as UserModel;
+use app\api\model\IncomeExpensesUser as IncomeExpensesUserModel;
 
+class User extends BaseController
+{
+    /**
+     * 用户列表 + 收支
+     * 收入：保留两位小数
+     *
+     * @param int $page
+     * @param int $size
+     * @return \think\Paginator
+     */
+    public function getUserList($page= 1, $size = 15)
+    {
+        $pageData = UserModel::getList($page,$size);
+        $data = $pageData->toArray();
+        foreach ($data['data'] as &$v){
+            $v['total_income'] = round(IncomeExpensesUserModel::getSumIncomeOrExpenses($v['id'],1)
+                *(1 - config('fee.withdrawal_fee')),2);
+            $v['total_expenses'] = IncomeExpensesUserModel::getSumIncomeOrExpenses($v['id'],0);
+        }
+        return $data;
+    }
 }

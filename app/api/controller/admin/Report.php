@@ -12,6 +12,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller\admin;
 
+use app\api\controller\BaseController;
 use app\api\model\Community as CommunityModel;
 use app\api\model\User as UserModel;
 use app\api\model\ActPlan as ActPlanModel;
@@ -19,10 +20,12 @@ use app\api\model\Course as CourseModel;
 use app\api\model\Activity as ActivityModel;
 use app\api\model\IncomeExpenses as IncomeExpensesModel;
 
-class Report
+class Report extends BaseController
 {
     /**
+     * 数据报表
      *
+     * @return mixed
      */
     public function getReport()
     {

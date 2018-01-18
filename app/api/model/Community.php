@@ -12,6 +12,7 @@
 namespace app\api\model;
 
 use app\lib\exception\ParameterException;
+use app\api\service\CommunityUser as CommunityUserService;
 
 class Community extends BaseModel
 {
@@ -126,9 +127,16 @@ class Community extends BaseModel
     {
         $pageData = self::order('create_time desc')
             ->paginate($size, false, ['page' => $page]);
-        return $pageData;
+        $data = $pageData->toArray();
+        foreach ($data['data'] as &$v){
+            $community_user_service = new CommunityUserService();
+            $v['all_count'] = $community_user_service->getSumAllUserCommunity($v['id']);
+            $v['pay_count'] = $community_user_service->getSumAllPayUserCommunity($v['id']);
+            $v['act_plan_count'] = $community_user_service->getSumAllActPlanCommunity($v['id']);
+            $v['course_count'] = $community_user_service->getSumAllCourseCommunity($v['id']);
+            $v['activity_count'] = $community_user_service->getSumAllActivityCommunity($v['id']);
+        }
+        return $data;
     }
-
-
 
 }
