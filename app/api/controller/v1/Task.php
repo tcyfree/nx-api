@@ -16,20 +16,26 @@ namespace app\api\controller\v1;
 use app\api\controller\BaseController;
 use app\api\model\ActPlan as ActPlanModel;
 use app\api\model\ActPlanUser;
+use app\api\model\AuthUser as AuthUserModel;
+use app\api\model\Callback as CallbackModel;
 use app\api\model\Task as TaskModel;
 use app\api\model\TaskAccelerate as TaskAccelerateModel;
 use app\api\model\TaskFeedback as TaskFeedbackModel;
+use app\api\model\TaskFeedbackUsers;
 use app\api\model\TaskRecord as TaskRecordModel;
 use app\api\model\TaskUser;
+use app\api\model\TaskUser as TaskUserModel;
+use app\api\model\UserProperty as UserPropertyModel;
 use app\api\service\Community as CommunityService;
+use app\api\service\Execution as ExecutionService;
 use app\api\service\Task as TaskService;
 use app\api\service\TaskFeedback;
+use app\api\service\TaskFeedback as TaskFeedbackService;
 use app\api\service\Token as TokenService;
 use app\api\validate\AccelerateTask;
 use app\api\validate\Feedback;
 use app\api\validate\FeedbackFailReason;
 use app\api\validate\FeedbackPassOrFail;
-use app\api\validate\GetFeedback;
 use app\api\validate\TaskList;
 use app\api\validate\TaskNew;
 use app\api\validate\TaskUpdate;
@@ -38,14 +44,6 @@ use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
 use think\Db;
 use think\Exception;
-use app\api\service\Execution as ExecutionService;
-use app\api\service\Execution as Es;
-use app\api\model\Callback as CallbackModel;
-use app\api\model\TaskUser as TaskUserModel;
-use app\api\service\TaskFeedback as TaskFeedbackService;
-use app\api\model\TaskFeedbackUsers;
-use app\api\model\UserProperty as UserProPertyModel;
-use app\api\model\AuthUser as AuthUserModel;
 
 class Task extends BaseController
 {
@@ -160,6 +158,8 @@ class Task extends BaseController
         $data['mode'] = $res_data['mode'];
         $data['fee']  = $res_data['fee'];
         $data['auth'] = AuthUserModel::getAuthUserWithCommunity($uid,$res_data['community_id']);
+        $data['user_property'] = UserPropertyModel::get(['user_id' => $uid]);
+
          return [
             'data' => $data,
             'current_page' => $pagingData->currentPage()

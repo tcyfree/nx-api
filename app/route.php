@@ -214,10 +214,12 @@ Route::group(':version/activity',function (){
  */
 Route::group(':version/course',function (){
     Route::post('','api/:version.Course/postCourse');
+    Route::get('','api/:version.Course/getCourse');
     Route::put('','api/:version.Course/putCourse');
     Route::get('/list','api/:version.Course/getCourseList');
     Route::post('/syllabus','api/:version.Syllabus/postSyllabus');
     Route::put('/syllabus','api/:version.Syllabus/putSyllabus');
+    Route::get('/syllabus','api/:version.Syllabus/getSyllabus');
     Route::get('/syllabus/list','api/:version.Syllabus/getSyllabusList');
 });
 
@@ -228,7 +230,11 @@ Route::group(':admin',function (){
     Route::get('/report','api/:admin.Report/getReport');
     Route::get('/community_list','api/:admin.Community/getCommunityList');
     Route::get('/user_list','api/:admin.User/getUserList');
+    Route::put('/community/status','api/:admin.Community/putCommunityStatus');
+    Route::put('/user/status','api/:admin.User/putUserStatus');
 });
+
+Route::resource('blog','index/Blog');
 
 /**
  * MISS路由，当全部路由没有匹配到时

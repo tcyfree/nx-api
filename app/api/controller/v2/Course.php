@@ -15,6 +15,7 @@ namespace app\api\controller\v2;
 
 
 use app\api\controller\BaseController;
+use app\api\model\AuthUser;
 use app\api\model\Community as CommunityModel;
 use app\api\model\Course as CourseModel;
 use app\api\service\Community as CommunityService;
@@ -72,9 +73,23 @@ class Course extends BaseController
         ];
     }
 
+    /**
+     * 课程详情
+     *
+     * @return array
+     */
     public function getCourse()
     {
         (new UUIDValidate())->goCheck();
+        $course_id = input('get.uuid');
+        $res = CourseModel::checkCourseExists($course_id);
+        $uid = TokenService::getAnyhowUid();
+        $auth = AuthUser::getAuthUserWithCommunity($uid,$res['community_id']);
+        $detail = CourseModel::get(['uuid' => $course_id]);
+        return [
+            'data' => $detail,
+            'auth' => $auth
+        ];
     }
 
     /**

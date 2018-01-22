@@ -101,6 +101,12 @@ Ext.define('WebRoot.view.WestView', {
                                     leaf: true
                                 },
 								{
+									id: 'activity_get',
+									text: '详情',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/activity_get.php',
+									leaf: true
+								},
+								{
 									id: 'activity_put',
 									text: '编辑',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/activity_put.php',
@@ -125,6 +131,12 @@ Ext.define('WebRoot.view.WestView', {
 									hrefTarget: SYS_API_ROOT + 'phpfiles/course_list.php',
 									leaf: true
 								},
+								{
+									id: 'course_get',
+									text: '详情',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/course_get.php',
+									leaf: true
+								},
                                 {
                                     id: 'course_put',
                                     text: '编辑',
@@ -147,6 +159,12 @@ Ext.define('WebRoot.view.WestView', {
                                             text: '编辑',
                                             hrefTarget: SYS_API_ROOT + 'phpfiles/syllabus_put.php',
                                             leaf: true
+										},
+										{
+											id: 'syllabus_get',
+											text: '详情',
+											hrefTarget: SYS_API_ROOT + 'phpfiles/syllabus_get.php',
+											leaf: true
 										},
 										{
 											id: 'syllabus_list',

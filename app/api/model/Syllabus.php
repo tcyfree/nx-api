@@ -14,6 +14,9 @@
 namespace app\api\model;
 
 
+use app\lib\exception\ParameterException;
+use app\api\model\Course as CourseModel;
+
 class Syllabus extends BaseModel
 {
     protected $autoWriteTimestamp = true;
@@ -26,5 +29,23 @@ class Syllabus extends BaseModel
             ->order('create_time DESC')
             ->paginate($size,false,['page' => $page]);
         return $res;
+    }
+
+    public static function checkExists($uuid)
+    {
+        $res = self::get(['uuid' => $uuid]);
+        if (!$res){
+            throw new ParameterException([
+                'msg' => '该课时不存在，检查ID: '.$uuid
+            ]);
+        }
+        return $res;
+    }
+
+    public static function getCommunity($uuid)
+    {
+        $res = self::checkExists($uuid);
+        $data = CourseModel::checkCourseExists($res['course_id']);
+        return $data;
     }
 }

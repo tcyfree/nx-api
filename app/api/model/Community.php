@@ -82,7 +82,9 @@ class Community extends BaseModel
 
     /**
      * 检查行动社是否存在
+     *
      * @param $id
+     * @return null|static
      * @throws ParameterException
      */
     public static function checkCommunityExists($id)
@@ -93,6 +95,7 @@ class Community extends BaseModel
                 'msg' => '行动社不存在，请检查ID: '.$id
             ]);
         }
+        return $res;
     }
 
     /**

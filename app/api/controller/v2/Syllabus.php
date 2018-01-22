@@ -14,6 +14,7 @@
 namespace app\api\controller\v2;
 
 use app\api\controller\BaseController;
+use app\api\model\AuthUser;
 use app\api\validate\PagingParameter;
 use app\api\validate\SyllabusPost;
 use app\api\service\Token as TokenService;
@@ -67,7 +68,7 @@ class Syllabus extends BaseController
         (new SyllabusPut())->goCheck();
         $uid = TokenService::getCurrentUid();
         $data = input('put.');
-        $res = CourseModel::checkCourseExists($data['course_id']);
+        $res = SyllabusModel::getCommunity($data['uuid']);
         $auth_array[0] = 1;
         (new CommunityService())->checkManagerAuthority($uid,$res['community_id'],$auth_array);
         (new SyllabusModel())->allowField(true)->save($data,['uuid' => $data['uuid']]);
@@ -93,7 +94,25 @@ class Syllabus extends BaseController
             'current_page' => $pageData->currentPage(),
             'total' => $pageData->total()
         ];
+    }
 
+    /**
+     * 详情
+     *
+     * @return array
+     */
+    public function getSyllabus()
+    {
+        (new UUIDValidate())->goCheck();
+        $syllabus_id = input('get.uuid');
+        $res = SyllabusModel::getCommunity($syllabus_id);
+        $uid = TokenService::getAnyhowUid();
+        $auth = AuthUser::getAuthUserWithCommunity($uid,$res['community_id']);
+        $detail = SyllabusModel::get(['uuid' => $syllabus_id]);
+        return [
+            'data' => $detail,
+            'auth' => $auth
+        ];
     }
 
 }
