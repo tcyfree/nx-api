@@ -27,7 +27,7 @@ class Task extends BaseController
     /**
      * 任务详情
      * 1.自动点评
-     * 2.增加用户信息
+     * 2.增加用户信息。
      *
      * @param $id
      * @return mixed
