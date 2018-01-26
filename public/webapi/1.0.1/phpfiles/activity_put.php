@@ -62,7 +62,7 @@
         <td>end_time</td>
         <td>截止日期</td>
         <td>&nbsp;是</td>
-        <td>&nbsp;格式：Y-m-d H:i:s</td>
+        <td>&nbsp;格式如：Y-m-d H:i:s</td>
     </tr>
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>

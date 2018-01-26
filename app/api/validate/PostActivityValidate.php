@@ -22,7 +22,7 @@ class PostActivityValidate extends BaseValidate
         'cover_image' => 'require|url',
         'content' => 'require',
         'fee' => 'require|between:0,99|isNaturalNumber',
-        'end_time' => 'require|checkDateIsValid',
+        'end_time' => 'require|date',
         'tel' => 'require|isMobile'
     ];
 }
