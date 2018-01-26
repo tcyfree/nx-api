@@ -41,6 +41,7 @@ class Activity extends BaseController
         $uid = TokenService::getCurrentUid();
         $data = input('post.');
         $data['uuid'] = uuid();
+        $data['end_time'] = strtotime($data['end_time']);
         CommunityModel::checkCommunityExists($data['community_id']);
         $auth_array[0] = 1;
         (new CommunityService())->checkManagerAuthority($uid,$data['community_id'],$auth_array);
@@ -104,6 +105,7 @@ class Activity extends BaseController
         $data = input('put.');
         $res = ActivityModel::checkActivityExists($data['uuid']);
         $auth_array[0] = 1;
+        $data['end_time'] = strtotime($data['end_time']);
         (new CommunityService())->checkManagerAuthority($uid,$res['community_id'],$auth_array);
         (new ActivityModel())->allowField(true)->save($data,['uuid' => $data['uuid']]);
 

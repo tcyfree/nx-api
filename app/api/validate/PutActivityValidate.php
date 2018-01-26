@@ -22,7 +22,7 @@ class PutActivityValidate extends BaseValidate
         'cover_image' => 'require|url',
         'content' => 'require',
         'fee' => 'require|between:0,99|isNaturalNumber',
-        'end_time' => 'require|date',
-        'tel' => 'require'
+        'end_time' => 'require|checkDateIsValid',
+        'tel' => 'require|isMobile'
     ];
 }
