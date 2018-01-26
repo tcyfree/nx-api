@@ -19,9 +19,13 @@ use app\api\model\ActPlan as ActPlanModel;
 use app\api\model\Course as CourseModel;
 use app\api\model\Activity as ActivityModel;
 use app\api\model\IncomeExpenses as IncomeExpensesModel;
+use think\Request;
 
 class Report extends BaseController
 {
+    protected $beforeActionList = [
+        'checkAdminScope' => ['only' => 'getReport']
+    ];
     /**
      * 数据报表
      *
@@ -29,6 +33,11 @@ class Report extends BaseController
      */
     public function getReport()
     {
+        $request = Request::instance();
+        $data['params'] = $request->param();
+        $token = Request::instance()
+            ->header('token');
+        $data['token'] = $token;
         $data['community_count'] = CommunityModel::getSum();
         $data['user_count'] = UserModel::getSum();
         $data['act_plan_count'] = ActPlanModel::getSum();

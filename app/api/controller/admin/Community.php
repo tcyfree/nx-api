@@ -20,6 +20,9 @@ use app\lib\exception\SuccessMessage;
 
 class Community extends BaseController
 {
+    protected $beforeActionList = [
+        'checkAdminScope' => ['only' => 'getCommunityList,putCommunityStatus']
+    ];
     /**
      * 行动社列表
      *

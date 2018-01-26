@@ -153,6 +153,34 @@ class Token
         }
     }
 
+    /**
+     * 只有管理员才能访问的接口权限
+     * @return bool
+     * @throws ForbiddenException
+     * @throws TokenException
+     */
+    public static function needAdminScope()
+    {
+        $scope = self::getCurrentTokenVar('scope');
+        if ($scope)
+        {
+            if ($scope > ScopeEnum::User)
+            {
+                return true;
+            }
+            else
+            {
+                throw new ForbiddenException([
+                    'msg' => '只有管理员才能访问的接口'
+                ]);
+            }
+        }
+        else
+        {
+            throw new TokenException();
+        }
+    }
+
     public static function isValidOperate($checkedUID)
     {
         if (!$checkedUID)

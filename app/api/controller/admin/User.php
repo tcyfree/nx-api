@@ -22,6 +22,9 @@ use app\lib\exception\SuccessMessage;
 
 class User extends BaseController
 {
+    protected $beforeActionList = [
+        'checkAdminScope' => ['only' => 'getUserList,putUserStatus']
+    ];
     /**
      * 用户列表 + 收支
      * 收入：保留两位小数

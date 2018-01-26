@@ -87,10 +87,14 @@ class Syllabus extends BaseController
         (new PagingParameter())->goCheck();
         (new UUIDValidate())->goCheck();
         $course_id = input('get.uuid');
+        $res = CourseModel::checkCourseExists($course_id);
+        $uid = TokenService::getAnyhowUid();
+        $auth = AuthUser::getAuthUserWithCommunity($uid,$res['community_id']);
         $pageData = SyllabusModel::getList($course_id,$page,$size);
         $data = $pageData->hidden(['update_time']);
         return [
             'data' => $data,
+            'auth' => $auth,
             'current_page' => $pageData->currentPage(),
             'total' => $pageData->total()
         ];

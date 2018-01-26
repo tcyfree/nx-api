@@ -45,7 +45,7 @@ class CommunityUser
         $where['status'] = ['in','0,2'];
         $where['community_id'] = $community_id;
         $num = CommunityUserModel::where($where)->count();
-        return $num;
+        return $num - 1;
     }
 
     /**
