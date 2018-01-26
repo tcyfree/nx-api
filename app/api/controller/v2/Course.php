@@ -104,15 +104,9 @@ class Course extends BaseController
         (new PutCourseValidate())->goCheck();
         $uid = TokenService::getCurrentUid();
         $data = input('put.');
-        $res = CourseModel::get(['uuid' => $data['uuid']]);
-        if(!$res){
-            throw new ParameterException([
-                'msg' => '课程不存在，请检查ID:'.$data['uuid']
-            ]);
-        }else{
-            $auth_array[0] = 1;
-            (new CommunityService())->checkManagerAuthority($uid,$data['community_id'],$auth_array);
-        }
+        $res = CourseModel::checkCourseExists($data['uuid']);
+        $auth_array[0] = 1;
+        (new CommunityService())->checkManagerAuthority($uid,$res['community_id'],$auth_array);
         (new CourseModel())->allowField(true)->save($data,['uuid' => $data['uuid']]);
 
         return json(new SuccessMessage(), 201);
