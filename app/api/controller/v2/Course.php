@@ -23,10 +23,12 @@ use app\api\service\Token as TokenService;
 use app\api\validate\PagingParameter;
 use app\api\validate\PostCourseValidate;
 use app\api\validate\PutCourseValidate;
+use app\api\validate\SearchName;
 use app\api\validate\UUIDValidate;
 use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
 use app\api\model\AuthUser as AuthUserModel;
+use app\api\service\CommunityUser as CommunityUserService;
 
 class Course extends BaseController
 {
@@ -110,5 +112,27 @@ class Course extends BaseController
         (new CourseModel())->allowField(true)->save($data,['uuid' => $data['uuid']]);
 
         return json(new SuccessMessage(), 201);
+    }
+
+    /**
+     * 根据名称模糊查询
+     * @param $name
+     * @param $page
+     * @param $size
+     * @return array
+     */
+    public function searchCourse($name, $page = 1, $size = 15)
+    {
+        (new SearchName())->goCheck();
+        (new PagingParameter())->goCheck();
+
+        $pagingData = CourseModel::searchCourse($name, $page, $size);
+        $data = $pagingData->visible(['uuid','name', 'profile', 'cover_image', 'community_id'])
+            ->toArray();
+        $data = (new CommunityUserService())->getType($data);
+        return [
+            'data' => $data,
+            'current_page' => $pagingData->currentPage()
+        ];
     }
 }

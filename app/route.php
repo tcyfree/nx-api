@@ -207,6 +207,7 @@ Route::group(':version/activity',function (){
     Route::put('','api/:version.Activity/putActivity');
     Route::get('/list','api/:version.Activity/getActivityList');
     Route::get('','api/:version.Activity/getActivity');
+    Route::post('/search','api/:version.Activity/searchActivity');
 });
 
 /**
@@ -221,6 +222,7 @@ Route::group(':version/course',function (){
     Route::put('/syllabus','api/:version.Syllabus/putSyllabus');
     Route::get('/syllabus','api/:version.Syllabus/getSyllabus');
     Route::get('/syllabus/list','api/:version.Syllabus/getSyllabusList');
+    Route::post('/search','api/:version.Course/searchCourse');
 });
 
 /**

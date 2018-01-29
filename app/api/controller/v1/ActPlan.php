@@ -31,6 +31,7 @@ use app\api\validate\PagingParameter;
 use app\api\validate\SearchName;
 use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
+use app\api\service\CommunityUser as CommunityUserService;
 
 class ActPlan extends BaseController
 {
@@ -100,7 +101,7 @@ class ActPlan extends BaseController
      * @param $size
      * @return array
      */
-    public function searchActPlan($name, $page, $size)
+    public function searchActPlan($name, $page = 1, $size = 15)
     {
         (new SearchName())->goCheck();
         (new PagingParameter())->goCheck();
@@ -108,10 +109,7 @@ class ActPlan extends BaseController
         $pagingData = ActPlanModel::searchActPlan($name, $page, $size);
         $data = $pagingData->visible(['id','name', 'description', 'cover_image', 'community_id'])
             ->toArray();
-
-        $act_plan_service = new ActPlanService();
-        $data = $act_plan_service->getType($data);
-
+        $data = (new CommunityUserService())->getType($data);
         return [
             'data' => $data,
             'current_page' => $pagingData->currentPage()

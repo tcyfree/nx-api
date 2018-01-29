@@ -544,7 +544,7 @@ class Community extends BaseController
      * @param $size
      * @return array
      */
-    public function searchCommunity($name, $page, $size)
+    public function searchCommunity($name, $page = 1, $size = 15)
     {
         (new SearchName())->goCheck();
         (new PagingParameter())->goCheck();

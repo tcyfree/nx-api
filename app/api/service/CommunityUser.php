@@ -14,6 +14,7 @@ use app\api\model\Course as CourseModel;
 use app\api\model\UserInfo as UserInfoModel;
 use app\api\model\ActPlan as ActPlanModel;
 use app\lib\exception\ParameterException;
+use app\api\service\Token as TokenService;
 
 class CommunityUser
 {
@@ -120,5 +121,23 @@ class CommunityUser
                 'msg' => '不是社长，没有该权限'
             ]);
         }
+    }
+
+    /**
+     * 根据行动社ID判断此计划是什么类型
+     * @param $data
+     * @return mixed
+     */
+    public function getType($data)
+    {
+        $uid = TokenService::getAnyhowUid();
+        foreach ($data as &$v){
+            $where['community_id'] = $v['community_id'];
+            $where['user_id'] = $uid;
+            $arr = CommunityUserModel::get($where);
+            $v['type'] = $arr['type'];
+        }
+
+        return $data;
     }
 }

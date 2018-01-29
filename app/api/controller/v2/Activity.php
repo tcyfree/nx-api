@@ -22,10 +22,12 @@ use app\api\model\Activity as ActivityModel;
 use app\api\model\Community as CommunityModel;
 use app\api\service\Community as CommunityService;
 use app\api\validate\PutActivityValidate;
+use app\api\validate\SearchName;
 use app\api\validate\UUIDValidate;
 use app\lib\exception\SuccessMessage;
 use app\lib\exception\ParameterException;
 use app\api\model\AuthUser as AuthUserModel;
+use app\api\service\CommunityUser as CommunityUserService;
 
 class Activity extends BaseController
 {
@@ -110,6 +112,29 @@ class Activity extends BaseController
         (new ActivityModel())->allowField(true)->save($data,['uuid' => $data['uuid']]);
 
         return json(new SuccessMessage(), 201);
+    }
+
+    /**
+     * 根据名称模糊查询
+     * @param $name
+     * @param $page
+     * @param $size
+     * @return array
+     */
+    public function searchActivity($name, $page = 1, $size = 15)
+    {
+        (new SearchName())->goCheck();
+        (new PagingParameter())->goCheck();
+
+        $pagingData = ActivityModel::searchActivity($name, $page, $size);
+        $data = $pagingData->visible(['uuid','name', 'description', 'cover_image', 'community_id'])
+            ->toArray();
+        $data = (new CommunityUserService())->getType($data);
+
+        return [
+            'data' => $data,
+            'current_page' => $pagingData->currentPage()
+        ];
     }
 
 }

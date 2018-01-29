@@ -111,6 +111,12 @@ Ext.define('WebRoot.view.WestView', {
 									text: '编辑',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/activity_put.php',
 									leaf: true
+								},
+								{
+									id: 'activity_search',
+									text: '搜索',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/activity_search.php',
+									leaf: true
 								}
 							]
 						},
@@ -141,6 +147,12 @@ Ext.define('WebRoot.view.WestView', {
                                     id: 'course_put',
                                     text: '编辑',
                                     hrefTarget: SYS_API_ROOT + 'phpfiles/course_put.php',
+                                    leaf: true
+                                },
+                                {
+                                    id: 'course_search',
+                                    text: '搜索',
+                                    hrefTarget: SYS_API_ROOT + 'phpfiles/course_search.php',
                                     leaf: true
                                 },
 								{
