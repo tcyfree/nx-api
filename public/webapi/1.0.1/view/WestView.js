@@ -162,6 +162,12 @@ Ext.define('WebRoot.view.WestView', {
                                     leaf: true
                                 },
 								{
+									id: 'course_buy',
+									text: '购买课程',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/course_buy.php',
+									leaf: true
+								},
+								{
 									id: 'menu_syllabus',
 									text: '课时相关',
 									expanded: true,

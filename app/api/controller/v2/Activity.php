@@ -166,9 +166,10 @@ class Activity extends BaseController
             $data['fee'] = $res['fee'];
             $data['name'] = $res['name'];
             $data['key_id'] = $data['activity_id'];
+
+            ActivityUserModel::checkActivityBelongsToUser($uid,$data['activity_id']);
             //参加活动类型
             $data['type'] = 1;
-            ActivityUserModel::checkActivityBelongsToUser($uid,$data['activity_id']);
             $ie_id = IncomeExpensesModel::purchase($uid,$data);
             //记录对应交易明细和更新钱包
             IncomeExpensesUserModel::postIncomeExpensesUser($uid,$ie_id,$data['fee'],$data['community_id']);

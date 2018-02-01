@@ -18,8 +18,11 @@ use app\api\controller\BaseController;
 use app\api\model\AuthUser;
 use app\api\model\Community as CommunityModel;
 use app\api\model\Course as CourseModel;
+use app\api\model\IncomeExpenses;
+use app\api\model\IncomeExpensesUser;
 use app\api\service\Community as CommunityService;
 use app\api\service\Token as TokenService;
+use app\api\validate\CourseBuyValidate;
 use app\api\validate\PagingParameter;
 use app\api\validate\PostCourseValidate;
 use app\api\validate\PutCourseValidate;
@@ -29,6 +32,11 @@ use app\lib\exception\ParameterException;
 use app\lib\exception\SuccessMessage;
 use app\api\model\AuthUser as AuthUserModel;
 use app\api\service\CommunityUser as CommunityUserService;
+use think\Db;
+use app\api\model\CommunityUser as CommunityUserModel;
+use app\api\model\CourseUser as CourseUserModel;
+use think\Exception;
+
 
 class Course extends BaseController
 {
@@ -134,5 +142,40 @@ class Course extends BaseController
             'data' => $data,
             'current_page' => $pagingData->currentPage()
         ];
+    }
+
+    /**
+     * 购买课程
+     *
+     * @return \think\response\Json
+     * @throws Exception
+     */
+    public function deleteWalletByJoinActivity()
+    {
+        (new CourseBuyValidate())->goCheck();
+        $data = input('delete.');
+        $uid = TokenService::getCurrentUid();
+        Db::startTrans();
+        try{
+            CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
+            $res = CourseModel::checkCourseExists($data['course_id']);
+            $data['fee'] = $res['fee'];
+            $data['name'] = $res['name'];
+            $data['key_id'] = $data['course_id'];
+            CourseUserModel::checkActivityBelongsToUser($uid,$data['course_id']);
+            //购买课程类型
+            $data['type'] = 2;
+            $ie_id = IncomeExpenses::purchase($uid,$data);
+            //记录对应交易明细和更新钱包
+            IncomeExpensesUser::postIncomeExpensesUser($uid,$ie_id,$data['fee'],$data['community_id']);
+            CourseUserModel::postCourseUser($uid,$data['course_id']);
+            CommunityUserModel::updateUserPay($uid,$data['community_id']);
+            Db::commit();
+        }catch (Exception $ex){
+            Db::rollback();
+            throw $ex;
+        }
+
+        return json(new SuccessMessage(),201);
     }
 }

@@ -224,6 +224,7 @@ Route::group(':version/course',function (){
     Route::get('/syllabus','api/:version.Syllabus/getSyllabus');
     Route::get('/syllabus/list','api/:version.Syllabus/getSyllabusList');
     Route::post('/search','api/:version.Course/searchCourse');
+    Route::delete('/wallet','api/:version.Course/deleteWalletByJoinActivity');
 });
 
 /**
