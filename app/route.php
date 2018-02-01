@@ -209,6 +209,7 @@ Route::group(':version/activity',function (){
     Route::get('','api/:version.Activity/getActivity');
     Route::post('/search','api/:version.Activity/searchActivity');
     Route::delete('/wallet','api/:version.Activity/deleteWalletByJoinActivity');
+    Route::get('/join_list','api/:version.Activity/getActivityJoinList');
 });
 
 /**

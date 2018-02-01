@@ -123,6 +123,12 @@ Ext.define('WebRoot.view.WestView', {
 									text: '参加活动',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/activity_join.php',
 									leaf: true
+								},
+								{
+									id: 'activity_join_list',
+									text: '已报名列表',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/activity_join_list.php',
+									leaf: true
 								}
 							]
 						},

@@ -173,7 +173,7 @@ class Activity extends BaseController
             $ie_id = IncomeExpensesModel::purchase($uid,$data);
             //记录对应交易明细和更新钱包
             IncomeExpensesUserModel::postIncomeExpensesUser($uid,$ie_id,$data['fee'],$data['community_id']);
-            ActivityUserModel::postActivityUser($uid,$data['activity_id']);
+            ActivityUserModel::postActivityUser($uid,$data);
             CommunityUserModel::updateUserPay($uid,$data['community_id']);
             Db::commit();
         }catch (Exception $ex){
@@ -182,6 +182,22 @@ class Activity extends BaseController
         }
 
         return json(new SuccessMessage(),201);
+    }
+
+    /**
+     * 已报名列表
+     *
+     * @param int $page
+     * @param int $size
+     * @return \think\Paginator
+     */
+    public function getActivityJoinList($page = 1, $size = 15)
+    {
+        (new PagingParameter())->goCheck();
+        (new UUIDValidate())->goCheck();
+        $uuid = input('get.uuid');
+        $data = ActivityUserModel::getList($uuid,$page,$size);
+        return $data;
     }
 
 }

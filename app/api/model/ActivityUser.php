@@ -22,6 +22,10 @@ class ActivityUser extends BaseModel
     protected $autoWriteTimestamp = true;
     protected $hidden = ['delete_time'];
 
+    public function user()
+    {
+        return $this->hasOne('UserInfo','user_id','user_id');
+    }
     public static function checkActivityBelongsToUser($uid,$activity_id)
     {
         $res = self::get(['activity_id' => $activity_id,'user_id' => $uid]);
@@ -37,16 +41,26 @@ class ActivityUser extends BaseModel
      * 记录参加
      *
      * @param $uid
-     * @param $activity_id
+     * @param $data
      */
-    public static function postActivityUser($uid, $activity_id)
+    public static function postActivityUser($uid, $data)
     {
         $data['user_id'] = $uid;
-        $data['activity_id'] = $activity_id;
-        self::create($data);
+        self::allowField(true)->save($data);
 
         //更新参加人数
-        ActivityModel::where('uuid',$activity_id)->setInc('join_count');
+        ActivityModel::where('uuid',$data['activity_id'])->setInc('join_count');
+    }
+
+    public static function getList($activity_id,$page,$size)
+    {
+        ActivityModel::checkActivityExists($activity_id);
+        $where['activity_id'] = $activity_id;
+        $res = self::with('user')
+            ->where($where)
+            ->order('create_time DESC')
+            ->paginate($size,false,['page' => $page]);
+        return $res;
     }
 
 

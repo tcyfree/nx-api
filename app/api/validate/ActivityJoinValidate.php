@@ -20,6 +20,6 @@ class ActivityJoinValidate extends BaseValidate
         'community_id' => 'require|length:36',
         'activity_id' => 'require|length:36',
         'name' => 'require|length:1,50',
-        'tel' => 'require|isMobile'
+        'mobile' => 'require|isMobile'
     ];
 }

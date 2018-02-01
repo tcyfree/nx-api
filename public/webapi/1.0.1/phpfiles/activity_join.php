@@ -40,7 +40,7 @@
         <td></td>
     </tr>
     <tr>
-        <td>tel</td>
+        <td>mobile</td>
         <td>电话</td>
         <td>是</td>
         <td></td>
