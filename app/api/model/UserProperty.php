@@ -57,7 +57,7 @@ class UserProperty extends BaseModel
      * @param $fee
      * @throws ParameterException
      */
-    public function checkBalance($uid, $fee)
+    public static function checkBalance($uid, $fee)
     {
         $user_property = self::get(['user_id' => $uid]);
         if ($fee > $user_property->wallet){
@@ -66,5 +66,33 @@ class UserProperty extends BaseModel
                 'errorCode' => 20001
             ]);
         }
+    }
+
+    /**
+     *  更新用户钱包
+     *  success(
+     *      true：收入
+     *      false：支出
+     *  )
+     * @param $uid
+     * @param $fee
+     * @param $success
+     */
+    public static function updateWallet($uid, $fee, $success)
+    {
+        if($success){
+            self::where(['user_id' => $uid])
+                ->update([
+                    'update_time'  => ['exp','now()'],
+                    'wallet' => ['exp','wallet+'.$fee],
+                ]);
+        }else{
+            self::where(['user_id' => $uid])
+                ->update([
+                    'update_time'  => ['exp','now()'],
+                    'wallet' => ['exp','wallet-'.$fee],
+                ]);
+        }
+
     }
 }

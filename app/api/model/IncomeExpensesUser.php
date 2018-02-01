@@ -14,6 +14,7 @@
 namespace app\api\model;
 
 use think\Db;
+use app\api\model\UserProperty as UserPropertyModel;
 
 class IncomeExpensesUser extends BaseModel
 {
@@ -56,5 +57,30 @@ class IncomeExpensesUser extends BaseModel
 
         return $total;
 
+    }
+
+    /**
+     * 支出/收入，更新对应钱包金额
+     *
+     * @param $uid
+     * @param $ie_id
+     * @param $fee
+     * @param $community_id
+     */
+    public static function postIncomeExpensesUser($uid, $ie_id, $fee, $community_id)
+    {
+        //支出用户,减少钱包金额
+        $data['user_id'] = $uid;
+        $data['ie_id'] = $ie_id;
+        self::allowField(true)->save($data);
+        UserPropertyModel::updateWallet($uid,$fee,false);
+
+        //收入用户,增加钱包金额
+        $community_user = CommunityUser::get(['community_id' => $community_id, 'type' => 0]);
+        $data['user_id'] = $community_user->user_id;
+        $data['type'] = 1;
+        $income_fee = $fee*(1-config('fee.withdrawal_fee'));
+        self::allowField(true)->save($data);
+        UserPropertyModel::updateWallet($data['user_id'],$income_fee,true);
     }
 }

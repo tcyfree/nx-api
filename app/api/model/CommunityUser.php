@@ -218,4 +218,17 @@ class CommunityUser extends BaseModel
         return $res->user_id;
     }
 
+    /**
+     * 将普通用户变成付费用户
+     *
+     * @param $uid
+     * @param $community_id
+     */
+    public static function updateUserPay($uid, $community_id)
+    {
+        $where['community_id'] = $community_id;
+        $where['user_id'] = $uid;
+        CommunityUser::update(['pay' => 1],$where);
+    }
+
 }

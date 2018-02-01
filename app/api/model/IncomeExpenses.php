@@ -12,18 +12,36 @@
 // +----------------------------------------------------------------------
 
 namespace app\api\model;
+use app\api\model\UserProperty as UserPropertyModel;
 use app\lib\exception\ParameterException;
 use think\Db;
 use think\Exception;
-use app\api\model\UserProperty as UserPropertyModel;
 
 class IncomeExpenses extends BaseModel
 {
     protected $autoWriteTimestamp = true;
 
     /**
+     * 购买
+     * 1.判断余额是否充足
+     *
+     * @param $uid
+     * @param $data
+     * @return string
+     */
+    public static function purchase($uid,$data)
+    {
+        UserProperty::checkBalance($uid,$data['fee']);
+        $data['order_no'] = self::makeOrderNo();
+        self::allowField(true)->save($data);
+        $ie_id = self::getLastInsID();
+        return $ie_id;
+    }
+
+    /**
      * 购买处理
      * 1.判断余额是否充足
+     * 2.act_plan_id ==> key_id
      * @param $uid
      * @param $data
      * @throws ParameterException
@@ -40,7 +58,7 @@ class IncomeExpenses extends BaseModel
             //记录交易
             $data['order_no'] = self::makeOrderNo();
             self::create([
-                'act_plan_id' => $data['act_plan_id'],
+                'key_id' => $data['act_plan_id'],
                 'order_no' => $data['order_no'],
                 'fee' => $data['fee'],
                 'name' => $data['name']
@@ -94,13 +112,7 @@ class IncomeExpenses extends BaseModel
      */
     private static function checkOrderValid($uid,$data)
     {
-        $user_property = UserProperty::get(['user_id' => $uid]);
-        if ($data['fee'] > $user_property->wallet){
-            throw new ParameterException([
-                'msg' => '余额不足，请先去充值！',
-                'errorCode' => 20001
-            ]);
-        }
+        UserProperty::checkBalance($uid,$data['fee']);
         $res = ActPlan::get(['id' => $data['act_plan_id']]);
         if (!$res){
             throw new ParameterException([
@@ -131,9 +143,10 @@ class IncomeExpenses extends BaseModel
 
     /**
      *  更新用户钱包
-     *  success：
-     *  true：收入
-     *  false：支出
+     *  success(
+     *      true：收入
+     *      false：支出
+     *  )
      * @param $uid
      * @param $fee
      * @param $success
