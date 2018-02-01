@@ -15,6 +15,7 @@ namespace app\api\model;
 
 
 use think\Db;
+use app\lib\exception\ParameterException;
 
 class UserProperty extends BaseModel
 {
@@ -47,5 +48,23 @@ class UserProperty extends BaseModel
             ->select();
         $data['rank'] = $res->visible(['user_id','execution','user_info.nickname','user_info.avatar']);
         return $data;
+    }
+
+    /**
+     * 检查余额是否充足
+     *
+     * @param $uid
+     * @param $fee
+     * @throws ParameterException
+     */
+    public function checkBalance($uid, $fee)
+    {
+        $user_property = self::get(['user_id' => $uid]);
+        if ($fee > $user_property->wallet){
+            throw new ParameterException([
+                'msg' => '余额不足，请先去充值！',
+                'errorCode' => 20001
+            ]);
+        }
     }
 }
