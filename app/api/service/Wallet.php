@@ -53,7 +53,8 @@ class Wallet
             $index = date('Y',strtotime($v['create_time']));
             $newData[$index][] = $v;
         }
-        krsort($newData);
+        // ksort() 函数对关联数组按照键名进行升序排序。arsort() 函数对关联数组按照键值进行降序排序。
+//        krsort($newData);
 
         return $newData;
     }

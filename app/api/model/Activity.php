@@ -65,4 +65,22 @@ class Activity extends BaseModel
 
         return $pagingData;
     }
+
+    /**
+     * 验证当前时间是否小于活动截止日期
+     *
+     * @param $activity_id
+     * @throws ParameterException
+     */
+    public static function checkEndTimeValidate($activity_id)
+    {
+        $res = self::where(['uuid' => $activity_id])->field('end_time')->find();
+        if (time() < $res['end_time']){
+            throw new ParameterException([
+                'msg' => ''
+            ]);
+        }
+
+    }
+
 }

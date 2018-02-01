@@ -14,15 +14,12 @@
 namespace app\api\validate;
 
 
-class PostActivityValidate extends BaseValidate
+class ActivityJoinValidate extends BaseValidate
 {
     protected $rule = [
         'community_id' => 'require|length:36',
+        'activity_id' => 'require|length:36',
         'name' => 'require|length:1,50',
-        'cover_image' => 'require|url',
-        'content' => 'require',
-        'fee' => 'require|between:0,99|isNaturalNumber',
-        'end_time' => 'require|date',
-        'tel' => 'require'
+        'tel' => 'require|isMobile'
     ];
 }

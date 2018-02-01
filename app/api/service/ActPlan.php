@@ -15,6 +15,8 @@ namespace app\api\service;
 
 use app\api\service\Token as TokenService;
 use app\api\model\CommunityUser as CommunityUserModel;
+use app\api\model\ActPlan as ActPlanModel;
+use app\lib\exception\ParameterException;
 
 class ActPlan
 {
@@ -34,5 +36,28 @@ class ActPlan
         }
 
         return $data;
+    }
+
+    /**
+     * 获取行动计划费用
+     * 1 判断是否挑战模式参加普通行动计划
+     *
+     * @param $id
+     * @param $mode
+     * @return mixed
+     * @throws ParameterException
+     */
+    public  function getActPlanFee($id,$mode)
+    {
+        $res = ActPlanModel::checkActPlanExists($id);
+        if ($res['mode'] == 0){
+            if ($mode == 1){
+                throw new ParameterException([
+                    'msg' => '不能以挑战模式参加该行动计划'
+                ]);
+            }
+        }
+
+        return $res->fee;
     }
 }

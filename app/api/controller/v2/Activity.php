@@ -15,6 +15,7 @@ namespace app\api\controller\v2;
 
 
 use app\api\controller\BaseController;
+use app\api\validate\ActivityJoinValidate;
 use app\api\validate\PagingParameter;
 use app\api\validate\PostActivityValidate;
 use app\api\service\Token as TokenService;
@@ -28,6 +29,12 @@ use app\lib\exception\SuccessMessage;
 use app\lib\exception\ParameterException;
 use app\api\model\AuthUser as AuthUserModel;
 use app\api\service\CommunityUser as CommunityUserService;
+use app\api\model\CommunityUser as CommunityUserModel;
+use app\api\model\ActivityUser as ActivityUserModel;
+use app\api\model\IncomeExpenses as IncomeExpensesModel;
+use app\api\model\IncomeExpensesUser as IncomeExpensesUserModel;
+use think\Db;
+use think\Exception;
 
 class Activity extends BaseController
 {
@@ -135,6 +142,45 @@ class Activity extends BaseController
             'data' => $data,
             'current_page' => $pagingData->currentPage()
         ];
+    }
+
+    /**
+     * 参加活动
+     * 1. 是否参加行动社
+     * 2. 是否已经参加该活动
+     * ....
+     *
+     * @return \think\response\Json
+     * @throws Exception
+     */
+    public function deleteWalletByJoinActivity()
+    {
+        (new ActivityJoinValidate())->goCheck();
+        $data = input('delete.');
+        $uid = TokenService::getCurrentUid();
+        Db::startTrans();
+        try{
+            ActivityModel::checkEndTimeValidate($data['activity_id']);
+            CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
+            $res = ActivityModel::checkActivityExists($data['activity_id']);
+            $data['fee'] = $res['fee'];
+            $data['name'] = $res['name'];
+            $data['key_id'] = $data['activity_id'];
+            //参加活动类型
+            $data['type'] = 1;
+            ActivityUserModel::checkActivityBelongsToUser($uid,$data['activity_id']);
+            $ie_id = IncomeExpensesModel::purchase($uid,$data);
+            //记录对应交易明细和更新钱包
+            IncomeExpensesUserModel::postIncomeExpensesUser($uid,$ie_id,$data['fee'],$data['community_id']);
+            ActivityUserModel::postActivityUser($uid,$data['activity_id']);
+            CommunityUserModel::updateUserPay($uid,$data['community_id']);
+            Db::commit();
+        }catch (Exception $ex){
+            Db::rollback();
+            throw $ex;
+        }
+
+        return json(new SuccessMessage(),201);
     }
 
 }
