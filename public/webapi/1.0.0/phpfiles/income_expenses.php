@@ -68,6 +68,11 @@
         <td>名称</td>
         <td width="581"></td>
     </tr>
+    <tr>
+        <td>income_expenses.type</td>
+        <td>收支类型</td>
+        <td >0 行动计划 1 活动 2 课程</td>
+    </tr>
 
   
 </table>

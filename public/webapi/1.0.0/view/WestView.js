@@ -436,6 +436,7 @@ Ext.define('WebRoot.view.WestView', {
 								{
 									id: 'income_expenses',
 									text: '收支明细',
+									cls: 'redStyle',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/income_expenses.php',
 									leaf: true
 								},
