@@ -47,6 +47,8 @@ class Wallet extends BaseController
 
     /**
      * 用户收支明细
+     * 1. income_expenses.type : 收支类型
+     *
      * @param $page
      * @param $size
      * @return array
@@ -58,7 +60,7 @@ class Wallet extends BaseController
         $uid = TokenService::getCurrentUid();
         $pagingData = IncomeExpensesUserModel::incomeExpensesSummary($uid,$page,$size);
         $data = $pagingData->visible(['id','type','create_time','income_expenses.order_no','income_expenses.fee',
-            'income_expenses.name'])->toArray();
+            'income_expenses.name','income_expenses.type'])->toArray();
         $w_s = new WalletService();
         $data = $w_s->withdrawalFee($data);
         $newData = WalletService::getDataByYear($data);
