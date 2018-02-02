@@ -163,6 +163,8 @@ class Activity extends BaseController
         Db::startTrans();
         try{
             ActivityModel::checkEndTimeValidate($data['activity_id']);
+            $res = ActivityModel::checkActivityExists($data['activity_id']);
+            $data['community_id'] = $res['community_id'];
             CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
             $res = ActivityModel::checkActivityExists($data['activity_id']);
             $data['fee'] = $res['fee'];

@@ -46,7 +46,7 @@ class ActivityUser extends BaseModel
     public static function postActivityUser($uid, $data)
     {
         $data['user_id'] = $uid;
-        self::allowField(true)->save($data);
+        (new ActivityModel())->allowField(true)->save($data);
 
         //更新参加人数
         ActivityModel::where('uuid',$data['activity_id'])->setInc('join_count');

@@ -33,7 +33,7 @@ class IncomeExpenses extends BaseModel
     {
         UserProperty::checkBalance($uid,$data['fee']);
         $data['order_no'] = self::makeOrderNo();
-        self::allowField(true)->save($data);
+        (new IncomeExpenses)->allowField(true)->save($data);
         $ie_id = self::getLastInsID();
         return $ie_id;
     }

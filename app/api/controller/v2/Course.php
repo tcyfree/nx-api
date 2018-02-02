@@ -159,8 +159,9 @@ class Course extends BaseController
         $uid = TokenService::getCurrentUid();
         Db::startTrans();
         try{
-            CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
             $res = CourseModel::checkCourseExists($data['course_id']);
+            $data['community_id'] = $res['community_id'];
+            CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
             $data['fee'] = $res['fee'];
             $data['name'] = $res['name'];
             $data['key_id'] = $data['course_id'];

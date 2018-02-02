@@ -72,7 +72,7 @@ class IncomeExpensesUser extends BaseModel
         //支出用户,减少钱包金额
         $data['user_id'] = $uid;
         $data['ie_id'] = $ie_id;
-        self::allowField(true)->save($data);
+        (new IncomeExpensesUser())->allowField(true)->save($data);
         UserPropertyModel::updateWallet($uid,$fee,false);
 
         //收入用户,增加钱包金额
@@ -80,7 +80,7 @@ class IncomeExpensesUser extends BaseModel
         $data['user_id'] = $community_user->user_id;
         $data['type'] = 1;
         $income_fee = $fee*(1-config('fee.withdrawal_fee'));
-        self::allowField(true)->save($data);
+        (new IncomeExpensesUser())->allowField(true)->save($data);
         UserPropertyModel::updateWallet($data['user_id'],$income_fee,true);
     }
 }
