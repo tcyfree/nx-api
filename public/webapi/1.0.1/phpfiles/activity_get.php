@@ -63,6 +63,17 @@
             <td>报名人数</td>
             <td>&nbsp;</td>
         </tr>
+        <tr>
+            <td class="inforstyle">join_user</td>
+            <td></td>
+            <td>&nbsp;若用户还未参加，则为<span class="titlestyle"><font color="red">null</font> </span></td>
+        </tr>
+        <tr>
+            <td>finish</td>
+            <td>用户是否完成该活动</td>
+            <td>&nbsp;0 否  1 是</td>
+        </tr>
+
 
     </table>
     <p>&nbsp;</p>

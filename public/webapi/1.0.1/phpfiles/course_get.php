@@ -63,6 +63,16 @@
             <td>课时总数</td>
             <td>&nbsp;</td>
         </tr>
+        <tr>
+            <td class="inforstyle">buy_user</td>
+            <td></td>
+            <td>&nbsp;若用户还未购买，则为<span class="titlestyle"><font color="red">null</font> </span></td>
+        </tr>
+        <tr>
+            <td>finish</td>
+            <td>用户是否完成该课程</td>
+            <td>&nbsp;0 否  1 是</td>
+        </tr>
 
     </table>
     <p>&nbsp;</p>

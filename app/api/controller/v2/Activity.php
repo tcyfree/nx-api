@@ -95,9 +95,11 @@ class Activity extends BaseController
         $uid = TokenService::getAnyhowUid();
         $auth = AuthUserModel::getAuthUserWithCommunity($uid,$res['community_id']);
         $detail = ActivityModel::get(['uuid' => $activity_id]);
+        $join_user = ActivityUserModel::get(['activity_id' => $activity_id, 'user_id' => $uid]);
         return [
             'detail' => $detail,
-            'auth' => $auth
+            'auth' => $auth,
+            'join_user' => $join_user
         ];
     }
 

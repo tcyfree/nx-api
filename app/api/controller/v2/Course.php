@@ -96,9 +96,11 @@ class Course extends BaseController
         $uid = TokenService::getAnyhowUid();
         $auth = AuthUser::getAuthUserWithCommunity($uid,$res['community_id']);
         $detail = CourseModel::get(['uuid' => $course_id]);
+        $buy_user = CourseUserModel::get(['user_id' => $uid, 'course_id' => $course_id]);
         return [
             'data' => $detail,
-            'auth' => $auth
+            'auth' => $auth,
+            'buy_user' => $buy_user
         ];
     }
 
