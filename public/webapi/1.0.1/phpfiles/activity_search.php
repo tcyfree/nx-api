@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
       <td>POST</td>
-    <td>v1/activity/search</td>
+    <td>v2/activity/search</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>

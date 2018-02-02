@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
       <td>delete</td>
-    <td>v1/activity/wallet</td>
+    <td>v2/activity/wallet</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>
