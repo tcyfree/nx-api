@@ -17,7 +17,6 @@ namespace app\api\validate;
 class CourseBuyValidate extends BaseValidate
 {
     protected $rule = [
-        'community_id' => 'require|length:36',
         'course_id' => 'require|length:36'
     ];
 }

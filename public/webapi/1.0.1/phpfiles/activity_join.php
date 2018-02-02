@@ -27,12 +27,6 @@
         <td>是</td>
         <td></td>
     </tr>
-  <tr>
-   <td>community_id</td>
-   <td>行动社ID</td>
-   <td>是</td>
-   <td></td>
-  </tr>
     <tr>
         <td>name</td>
         <td>姓名</td>

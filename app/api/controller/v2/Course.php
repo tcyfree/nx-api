@@ -166,7 +166,7 @@ class Course extends BaseController
             $data['fee'] = $res['fee'];
             $data['name'] = $res['name'];
             $data['key_id'] = $data['course_id'];
-            CourseUserModel::checkActivityBelongsToUser($uid,$data['course_id']);
+            CourseUserModel::checkCourseBelongsToUser($uid,$data['course_id']);
             //购买课程类型
             $data['type'] = 2;
             $ie_id = IncomeExpenses::purchase($uid,$data);

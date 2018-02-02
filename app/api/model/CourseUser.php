@@ -21,9 +21,9 @@ class CourseUser extends BaseModel
     protected $autoWriteTimestamp = true;
     protected $hidden = ['delete_time'];
 
-    public static function checkActivityBelongsToUser($uid, $course_id)
+    public static function checkCourseBelongsToUser($uid, $course_id)
     {
-        $res = self::get(['activity_id' => $course_id,'user_id' => $uid]);
+        $res = self::get(['course_id' => $course_id,'user_id' => $uid]);
         if($res){
             throw new ParameterException([
                 'msg' => '你已报名该课程了，选择其它课程吧'
