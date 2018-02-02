@@ -75,9 +75,9 @@ class Activity extends BaseModel
     public static function checkEndTimeValidate($activity_id)
     {
         $res = self::where(['uuid' => $activity_id])->field('end_time')->find();
-        if (time() < $res['end_time']){
+        if (time() > $res['end_time']){
             throw new ParameterException([
-                'msg' => ''
+                'msg' => '活动截止日期是：'.date('Y-m-d H:m:s',$res['end_time']).'，选择其它活动参加吧'
             ]);
         }
 
