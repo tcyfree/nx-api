@@ -167,6 +167,8 @@ class Activity extends BaseController
             $res = ActivityModel::checkActivityExists($data['activity_id']);
             $data['community_id'] = $res['community_id'];
             CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
+            //避免name被覆盖
+            ActivityUserModel::postActivityUser($uid,$data);
             $res = ActivityModel::checkActivityExists($data['activity_id']);
             $data['fee'] = $res['fee'];
             $data['name'] = $res['name'];
@@ -178,7 +180,6 @@ class Activity extends BaseController
             $ie_id = IncomeExpensesModel::purchase($uid,$data);
             //记录对应交易明细和更新钱包
             IncomeExpensesUserModel::postIncomeExpensesUser($uid,$ie_id,$data['fee'],$data['community_id']);
-            ActivityUserModel::postActivityUser($uid,$data);
             CommunityUserModel::updateUserPay($uid,$data['community_id']);
             Db::commit();
         }catch (Exception $ex){
