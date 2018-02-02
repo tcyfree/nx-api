@@ -148,6 +148,7 @@ class Course extends BaseController
 
     /**
      * 购买课程
+     * 1. 不要用客户端传过来的community_id，可能不是相关的community_id，这样就检查不到了
      *
      * @return \think\response\Json
      * @throws Exception
