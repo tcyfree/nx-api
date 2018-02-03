@@ -168,13 +168,13 @@ class Activity extends BaseController
             $data['community_id'] = $res['community_id'];
             CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
             //避免name被覆盖
+            ActivityUserModel::checkActivityBelongsToUser($uid,$data['activity_id']);
             ActivityUserModel::postActivityUser($uid,$data);
             $res = ActivityModel::checkActivityExists($data['activity_id']);
             $data['fee'] = $res['fee'];
             $data['name'] = $res['name'];
             $data['key_id'] = $data['activity_id'];
 
-            ActivityUserModel::checkActivityBelongsToUser($uid,$data['activity_id']);
             //参加活动类型
             $data['type'] = 1;
             $ie_id = IncomeExpensesModel::purchase($uid,$data);

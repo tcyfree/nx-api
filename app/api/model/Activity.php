@@ -26,7 +26,7 @@ class Activity extends BaseModel
         $res = self::get(['uuid' => $activity_id]);
         if(!$res){
             throw new ParameterException([
-                'msg' => '课程不存在，请检查ID: '.$activity_id
+                'msg' => '活动不存在，请检查ID: '.$activity_id
             ]);
         }
         return $res;
