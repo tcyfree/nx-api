@@ -136,7 +136,7 @@ class Activity extends BaseController
         (new PagingParameter())->goCheck();
 
         $pagingData = ActivityModel::searchActivity($name, $page, $size);
-        $data = $pagingData->visible(['uuid','name', 'description', 'cover_image', 'community_id'])
+        $data = $pagingData->visible(['uuid','name', 'description', 'cover_image', 'community_id', 'end_time', 'join_count'])
             ->toArray();
         $data = (new CommunityUserService())->getType($data);
 
