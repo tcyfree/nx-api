@@ -23,6 +23,7 @@ use app\api\validate\Profile;
 use app\api\validate\Type;
 use app\api\model\Community as CommunityModel;
 use app\lib\exception\SuccessMessage;
+use app\api\service\Community as CommunityService;
 
 class Community extends BaseController
 {
@@ -68,5 +69,18 @@ class Community extends BaseController
         CommunityModel::update(['profile' => $data['profile'], 'update_time' => time()],
             ['id' => $community_id]);
         return json(new SuccessMessage(), 201);
+    }
+
+    /**
+     * 检测创建数量是否达到规定值
+     *
+     * @return \think\response\Json
+     */
+    public function postCommunityCheckAllow()
+    {
+        $uid = TokenService::getCurrentUid();
+        CommunityService::checkManagerAllowJoinStatus($uid);
+        return json(new SuccessMessage(),201);
+
     }
 }

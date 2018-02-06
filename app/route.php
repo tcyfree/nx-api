@@ -52,6 +52,7 @@ Route::group(':version/oss',function(){
  * Community
  */
 Route::group(':version/community',function(){
+    Route::get('/post_check','api/:version.Community/postCommunityCheckAllow');
     Route::get('test','api/:version.Community/test');
     Route::get('user','api/:version.Community/getNicknameAndAuth');
     Route::post('','api/:version.Community/createCommunity');
