@@ -33,6 +33,7 @@ use app\api\validate\SuspendMember;
 use app\api\validate\Transfer;
 use app\api\validate\Type;
 use app\api\validate\UUID;
+use app\lib\enum\AllowJoinStatusEnum;
 use app\lib\exception\CommunityException;
 use app\lib\exception\ForbiddenException;
 use app\lib\exception\ParameterException;
@@ -258,7 +259,7 @@ class Community extends BaseController
     }
 
     /**
-     * 更新行动社编辑次数为3
+     * 更新行动社编辑次数为
      * 1.限制只能自己服务器IP才能执行此接口
      */
     public function initUpdateNum()
@@ -273,7 +274,7 @@ class Community extends BaseController
             }
         }
         if ($allow){
-            $date['update_num'] = 3;
+            $date['update_num'] = AllowJoinStatusEnum::ALLOW_EDIT_TIME;
             CommunityModel::update($date,'1 = 1');
             return json(new SuccessMessage(), 201);
         }else{
