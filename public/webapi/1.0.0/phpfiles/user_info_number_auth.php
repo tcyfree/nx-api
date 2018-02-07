@@ -30,7 +30,7 @@
     </tr>
     <tr>
         <td>community_id</td>
-        <td>行动社ID</td>
+        <td>社群ID</td>
         <td>是</td>
         <td></td>
     </tr>

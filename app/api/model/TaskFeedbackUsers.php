@@ -19,7 +19,7 @@ class TaskFeedbackUsers extends BaseModel
     protected $autoWriteTimestamp = true;
 
     /**
-     * 查找该行动社已分配社长和管理员ID
+     * 查找该社群已分配社长和管理员ID
      * @param $community_id
      * @return array
      */

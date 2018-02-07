@@ -20,7 +20,7 @@ class Community extends BaseModel
     protected $hidden = ['create_time','update_time','delete_time'];
 
     /**
-     * 行动社下行动计划
+     * 社群下行动计划
      * @return \think\model\relation\HasMany
      */
     public function actPlan()
@@ -29,7 +29,7 @@ class Community extends BaseModel
     }
 
     /**
-     * 行动社详情
+     * 社群详情
      * @param $id
      * @return array|false|\PDOStatement|string|\think\Model
      */
@@ -40,7 +40,7 @@ class Community extends BaseModel
     }
 
     /**
-     * 获取推荐行动社分页
+     * 获取推荐社群分页
      * 1. level DESC
      *
      * @param int $page
@@ -61,7 +61,7 @@ class Community extends BaseModel
     }
 
     /**
-     * 根据行动社名称模糊查询
+     * 根据社群名称模糊查询
      * @param $name
      * @param int $page
      * @param int $size
@@ -81,7 +81,7 @@ class Community extends BaseModel
     }
 
     /**
-     * 检查行动社是否存在
+     * 检查社群是否存在
      *
      * @param $id
      * @return null|static
@@ -92,14 +92,14 @@ class Community extends BaseModel
         $res = self::get(['id' => $id]);
         if(!$res){
             throw new ParameterException([
-                'msg' => '行动社不存在，请检查ID: '.$id
+                'msg' => '社群不存在，请检查ID: '.$id
             ]);
         }
         return $res;
     }
 
     /**
-     * 编辑行动社时，可以不修改名称保存
+     * 编辑社群时，可以不修改名称保存
      * @param $community_id
      * @param $name
      * @return bool

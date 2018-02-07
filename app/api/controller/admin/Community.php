@@ -24,7 +24,7 @@ class Community extends BaseController
         'checkAdminScope' => ['only' => 'getCommunityList,putCommunityStatus']
     ];
     /**
-     * 行动社列表
+     * 社群列表
      *
      * @param int $page
      * @param int $size
@@ -37,7 +37,7 @@ class Community extends BaseController
     }
 
     /**
-     * 编辑行动社状态
+     * 编辑社群状态
      *
      * @return \think\response\Json
      */

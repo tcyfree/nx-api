@@ -117,7 +117,7 @@ class ActPlan extends BaseController
     }
 
     /**
-     * 获取用户参加的行动社
+     * 获取用户参加的社群
      * @param $page
      * @param $size
      * @return array
@@ -145,7 +145,7 @@ class ActPlan extends BaseController
     }
 
     /**
-     * 根据行动社分页查找对应行动计划列表
+     * 根据社群分页查找对应行动计划列表
      * @return array
      */
     public function getSummaryListByCommunity()

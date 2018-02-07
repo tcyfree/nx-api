@@ -28,7 +28,7 @@ use app\api\service\Community as CommunityService;
 class Community extends BaseController
 {
     /**
-     * 分页获取行动社列表,根据level降序排序
+     * 分页获取社群列表,根据level降序排序
      * @param int $page
      * @param int $size
      * @param int $type
@@ -50,7 +50,7 @@ class Community extends BaseController
     }
 
     /**
-     * 编辑行动社简介
+     * 编辑社群简介
      * 1. 只有社长有此功能
      *
      * @return \think\response\Json

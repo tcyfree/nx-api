@@ -127,25 +127,25 @@ Ext.define('WebRoot.view.WestView', {
 						},
 						{
 							id: 'menu_community',
-							text: '行动社',
+							text: '社群',
 							expanded: true,
 							children: [
 								{
 									id: 'community_create',
-									text: '创建行动社',
+									text: '创建社群',
                                     cls: 'redStyle',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/community_create.php',
 									leaf: true
 								},
 								{
 									id: 'community_list',
-									text: '行动社列表',
+									text: '社群列表',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/community_list.php',
 									leaf: true
 								},
 								{
 									id: 'community_detail',
-									text: '行动社详情',
+									text: '社群详情',
 									cls: 'redStyle',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/community_detail.php',
 									leaf: true
@@ -157,7 +157,7 @@ Ext.define('WebRoot.view.WestView', {
 									children: [
                                         {
                                             id: 'community_update',
-                                            text: '编辑行动社',
+                                            text: '编辑社群',
 											cls: 'redStyle',
                                             hrefTarget: SYS_API_ROOT + 'phpfiles/community_update.php',
                                             leaf: true
@@ -203,7 +203,7 @@ Ext.define('WebRoot.view.WestView', {
                                         },
 										{
 											id: 'transfer',
-											text: '转让行动社',
+											text: '转让社群',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/community_transfer.php',
 											leaf: true
 										},
@@ -221,7 +221,7 @@ Ext.define('WebRoot.view.WestView', {
 										},
 										{
 											id: 'leave',
-											text: '退出行动社/辞去管理员',
+											text: '退出社群/辞去管理员',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/community_leave.php',
 											leaf: true
 										}
@@ -229,7 +229,7 @@ Ext.define('WebRoot.view.WestView', {
 								},
 								{
 									id: 'menu_recommend',
-									text: '推荐行动社',
+									text: '推荐社群',
 									expanded: true,
 									children: [
 										{
@@ -253,7 +253,7 @@ Ext.define('WebRoot.view.WestView', {
 									children: [
 										{
 											id: 'search_community',
-											text: '搜索行动社',
+											text: '搜索社群',
 											hrefTarget: SYS_API_ROOT + 'phpfiles/community_search.php',
 											leaf: true
 										},
@@ -300,7 +300,7 @@ Ext.define('WebRoot.view.WestView', {
 								},
 								{
 									id: 'act_plan_list_by_community',
-									text: '行动社下行动计划',
+									text: '社群下行动计划',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/act_plan_community.php',
 									leaf: true
 								}

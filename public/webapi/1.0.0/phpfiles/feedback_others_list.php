@@ -68,7 +68,7 @@
     </tr>
     <tr>
         <td>community.name</td>
-        <td>行动社名称</td>
+        <td>社群名称</td>
         <td>&nbsp;</td>
     </tr>
   

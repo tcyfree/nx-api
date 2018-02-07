@@ -3,7 +3,7 @@
 <script>whbRemoveMask();</script>
 
 <div class="contentDIV">
-<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：行动社列表接口</span></p>
+<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：社群列表接口</span></p>
 <p class="subtitlestyle">（一）服务接口请求地址：</p>
 <table width="90%" border="1" class="dbTable">
   <tr class="td_header">
@@ -24,8 +24,8 @@
         <td>type</td>
         <td>分类获取</td>
         <td width="533">
-            <p>1：用户加入或管理的行动社群</p>
-            <p>2：用户管理的行动社群</p>
+            <p>1：用户加入或管理的社群</p>
+            <p>2：用户管理的社群</p>
     </tr>
 
 <?php require_once("../include/page.inc.php");?>
@@ -42,7 +42,7 @@
   </tr>
 <tr>
     <td>community_id</td>
-    <td>行动社ID</td>
+    <td>社群ID</td>
     <td>&nbsp;</td>
   </tr>
   <tr>

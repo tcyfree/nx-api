@@ -35,7 +35,7 @@
     </tr>
     <tr>
         <td>community_id</td>
-        <td width="226">行动社主键ID</td>
+        <td width="226">社群主键ID</td>
         <td width="598"></td>
     </tr>
     <tr>

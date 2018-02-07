@@ -3,7 +3,7 @@
 <script>whbRemoveMask();</script>
 
 <div class="contentDIV">
-<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：免费加入行动社接口</span></p>
+<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：免费加入社群接口</span></p>
 <p class="subtitlestyle">（一）服务接口请求地址：</p>
 <table width="90%" border="1" class="dbTable">
   <tr class="td_header">
@@ -27,7 +27,7 @@
  <?php require_once ("../include/token.inc.php"); ?>
  <tr>
    <td>id</td>
-   <td width="226">行动社ID</td>
+   <td width="226">社群ID</td>
    <td width="598"></td>
  </tr>
 </table>

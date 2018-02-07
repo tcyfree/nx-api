@@ -148,7 +148,7 @@ class Activity extends BaseController
 
     /**
      * 参加活动
-     * 1. 是否参加行动社
+     * 1. 是否参加社群
      * 2. 是否已经参加该活动
      * 3. 不要用客户端传过来的community_id，可能不是相关的community_id，这样就检查不到了
      * ....

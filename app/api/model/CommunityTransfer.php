@@ -26,7 +26,7 @@ class CommunityTransfer extends BaseModel
     protected $updateTime = false;
 
     /**
-     * 转让行动社
+     * 转让社群
      * @param $dataArray
      * @throws ForbiddenException
      * @throws ParameterException
@@ -40,7 +40,7 @@ class CommunityTransfer extends BaseModel
                 'msg' => '自己不能转让给自己'
             ]);
         }
-        //非社长不能转让行动社
+        //非社长不能转让社群
         $res = CommunityUser::get(['user_id' => $uid, 'community_id' => $dataArray['community_id']]);
         if (!$res){
             throw new ParameterException();

@@ -19,7 +19,7 @@ use app\api\service\Token as TokenService;
 class CommunityUser
 {
     /**
-     * 根据行动社ID获取社长信息
+     * 根据社群ID获取社长信息
      *
      * @param $community_id
      * @return array|false|\PDOStatement|string|\think\Model
@@ -34,7 +34,7 @@ class CommunityUser
     }
 
     /**
-     * 获取参加该行动社总人数
+     * 获取参加该社群总人数
      * 1. 不包含已退群人数
      *
      * @param $community_id
@@ -50,7 +50,7 @@ class CommunityUser
     }
 
     /**
-     * 获取参加该行动社总付费人数
+     * 获取参加该社群总付费人数
      * 1. 不包含已退群人数
      *
      * @param $community_id
@@ -67,7 +67,7 @@ class CommunityUser
     }
 
     /**
-     * 获取该行动社下所有行动计划
+     * 获取该社群下所有行动计划
      * 1. 不包含已删除的
      * @param $community_id
      * @return int|string
@@ -81,7 +81,7 @@ class CommunityUser
     }
 
     /**
-     * 获取该行动社下所有互动课程
+     * 获取该社群下所有互动课程
      * 1. 不包含已删除的
      * @param $community_id
      * @return int|string
@@ -94,7 +94,7 @@ class CommunityUser
         return $num;
     }
     /**
-     * 获取该行动社下所有社群活动
+     * 获取该社群下所有社群活动
      * 1. 不包含已删除的
      * @param $community_id
      * @return int|string
@@ -124,7 +124,7 @@ class CommunityUser
     }
 
     /**
-     * 根据行动社ID判断此计划是什么类型
+     * 根据社群ID判断此计划是什么类型
      * @param $data
      * @return mixed
      */

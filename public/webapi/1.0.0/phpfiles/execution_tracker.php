@@ -53,7 +53,7 @@
     <tr>
         <td>name</td>
         <td></td>
-        <td>&nbsp;依次为：任务/计划/行动社 名称</td>
+        <td>&nbsp;依次为：任务/计划/社群 名称</td>
     </tr>
   
 </table>

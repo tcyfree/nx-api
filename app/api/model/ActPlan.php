@@ -57,7 +57,7 @@ class ActPlan extends BaseModel
     }
 
     /**
-     * 根据行动社分页查找对应行动计划列表
+     * 根据社群分页查找对应行动计划列表
      * @param $data
      * @return \think\Paginator
      */

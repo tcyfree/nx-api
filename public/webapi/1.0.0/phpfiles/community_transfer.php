@@ -4,7 +4,7 @@
 
 
 <div class="contentDIV">
-<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：转让行动社接口</span>
+<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：转让社群接口</span>
   <input type="hidden" name="hiddenField" id="hiddenField" />
 </p>
 <p class="subtitlestyle">（一）服务接口请求地址：</p>
@@ -30,7 +30,7 @@
   <?php require_once ("../include/token.inc.php"); ?>
     <tr>
         <td>community_id</td>
-        <td width="226">行动社ID</td>
+        <td width="226">社群ID</td>
         <td width="598"></td>
     </tr>
     <tr>

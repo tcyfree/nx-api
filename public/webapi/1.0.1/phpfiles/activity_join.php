@@ -39,6 +39,12 @@
         <td>是</td>
         <td></td>
     </tr>
+    <tr>
+        <td>more</td>
+        <td>附件信息</td>
+        <td>否</td>
+        <td></td>
+    </tr>
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>
 <table width="90%" border="1" class="dbTable">

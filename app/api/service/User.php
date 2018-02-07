@@ -18,7 +18,7 @@ use app\lib\exception\UserException;
 class User
 {
     /**
-     * 获取授权人并判断是否加入此行动社
+     * 获取授权人并判断是否加入此社群
      * @param $number
      * @param $community_id
      * @return mixed
@@ -40,7 +40,7 @@ class User
         if(!$res)
         {
             throw new ParameterException([
-                'msg' => '该用户还未加入本行动社'
+                'msg' => '该用户还未加入本社群'
             ]);
         }
         $res = $res->toArray();

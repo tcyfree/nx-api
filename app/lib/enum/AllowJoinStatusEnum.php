@@ -25,6 +25,6 @@ class AllowJoinStatusEnum
     //管理员 + 社长
     const ALLOW_JOIN_MANAGER = 2;
 
-    //允许编辑行动社次数
+    //允许编辑社群次数
     const ALLOW_EDIT_TIME = 10;
 }

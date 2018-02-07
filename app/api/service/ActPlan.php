@@ -21,7 +21,7 @@ use app\lib\exception\ParameterException;
 class ActPlan
 {
     /**
-     * 根据行动社ID判断此计划是什么类型
+     * 根据社群ID判断此计划是什么类型
      * @param $data
      * @return mixed
      */

@@ -55,7 +55,7 @@ class Community extends BaseController
     ];
 
     /**
-     * 创建行动社
+     * 创建社群
      * 1.名称不能重复
      * 2.判断是否和用户相关的行动是否达到上限5个
      * 3.生成二维码
@@ -118,7 +118,7 @@ class Community extends BaseController
     }
 
     /**
-     * 编辑行动社
+     * 编辑社群
      * 1.更新二维码
      *
      * @return \think\response\Json
@@ -170,7 +170,7 @@ class Community extends BaseController
     }
 
     /**
-     * 分页获取行动社列表
+     * 分页获取社群列表
      * @param int $page
      * @param int $size
      * @param int $type
@@ -196,7 +196,7 @@ class Community extends BaseController
     }
 
     /**
-     * 分页获取推荐行动社
+     * 分页获取推荐社群
      * 1. 参加人数
      * 2. 行动计划
      *
@@ -228,12 +228,12 @@ class Community extends BaseController
     }
 
     /**
-     * 行动社详情
+     * 社群详情
      * 1. 获取用户管理权限
      * 2. 社长信息
      * 3. 所有参加人数
      * 4. 所有行动计划
-     * 5.行动社_社长简介
+     * 5.社群_社长简介
      *
      * @param $id
      * @return array|false|\PDOStatement|string|\think\Model
@@ -259,7 +259,7 @@ class Community extends BaseController
     }
 
     /**
-     * 更新行动社编辑次数为
+     * 更新社群编辑次数为
      * 1.限制只能自己服务器IP才能执行此接口
      */
     public function initUpdateNum()
@@ -384,7 +384,7 @@ class Community extends BaseController
 
     /**
      * 设置管理员
-     * 1.被设置者必须先加入此行动社
+     * 1.被设置者必须先加入此社群
      * 2.被设置者必须是付费用户
      * 3.判断被设置管理员是否到达上限
      * 4.修改管理员权限不检测 3
@@ -428,9 +428,9 @@ class Community extends BaseController
     }
 
     /**
-     * 转让行动社，可以进行多次转让
-     * 1.如果是本行动社管理员/会员，则升级为社长
-     * 2.社长成为该行动社普通会员
+     * 转让社群，可以进行多次转让
+     * 1.如果是本社群管理员/会员，则升级为社长
+     * 2.社长成为该社群普通会员
      */
     public function transferCommunity()
     {
@@ -463,8 +463,8 @@ class Community extends BaseController
     }
 
     /**
-     * 退出行动社,保留记录同时删除原有记录
-     * 1 社长不能退出行动社
+     * 退出社群,保留记录同时删除原有记录
+     * 1 社长不能退出社群
      * 2 主动辞去管理员，变成普通成员，注销其所有权限
      *
      * @param $id
@@ -482,7 +482,7 @@ class Community extends BaseController
         }
         if($community['type'] == 0){
             throw new ParameterException([
-                'msg' => '社长不能退出行动社'
+                'msg' => '社长不能退出社群'
             ]);
         }
 
@@ -507,8 +507,8 @@ class Community extends BaseController
     }
 
     /**
-     * 免费加入行动社
-     * 1.如果是之前退出行动社再加入，保留在最近加入的那次属性：是否是付费用户
+     * 免费加入社群
+     * 1.如果是之前退出社群再加入，保留在最近加入的那次属性：是否是付费用户
      *
      * @param $id
      * @return \think\response\Json
@@ -539,7 +539,7 @@ class Community extends BaseController
     }
 
     /**
-     * 根据行动社名称模糊查询
+     * 根据社群名称模糊查询
      * @param $name
      * @param $page
      * @param $size

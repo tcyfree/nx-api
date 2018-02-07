@@ -66,8 +66,8 @@
     </tr>
     <tr>
         <td>community_id</td>
-        <td>行动社ID</td>
-        <td><font color="red">注：若用户未参加该行动计划的行动社，则去行动计划详情橱窗</font></td>
+        <td>社群ID</td>
+        <td><font color="red">注：若用户未参加该行动计划的社群，则去行动计划详情橱窗</font></td>
     </tr>
     <tr>
         <td>type</td>

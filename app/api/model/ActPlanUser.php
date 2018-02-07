@@ -25,7 +25,7 @@ class ActPlanUser extends BaseModel
     }
 
     /**
-     * 获取用户参加的行动社
+     * 获取用户参加的社群
      * @param $uid
      * @param $page
      * @param $size

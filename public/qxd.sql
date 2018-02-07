@@ -13,7 +13,7 @@ CREATE TABLE `qxd_act_plan` (
   `p_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id` char(36) NOT NULL DEFAULT '',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '0 计划 1 课程 2 活动',
-  `community_id` char(36) NOT NULL DEFAULT '' COMMENT '外键，关联所属行动社群ID',
+  `community_id` char(36) NOT NULL DEFAULT '' COMMENT '外键，关联所属社群ID',
   `name` varchar(64) NOT NULL DEFAULT '' COMMENT '行动计划名称',
   `cover_image` varchar(127) NOT NULL DEFAULT '' COMMENT '封面图片',
   `description` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '行动计划简介',
@@ -118,7 +118,7 @@ CREATE TABLE `qxd_auth_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `from_user_id` char(36) NOT NULL DEFAULT '' COMMENT '授权用户ID',
   `to_user_id` char(36) NOT NULL DEFAULT '' COMMENT '联合主键，被授权用户ID',
-  `community_id` char(36) NOT NULL DEFAULT '' COMMENT '联合主键，行动社ID',
+  `community_id` char(36) NOT NULL DEFAULT '' COMMENT '联合主键，社群ID',
   `auth` varchar(8) NOT NULL DEFAULT '' COMMENT '权限值，以,分隔',
   `create_time` int(11) NOT NULL DEFAULT '0',
   `update_time` int(11) NOT NULL DEFAULT '0',
@@ -228,7 +228,7 @@ CREATE TABLE `qxd_communication` (
   `p_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id` char(36) NOT NULL DEFAULT '',
   `user_id` char(36) NOT NULL DEFAULT '' COMMENT '外键，发表者用户id',
-  `community_id` char(36) NOT NULL DEFAULT '' COMMENT '行动社ID',
+  `community_id` char(36) NOT NULL DEFAULT '' COMMENT '社群ID',
   `content` text NOT NULL COMMENT '内容',
   `location` varchar(255) NOT NULL DEFAULT '' COMMENT '位置',
   `likes` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '点赞数',
@@ -281,15 +281,15 @@ CREATE TABLE `qxd_community` (
   `status` enum('0','1','2') NOT NULL DEFAULT '0' COMMENT '状态 0 正常 1 冻结 2 封禁',
   `recommended` enum('0','1') NOT NULL DEFAULT '0' COMMENT '是否推荐 0 不推荐 1 推荐',
   `search` enum('0','1') NOT NULL DEFAULT '0' COMMENT '允许被搜索和推荐 0 允许 1 不允许',
-  `level` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '0-普通行动社；1-优秀行动社；2-精英行动社；3-专家行动社；99-官方行动社；',
-  `update_num` tinyint(3) NOT NULL DEFAULT '3' COMMENT '编辑行动社次数，每月只能修改3次',
+  `level` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '0-普通社群；1-优秀社群；2-精英社群；3-专家社群；99-官方社群；',
+  `update_num` tinyint(3) NOT NULL DEFAULT '3' COMMENT '编辑社群次数，每月只能修改3次',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '社群创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`p_id`),
   UNIQUE KEY `id` (`id`),
   KEY `name` (`name`) COMMENT '搜索',
   KEY `outside_id` (`outside_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='行动社表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='社群表';
 
 #
 # Structure for table "qxd_community_recommend"
@@ -301,7 +301,7 @@ CREATE TABLE `qxd_community_recommend` (
   `community_id` char(36) NOT NULL DEFAULT '',
   `create_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='行动社推荐表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='社群推荐表';
 
 #
 # Structure for table "qxd_community_transfer"
@@ -312,11 +312,11 @@ CREATE TABLE `qxd_community_transfer` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` char(36) NOT NULL DEFAULT '' COMMENT '转让人',
   `to_user_id` char(36) NOT NULL DEFAULT '' COMMENT '被转让人',
-  `community_id` char(36) NOT NULL DEFAULT '' COMMENT '被转让行动社ID',
+  `community_id` char(36) NOT NULL DEFAULT '' COMMENT '被转让社群ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '转让时间',
   PRIMARY KEY (`Id`),
   KEY `user_id` (`user_id`,`to_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='行动社转让记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='社群转让记录表';
 
 #
 # Structure for table "qxd_community_user"
@@ -325,7 +325,7 @@ CREATE TABLE `qxd_community_transfer` (
 DROP TABLE IF EXISTS `qxd_community_user`;
 CREATE TABLE `qxd_community_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `community_id` char(36) NOT NULL DEFAULT '0' COMMENT '所属行动社群ID',
+  `community_id` char(36) NOT NULL DEFAULT '0' COMMENT '所属社群ID',
   `user_id` char(36) NOT NULL DEFAULT '0' COMMENT '所有者ID(用户ID)',
   `profile` text NOT NULL COMMENT '简介',
   `type` enum('0','1','2') NOT NULL DEFAULT '2' COMMENT '关联类型 0 社长 1 管理员 2 成员',
@@ -366,7 +366,7 @@ CREATE TABLE `qxd_execution` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` char(36) NOT NULL DEFAULT '',
   `task_id` char(36) NOT NULL DEFAULT '' COMMENT '任务ID',
-  `act_plan_id` char(36) NOT NULL DEFAULT '' COMMENT '冗余字段：行动社ID',
+  `act_plan_id` char(36) NOT NULL DEFAULT '' COMMENT '冗余字段：社群ID',
   `execution` int(11) NOT NULL DEFAULT '0' COMMENT '行动力值',
   `create_time` int(11) NOT NULL DEFAULT '0',
   `update_time` int(11) NOT NULL DEFAULT '0',
@@ -500,7 +500,7 @@ CREATE TABLE `qxd_report` (
   `content` varchar(255) NOT NULL DEFAULT '' COMMENT '投诉内容',
   `images` varchar(512) NOT NULL DEFAULT '' COMMENT '图片json数组',
   `user_id` char(36) NOT NULL DEFAULT '' COMMENT '投诉人ID',
-  `community_id` char(36) NOT NULL DEFAULT '' COMMENT '行动社ID',
+  `community_id` char(36) NOT NULL DEFAULT '' COMMENT '社群ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '投诉时间',
   PRIMARY KEY (`Id`),
   KEY `user_id` (`user_id`,`community_id`)
@@ -602,7 +602,7 @@ CREATE TABLE `qxd_task_feedback` (
 DROP TABLE IF EXISTS `qxd_task_feedback_users`;
 CREATE TABLE `qxd_task_feedback_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `community_id` char(36) NOT NULL DEFAULT '' COMMENT '行动社ID',
+  `community_id` char(36) NOT NULL DEFAULT '' COMMENT '社群ID',
   `user_id` char(36) NOT NULL DEFAULT '' COMMENT '管理员或社长ID',
   `tag` int(11) unsigned NOT NULL DEFAULT '1' COMMENT '当前被分配任务次数',
   `create_time` int(11) NOT NULL DEFAULT '0',

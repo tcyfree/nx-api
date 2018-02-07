@@ -30,7 +30,7 @@
   <?php require_once ("../include/token.inc.php"); ?>
     <tr>
         <td>id</td>
-        <td width="226">行动社ID</td>
+        <td width="226">社群ID</td>
         <td width="598"></td>
     </tr>
     <tr>

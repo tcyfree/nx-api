@@ -70,7 +70,7 @@
 <!--        <td>null 还未开始 0 正在执行 1 已完成</td>-->
 <!--    </tr>-->
 </table>
-    <span class="titlestyle"><font color="red">注：若用户未参加该行动计划的行动社，则去行动计划详情橱窗</font> </span>
+    <span class="titlestyle"><font color="red">注：若用户未参加该行动计划的社群，则去行动计划详情橱窗</font> </span>
 </div>
 
 

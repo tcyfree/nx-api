@@ -24,9 +24,9 @@ use app\api\service\Community as CommunityService;
 class Role
 {
     /**
-     * 1 转让行动社
+     * 1 转让社群
      * 2 角色转换
-     * 2.1 如果不是本行动社成员，检查是否达到用户加入上限和行动社本身人数限制，则创建一条记录。否则更新其行动社关联属性
+     * 2.1 如果不是本社群成员，检查是否达到用户加入上限和社群本身人数限制，则创建一条记录。否则更新其社群关联属性
      * 2.2 将社长变成普通成员
      * 2.3 判断被转让用户是否是被社长被暂停成员资格
      * 2.4 是否管理+社长达到上限
@@ -42,7 +42,7 @@ class Role
         {
             CommunityTransfer::create($data);
             $to_user = CommunityUser::get(['user_id' => $data['to_user_id'], 'community_id' => $data['community_id']]);
-            CommunityService::checkManagerAllowJoinStatus($data['to_user_id']);
+            CommunityService::checkManagerAllowJoinStatus($data['to_user_id'],true);
             CommunityService::checkCommunityUserLimit($data['community_id']);
             if(!$to_user){
                 $cData['user_id'] = $data['to_user_id'];

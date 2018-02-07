@@ -39,18 +39,18 @@ Ext.define('WebRoot.view.WestView', {
 						},
                         {
                             id: 'community',
-                            text: '行动社相关',
+                            text: '社群相关',
                             expanded: true,
                             children: [
                                 {
                                     id: 'community_list',
-                                    text: '行动社列表',
+                                    text: '社群列表',
                                     hrefTarget: SYS_API_ROOT + 'phpfiles/community_list.php',
                                     leaf:true
                                 },
 								{
 									id: 'community_profile',
-									text: '行动社简介',
+									text: '社群简介',
 									cls: 'redStyle',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/community_profile.php',
 									leaf:true
@@ -59,7 +59,7 @@ Ext.define('WebRoot.view.WestView', {
                         },
 						{
 							id: 'community_user',
-							text: '行动社用户相关',
+							text: '社群用户相关',
 							expanded: true,
 							children: [
 								{

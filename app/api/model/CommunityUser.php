@@ -24,7 +24,7 @@ class CommunityUser extends BaseModel
         return $this->hasMany('Community','id','community_id');
     }
     /**
-     * 行动社成员
+     * 社群成员
      */
     public function member()
     {
@@ -32,7 +32,7 @@ class CommunityUser extends BaseModel
     }
 
     /**
-     * 根据用户获取行动社分页
+     * 根据用户获取社群分页
      *
      * @param $uid
      * @param $type
@@ -63,7 +63,7 @@ class CommunityUser extends BaseModel
     }
 
     /**
-     * 根据用户获取行动社分页,根据level降序排序
+     * 根据用户获取社群分页,根据level降序排序
      *
      * @param $uid
      * @param $type
@@ -114,7 +114,7 @@ class CommunityUser extends BaseModel
     }
 
     /**
-     * 判断此行动社是否是该用户
+     * 判断此社群是否是该用户
      * @param $uid
      * @param $community_id
      * @return null|static
@@ -125,7 +125,7 @@ class CommunityUser extends BaseModel
         $res = self::get(['user_id' => $uid, 'community_id' => $community_id]);
         if (!$res){
             throw new ParameterException([
-                'msg' => '还未参加该行动社！'
+                'msg' => '还未参加该社群！'
             ]);
         }
 
@@ -133,7 +133,7 @@ class CommunityUser extends BaseModel
     }
 
     /**
-     * 查找行动社管理员和社长ID
+     * 查找社群管理员和社长ID
      *
      * @param $community_id
      * @return false|\PDOStatement|string|\think\Collection
@@ -202,7 +202,7 @@ class CommunityUser extends BaseModel
     }
 
     /**
-     * 查找行动社社长ID
+     * 查找社群社长ID
      *
      * @param $community_id
      * @return false|\PDOStatement|string|\think\Collection

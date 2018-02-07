@@ -3,7 +3,7 @@
 <script>whbRemoveMask();</script>
 
 <div class="contentDIV">
-<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：行动社详情接口</span></p>
+<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：社群详情接口</span></p>
 <p class="subtitlestyle">（一）服务接口请求地址：</p>
 <table width="90%" border="1" class="dbTable">
   <tr class="td_header">
@@ -23,9 +23,9 @@
     <?php require_once ("../include/token.optional.php"); ?>
     <tr>
         <td>id</td>
-        <td>行动社主键ID</td>
+        <td>社群主键ID</td>
         <td >是</td>
-        <td >从 <a href="#" onclick="javascript:sysOpenTab('community_list','行动社列表','phpfiles/community_list.php')">行动社列表等相关</td>
+        <td >从 <a href="#" onclick="javascript:sysOpenTab('community_list','社群列表','phpfiles/community_list.php')">社群列表等相关</td>
     </tr>
 
 </table>
@@ -39,22 +39,22 @@
   </tr>
   <tr>
     <td>outside_id</td>
-    <td>行动社编号ID</td>
+    <td>社群编号ID</td>
     <td>&nbsp;</td>
   </tr>
     <tr>
         <td>exclusive_ulr</td>
-        <td>行动社专属链接</td>
+        <td>社群专属链接</td>
         <td>&nbsp;</td>
     </tr>
     <tr>
         <td>exclusive_ulr</td>
-        <td>行动社专属链接</td>
+        <td>社群专属链接</td>
         <td>&nbsp;</td>
     </tr>
     <tr>
         <td>status</td>
-        <td>行动社状态</td>
+        <td>社群状态</td>
         <td>&nbsp;状态 0 正常 1 冻结 2 封禁</td>
     </tr>
     <tr>
@@ -74,7 +74,7 @@
   </tr>
     <tr>
         <td>user.join</td>
-        <td>用户是否加入该行动社</td>
+        <td>用户是否加入该社群</td>
         <td>否：false 是：true </td>
     </tr>
     <tr>
@@ -94,7 +94,7 @@
     </tr>
     <tr>
         <td>user.count</td>
-        <td>用户已加入有效行动社数量</td>
+        <td>用户已加入有效社群数量</td>
         <td>&nbsp;判断用户是否可免费加入，最多可以参加XXXX个</td>
     </tr>
     <tr>

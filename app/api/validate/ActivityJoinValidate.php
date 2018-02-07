@@ -19,6 +19,7 @@ class ActivityJoinValidate extends BaseValidate
     protected $rule = [
         'activity_id' => 'require|length:36',
         'name' => 'require|length:1,50',
-        'mobile' => 'require|isMobile'
+        'mobile' => 'require|isMobile',
+        'more' => 'max:100'
     ];
 }

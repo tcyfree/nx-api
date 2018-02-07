@@ -52,7 +52,7 @@ class Community
     }
 
     /**
-     * 获取推荐行动社正在行动的总人数
+     * 获取推荐社群正在行动的总人数
      * 闭包构造子查询
      * @param $data
      * @return mixed
@@ -74,7 +74,7 @@ class Community
     }
 
     /**
-     * 当用户登录时，给出用户和此行动社关联 (社长|管理员|成员)
+     * 当用户登录时，给出用户和此社群关联 (社长|管理员|成员)
      * @param $data
      * @return mixed
      */
@@ -93,9 +93,9 @@ class Community
     }
 
     /**
-     * 获取用户和行动社的关联关系
-     * 用户已经参加的行动社数量
-     * 用户是否加入该行动社
+     * 获取用户和社群的关联关系
+     * 用户已经参加的社群数量
+     * 用户是否加入该社群
      * 权限值
      * 是否付费
      *
@@ -126,8 +126,8 @@ class Community
     }
 
     /**
-     * 1. 判断加入行动社是否存在
-     * 2. 判断是否重复加入该行动社
+     * 1. 判断加入社群是否存在
+     * 2. 判断是否重复加入该社群
      * @param $id
      * @param $uid
      * @throws ParameterException
@@ -137,7 +137,7 @@ class Community
         $community = CommunityModel::get(['id' => $id]);
         if(!$community){
             throw new ParameterException([
-                'msg' => '行动社不存在,请检查ID'
+                'msg' => '社群不存在,请检查ID'
             ]);
         }
         $where['community_id'] = $id;
@@ -148,14 +148,14 @@ class Community
         });
         if($community_user){
             throw new ParameterException([
-                'msg' => '已加入该行动社成员，不能重复加入'
+                'msg' => '已加入该社群成员，不能重复加入'
             ]);
         }
     }
 
     /**
      * 判断用户相关的行动是否达到上限ALLOW_JOIN_OUT
-     * 不包含已退的行动社
+     * 不包含已退的社群
      *
      * @param $uid
      * @param $check
@@ -169,13 +169,13 @@ class Community
         $where['status'] = ['in',[0,2]];
         $count = $obj->where($where)->count('user_id');
         if ($check){
-            if ($count_manager < AllowJoinStatusEnum::ALLOW_JOIN_MANAGER && $count == AllowJoinStatusEnum::ALLOW_JOIN_OUT){
-                return;
+            if (($count_manager < AllowJoinStatusEnum::ALLOW_JOIN_MANAGER) && ($count == AllowJoinStatusEnum::ALLOW_JOIN_OUT)){
+                return true;
             }
         }
         if($count >= AllowJoinStatusEnum::ALLOW_JOIN_OUT){
             throw new CommunityException([
-                'msg' => '站住！您加入的行动社数量已超过'.AllowJoinStatusEnum::ALLOW_JOIN_OUT.'个了，不可贪多啊！',
+                'msg' => '站住！您加入的社群数量已超过'.AllowJoinStatusEnum::ALLOW_JOIN_OUT.'个了，不可贪多啊！',
                 'code' => 400
             ]);
         }
@@ -184,9 +184,9 @@ class Community
     /**
      * 判断用户相关的行动是否达到上限
      * 管理+社长：ALLOW_JOIN_MANAGER
-     * 不包含已退的行动社
+     * 不包含已退的社群
      * 允许加入数是否超过3个
-     * 1.check = true 被设置管理员和转让行动社的用户，拥有管理+社长 < ALLOW_JOIN_MANAGER，加入/拥有/管理行动社总数上限 = ALLOW_JOIN_OUT时，对其放行。
+     * 1.check = true 被设置管理员和转让社群的用户，拥有管理+社长 < ALLOW_JOIN_MANAGER，加入/拥有/管理社群总数上限 = ALLOW_JOIN_OUT时，对其放行。
      *
      * @param $uid
      * @param $check
@@ -203,7 +203,7 @@ class Community
         file_put_contents($log,$obj->getLastSql().' '.$count.' '.date('Y-m-d H:i:s')."\r\n",FILE_APPEND);
         if($count >= AllowJoinStatusEnum::ALLOW_JOIN_MANAGER){
             throw new CommunityException([
-                'msg' => '该用户拥有社长+管理员身份行动社数量超过'.AllowJoinStatusEnum::ALLOW_JOIN_MANAGER.'个',
+                'msg' => '该用户拥有社长+管理员身份社群数量超过'.AllowJoinStatusEnum::ALLOW_JOIN_MANAGER.'个',
                 'code' => 400
             ]);
         }
@@ -213,9 +213,9 @@ class Community
 
 
     /**
-     * 1. 检查该行动社人数是否已达上限
+     * 1. 检查该社群人数是否已达上限
      * 2. 检查付费用户是否达上限
-     * 二者满足其一即不然再加入行动社了
+     * 二者满足其一即不然再加入社群了
      * @param $community_id
      * @throws CommunityException
      */
@@ -229,7 +229,7 @@ class Community
         $community = CommunityModel::get(['id' => $community_id]);
         if($count == $community->scale_num){
             throw new CommunityException([
-                'msg' => '该行动社总人数'.$community->scale_num.'上限已满',
+                'msg' => '该社群总人数'.$community->scale_num.'上限已满',
                 'code' => 400
             ]);
         }
@@ -239,14 +239,14 @@ class Community
 
         if($count == $community->pay_num){
             throw new CommunityException([
-                'msg' => '该行动社付费总人数'.$community->pay_num.'上限已满',
+                'msg' => '该社群付费总人数'.$community->pay_num.'上限已满',
                 'code' => 400
             ]);
         }
     }
 
     /**
-     * 根据行动计划id判断该用户是否参加对应的行动社
+     * 根据行动计划id判断该用户是否参加对应的社群
      * @param $uid
      * @param $act_plan_id
      * @return bool
@@ -261,7 +261,7 @@ class Community
         $res = CommunityUserModel::get(['user_id' => $uid, 'community_id' => $community_id]);
         if(!$res){
             throw new ParameterException([
-                'msg' => '该用户还未参加此行动计划的行动社'
+                'msg' => '该用户还未参加此行动计划的社群'
             ]);
         }else
             return true;
@@ -281,7 +281,7 @@ class Community
         $res = CommunityUserModel::get($where);
         if (!$res){
             throw new ParameterException([
-                'msg' => '还未参加该行动社'
+                'msg' => '还未参加该社群'
             ]);
         }
         if (($res->type != 2) || ($res->pay == 1)){
@@ -294,7 +294,7 @@ class Community
     }
 
     /**
-     * 检查此行动社管理员权限
+     * 检查此社群管理员权限
      * 1.如果是社长直接放行
      * @param $uid
      * @param $community_id
@@ -328,7 +328,7 @@ class Community
     }
 
     /**
-     * 检查此行动社管理员权限
+     * 检查此社群管理员权限
      * 1.如果是社长直接放行
      * 2.将不在权限内结果false返回
      *
@@ -379,8 +379,8 @@ class Community
     }
 
     /**
-     *判断用户最近一次退出行动社是否为付费用户
-     * 1 需要去用户加入行动社备份里面去查找
+     *判断用户最近一次退出社群是否为付费用户
+     * 1 需要去用户加入社群备份里面去查找
      *
      * @param $community_id
      * @param $uid

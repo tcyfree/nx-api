@@ -45,7 +45,7 @@
     </tr>
     <tr>
         <td>name</td>
-        <td>行动社名称</td>
+        <td>社群名称</td>
         <td></td>
     </tr>
     <tr>
@@ -60,12 +60,12 @@
     </tr>
     <tr>
         <td>community_id</td>
-        <td>行动社ID</td>
+        <td>社群ID</td>
         <td>&nbsp;</td>
     </tr>
     <tr>
         <td>community_name</td>
-        <td>行动社名称</td>
+        <td>社群名称</td>
         <td>&nbsp;</td>
     </tr>
     <tr>

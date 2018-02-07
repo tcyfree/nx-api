@@ -145,7 +145,7 @@ class Task extends BaseModel
     }
 
     /**
-     *  根据任务ID查找行动社ID
+     *  根据任务ID查找社群ID
      *
      * @param $task_id
      * @return mixed
