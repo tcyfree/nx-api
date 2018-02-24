@@ -64,6 +64,12 @@
         <td>&nbsp;是</td>
         <td>&nbsp;格式如：Y-m-d H:i:s</td>
     </tr>
+    <tr>
+        <td>allow_num</td>
+        <td>允许参加人数</td>
+        <td>&nbsp;是</td>
+        <td>&nbsp;必须是正整数</td>
+    </tr>
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>
 <table width="90%" border="1" class="dbTable">

@@ -151,6 +151,7 @@ class Activity extends BaseController
      * 1. 是否参加社群
      * 2. 是否已经参加该活动
      * 3. 不要用客户端传过来的community_id，可能不是相关的community_id，这样就检查不到了
+     * 4. 判断是否达到用户设置参加活动人数上限
      * ....
      *
      * @return \think\response\Json
@@ -164,6 +165,7 @@ class Activity extends BaseController
         Db::startTrans();
         try{
             ActivityModel::checkEndTimeValidate($data['activity_id']);
+            ActivityModel::checkAllowNum($data['activity_id']);
             $res = ActivityModel::checkActivityExists($data['activity_id']);
             $data['community_id'] = $res['community_id'];
             CommunityUserModel::checkCommunityBelongsToUser($uid,$data['community_id']);
