@@ -92,7 +92,7 @@ class Activity extends BaseModel
     public static function checkAllowNum($activity_id)
     {
         $res = self::where(['uuid' => $activity_id])->field('join_count,allow_num')->find();
-        if ($res['join_num'] >= $res['allow_num']){
+        if ($res['join_count'] >= $res['allow_num']){
             throw new ParameterException([
                 'msg' => '该活动参加人数已达'.$res['allow_num'].'，选择其它活动参加吧'
             ]);
