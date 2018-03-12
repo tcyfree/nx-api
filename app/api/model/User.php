@@ -79,7 +79,7 @@ class User extends BaseModel
     public static function getList($page,$size)
     {
         $pageData = self::with('info')
-            ->order('create_time ASC')
+            ->order('create_time DESC')
             ->field('id,number,status,reg_ip,create_time')
             ->paginate($size, false, ['page' => $page]);
 
