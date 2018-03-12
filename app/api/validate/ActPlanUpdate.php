@@ -21,7 +21,7 @@ class ActPlanUpdate extends BaseValidate
         'name'         => 'require|length:5,25',
         'description'  => 'require|length:10,140',
         'cover_image'  => 'require|url',
-        'fee'          => 'require|between:1,99',
+        'fee'          => 'require|between:0,99',
 //        'mode'         => 'require|in:0,1'
     ];
 }   
