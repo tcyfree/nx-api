@@ -24,7 +24,7 @@ class Notice extends BaseController
 {
     /**
      * 提醒列表
-     * 1.提醒内容只保存和显示最近三天的
+     * 1.提醒内容只保存和显示最近两年
      * @param int $page
      * @param int $size
      * @return array
@@ -37,7 +37,7 @@ class Notice extends BaseController
         $where['delete_time'] =0;
         $pageData = NoticeModel::with('userInfo,communication,communication.community')
             ->where($where)
-            ->whereTime('create_time','-3 days')
+            ->whereTime('create_time','-2 years')
             ->order('create_time DESC')
             ->paginate($size,true,['page' => $page]);
         $data = $pageData->visible(['id','type','look','comment','create_time','communication.id','communication.content','user_info.avatar','user_info.nickname','communication.community.name']);
