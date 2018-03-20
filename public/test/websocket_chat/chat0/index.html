@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>在线聊天</title>
+</head>
+<body>
+<p>请输入频道:<input type="text" id="channel" value="ch1" > </p>
+<p>当前模式:<span id="mod">websocket</span></p>
+切换模式:
+<input type="button" value="websocket" onclick="inits(this.value,c())"> 
+<input type="button" value="longpolling" onclick="inits(this.value,c())"> 
+<input type="button" value="stream" onclick="inits(this.value,c())"> 
+<input type="button" value="eventsource" onclick="inits(this.value,c())"> 
+
+    <p><a href="https://www.liminghulian.com" target="_blank" >本测试demo来自黎明互联官方https://www.liminghulian.com</a>更多资源请访问官网</p>
+    <p>消息:</p>
+    <div id="messages" style="width:600px;height:300px;overflow:scroll;"></div>
+
+
+    <input type="text" id="msg" placeholder="请输入要发送的消息" /><br/>
+    <input type="button" id="btnsend"  value="发送" />
+
+
+    <script src="js/pushstream.js" type="text/javascript" ></script>
+
+
+    <script type="text/javascript" >
+	//消息回调函数
+    function messageReceived(text, id, channel) {
+      document.getElementById('messages').innerHTML += 'id:' + id + '频道:' + channel +  '内容: ' + text + '<br>';
+    };
+
+	//初始化
+	function inits(modes,channel){
+
+		document.getElementById('mod').innerHTML = modes;
+		try{
+			pushstream.disconnect();
+		}catch(err){
+
+		}
+		pushstream = new PushStream({
+		  host: window.location.hostname,
+		  port: "8080",
+		  modes: modes,
+		  messagesPublishedAfter: 5,
+		  messagesControlByArgument: true
+		});
+		pushstream.onmessage = messageReceived;
+		pushstream.addChannel(channel);
+		pushstream.connect();
+	}
+	function c(){
+		return  document.getElementById('channel').value;
+	}
+	inits("websocket","ch1");
+
+	function sendMessage()
+            {
+                var xhrSettings = {
+                    timeout: 10,
+                    data: {
+                        ch: c(),
+                        msg:document.getElementById("msg").value,
+                        callback:"parseMsg"
+                    },
+                    url: "send.php",
+                    success: function(data) {
+                        console.log("success");
+                        console.log(data);
+                    },
+                    error: function(data) {
+                        console.log("error");
+                        console.log(data);
+                    },
+                    load: function(data) {
+                        console.log("load");
+                        console.log(data);
+                    },
+                    beforeSend: function(data) {
+                        console.log("beforeSend");
+                        console.log(data);
+                    },
+                    afterReceive: function(data) {
+                        console.log("afterReceive:");
+                        console.log(data);
+                    }
+                };
+                Ajax.post(xhrSettings);
+				document.getElementById("msg").value = '';
+            }
+            document.getElementById("btnsend").onclick = sendMessage;
+    </script>
+</body>
+</html>

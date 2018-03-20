@@ -1,0 +1,7 @@
+如需测试搭建好消息推送服务器后
+
+将chat.sql导入数据库
+Mysql.class.php中需要更改对应的配置
+服务器的端口和地址按实际情况配置
+
+有问题联系黎明互联官方,更多资源请访问https://www.liminghulian.com/

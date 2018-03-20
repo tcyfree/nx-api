@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>在线聊天</title>
+</head>
+<body>
+    <p><a href="https://www.liminghulian.com" target="_blank" >本测试demo来自黎明互联官方https://www.liminghulian.com</a>更多资源请访问官网</p>
+
+    <div id="messages" style="width:600px;height:300px;overflow:scroll;"></div>
+
+    <script src="js/pushstream.js" type="text/javascript" language="javascript" charset="utf-8"></script>
+    <script type="text/javascript" language="javascript" charset="utf-8">
+    // <![CDATA[
+    function messageReceived(text, id, channel) {
+      document.getElementById('messages').innerHTML += 'id:' + id + '频道:' + channel +  '内容: ' + text + '<br>';
+    };
+
+    var pushstream = new PushStream({
+      host: "api.go-qxd.com",
+      port: "8080",
+      modes: "websocket",
+      messagesPublishedAfter: 5,
+      messagesControlByArgument: true
+    });
+    pushstream.onmessage = messageReceived;
+    pushstream.addChannel('ch1');
+    pushstream.connect();
+    // ]]>
+    </script>
+</body>
+</html>
