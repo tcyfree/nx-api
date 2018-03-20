@@ -3,7 +3,6 @@
 
 ![Image_text](https://github.com/tcyfree/nx-api/blob/master/public/static/images/SOA.png)
 
-![Image text](https://github.com/tcyfree/nx-admin/blob/master/screenshots/Vue.png)
 
 [架构体系](https://www.processon.com/view/link/595875a9e4b0a77c5ae8ca00)
 
