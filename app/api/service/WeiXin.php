@@ -13,7 +13,8 @@
 
 namespace app\api\service;
 
-use app\lib\exception\ParameterException;
+use think\Exception;
+use app\lib\exception\WeChatException;
 
 class WeiXin
 {
@@ -50,6 +51,45 @@ class WeiXin
 
         exec("ffmpeg -y -i ".$dir.$amr." ".$dir.$mp3);
         return $mp3;
+    }
+
+    /**
+     * 检查请求微信返回结果是否有错
+     *
+     * @param $result
+     * @return mixed
+     * @throws Exception
+     */
+    public function checkWXRes($result)
+    {
+        $ufResult = json_decode($result, true);
+
+        if (empty($ufResult))
+        {
+            throw new Exception('微信内部错误');
+        }else {
+            $ufFail = array_key_exists('errcode', $ufResult);
+            if ($ufFail) {
+                $this->processError($ufResult);
+            } else {
+
+                return $ufResult;
+            }
+        }
+    }
+
+    /**
+     * 微信接口处理异常
+     * @param $wxResult
+     * @throws WeChatException
+     */
+    private function processError($wxResult)
+    {
+        throw new WeChatException(
+            [
+                'msg' => '微信服务器接口调用失败：'.$wxResult['errmsg'],
+                'errorCode' => $wxResult['errcode']
+            ]);
     }
 
 }

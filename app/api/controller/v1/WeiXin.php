@@ -87,6 +87,8 @@ class WeiXin extends BaseController
      * {"subscribe":1,"openid":"o994OwhhbcqwYN7b9O4ER_AMKn1Q","nickname":"唐😘","sex":1,"language":"zh_CN","city":"荣昌","province":"重庆",
      * "country":"中国","headimgurl":"http:\/\/wx.qlogo.cn\/mmopen\/eFL0FqAs12icVxQmibNS6UOcRPTGerHLm7GSGJqu51OD9HWlibDyGV0ezAyfeH1WOsbRyqZ6PapyjvCXHNJrqPOjGtIkU9tyibq8\/0","subscribe_time":1512008316,"unionid":"o2d00xFpaFdhyl0Itf29kmvK78Jg","remark":"","groupid":0,"tagid_list":[]}
      * @return mixed
+     *
+     * 1.增加微信拉取订阅信息容错处理
      */
     public function getSubscribe()
     {
@@ -94,7 +96,8 @@ class WeiXin extends BaseController
         $access_token = $this->getAccessToken();
         $uri = sprintf(config('wx.user_info_unionid'), $access_token,$openid);
         $res = curl_get($uri);
-        return json_decode($res,true);
+        $WXRes = (new WeiXinService())->checkWXRes($res);
+        return $WXRes;
     }
 
 }
