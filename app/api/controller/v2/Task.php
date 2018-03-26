@@ -29,6 +29,7 @@ class Task extends BaseController
      * 1.自动点评
      * 2.增加用户信息。
      * 3.增加权限
+     * 4.当前服务器时间戳(s)
      *
      * @param $id
      * @return mixed
@@ -49,6 +50,7 @@ class Task extends BaseController
             ->select();
 
         $return_data['auth'] = AuthUserModel::getAuthUserWithCommunity($uid,$community_id);
+        $return_data['current_time'] = time();
 
 
         return $return_data;
