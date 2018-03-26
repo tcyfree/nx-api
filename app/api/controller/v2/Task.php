@@ -15,12 +15,11 @@ namespace app\api\controller\v2;
 
 
 use app\api\controller\BaseController;
-use app\api\validate\UUID;
-use app\api\service\Token as TokenService;
 use app\api\model\Task as TaskModel;
-use app\api\service\Task as TaskService;
-use app\api\model\TaskUser as TaskUserModel;
 use app\api\model\TaskFeedback as TaskFeedbackModel;
+use app\api\model\TaskUser as TaskUserModel;
+use app\api\service\Token as TokenService;
+use app\api\validate\UUID;
 
 class Task extends BaseController
 {
