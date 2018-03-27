@@ -85,6 +85,7 @@ class Course extends BaseController
 
     /**
      * 课程详情
+     * 1.添加最近参加人信息
      *
      * @return array
      */
@@ -97,10 +98,12 @@ class Course extends BaseController
         $auth = AuthUser::getAuthUserWithCommunity($uid,$res['community_id']);
         $detail = CourseModel::get(['uuid' => $course_id]);
         $buy_user = CourseUserModel::get(['user_id' => $uid, 'course_id' => $course_id]);
+        $the_last_join = CourseUserModel::getTheLastJoin($course_id);
         return [
             'data' => $detail,
             'auth' => $auth,
-            'buy_user' => $buy_user
+            'buy_user' => $buy_user,
+            'the_last_join' => $the_last_join
         ];
     }
 

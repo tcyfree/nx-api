@@ -13,13 +13,18 @@
 
 namespace app\api\model;
 
-use app\lib\exception\ParameterException;
 use app\api\model\Course as CourseModel;
+use app\lib\exception\ParameterException;
 
 class CourseUser extends BaseModel
 {
     protected $autoWriteTimestamp = true;
     protected $hidden = ['delete_time'];
+
+    public function userInfo()
+    {
+        return  $this->hasOne('UserInfo','user_id','user_id');
+    }
 
     public static function checkCourseBelongsToUser($uid, $course_id)
     {
@@ -46,5 +51,27 @@ class CourseUser extends BaseModel
 
         //更新购买人数
         CourseModel::where('uuid',$course_id)->setInc('buy_count');
+    }
+
+    /**
+     * 获取最近参加人数信息
+     *
+     * @param $course_id
+     * @param int $limit
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public static function getTheLastJoin($course_id, $limit = 5)
+    {
+        $where['finish'] = 0;
+        $where['course_id'] = $course_id;
+
+        $res = self::with('userInfo')
+            ->where($where)
+            ->limit($limit)
+            ->order('id DESC')
+            ->select()
+            ->visible(['user_info.nickname','user_info.avatar']);
+
+        return $res;
     }
 }
