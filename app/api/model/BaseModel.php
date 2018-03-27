@@ -10,9 +10,9 @@ class BaseModel extends Model
 
     protected function prefixImgUrl ($value,$data){
         $finalUrl = $value;
-        if($data['from'] == 0){
+        if(isset($data['from']) && $data['from'] == 0){
             $finalUrl = config('setting.img_prefix').$value;
-        }else if ($data['from'] == 2){
+        }else if (isset($data['from']) && $data['from'] == 2){
             $finalUrl = config('setting.oss_uri_prefix').$value;
         }
         return $finalUrl;
