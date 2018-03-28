@@ -3,7 +3,7 @@
 <script>whbRemoveMask();</script>
 
 <div class="contentDIV">
-<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：课程详情接口</span></p>
+<p><img src="<?php echo SYS_EXTJS_URL?>images/apple2.gif" width="16" height="16" /> <span class="titlestyle">功能描述：行动计划最近参加人头像接口</span></p>
 <p class="subtitlestyle">（一）服务接口请求地址：</p>
 <table width="90%" border="1" class="dbTable">
   <tr class="td_header">
@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
       <td>GET</td>
-    <td>v2/course</td>
+    <td>v2/plan/the_last_join</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）GET参数列表：</p>
@@ -23,8 +23,8 @@
  <?php require_once ("../include/required_or_optional.php"); ?>
  <?php require_once ("../include/token.required.php"); ?>
     <tr>
-        <td>uuid</td>
-        <td >课程ID</td>
+        <td>id</td>
+        <td >行动计划ID</td>
         <td >是</td>
         <td ></td>
     </tr>
@@ -39,43 +39,8 @@
             <td width="57%">备注</td>
         </tr>
         <tr>
-            <td>uuid</td>
-            <td>课程ID</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td>name</td>
-            <td>名称</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>cover_image</td>
-            <td>封面</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td>create_time</td>
-            <td>创建时间</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td>syllabus_count</td>
-            <td>课时总数</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td class="inforstyle">buy_user</td>
-            <td></td>
-            <td>&nbsp;若用户还未购买，则为<span class="titlestyle"><font color="red">null</font> </span></td>
-        </tr>
-        <tr>
-            <td>finish</td>
-            <td>用户是否完成该课程</td>
-            <td>&nbsp;0 否  1 是</td>
-        </tr>
-        <tr>
-            <td>the_last_join.user.avatar</td>
-            <td>最近参加头像</td>
+            <td>avatar</td>
+            <td>头像</td>
             <td>&nbsp;</td>
         </tr>
 

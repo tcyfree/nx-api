@@ -96,10 +96,12 @@ class Activity extends BaseController
         $auth = AuthUserModel::getAuthUserWithCommunity($uid,$res['community_id']);
         $detail = ActivityModel::get(['uuid' => $activity_id]);
         $join_user = ActivityUserModel::get(['activity_id' => $activity_id, 'user_id' => $uid]);
+        $the_last_join = ActivityUserModel::getTheLastJoin($activity_id);
         return [
             'detail' => $detail,
             'auth' => $auth,
-            'join_user' => $join_user
+            'join_user' => $join_user,
+            'the_last_join' => $the_last_join
         ];
     }
 

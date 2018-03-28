@@ -14,12 +14,14 @@
 namespace app\api\controller\v2;
 
 use app\api\controller\BaseController;
+use app\api\model\ActPlanUser;
 use app\api\validate\ActPlanNew;
 use app\api\service\Token as TokenService;
 use app\api\service\Community as CommunityService;
 use app\api\model\Community as CommunityModel;
 use app\api\model\ActPlan as ActPlanModel;
 use app\api\model\ActPlanRecord as ActPlanRecordModel;
+use app\api\validate\UUID;
 use app\lib\exception\SuccessMessage;
 use think\Db;
 use think\Exception;
@@ -57,6 +59,22 @@ class ActPlan extends BaseController
             throw $e;
         }
         return json(new SuccessMessage(), 201);
+    }
+
+    /**
+     * 获取最近参加人数信息
+     *
+     * @return array
+     */
+    public function getTheLastJoin()
+    {
+        (new UUID())->goCheck();
+        $act_plan_id = input('get.id');
+        $the_last_join = ActPlanUser::getTheLastJoin($act_plan_id);
+
+        return [
+            'the_last_join' => $the_last_join
+        ];
     }
 
 }

@@ -103,6 +103,7 @@ Ext.define('WebRoot.view.WestView', {
 								{
 									id: 'activity_get',
 									text: '详情',
+									cls: 'redStyle',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/activity_get.php',
 									leaf: true
 								},
@@ -152,6 +153,7 @@ Ext.define('WebRoot.view.WestView', {
 								{
 									id: 'course_get',
 									text: '详情',
+                                    cls: 'redStyle',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/course_get.php',
 									leaf: true
 								},
@@ -205,7 +207,20 @@ Ext.define('WebRoot.view.WestView', {
 									]
 								}
                             ]
-                        }
+                        },
+						{
+							id: 'act_plan',
+							text: '行动计划',
+							expanded: true,
+							children: [
+								{
+									id: 'the_last_join',
+									text: '最近参加头像',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/act_plan_the_last_join.php',
+									leaf: true
+								}
+							]
+						}
 					]
 			}
 		});

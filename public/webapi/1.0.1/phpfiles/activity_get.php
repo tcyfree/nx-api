@@ -73,6 +73,11 @@
             <td>用户是否完成该活动</td>
             <td>&nbsp;0 否  1 是</td>
         </tr>
+        <tr>
+            <td>the_last_join.user.avatar</td>
+            <td>最近参加头像</td>
+            <td>&nbsp;</td>
+        </tr>
 
 
     </table>

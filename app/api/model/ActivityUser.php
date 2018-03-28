@@ -63,5 +63,26 @@ class ActivityUser extends BaseModel
         return $res;
     }
 
+    /**
+     * 获取最近参加人数信息
+     *
+     * @param $activity_id
+     * @param int $limit
+     * @return mixed
+     */
+    public static function getTheLastJoin($activity_id, $limit = 5)
+    {
+        $where['activity_id'] = $activity_id;
+
+        $res = self::with('user')
+            ->where($where)
+            ->limit($limit)
+            ->order('id DESC')
+            ->select()
+            ->visible(['user.nickname','user.avatar']);
+
+        return $res;
+    }
+
 
 }

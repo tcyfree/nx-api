@@ -24,6 +24,11 @@ class ActPlanUser extends BaseModel
         return $this->hasOne('ActPlan','id','act_plan_id');
     }
 
+    public function user()
+    {
+        return $this->hasOne('UserInfo','user_id','user_id');
+    }
+
     /**
      * 获取用户参加的社群
      * @param $uid
@@ -58,5 +63,26 @@ class ActPlanUser extends BaseModel
             ]);
         }
         return $res['mode'];
+    }
+
+    /**
+     * 获取最近参加人数信息
+     *
+     * @param $act_plan_id
+     * @param int $limit
+     * @return mixed
+     */
+    public static function getTheLastJoin($act_plan_id, $limit = 5)
+    {
+        $where['act_plan_id'] = $act_plan_id;
+
+        $res = self::with('user')
+            ->where($where)
+            ->limit($limit)
+            ->order('id DESC')
+            ->select()
+            ->visible(['user.nickname','user.avatar']);
+
+        return $res;
     }
 }

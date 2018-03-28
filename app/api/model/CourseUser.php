@@ -21,7 +21,7 @@ class CourseUser extends BaseModel
     protected $autoWriteTimestamp = true;
     protected $hidden = ['delete_time'];
 
-    public function userInfo()
+    public function user()
     {
         return  $this->hasOne('UserInfo','user_id','user_id');
     }
@@ -65,12 +65,12 @@ class CourseUser extends BaseModel
         $where['finish'] = 0;
         $where['course_id'] = $course_id;
 
-        $res = self::with('userInfo')
+        $res = self::with('user')
             ->where($where)
             ->limit($limit)
             ->order('id DESC')
             ->select()
-            ->visible(['user_info.nickname','user_info.avatar']);
+            ->visible(['user.nickname','user.avatar']);
 
         return $res;
     }
