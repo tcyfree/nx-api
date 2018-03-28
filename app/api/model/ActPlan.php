@@ -58,6 +58,7 @@ class ActPlan extends BaseModel
 
     /**
      * 根据社群分页查找对应行动计划列表
+     * 1. 0 显示 1 不显示
      * @param $data
      * @return \think\Paginator
      */
@@ -66,6 +67,7 @@ class ActPlan extends BaseModel
         $page = $data['page'];
         $size = $data['size'];
         $where['community_id'] = $data['community_id'];
+        $where['display'] = 0;
 
         $pagingData = self::where($where)
             ->order('create_time asc')

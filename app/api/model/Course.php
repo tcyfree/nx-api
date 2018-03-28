@@ -32,11 +32,19 @@ class Course extends BaseModel
         return $res;
     }
 
+    /**
+     * 0 显示 1 不显示
+     * @param $community_id
+     * @param $page
+     * @param $size
+     * @return \think\Paginator
+     */
     public static function getList($community_id,$page,$size)
     {
         CommunityModel::checkCommunityExists($community_id);
         $where['community_id'] = $community_id;
         $where['delete_time'] = 0;
+        $where['display'] = 0;
         $res = self::where($where)
             ->order('create_time DESC')
             ->paginate($size,true,['page' => $page]);
