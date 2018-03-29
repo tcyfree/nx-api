@@ -301,6 +301,7 @@ Ext.define('WebRoot.view.WestView', {
 								{
 									id: 'act_plan_list_by_community',
 									text: '社群下行动计划',
+									cls: 'redStyle',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/act_plan_community.php',
 									leaf: true
 								}

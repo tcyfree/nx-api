@@ -70,6 +70,11 @@
         <td>任务总数</td>
         <td>&nbsp;</td>
     </tr>
+    <tr>
+        <td>display</td>
+        <td>是否显示</td>
+        <td>&nbsp;0 显示 1 不显示</td>
+    </tr>
 </table>
 <p>&nbsp;</p>
 </div>
