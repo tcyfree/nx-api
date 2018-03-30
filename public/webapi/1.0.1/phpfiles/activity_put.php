@@ -64,6 +64,12 @@
         <td>&nbsp;是</td>
         <td>&nbsp;格式如：Y-m-d H:i:s</td>
     </tr>
+    <tr>
+        <td>display</td>
+        <td>是否显示</td>
+        <td>&nbsp;否</td>
+        <td>&nbsp;0 显示 1 不显示</td>
+    </tr>
 </table>
 <p class="subtitlestyle">（三）服务接口响应请求：</p>
 <table width="90%" border="1" class="dbTable">
