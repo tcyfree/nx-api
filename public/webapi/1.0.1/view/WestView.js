@@ -222,6 +222,19 @@ Ext.define('WebRoot.view.WestView', {
 									leaf: true
 								}
 							]
+						},
+						{
+							id: 'mini_program',
+							text: '小程序',
+							expanded: true,
+							children: [
+								{
+									id: 'mini_qrcode',
+									text: '小程序码',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/mini_qrcode.php',
+									leaf: true
+								}
+							]
 						}
 					]
 			}

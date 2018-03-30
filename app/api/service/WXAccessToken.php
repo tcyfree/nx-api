@@ -21,6 +21,49 @@ use think\Exception;
 
 class WXAccessToken
 {
+
+    /**
+     * 获取访问微信接口的access_token
+     *
+     * @return mixed
+     */
+    public function getAccessToken()
+    {
+        $redis = Cache::store('redis');
+        $wx_access_token = $redis->get('wx_access_token');
+        if (!$wx_access_token){
+            $app_id = config('wx.g_app_id');
+            $app_secret = config('wx.g_app_secret');
+            $cache_key = 'wx_access_token';
+            $access_token = $this->getWXAccessToken($app_id,$app_secret,$cache_key);
+        }else{
+            $access_token = $wx_access_token;
+        }
+
+        return $access_token;
+    }
+
+    /**
+     * 获取访问小程序接口的access_token
+     *
+     * @return mixed
+     */
+    public function getMiniAccessToken()
+    {
+        $redis = Cache::store('redis');
+        $mini_access_token = $redis->get('mini_access_token');
+        if (!$mini_access_token){
+            $app_id = config('wx.mini_app_id');
+            $app_secret = config('wx.mini_app_secret');
+            $cache_key = 'mini_access_token';
+            $access_token = $this->getWXAccessToken($app_id,$app_secret,$cache_key);
+        }else{
+            $access_token = $mini_access_token;
+        }
+
+        return $access_token;
+    }
+
     /**
      * {"access_token":"ACCESS_TOKEN","expires_in":7200}
      * 根据不同的app_id和app_secret获取不同的access_token
@@ -74,46 +117,5 @@ class WXAccessToken
         }
     }
 
-    /**
-     * 获取访问微信接口的access_token
-     *
-     * @return mixed
-     */
-    public function getAccessToken()
-    {
-        $redis = Cache::store('redis');
-        $wx_access_token = $redis->get('wx_access_token');
-        if (!$wx_access_token){
-            $app_id = config('wx.g_app_id');
-            $app_secret = config('wx.g_app_secret');
-            $cache_key = 'wx_access_token';
-            $access_token = $this->getWXAccessToken($app_id,$app_secret,$cache_key);
-        }else{
-            $access_token = $wx_access_token;
-        }
-
-        return $access_token;
-    }
-
-    /**
-     * 获取访问小程序接口的access_token
-     *
-     * @return mixed
-     */
-    public function getMiniAccessToken()
-    {
-        $redis = Cache::store('redis');
-        $mini_access_token = $redis->get('mini_access_token');
-        if (!$mini_access_token){
-            $app_id = config('wx.mini_app_id');
-            $app_secret = config('wx.mini_app_secret');
-            $cache_key = 'mini_access_token';
-            $access_token = $this->getWXAccessToken($app_id,$app_secret,$cache_key);
-        }else{
-            $access_token = $mini_access_token;
-        }
-
-        return $access_token;
-    }
 
 }

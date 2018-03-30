@@ -241,6 +241,13 @@ Route::group(':admin',function (){
     Route::put('/user/status','api/:admin.User/putUserStatus');
 });
 
+/**
+ * MiniProgram
+ */
+Route::group(':version/mini',function (){
+    Route::get('/qrcode','api/:version.MiniProgram/getMiniQRCode');
+});
+
 Route::resource('blog','index/Blog');
 
 /**
