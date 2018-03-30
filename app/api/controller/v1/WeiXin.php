@@ -16,6 +16,7 @@ namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
 use app\api\service\WeiXin as WeiXinService;
+use app\api\service\WXAccessToken;
 use app\api\validate\Media_ID;
 use app\api\service\Token as TokenService;
 
@@ -65,7 +66,7 @@ class WeiXin extends BaseController
      */
     private function WXDownloadByUri($media_id, $filename)
     {
-        $access_token = $this->getAccessToken();
+        $access_token = (new WXAccessToken())->getAccessToken();
         //保存路径，相对站点路径public，非当前文件的路径
         $path = "./static/oss";
         if(!is_dir($path)){
@@ -93,7 +94,7 @@ class WeiXin extends BaseController
     public function getSubscribe()
     {
         $openid = TokenService::getCurrentTokenVar('openid');
-        $access_token = $this->getAccessToken();
+        $access_token = (new WXAccessToken())->getAccessToken();
         $uri = sprintf(config('wx.user_info_unionid'), $access_token,$openid);
         $res = curl_get($uri);
         $WXRes = (new WeiXinService())->checkWXRes($res);
