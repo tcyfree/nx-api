@@ -24,6 +24,7 @@ class PostActivityValidate extends BaseValidate
         'fee' => 'require|between:0,99|isNaturalNumber',
         'end_time' => 'require|date',
         'tel' => 'require',
-        'allow_num' => 'require|isPositiveInteger'
+        'allow_num' => 'require|isPositiveInteger',
+        'display'      => 'in:0,1'
     ];
 }

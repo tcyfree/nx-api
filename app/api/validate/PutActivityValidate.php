@@ -23,6 +23,7 @@ class PutActivityValidate extends BaseValidate
         'content' => 'require',
         'fee' => 'require|between:0,99|isNaturalNumber',
         'end_time' => 'require|date',
-        'tel' => 'require'
+        'tel' => 'require',
+        'display'      => 'in:0,1'
     ];
 }

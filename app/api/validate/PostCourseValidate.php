@@ -22,5 +22,6 @@ class PostCourseValidate extends BaseValidate
         'cover_image' => 'require|url',
         'profile' => 'require|length:1,140',
         'fee' => 'require|between:0,99|isNaturalNumber',
+        'display'      => 'in:0,1'
     ];
 }
