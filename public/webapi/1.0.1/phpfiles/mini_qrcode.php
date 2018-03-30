@@ -36,7 +36,7 @@
         <tr>
             <td>mini_qrcode</td>
             <td>小程序码地址</td>
-            <td>&nbsp;</td>
+            <td>&nbsp;<a href="https://developers.weixin.qq.com/miniprogram/dev/api/qrcode.html" TARGET="_blank">接口A</a> </td>
         </tr>
 
     </table>
