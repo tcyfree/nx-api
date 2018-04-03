@@ -233,6 +233,12 @@ Ext.define('WebRoot.view.WestView', {
 									text: '小程序码',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/mini_qrcode.php',
 									leaf: true
+								},
+								{
+									id: 'mini_pay',
+									text: '支付',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/mini_pay.php',
+									leaf: true
 								}
 							]
 						}

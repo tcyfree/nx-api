@@ -33,6 +33,7 @@ Route::group(':version/user', function(){
  */
 Route::group(':version/user',function (){
     Route::put('profile','api/:version.UserInfo/putUserInfoProfile');
+    Route::get('test','api/:version.UserInfo/test');
 });
 
 /**
@@ -246,6 +247,7 @@ Route::group(':admin',function (){
  */
 Route::group(':version/mini',function (){
     Route::get('/qrcode','api/:version.MiniProgram/getMiniQRCode');
+    Route::put('/wallet','api/:version.Recharge/getMiniPreOrder');
 });
 
 Route::resource('blog','index/Blog');
