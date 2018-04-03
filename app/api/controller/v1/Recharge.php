@@ -17,6 +17,7 @@ namespace app\api\controller\v1;
 use app\api\controller\BaseController;
 use app\api\model\Recharge as RechargeModel;
 use app\api\service\Recharge as RechargeService;
+use app\api\service\WXH5Recharge;
 use app\api\validate\PreOrder;
 use app\api\validate\RechargeWx;
 use app\api\service\WxNotify;
@@ -40,14 +41,19 @@ class Recharge extends BaseController
 
     /**
      * 生成预支付交易单
+     * 1.检查充值订单是否有效
+     * 2.调用统一下单API
+     *
      * @param string $id
      * @return mixed
      */
     public function getPreOrder($id = '')
     {
         (new PreOrder())->goCheck();
-        $pay = new RechargeService($id);
-        return $pay->pay();
+        $recharge = new RechargeService();
+        $recharge->checkOrderValid($id);
+        $res = (new WXH5Recharge())->makeWxPreOrder($recharge->totalFee,$recharge->orderNO);
+        return $res;
     }
 
     /**
