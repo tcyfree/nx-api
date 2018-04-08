@@ -14,6 +14,7 @@ namespace app\api\service;
 use app\lib\exception\ParameterException;
 use app\lib\exception\WeChatException;
 use think\Session;
+use think\Exception;
 
 
 class WXOauth
@@ -130,28 +131,59 @@ class WXOauth
                 ]);
         }
         $result = curl_get($userinfo_url);
+        $ufResult = $this->checkWXRes($result);
+
+        return $ufResult;
+
+    }
+
+    /**
+     * 检查请求微信返回结果是否有错
+     *
+     * @param $result
+     * @return mixed
+     * @throws Exception
+     */
+    public function checkWXRes($result)
+    {
         $ufResult = json_decode($result, true);
+
         if (empty($ufResult))
         {
             throw new Exception('微信内部错误');
-        }
-        else
-        {
+        }else {
             $ufFail = array_key_exists('errcode', $ufResult);
-            if ($ufFail)
-            {
+            if ($ufFail) {
                 $this->processError($ufResult);
-            }
-            else
-            {
-                //请注意，在用户修改微信头像后，旧的微信头像URL将会失效。
-                //因此开发者应该自己在获取用户信息后，将头像图片保存下来，避免微信头像URL失效后的异常情况。
-                $ufResult['avatar'] = downloadImage($ufResult['headimgurl']);
-
+            } else {
                 return $ufResult;
             }
         }
+    }
 
+    /**
+     * 检查小程序码是否参数错误
+     *
+     * @param $res
+     * @return mixed
+     * @throws Exception
+     */
+    public function checkMiniQRCode($res)
+    {
+        if (empty($res))
+        {
+            throw new Exception('微信内部错误');
+        }else {
+            $ufResult = json_decode($res, true);
+            if (is_array($ufResult)){
+                $ufFail = array_key_exists('errcode', $ufResult);
+                if ($ufFail) {
+                    $this->processError($ufResult);
+                } else {
+                    return $res;
+                }
+            }
+        }
     }
     /**
      * 微信接口处理异常

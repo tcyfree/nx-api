@@ -13,7 +13,6 @@
 
 namespace app\api\controller\v2;
 
-
 use app\api\controller\BaseController;
 use app\api\service\Pinyin;
 use app\api\service\Token as TokenService;
@@ -40,16 +39,13 @@ class UserInfo extends BaseController
 
     public function test()
     {
-        $access_token = (new WXAccessToken())->getAccessToken();
-        $open_id = input('get.id');
+        $access_token = (new WXAccessToken())->getMiniAccessToken();
         $uri = sprintf(
-            config('wx.user_info_unionid'),
-            $access_token, $open_id);
-        $wx_res = curl_get($uri);
-        $utf8 = utf8_decode($wx_res);
-        print_r($utf8);
-        $res = json_decode($wx_res,true);
-        print_r($res);
-        echo (new Pinyin())->getCharIndexPinyin($res['nickname']);
+            config('wx.mini_program_qrcode'),
+            $access_token);
+        $post_data['path'] = 'index';
+        $wx_res = curl_post($uri,$post_data);
+
+        return base64_encode($wx_res);
     }
 }

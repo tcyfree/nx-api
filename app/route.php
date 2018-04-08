@@ -246,7 +246,7 @@ Route::group(':admin',function (){
  * MiniProgram
  */
 Route::group(':version/mini',function (){
-    Route::get('/qrcode','api/:version.MiniProgram/getMiniQRCode');
+    Route::post('/qrcode_base64','api/:version.MiniProgram/getMiniQRCodeBase64');
     Route::put('/wallet','api/:version.Recharge/getMiniPreOrder');
 });
 

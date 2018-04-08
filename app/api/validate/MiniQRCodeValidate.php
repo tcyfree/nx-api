@@ -17,5 +17,8 @@ namespace app\api\validate;
 class MiniQRCodeValidate extends BaseValidate
 {
     protected $rule = [
+//        'path' => 'require',
+        'width' => 'between:1,1000',
+        'auto_color' => 'boolean'
     ];
 }

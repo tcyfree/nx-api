@@ -13,8 +13,8 @@
     </tr>
   <tr>
     <td>请求的地址</td>
-      <td>GET</td>
-    <td>v2/mini/qrcode</td>
+      <td>POST</td>
+    <td>v2/mini/qrcode_base64</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>
@@ -22,6 +22,13 @@
 
  <?php require_once ("../include/required_or_optional.php"); ?>
  <?php require_once ("../include/token.required.php"); ?>
+    <tr>
+        <td>参考<a href="https://developers.weixin.qq.com/miniprogram/dev/api/qrcode.html" TARGET="_blank">接口A</a></td>
+        <td ></td>
+        <td ></td>
+        <td > </td>
+    </tr>
+
 
 </table>
     <?php require_once ("../include/json_info.php"); ?>
@@ -34,9 +41,9 @@
             <td width="57%">备注</td>
         </tr>
         <tr>
-            <td>mini_qrcode</td>
-            <td>小程序码地址</td>
-            <td>&nbsp;<a href="https://developers.weixin.qq.com/miniprogram/dev/api/qrcode.html" TARGET="_blank">接口A</a> </td>
+            <td>mini_qrcode_base64</td>
+            <td></td>
+            <td></td>
         </tr>
 
     </table>

@@ -55,7 +55,7 @@ Ext.define('WebRoot.view.NorthView', {
             tooltip:'DevelopPlan',
 			iconCls:'download',
 			handler:function(){
-				location.href="../../../document/项目开发计划书V1.0.0.doc";
+				location.href="../../../static/《XDS用户中心-V1.1.2》项目开发计划书.doc";
 			}
         }, '-',		
 		{      	

@@ -17,6 +17,7 @@ namespace app\api\controller\v2;
 use app\api\controller\BaseController;
 use app\api\service\WXAccessToken;
 use app\api\validate\MiniQRCodeValidate;
+use app\api\service\WXOauth as WXOauthService;
 
 class MiniProgram extends BaseController
 {
@@ -25,18 +26,38 @@ class MiniProgram extends BaseController
     ];
 
     /**
-     * 获取小程序码
+     * 获取小程序码并base64编码
      *
-     * @return mixed
+     * @param string $path
+     * @param int $width
+     * @param bool $auto_color
+     * @param array $line_color
+     * @return array
      */
-    public function getMiniQRCode()
+    public function getMiniQRCodeBase64($path = '', $width = 430, $auto_color = true, $line_color = array("r" => "0","g" => "0","b"=>"0"))
     {
         (new MiniQRCodeValidate())->goCheck();
         $access_token = (new WXAccessToken())->getMiniAccessToken();
-        $uri = sprintf(config('wx.mini_program_qrcode'), $access_token);
+        $uri = sprintf(
+            config('wx.mini_program_qrcode'),
+            $access_token);
+        $post_data['path'] = input('post.path');
+        $post_data['width'] = $width;
+        $post_data['auto_color'] = $auto_color;
+        if (!$auto_color){
+            $post_data['line_color'] = $line_color;
+        }
+//        var_dump($post_data);
+        $wx_res = curl_post($uri,$post_data);
+        (new WXOauthService())->checkMiniQRCode($wx_res);
+//        $image_data_base = "data:image/png;base64,". base64_encode ($wx_res);
+//        echo '<img src="' . $image_data_base  . '" />';
+        $image_data_base64 = base64_encode ($wx_res);
+
 
         return [
-            'mini_qrcode' => $uri
+            'post_data' => $post_data,
+            'mini_qrcode_base64' => $image_data_base64
         ];
 
 
