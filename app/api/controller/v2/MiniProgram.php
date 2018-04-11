@@ -47,13 +47,11 @@ class MiniProgram extends BaseController
         if (!$auto_color){
             $post_data['line_color'] = $line_color;
         }
-//        var_dump($post_data);
         $wx_res = curl_post($uri,$post_data);
         (new WXOauthService())->checkMiniQRCode($wx_res);
 //        $image_data_base = "data:image/png;base64,". base64_encode ($wx_res);
 //        echo '<img src="' . $image_data_base  . '" />';
         $image_data_base64 = base64_encode ($wx_res);
-
 
         return [
             'post_data' => $post_data,

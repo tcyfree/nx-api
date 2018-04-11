@@ -67,7 +67,6 @@ class ActPlan extends BaseModel
         $page = $data['page'];
         $size = $data['size'];
         $where['community_id'] = $data['community_id'];
-        $where['display'] = 0;
 
         $pagingData = self::where($where)
             ->order('create_time asc')

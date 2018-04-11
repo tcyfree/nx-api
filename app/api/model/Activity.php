@@ -44,7 +44,6 @@ class Activity extends BaseModel
         CommunityModel::checkCommunityExists($community_id);
         $where['community_id'] = $community_id;
         $where['delete_time'] = 0;
-        $where['display'] = 0;
         $res = self::where($where)
             ->order('create_time DESC')
             ->paginate($size,true,['page' => $page]);

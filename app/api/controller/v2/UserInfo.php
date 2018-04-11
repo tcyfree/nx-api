@@ -37,15 +37,22 @@ class UserInfo extends BaseController
         return json(new SuccessMessage(),201);
     }
 
+    function test2($redis, $pattern, $channel, $msg) {
+        echo "Pattern: $pattern\n";
+        echo "Channel: $channel\n";
+        echo "Payload: $msg\n";
+    }
+
     public function test()
     {
-        $access_token = (new WXAccessToken())->getMiniAccessToken();
-        $uri = sprintf(
-            config('wx.mini_program_qrcode'),
-            $access_token);
-        $post_data['path'] = 'index';
-        $wx_res = curl_post($uri,$post_data);
+        $redis = new \redis();
+        $redis->connect("127.0.0.1","6379");  //php客户端设置的ip及端口
 
-        return base64_encode($wx_res);
+        $redis->psubscribe(array('__key*__:expired'),
+            function ($redis, $pattern, $chan, $msg){
+                curl_get('http://www.baidu.com');
+                echo 123;
+            }
+        );
     }
 }
