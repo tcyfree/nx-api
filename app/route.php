@@ -252,6 +252,10 @@ Route::group(':version/mini',function (){
 
 Route::resource('blog','index/Blog');
 
+Route::group('swagger',function (){
+    Route::get('','index/Swagger/index');
+});
+
 /**
  * MISS路由，当全部路由没有匹配到时
  * 将返回资源未找到的信息

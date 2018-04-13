@@ -63,6 +63,7 @@ class ActPlan extends BaseController
 
     /**
      * 获取最近参加人数信息
+     * 1.添加计划信息
      *
      * @return array
      */
@@ -71,9 +72,11 @@ class ActPlan extends BaseController
         (new UUID())->goCheck();
         $act_plan_id = input('get.id');
         $the_last_join = ActPlanUser::getTheLastJoin($act_plan_id);
+        $act_plan = ActPlanModel::get(['id' => $act_plan_id]);
 
         return [
-            'the_last_join' => $the_last_join
+            'the_last_join' => $the_last_join,
+            'act_plan' => $act_plan
         ];
     }
 

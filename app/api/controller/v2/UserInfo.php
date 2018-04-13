@@ -45,14 +45,6 @@ class UserInfo extends BaseController
 
     public function test()
     {
-        $redis = new \redis();
-        $redis->connect("127.0.0.1","6379");  //php客户端设置的ip及端口
-
-        $redis->psubscribe(array('__key*__:expired'),
-            function ($redis, $pattern, $chan, $msg){
-                curl_get('http://www.baidu.com');
-                echo 123;
-            }
-        );
+       return error_log('错误信息'.' '.date('Y-m-d H:i:s')."\r\n",3,LOG_PATH.'advice.log');
     }
 }
