@@ -71,6 +71,7 @@ class Task extends BaseController
 
     /**
      * 任务自动点评被他人
+     * 1. 被点评人是否GO
      *
      * @return \think\response\Json
      */

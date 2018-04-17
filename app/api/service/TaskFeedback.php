@@ -190,7 +190,7 @@ class TaskFeedback
         $task_user = TaskUserModel::get(['user_id' => $uid, 'task_id' => $task_id]);
         if (empty($task_user)){
             throw new ParameterException([
-                'msg' => '用户还未GO'
+                'msg' => '被点评用户还未GO'
             ]);
         }
     }
