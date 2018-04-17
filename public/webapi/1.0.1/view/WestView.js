@@ -256,7 +256,7 @@ Ext.define('WebRoot.view.WestView', {
 								{
 									id: 'task_feedback_other',
 									text: '他人自动点评',
-									hrefTarget: SYS_API_ROOT + 'phpfiles/task_feedback_other',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/task_feedback_other.php',
 									leaf: true
 								}
                             ]

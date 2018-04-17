@@ -162,6 +162,7 @@ class TaskFeedback
                 'msg' => '该任务已经提交反馈了'
             ]);
         }
+        $this->checkUserStatus($user_id,$data['task_id']);
         Db::startTrans();
         try{
             TaskUserModel::update(['finish' => 1,'update_time' => time()],['task_id' => $data['task_id'],'user_id' => $user_id]);
@@ -175,6 +176,22 @@ class TaskFeedback
         {
             Db::rollback();
             throw $ex;
+        }
+    }
+
+    /**
+     * 查看用户是否符合条件提交任务
+     * @param $uid
+     * @param $task_id
+     * @throws ParameterException
+     */
+    public function checkUserStatus($uid,$task_id)
+    {
+        $task_user = TaskUserModel::get(['user_id' => $uid, 'task_id' => $task_id]);
+        if (empty($task_user)){
+            throw new ParameterException([
+                'msg' => '用户还未GO'
+            ]);
         }
     }
 
