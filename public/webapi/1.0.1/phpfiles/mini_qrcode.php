@@ -47,7 +47,7 @@
             <td width="57%">备注</td>
         </tr>
         <tr>
-            <td>mini_qrcode_base64</td>
+            <td>mini_qrcode_uri</td>
             <td></td>
             <td></td>
         </tr>
