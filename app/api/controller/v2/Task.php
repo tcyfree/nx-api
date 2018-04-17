@@ -19,10 +19,13 @@ use app\api\model\Task as TaskModel;
 use app\api\model\TaskFeedback as TaskFeedbackModel;
 use app\api\model\TaskUser as TaskUserModel;
 use app\api\service\Token as TokenService;
+use app\api\validate\Feedback;
 use app\api\validate\UUID;
 use app\api\model\AuthUser as AuthUserModel;
 use app\api\model\ActPlanUser as ActPlanUserModel;
 use app\api\service\Community as CommunityService;
+use app\api\service\TaskFeedback as TaskFeedbackService;
+use app\lib\exception\SuccessMessage;
 
 class Task extends BaseController
 {
@@ -64,5 +67,19 @@ class Task extends BaseController
         $return_data['community'] = CommunityService::getUserStatus($data);
 
         return $return_data;
+    }
+
+    /**
+     * 任务自动点评被他人
+     *
+     * @return \think\response\Json
+     */
+    public function putTaskFeedbackByOther()
+    {
+        (new Feedback())->goCheck();
+        $data = input('post.');
+        $uid = TokenService::getCurrentUid();
+        (new TaskFeedbackService())->autoFeedbackByOther($uid,$data);
+        return json(new SuccessMessage(),201);
     }
 }

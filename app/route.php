@@ -91,6 +91,7 @@ Route::group(':version/plan',function (){
  * Task
  */
 Route::group(':version/task',function (){
+    Route::post('feedback_other','api/:version.Task/putTaskFeedbackByOther');
     Route::get('/feedback/look_','api/:version.Task/getNotLook');
     Route::get('/test','api/:version.Task/test');
     Route::post('','api/:version.Task/createTask');

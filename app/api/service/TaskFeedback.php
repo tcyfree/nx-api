@@ -140,6 +140,44 @@ class TaskFeedback
         }
     }
 
+    /**
+     * 其他人自动点评：自动完成反馈
+     * 1.将任务更新为完成
+     * 2.增加用户行动力
+     * 3.判断是否完成该计划
+     * 4.同步反馈内容到对应交流区
+     * 5.反馈表
+     * 6.判断用户是否已经提交反馈了
+     *
+     * @param $other_user_id
+     * @param $data
+     * @throws Exception
+     */
+    public function autoFeedbackByOther($other_user_id,$data)
+    {
+        $user_id = TaskModel::getUserIDByTaskID($data['task_id']);
+        $res = TaskFeedbackModel::get(['user_id' => $user_id,'task_id' => $data['task_id']]);
+        if ($res){
+            throw new ParameterException([
+                'msg' => '该任务已经提交反馈了'
+            ]);
+        }
+        Db::startTrans();
+        try{
+            TaskUserModel::update(['finish' => 1,'update_time' => time()],['task_id' => $data['task_id'],'user_id' => $user_id]);
+            UserPropertyModel::where(['user_id' => $user_id])->setInc('execution',2);
+            (new ExecutionService())->checkActPlanUserFinish($data['task_id'],$user_id);
+            $data['user_id'] = $user_id;
+            $this->createCommunication($data);
+            $this->feedback($data,$other_user_id);
+            Db::commit();
+        }catch (Exception $ex)
+        {
+            Db::rollback();
+            throw $ex;
+        }
+    }
+
     private function createCommunication($data)
     {
         $id = uuid();
@@ -160,4 +198,6 @@ class TaskFeedback
         $t_f = new TaskFeedbackModel();
         $t_f->allowField(true)->save($data);
     }
+
+
 }

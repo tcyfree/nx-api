@@ -252,7 +252,13 @@ Ext.define('WebRoot.view.WestView', {
                                     text: '详情',
                                     hrefTarget: SYS_API_ROOT + 'phpfiles/task_detail.php',
                                     leaf: true
-                                }
+                                },
+								{
+									id: 'task_feedback_other',
+									text: '他人自动点评',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/task_feedback_other',
+									leaf: true
+								}
                             ]
                         }
 					]

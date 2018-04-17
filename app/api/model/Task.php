@@ -23,6 +23,7 @@ use app\api\model\ActPlan as ActPlanModel;
 use think\Db;
 use app\api\model\Callback as CallbackModel;
 use app\api\service\Execution as ExecutionService;
+use app\api\model\CommunityUser as CommunityUserModel;
 
 class Task extends BaseModel
 {
@@ -163,6 +164,29 @@ class Task extends BaseModel
             ->field('community_id')
             ->find();
         return $res['community_id'];
+    }
+
+    /**
+     *  根据任务ID查找社群创建者user_id
+     * @param $task_id
+     * @return mixed
+     */
+    public static function getUserIDByTaskID($task_id)
+    {
+        self::checkTaskExists($task_id);
+        $where['id'] = $task_id;
+        $res = self::where($where)
+            ->field('act_plan_id')
+            ->find();
+        $act_plan_id = $res['act_plan_id'];
+
+        $act_plan = ActPlanModel::where('id',$act_plan_id)
+            ->field('community_id')
+            ->find();
+        $res = CommunityUserModel::where('id',$act_plan['community_id'])
+            ->field('user_id')
+            ->find();
+        return $res['user_id'];
     }
 
     /**
