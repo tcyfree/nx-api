@@ -15,9 +15,10 @@ namespace app\api\controller\v2;
 
 
 use app\api\controller\BaseController;
+use app\api\service\MiniProgramService;
 use app\api\service\WXAccessToken;
 use app\api\validate\MiniQRCodeValidate;
-use app\api\service\WXOauth as WXOauthService;
+use app\api\model\Community as CommunityModel;
 
 class MiniProgram extends BaseController
 {
@@ -26,7 +27,11 @@ class MiniProgram extends BaseController
     ];
 
     /**
-     * 获取小程序码并base64编码
+     * 获取小程序码
+     * 0. 判断是否已经存在
+     * 1.下载
+     * 2. 上传到oss
+     * 3. 删除下载
      *
      * @param string $path
      * @param int $width
@@ -34,28 +39,36 @@ class MiniProgram extends BaseController
      * @param array $line_color
      * @return array
      */
-    public function getMiniQRCodeBase64($path = '', $width = 430, $auto_color = true, $line_color = array("r" => "0","g" => "0","b"=>"0"))
+    public function getMiniQRCode($path = '', $width = 430, $auto_color = true, $line_color = array("r" => "0","g" => "0","b"=>"0"))
     {
         (new MiniQRCodeValidate())->goCheck();
-        $access_token = (new WXAccessToken())->getMiniAccessToken();
-        $uri = sprintf(
-            config('wx.mini_program_qrcode'),
-            $access_token);
+        $community_id = input('post.community_id');
         $post_data['path'] = input('post.path');
         $post_data['width'] = $width;
         $post_data['auto_color'] = $auto_color;
+        $post_data['community_id'] = $community_id;
         if (!$auto_color){
             $post_data['line_color'] = $line_color;
         }
-        $wx_res = curl_post($uri,$post_data);
-        (new WXOauthService())->checkMiniQRCode($wx_res);
-//        $image_data_base = "data:image/png;base64,". base64_encode ($wx_res);
-//        echo '<img src="' . $image_data_base  . '" />';
-        $image_data_base64 = base64_encode ($wx_res);
+        CommunityModel::checkCommunityExists($community_id);
+        $res = CommunityModel::where(['id' => $community_id])->field('mini_qr_code')->find();
+        if (!empty($res['mini_qr_code'])){
+            $mini_qrcode_uri= $res['mini_qr_code'];
+        }else{
+            $access_token = (new WXAccessToken())->getMiniAccessToken();
+            $uri = sprintf(
+                config('wx.mini_program_qrcode'),
+                $access_token);
+            $mini_service = new MiniProgramService();
+            $file_name = $mini_service->downImagesFile($uri,$post_data);
+            $oss_res = $mini_service->uploadOSS($file_name);
+            $mini_qrcode_uri= $oss_res['oss-request-url'];
+            CommunityModel::update(['mini_qr_code' => $mini_qrcode_uri],['id' => $community_id]);
+        }
 
         return [
             'post_data' => $post_data,
-            'mini_qrcode_base64' => $image_data_base64
+            'mini_qrcode_uri' => $mini_qrcode_uri
         ];
 
 

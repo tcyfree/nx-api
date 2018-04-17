@@ -13,6 +13,8 @@
 
 namespace app\api\service;
 
+use app\api\controller\v1\OSSManager;
+use app\api\service\WXOauth as WXOauthService;
 
 class MiniProgramService
 {
@@ -23,18 +25,30 @@ class MiniProgramService
      * @param $post_data
      * @return string
      */
-    public function downImagesFile($uri,$post_data)
+    public function downImagesFile($uri, $post_data)
     {
-        $image_data = curl_post($uri,$post_data);
+        $image_data = curl_post($uri, $post_data);
+        (new WXOauthService())->checkMiniQRCode($image_data);
+//        $image_data_base = "data:image/png;base64,". base64_encode ($image_data);
+//        echo '<img src="' . $image_data_base  . '" />';
         $path = "static/oss/images/";
-        if(!is_dir($path)){
-            mkdir($path,0755,true);
+        if (!is_dir($path)) {
+            mkdir($path, 0755, true);
         }
-        $file_name = 'mini_'.time().".jpg";
+        $file_name = 'mini_' . time() . ".jpg";
 
-        file_put_contents($path.$file_name,$image_data);
+        file_put_contents($path . $file_name, $image_data);
 
         return $file_name;
+    }
+
+    public function uploadOSS($file_name)
+    {
+        $oss_manager = new OSSManager();
+        $filename_path = 'images/'.$file_name;
+        $res = $oss_manager->uploadOSS($filename_path);
+        $oss_manager->deleteDownloadFile('images/'.$file_name);
+        return $res;
     }
 
 

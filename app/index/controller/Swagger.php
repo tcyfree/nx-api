@@ -8,17 +8,25 @@
 // +----------------------------------------------------------------------
 // | Author: probe <1946644259@qq.com>
 // +----------------------------------------------------------------------
-// | DateTime: 2018/3/30/10:43
+// | DateTime: 2018/4/12/17:34
 // +----------------------------------------------------------------------
 
-namespace app\api\validate;
+namespace app\index\controller;
 
 
-class MiniQRCodeValidate extends BaseValidate
+use think\Controller;
+
+class Swagger extends Controller
 {
-    protected $rule = [
-        'community_id' => 'require|length:36',
-        'width' => 'between:1,1000',
-        'auto_color' => 'boolean'
-    ];
+    public function index(){
+        $path = APP_PATH.'index'; //你想要哪个文件夹下面的注释生成对应的API文档
+        $swagger = \Swagger\scan($path);
+        // header('Content-Type: application/json');
+        // echo $swagger;
+        $swagger_json_path = ROOT_PATH.'public/swaggerApi/swagger.json';
+        $res = file_put_contents($swagger_json_path, $swagger);
+        if ($res == true) {
+            $this->redirect('http://api.go-qxd.com/swagger-ui/dist/index.html');
+        }
+    }
 }
