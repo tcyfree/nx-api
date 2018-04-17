@@ -46,25 +46,33 @@ class MiniProgram extends BaseController
         $post_data['path'] = input('post.path');
         $post_data['width'] = $width;
         $post_data['auto_color'] = $auto_color;
-        $post_data['community_id'] = $community_id;
         if (!$auto_color){
             $post_data['line_color'] = $line_color;
         }
-        CommunityModel::checkCommunityExists($community_id);
-        $res = CommunityModel::where(['id' => $community_id])->field('mini_qr_code')->find();
-        if (!empty($res['mini_qr_code'])){
-            $mini_qrcode_uri= $res['mini_qr_code'];
-        }else{
-            $access_token = (new WXAccessToken())->getMiniAccessToken();
-            $uri = sprintf(
-                config('wx.mini_program_qrcode'),
-                $access_token);
-            $mini_service = new MiniProgramService();
-            $file_name = $mini_service->downImagesFile($uri,$post_data);
-            $oss_res = $mini_service->uploadOSS($file_name);
-            $mini_qrcode_uri= $oss_res['oss-request-url'];
-            CommunityModel::update(['mini_qr_code' => $mini_qrcode_uri],['id' => $community_id]);
-        }
+//        CommunityModel::checkCommunityExists($community_id);
+//        $res = CommunityModel::where(['id' => $community_id])->field('mini_qr_code')->find();
+//        if (!empty($res['mini_qr_code'])){
+//            $mini_qrcode_uri= $res['mini_qr_code'];
+//        }else{
+//            $access_token = (new WXAccessToken())->getMiniAccessToken();
+//            $uri = sprintf(
+//                config('wx.mini_program_qrcode'),
+//                $access_token);
+//            $mini_service = new MiniProgramService();
+//            $file_name = $mini_service->downImagesFile($uri,$post_data);
+//            $mini_service->uploadOSS($file_name);
+//            $mini_qrcode_uri= config('oss.host').'/images/'.$file_name;
+//            CommunityModel::update(['mini_qr_code' => $mini_qrcode_uri],['id' => $community_id]);
+//        }
+
+        $access_token = (new WXAccessToken())->getMiniAccessToken();
+        $uri = sprintf(
+            config('wx.mini_program_qrcode'),
+            $access_token);
+        $mini_service = new MiniProgramService();
+        $file_name = $mini_service->downImagesFile($uri,$post_data);
+        $mini_service->uploadOSS($file_name);
+        $mini_qrcode_uri= config('oss.host').'/images/'.$file_name;
 
         return [
             'post_data' => $post_data,

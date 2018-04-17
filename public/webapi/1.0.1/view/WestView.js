@@ -241,7 +241,20 @@ Ext.define('WebRoot.view.WestView', {
 									leaf: true
 								}
 							]
-						}
+						},
+                        {
+                            id: 'menu_task',
+                            text: '计划任务',
+                            expanded: true,
+                            children: [
+                                {
+                                    id: 'task_detail',
+                                    text: '详情',
+                                    hrefTarget: SYS_API_ROOT + 'phpfiles/task_detail.php',
+                                    leaf: true
+                                }
+                            ]
+                        }
 					]
 			}
 		});

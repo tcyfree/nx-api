@@ -99,11 +99,16 @@ class Course extends BaseController
         $detail = CourseModel::get(['uuid' => $course_id]);
         $buy_user = CourseUserModel::get(['user_id' => $uid, 'course_id' => $course_id]);
         $the_last_join = CourseUserModel::getTheLastJoin($course_id);
+
+        $data['id'] = $res['community_id'];
+        $community_data = CommunityService::getUserStatus($data);
+
         return [
             'data' => $detail,
             'auth' => $auth,
             'buy_user' => $buy_user,
-            'the_last_join' => $the_last_join
+            'the_last_join' => $the_last_join,
+            'community' => $community_data
         ];
     }
 

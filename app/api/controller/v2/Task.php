@@ -21,6 +21,8 @@ use app\api\model\TaskUser as TaskUserModel;
 use app\api\service\Token as TokenService;
 use app\api\validate\UUID;
 use app\api\model\AuthUser as AuthUserModel;
+use app\api\model\ActPlanUser as ActPlanUserModel;
+use app\api\service\Community as CommunityService;
 
 class Task extends BaseController
 {
@@ -39,7 +41,8 @@ class Task extends BaseController
         (new UUID())->goCheck();
         $uid = TokenService::getCurrentUid();
         $community_id = TaskModel::getCommunityIDByTaskID($id);
-        $return_data['task'] = TaskModel::get(['id' => $id]);
+        $task = TaskModel::checkTaskExists($id);
+        $return_data['task'] = $task;
         $return_data['task_user'] = TaskUserModel::with('userProperty')
             ->where(['task_id' => $id,'user_id' => $uid])
             ->find();
@@ -52,6 +55,13 @@ class Task extends BaseController
         $return_data['auth'] = AuthUserModel::getAuthUserWithCommunity($uid,$community_id);
         $return_data['current_time'] = time();
 
+        $res = ActPlanUserModel::get(['act_plan_id' => $task['act_plan_id'], 'user_id' => $uid]);
+        $return_data['user_join_mode'] = null;
+        if ($res){
+            $return_data['user_join_mode'] = $res['mode'];
+        }
+        $data['id'] = $community_id;
+        $return_data['community'] = CommunityService::getUserStatus($data);
 
         return $return_data;
     }

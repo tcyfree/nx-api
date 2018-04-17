@@ -26,6 +26,7 @@ use app\api\service\Community as CommunityService;
 use app\api\model\Syllabus as SyllabusModel;
 use think\Db;
 use think\Exception;
+use app\api\model\CourseUser as CourseUserModel;
 
 class Syllabus extends BaseController
 {
@@ -113,9 +114,16 @@ class Syllabus extends BaseController
         $uid = TokenService::getAnyhowUid();
         $auth = AuthUser::getAuthUserWithCommunity($uid,$res['community_id']);
         $detail = SyllabusModel::get(['uuid' => $syllabus_id]);
+        $check_res = SyllabusModel::checkExists($syllabus_id);
+        $buy_user = CourseUserModel::get(['user_id' => $uid, 'course_id' => $check_res['course_id']]);
+        $data['id'] = $res['community_id'];
+        $community_data = CommunityService::getUserStatus($data);
+
         return [
             'data' => $detail,
-            'auth' => $auth
+            'auth' => $auth,
+            'buy_user' => $buy_user,
+            'community' => $community_data
         ];
     }
 

@@ -68,6 +68,46 @@
             <td>时间</td>
             <td>&nbsp;</td>
         </tr>
+        <tr>
+            <td class="inforstyle">buy_user</td>
+            <td></td>
+            <td>&nbsp;若用户还未购买，则为<span class="titlestyle"><font color="red">null</font> </span></td>
+        </tr>
+        <tr>
+            <td>finish</td>
+            <td>用户是否完成该课程</td>
+            <td>&nbsp;0 否  1 是</td>
+        </tr>
+        <tr>
+            <td>user.join</td>
+            <td>用户是否加入该社群</td>
+            <td>否：false 是：true </td>
+        </tr>
+        <tr>
+            <td>user.status</td>
+            <td>0 未退群 1 已退群 2被暂停成员资格 null 未加入</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>user.type</td>
+            <td>关联类型 0 社长 1 管理员 2 成员 null 未加入</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>user.pay</td>
+            <td>是否为付费成员</td>
+            <td>&nbsp;0 否 1 是  null 未加入</td>
+        </tr>
+        <tr>
+            <td>user.count</td>
+            <td>用户已加入有效社群数量</td>
+            <td>&nbsp;判断用户是否可免费加入，最多可以参加XXXX个</td>
+        </tr>
+        <tr>
+            <td>user.auth</td>
+            <td>管理权限值</td>
+            <td>&nbsp;type为1时，不为null。如："1,2,4"来判断管理员是否有对应操作管理权限</td>
+        </tr>
     </table>
     <p>&nbsp;</p>
 </div>
