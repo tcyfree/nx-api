@@ -19,6 +19,7 @@ use app\api\model\Communication as CommunicationModel;
 use app\api\service\CommunicationService;
 use app\api\service\Token as TokenService;
 use app\api\validate\CommunicationList;
+use app\api\model\CommunityUser as CommunityUserModel;
 
 class Communication extends BaseController
 {
@@ -33,6 +34,7 @@ class Communication extends BaseController
      * 7.获取相关全部评论列表
      * 8.获取全部评论列表
      * 9.如果被回复获取被评论人昵称
+     * 10.获取交流列表当前用户身份状态
      *
      * @param int $page
      * @param int $size
@@ -48,11 +50,13 @@ class Communication extends BaseController
 
         $communication_service = new CommunicationService();
         $data = $communication_service->getComment($data,$uid);
+        $user = CommunityUserModel::where(['user_id' => $uid,'community_id' => $community_id,'delete_time' => 0])->field(['type','pay'])->find();
         $send = $communication_service->checkAuthSend($uid,$community_id);
 
         return [
             'data' => $data,
             'send' => $send,
+            'user' => $user,
             'current_page' => $pageData->currentPage()
         ];
     }
