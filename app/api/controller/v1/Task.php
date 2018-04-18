@@ -132,6 +132,7 @@ class Task extends BaseController
     /**
      * 任务列表
      * 1.返回草稿
+     * 2.$check是否检查用户参加该社群
      *
      * @param $id
      * @param int $page
@@ -143,7 +144,10 @@ class Task extends BaseController
         (new TaskList())->goCheck();
 
         $uid = TokenService::getCurrentUid();
-        CommunityService::checkJoinCommunityByUser($uid,$id);
+        $check = input('get.check');
+        if ($check){
+            CommunityService::checkJoinCommunityByUser($uid,$id);
+        }
         $pagingData = TaskModel::getSummaryList($id, $page, $size);
         $pagingArray = $pagingData->visible(['id','name','requirement','content','reference_time', 'release'])
             ->toArray();
