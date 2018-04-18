@@ -34,7 +34,7 @@ class Notice extends BaseModel
         $data['to_user_id'] = $communication->user_id;
         if ($data['to_user_id'] != $data['from_user_id']){
             $data['id'] = uuid();
-            self::create($data);
+            (new Notice())->allowField(true)->save($data);
         }
     }
 

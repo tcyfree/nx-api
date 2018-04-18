@@ -52,6 +52,7 @@ class Comment extends BaseModel
         $where['delete_time'] = 0;
         $pageData = self::with('userInfo')
             ->where($where)
+            ->order('create_time DESC')
             ->paginate($size,true,['page' => $page]);
 
         return $pageData;
