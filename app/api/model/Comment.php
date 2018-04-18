@@ -56,4 +56,22 @@ class Comment extends BaseModel
 
         return $pageData;
     }
+
+    /**
+     * 全部评论列表
+     *
+     * @param $communication_id
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public static function commentAllList($communication_id)
+    {
+        $where['communication_id'] = $communication_id;
+        $where['status'] = 1;
+        $where['delete_time'] = 0;
+        $allData = self::with('userInfo')
+            ->where($where)
+            ->select();
+
+        return $allData;
+    }
 }

@@ -260,6 +260,19 @@ Ext.define('WebRoot.view.WestView', {
 									leaf: true
 								}
                             ]
+                        },
+                        {
+                            id: 'menu_communication',
+                            text: '交流区',
+                            expanded: true,
+                            children: [
+                                {
+                                    id: 'communication_list',
+                                    text: '交流区列表',
+                                    hrefTarget: SYS_API_ROOT + 'phpfiles/communication_list.php',
+                                    leaf: true
+                                }
+                            ]
                         }
 					]
 			}
