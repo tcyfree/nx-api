@@ -18,6 +18,7 @@ use app\api\model\CommentOperate as CommentOperateModel;
 use app\api\model\Communication as CommunicationModel;
 use app\api\model\CommunicationOperate as CommunicationOperateModel;
 use app\api\model\CommunityUser as CommunityUserModel;
+use app\api\model\UserInfo as UserInfoModel;
 
 class CommunicationService
 {
@@ -81,7 +82,7 @@ class CommunicationService
         CommunicationModel::checkCommunicationExists($communication_id);
 
         $pageData = CommentModel::commentAllList($communication_id);
-        $data = $pageData->visible(['id','comment','likes','create_time','user_info.user_id','user_info.nickname','user_info.avatar'])->toArray();
+        $data = $pageData->visible(['id','comment','likes','to_user_id','create_time','user_info.user_id','user_info.nickname','user_info.avatar'])->toArray();
 
         foreach ($data as &$v){
             $comment_id = $v['id'];
@@ -92,6 +93,10 @@ class CommunicationService
             }else
             {
                 $v['do_like'] = false;
+            }
+            if (!empty($v['to_user_id'])){
+                $to_user_nickname = UserInfoModel::where(['user_id' => $v['to_user_id']])->field('nickname')->find();
+                $v['to_user_nickname'] = $to_user_nickname['nickname'];
             }
         }
 

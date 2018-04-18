@@ -32,6 +32,7 @@ class Communication extends BaseController
      * 6.获取点赞人相关信息
      * 7.获取相关全部评论列表
      * 8.获取全部评论列表
+     * 9.获取被评论人昵称
      *
      * @param int $page
      * @param int $size

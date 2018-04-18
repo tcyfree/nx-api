@@ -14,7 +14,7 @@
   <tr>
     <td>请求的地址</td>
       <td>GET</td>
-    <td>v1/communication</td>
+    <td>v2/communication</td>
   </tr>
 </table>
 <p class="subtitlestyle">（二）参数列表：</p>
@@ -100,6 +100,17 @@
         <td>评论</td>
         <td>&nbsp;详情参考 <a href="#" onclick="javascript:sysOpenTab('menu_errorcode','评论列表','phpfiles/comment_list.php')">评论列表</a> </td>
     </tr>
+    <tr>
+        <td>comment.to_user_id</td>
+        <td>被回复用户user_id</td>
+        <td>&nbsp;如果被回复，则不为空</td>
+    </tr>
+    <tr>
+        <td>comment.to_user_nickname</td>
+        <td>被回复用户昵称</td>
+        <td>&nbsp;如果被回复，则不为空</td>
+    </tr>
+
 
   
 </table>
