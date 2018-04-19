@@ -20,6 +20,7 @@ use app\api\service\Wallet as WalletService;
 use app\api\validate\Expenses;
 use app\api\validate\PagingParameter;
 use app\lib\exception\SuccessMessage;
+use app\api\service\Community as CommunityService;
 
 class Wallet extends BaseController
 {
@@ -31,6 +32,7 @@ class Wallet extends BaseController
     /**
      * 购买行动计划
      * 1 检查参加模式是否包含在行动计划模式内
+     * 2 判断用户是否参加该行动社
      *
      * @return \think\response\Json
      */
@@ -40,6 +42,7 @@ class Wallet extends BaseController
         $data = input('delete.');
         $uid = TokenService::getCurrentUid();
         $data['fee'] = WalletService::getActPlanFee($data['act_plan_id'],$data['mode']);
+        CommunityService::checkJoinCommunityByUser($uid,$data['act_plan_id']);
         IncomeExpensesModel::place($uid,$data);
 
         return json(new SuccessMessage(),201);
