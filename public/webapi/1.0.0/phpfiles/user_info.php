@@ -79,6 +79,11 @@
         <td width="581"></td>
     </tr>
     <tr>
+        <td>status</td>
+        <td>用户状态 0:冻结 1:正常</td>
+        <td></td>
+    </tr>
+    <tr>
         <td>blocked</td>
         <td>是否为我的黑名单</td>
         <td width="581">true 是 false 否 只有在查看别人信息时有此字段</td>

@@ -45,6 +45,7 @@ class UserInfo extends BaseController
 
     public function test()
     {
-       return error_log('错误信息'.' '.date('Y-m-d H:i:s')."\r\n",3,LOG_PATH.'advice.log');
+        $uri = input('get.uri');
+        return downloadImage($uri);
     }
 }

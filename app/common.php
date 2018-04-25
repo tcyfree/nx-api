@@ -175,6 +175,7 @@ function uuid(){
 /**
  * PHP 根据URL将图片下载到本地
  * 1 判断URL是否有效
+ * 2 将url中https://oss-qxd-file.go-qxd.com/替换为http://qxd-file.oss-cn-beijing.aliyuncs.com/
  * @param $url
  * @return string
  * @throws \app\lib\exception\ParameterException

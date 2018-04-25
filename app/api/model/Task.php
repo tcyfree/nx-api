@@ -168,6 +168,7 @@ class Task extends BaseModel
 
     /**
      *  根据任务ID查找社群创建者user_id
+     *  1. type = 0
      * @param $task_id
      * @return mixed
      */
@@ -183,7 +184,7 @@ class Task extends BaseModel
         $act_plan = ActPlanModel::where('id',$act_plan_id)
             ->field('community_id')
             ->find();
-        $res = CommunityUserModel::where('id',$act_plan['community_id'])
+        $res = CommunityUserModel::where(['id' =>$act_plan['community_id'],'type' => '0'])
             ->field('user_id')
             ->find();
         return $res['user_id'];

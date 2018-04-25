@@ -155,7 +155,7 @@ class TaskFeedback
      */
     public function autoFeedbackByOther($other_user_id,$data)
     {
-        $user_id = TaskModel::getUserIDByTaskID($data['task_id']);
+        $user_id = $data['feedback_user_id'];
         $res = TaskFeedbackModel::get(['user_id' => $user_id,'task_id' => $data['task_id']]);
         if ($res){
             throw new ParameterException([

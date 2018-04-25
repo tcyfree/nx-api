@@ -19,7 +19,7 @@ use app\api\model\Task as TaskModel;
 use app\api\model\TaskFeedback as TaskFeedbackModel;
 use app\api\model\TaskUser as TaskUserModel;
 use app\api\service\Token as TokenService;
-use app\api\validate\Feedback;
+use app\api\validate\FeedbackByOther;
 use app\api\validate\UUID;
 use app\api\model\AuthUser as AuthUserModel;
 use app\api\model\ActPlanUser as ActPlanUserModel;
@@ -72,12 +72,13 @@ class Task extends BaseController
     /**
      * 任务自动点评被他人
      * 1. 被点评人是否GO
+     * 2. 获取被点评人user_id
      *
      * @return \think\response\Json
      */
     public function putTaskFeedbackByOther()
     {
-        (new Feedback())->goCheck();
+        (new FeedbackByOther())->goCheck();
         $data = input('post.');
         $uid = TokenService::getCurrentUid();
         (new TaskFeedbackService())->autoFeedbackByOther($uid,$data);

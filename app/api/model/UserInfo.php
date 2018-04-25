@@ -76,7 +76,7 @@ class UserInfo extends BaseModel
                 'errorCode' => 60001
             ]);
         }
-        $data = $userInfo->visible(['user_id','sex','nickname','avatar','signature','openid','user_base.number','user_property.wallet','user_property.execution'])
+        $data = $userInfo->visible(['user_id','sex','nickname','avatar','signature','openid','user_base.number','user_base.status','user_property.wallet','user_property.execution'])
                          ->toArray();
 
         if($to_uid){
