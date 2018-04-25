@@ -73,7 +73,8 @@ class ActPlan extends BaseController
         $validate->goCheck();
         $uid = TokenService::getCurrentUid();
         $data['user_id'] = $uid;
-        $dataArray = $validate->getDataRules(input('put.'));
+//        $dataArray = $validate->getDataRules(input('put.'));
+        $dataArray = input('put.');
         $id = $dataArray['id'];
 
         $ap_obj = ActPlanModel::get(['id' => $id]);
