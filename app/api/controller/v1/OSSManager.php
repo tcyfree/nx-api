@@ -39,12 +39,14 @@ class OSSManager extends BaseController
 
     /**
      * 获取Policy及签名
+     * 1. $flag 1 小程序
      *
+     * @param int $flag
      * @return array
      */
-    public function getPolicySignature()
+    public function getPolicySignature($flag = 0)
     {
-        return policy();
+        return policy($flag);
     }
 
     /**
