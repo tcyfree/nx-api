@@ -72,7 +72,7 @@ class MiniProgram extends BaseController
         $mini_service = new MiniProgramService();
         $file_name = $mini_service->downImagesFile($uri,$post_data);
         $mini_service->uploadOSS($file_name);
-        $mini_qrcode_uri= config('oss.host').'/images/'.$file_name;
+        $mini_qrcode_uri= config('oss.host_mini').'/images/'.$file_name;
         CommunityModel::update(['mini_qr_code' => $mini_qrcode_uri],['id' => $community_id]);
 
         return [
