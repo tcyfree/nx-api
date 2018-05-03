@@ -52,9 +52,11 @@ class Communication extends BaseController
         $uid = TokenService::getCurrentUid();
         CommunityModel::checkCommunityExists($dataArray['community_id']);
         $result = CommunityUserModel::checkCommunityBelongsToUser($uid,$dataArray['community_id']);
-        if ($result['type'] == 2 && $result['pay'] == 0 || $result['status'] ==2){
+//        if ($result['type'] == 2 && $result['pay'] == 0 || $result['status'] ==2){
+        if ($result['status'] ==2){
             throw new ParameterException([
-                'msg' => '你不是该社群付费用户或被暂停成员资格不能发条目哦'
+//                'msg' => '你不是该社群付费用户或被暂停成员资格不能发条目哦'
+                'msg' => '你被暂停成员资格不能发条目哦'
             ]);
         }
         $dataArray['user_id'] = $uid;
@@ -113,7 +115,8 @@ class Communication extends BaseController
         }
 
         $result = CommunityUserModel::checkCommunityBelongsToUser($uid,$community_id);
-        if ($result['type'] == 2 && $result['pay'] == 0 || $result['status'] ==2){
+//        if ($result['type'] == 2 && $result['pay'] == 0 || $result['status'] ==2){
+        if ($result['status'] ==2){
             $data['send'] = false;
         }else{
             $data['send'] = true;

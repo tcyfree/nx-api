@@ -42,7 +42,7 @@ class Recharge extends BaseModel
      * 创建订单编号
      * @return string
      */
-    private static function makeOrderNo()
+    public static function makeOrderNo()
     {
         $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
         $orderSn =

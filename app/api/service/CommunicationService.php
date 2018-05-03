@@ -33,7 +33,8 @@ class CommunicationService
     {
         $result = CommunityUserModel::checkCommunityBelongsToUser($uid,$community_id);
         $send = true;
-        if ($result['type'] == 2 && $result['pay'] == 0 || $result['status'] ==2){
+//        if ($result['type'] == 2 && $result['pay'] == 0 || $result['status'] ==2){
+        if ($result['status'] ==2){
             $send = false;
         }
         return $send;

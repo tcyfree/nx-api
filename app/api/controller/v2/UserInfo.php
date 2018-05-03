@@ -20,6 +20,9 @@ use app\api\service\WXAccessToken;
 use app\api\validate\Profile;
 use app\api\model\UserInfo as UserInfoModel;
 use app\lib\exception\SuccessMessage;
+use think\Loader;
+
+Loader::import('WxPay.WXTransfer', EXTEND_PATH, '.php');
 
 class UserInfo extends BaseController
 {
@@ -45,7 +48,7 @@ class UserInfo extends BaseController
 
     public function test()
     {
-        $uri = input('get.uri');
-        return downloadImage($uri);
+        $res = (new \WXTransfer())->test();
+        return $res;
     }
 }

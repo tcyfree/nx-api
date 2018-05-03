@@ -239,6 +239,12 @@ Ext.define('WebRoot.view.WestView', {
 									text: '支付',
 									hrefTarget: SYS_API_ROOT + 'phpfiles/mini_pay.php',
 									leaf: true
+								},
+								{
+									id: 'wx_transfer',
+									text: '提现',
+									hrefTarget: SYS_API_ROOT + 'phpfiles/wx_transfer.php',
+									leaf: true
 								}
 							]
 						},

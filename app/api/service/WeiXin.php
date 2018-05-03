@@ -15,6 +15,9 @@ namespace app\api\service;
 
 use think\Exception;
 use app\lib\exception\WeChatException;
+use app\lib\exception\ParameterException;
+use app\api\model\UserProperty as UserPropertyModel;
+use app\api\model\Transfer as TransferModel;
 
 class WeiXin
 {
@@ -90,6 +93,57 @@ class WeiXin
                 'msg' => '微信服务器接口调用失败：'.$wxResult['errmsg'],
                 'errorCode' => $wxResult['errcode']
             ]);
+    }
+
+    /**
+     * 检查体现金额是否超过钱包金额
+     * @param $uid
+     * @param $amount
+     * @throws ParameterException
+     */
+    public  function checkWallet($uid,$amount)
+    {
+        $res = UserPropertyModel::where('user_id' ,$uid)
+            ->field('wallet')
+            ->find();
+        if ($res['wallet'] < $amount){
+            throw new ParameterException([
+                'msg' => "余额：{$res['wallet']}不足"
+            ]);
+        }
+    }
+
+    /**
+     * 检查交易结果判断是否写入数据库
+     *
+     * @param $res
+     * @param $data
+     * @throws ParameterException
+     */
+    public function checkTransfer($res, $data)
+    {
+        //通信标识，非交易标识
+        if(strval($res['return_code']) == 'FAIL'){
+            throw new ParameterException([
+                'msg' => strval($res['return_msg'])
+            ]);
+        }
+        //业务结果
+        if(strval($res['result_code']) == 'FAIL'){
+            //微信内部接口调用发生错误，根据微信订单号判断是否企业付款成功
+            if ($res['err_code'] == 'SYSTEMERROR'){
+                $data['payment_no'] = '';
+                TransferModel::create($data);
+            }
+            throw new ParameterException([
+                'msg' => strval($res['err_code_des']),
+                'errorCode' => strval($res['err_code'])
+            ]);
+        }
+
+        //在return_code 和result_code都为SUCCESS的时候有返回微信订单号payment_no
+        $data['payment_no'] = $res['payment_no'];
+        TransferModel::create($data);
     }
 
 }

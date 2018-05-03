@@ -119,6 +119,7 @@ Route::group(':version/wallet',function (){
     Route::get('/list','api/:version.Wallet/getIncomeExpensesSummary');
     Route::get('','api/:version.Wallet/getWalletByUser');
     Route::get('/recharge','api/:version.Wallet/getRechargeList');
+    Route::delete('/withdraw','api/:version.WxEnterprisePayment/deleteEnterprisePayment');
 });
 
 /**

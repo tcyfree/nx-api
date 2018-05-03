@@ -8,23 +8,13 @@
 // +----------------------------------------------------------------------
 // | Author: probe <1946644259@qq.com>
 // +----------------------------------------------------------------------
-// | DateTime: 2017/9/5/11:47
+// | DateTime: 2018/5/2/16:20
 // +----------------------------------------------------------------------
 
-namespace app\lib\enum;
+namespace app\api\model;
 
-
-class AllowJoinStatusEnum
+class Transfer extends BaseModel
 {
-    // 允许加入
-    const ALLOW_JOIN =0;
+    protected $autoWriteTimestamp = true;
 
-    // 加入数量已满
-    const ALLOW_JOIN_OUT = 5;
-
-    //管理员 + 社长
-    const ALLOW_JOIN_MANAGER = 2;
-
-    //允许编辑社群次数
-    const ALLOW_EDIT_TIME = 10;
 }
